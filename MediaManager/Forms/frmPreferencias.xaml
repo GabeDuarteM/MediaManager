@@ -1,0 +1,61 @@
+﻿<Window x:Class="MediaManager.Forms.frmPreferencias"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:properties="clr-namespace:MediaManager.Properties"
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Preferências - {0}'}"
+        Height="372" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+    </Window.Background>
+    <Grid>
+        <TabControl Margin="10,10,10,45" Grid.RowSpan="3">
+            <TabItem Header="Geral">
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Pastas" Margin="10,10,10,0" VerticalAlignment="Top" Height="186">
+                        <Grid>
+                            <Label Content="Séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" />
+                            <Label Content="Filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,10,10" />
+                            <Label Content="Animes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,72,10,10" />
+                            <Label Content="Downloads:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,103,10,10" />
+                            <xctk:WatermarkTextBox Name="tbxPastaSeries" Watermark="Selecione a pasta onde estão armazenadas as séries..." HorizontalAlignment="Left" Height="23" Margin="87,14,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
+                            <xctk:WatermarkTextBox Name="tbxPastaFilmes" Watermark="Selecione a pasta onde estão armazenados os filmes..." HorizontalAlignment="Left" Height="23" Margin="87,45,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
+                            <xctk:WatermarkTextBox Name="tbxPastaAnimes" Watermark="Selecione a pasta onde estão armazenados os animes..." HorizontalAlignment="Left" Height="23" Margin="87,76,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
+                            <xctk:WatermarkTextBox Name="tbxPastaDownloads" Watermark="Selecione a pasta onde estão armazenados os downloads..." HorizontalAlignment="Left" Height="23" Margin="87,107,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
+                            <Button Name="btnSelectSerie" Content="..." Margin="508,14,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectSerie_Click" />
+                            <Button Name="btnSelectFilme" Content="..." Margin="508,45,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectFilme_Click" />
+                            <Button Name="btnSelectAnime" Content="..." Margin="508,76,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectAnime_Click" />
+                            <Button Name="btnSelectDownloads" Content="..." Margin="508,107,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectDownloads_Click" />
+                            <Label Content="Procurar por novos conteúdos a cada" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,134,10,0" />
+                            <xctk:IntegerUpDown Name="numTempoProcuraConteudo" Margin="10,137,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" DefaultValue="60" DisplayDefaultValueOnEmptyText="True" Width="67" Minimum="1" RenderTransformOrigin="0.5,0.5" />
+                            <Label Content="segundos." HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,197,0" />
+                        </Grid>
+                    </GroupBox>
+                    <Label Content="Trakt:" Margin="10,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Name="lblUsuarioTrakt" Content="Deslogado" Margin="60,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Button Name="btnLoginTrakt" Content="Entrar" Width="70" Margin="190,208,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnLoginTrakt_Click" />
+                    <Label Content="Idioma de pesquisa:" Margin="280,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <ComboBox Name="cboIdiomaPesquisa" Margin="400,208,10,10" VerticalAlignment="Top" SelectedIndex="0">
+                        <ComboBoxItem Content="Selecione" />
+                    </ComboBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Renomear">
+                <Grid Background="#FFE5E5E5">
+                    <xctk:WatermarkTextBox Name="tbxFormatoSeries" Watermark="{}{Nome} - {S00E00} - {Titulo}" VerticalAlignment="Top" Height="23" Margin="170,10,10,10" TextWrapping="NoWrap" />
+                    <xctk:WatermarkTextBox Name="tbxFormatoFilmes" Watermark="{}{Nome} ({Ano})" VerticalAlignment="Top" Height="23" Margin="170,38,10,10" TextWrapping="NoWrap" />
+                    <xctk:WatermarkTextBox Name="tbxFormatoAnimes" Watermark="{}{Nome} - {Absoluto} - {Titulo}" VerticalAlignment="Top" Height="23" Margin="170,66,10,10" TextWrapping="NoWrap" />
+                    <Label Content="Formato para séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,10,10" />
+                    <Label Content="Formato para filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,10,10" />
+                    <Label Content="Visualização:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,94,10,10" />
+                    <Label Content="O Nome da Série - S01E01 - Título da série" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,94,10,10" />
+                    <Label Content="Nome do filme, O (2015)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,120,10,10" />
+                    <Label Content="Formato para animes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10" />
+                    <Label Content="O Nome do Anime - 000 - Título do episódio" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,146,10,10" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Name="btnSalvar" Content="Salvar" Margin="10,10,90,10" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnSalvar_Click" />
+        <Button Name="btnCancelar" Content="Cancelar" Margin="10" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnCancelar_Click" />
+    </Grid>
+</Window>

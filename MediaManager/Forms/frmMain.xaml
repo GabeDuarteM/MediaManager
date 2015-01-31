@@ -1,0 +1,112 @@
+﻿<Window x:Class="MediaManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:properties="clr-namespace:MediaManager.Properties"
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName}" Height="759" Width="1280" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+    </Window.Background>
+    <Grid>
+        <Menu Name="menuPrincipal" VerticalAlignment="Top">
+            <MenuItem Name="menuItArquivo" Header="_Arquivo" Height="21">
+                <MenuItem Name="menuItProcurarConteudo" Header="_Procurar por novos conteúdos" Height="21" Click="menuItProcurarConteudo_Click" />
+                <MenuItem Name="menuItAdicionar" Header="_Adicionar">
+                    <MenuItem Name="menuItAdicionarSerie" Header="Adicionar _série" Height="21" Click="menuItAdicionarSerie_Click" />
+                    <MenuItem Name="menuItAdicionarFilme" Header="Adicionar _filme" Height="21" Click="menuItAdicionarFilme_Click" />
+                    <MenuItem Name="menuItAdicionarAnime" Header="Adicionar _anime" Height="21" Click="menuItAdicionarAnime_Click" />
+                </MenuItem>
+                <MenuItem Name="menuItRenomear" Header="_Renomear" Height="21">
+                    <MenuItem Name="menuItRenomearTudo" Header="_Tudo" Height="21" Click="menuItRenomearTudo_Click" />
+                    <MenuItem Name="menuItRenomearSeries" Header="Somente _séries" Height="21" Click="menuItRenomearSerie_Click" />
+                    <MenuItem Name="menuItRenomearFilmes" Header="Somente _filmes" Height="21" Click="menuItRenomearFilmes_Click" />
+                    <MenuItem Name="menuItRenomearAnimes" Header="Somente _animes" Height="21" Click="menuItRenomearAnimes_Click" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Name="menuItPreferencias" Header="_Preferências" Height="21" Click="menuItPreferencias_Click" />
+                <Separator />
+                <MenuItem Name="menuItSair" Header="_Sair" Height="21" Click="menuItSair_Click" />
+            </MenuItem>
+        </Menu>
+        <TabControl Name="tcPrincipal" Margin="10,30,10,10">
+            <TabItem Name="tiSeries" Header="Séries">
+                <ScrollViewer Name="scrollSeries" VerticalScrollBarVisibility="Auto">
+                    <Grid Name="gridSeries" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="10*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*" />
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="tiFilmes" Header="Filmes">
+                <ScrollViewer Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
+                    <Grid Name="gridFilmes" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="10*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*" />
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Name="tiAnimes" Header="Animes">
+                <ScrollViewer Name="scrollAnimes" VerticalScrollBarVisibility="Auto">
+                    <Grid Name="gridAnimes" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="15*" />
+                            <ColumnDefinition Width="190*" />
+                            <ColumnDefinition Width="10*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*" />
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
