@@ -27,6 +27,12 @@ namespace MediaManager
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
+            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo();
+            frmAdicionarConteudo.ShowDialog();
+            if (frmAdicionarConteudo.DialogResult == true)
+            {
+                // @TODO Salvar Conteúdo
+            }
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)

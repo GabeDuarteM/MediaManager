@@ -33,7 +33,7 @@
                     </GroupBox>
                     <Label Content="Trakt:" Margin="10,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Name="lblUsuarioTrakt" Content="Deslogado" Margin="60,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Button Name="btnLoginTrakt" Content="Entrar" Width="70" Margin="190,208,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnLoginTrakt_Click" />
+                    <Button Name="btnLoginTrakt" Content="Entrar" Width="75" Margin="190,208,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Click="btnLoginTrakt_Click" />
                     <Label Content="Idioma de pesquisa:" Margin="280,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <ComboBox Name="cboIdiomaPesquisa" Margin="400,208,10,10" VerticalAlignment="Top" SelectedIndex="0">
                         <ComboBoxItem Content="Selecione" />
@@ -55,7 +55,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Name="btnSalvar" Content="Salvar" Margin="10,10,90,10" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnSalvar_Click" />
-        <Button Name="btnCancelar" Content="Cancelar" Margin="10" Width="70" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnCancelar_Click" />
+        <Button Name="btnSalvar" Content="Salvar" Margin="10,10,90,10" Width="75" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnSalvar_Click" />
+        <Button Name="btnCancelar" Content="Cancelar" Margin="10" Width="75" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnCancelar_Click" />
     </Grid>
 </Window>

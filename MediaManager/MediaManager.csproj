@@ -71,6 +71,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Forms\frmAdicionarConteudo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\frmConfigConteudo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\frmMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +86,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAdicionarConteudo.xaml.cs">
+      <DependentUpon>frmAdicionarConteudo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmConfigConteudo.xaml.cs">
+      <DependentUpon>frmConfigConteudo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMain.xaml.cs">
       <DependentUpon>frmMain.xaml</DependentUpon>
@@ -118,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="1422789474_icon-ios7-gear-20.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
