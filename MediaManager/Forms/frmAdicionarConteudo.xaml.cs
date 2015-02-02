@@ -22,66 +22,68 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
-        private static List<Search> _resultPesquisa;
+        private static List<Search> resultPesquisa;
 
-        public static List<Search> ResultPesquisa
+        public frmAdicionarConteudo(string query, string type)
         {
-            get { return _resultPesquisa; }
-            set { _resultPesquisa = value; }
-        }
-
-        public frmAdicionarConteudo()
-        {
-            var s = _resultPesquisa;
+            resultPesquisa = Helper.API_PesquisarConteudo(query,type);
             InitializeComponent();
-            for (int i = 0; i < _resultPesquisa.Count; i++)
+            
+            for (int i = 0; i < resultPesquisa.Count; i++)
             {
-                cboListaConteudo.Items.Add(_resultPesquisa[i].show.title);
+                cboListaConteudo.Items.Add(resultPesquisa[i].show.title);
             }
+            
             cboListaConteudo.SelectedIndex = 1;
-            AtualizarInformacoes(_resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+            AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
         }
 
         private void AtualizarInformacoes(string traktID)
         {
-            var v = Helper.API_GetSerieInfo(traktID);
+        	// @TODO Fazer atualizar também a pasta, de acordo com as opções do programa.
+            var midiaEscolhidaImagens = Helper.API_GetSerieImages(traktID);
 
-            if (v.images.poster.thumb != null)
+            if (midiaEscolhidaImagens.images.poster.thumb != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(v.images.poster.thumb);
+                bmpPoster.UriSource = new Uri(midiaEscolhidaImagens.images.poster.thumb);
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
-            else if (v.images.poster.medium != null)
+            else if (midiaEscolhidaImagens.images.poster.medium != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(v.images.poster.medium);
+                bmpPoster.UriSource = new Uri(midiaEscolhidaImagens.images.poster.medium);
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
-            else if (v.images.poster.full != null)
+            else if (midiaEscolhidaImagens.images.poster.full != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(v.images.poster.full);
+                bmpPoster.UriSource = new Uri(midiaEscolhidaImagens.images.poster.full);
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
-            else if (v.images.banner.full != null)
+            
+            if (midiaEscolhidaImagens.images.banner.full != null)
             {
                 BitmapImage bmpBanner = new BitmapImage();
                 bmpBanner.BeginInit();
-                bmpBanner.UriSource = new Uri(v.images.banner.full);
+                bmpBanner.UriSource = new Uri(midiaEscolhidaImagens.images.banner.full);
                 bmpBanner.EndInit();
 
                 imgBanner.Source = bmpBanner;
             }
+            
+            var midiaEscolhidaSinopse = Helper.API_GetSerieSinopse(midiaEscolhidaImagens.ids.slug);
+            tbxSinopse.Text = midiaEscolhidaSinopse.overview;
+            
         }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
@@ -110,7 +112,7 @@ namespace MediaManager.Forms
         {
             if ((sender as ComboBox).SelectedIndex != 0)
             {
-                AtualizarInformacoes(_resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+                AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
             }
         }
     }
