@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MediaManager.Code;
+using MediaManager.Code.Searches;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +22,66 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
+        private static List<Search> _resultPesquisa;
+
+        public static List<Search> ResultPesquisa
+        {
+            get { return _resultPesquisa; }
+            set { _resultPesquisa = value; }
+        }
+
         public frmAdicionarConteudo()
         {
+            var s = _resultPesquisa;
             InitializeComponent();
+            for (int i = 0; i < _resultPesquisa.Count; i++)
+            {
+                cboListaConteudo.Items.Add(_resultPesquisa[i].show.title);
+            }
+            cboListaConteudo.SelectedIndex = 1;
+            AtualizarInformacoes(_resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+        }
+
+        private void AtualizarInformacoes(string traktID)
+        {
+            var v = Helper.API_GetSerieInfo(traktID);
+
+            if (v.images.poster.thumb != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.thumb);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (v.images.poster.medium != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.medium);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (v.images.poster.full != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.full);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (v.images.banner.full != null)
+            {
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri(v.images.banner.full);
+                bmpBanner.EndInit();
+
+                imgBanner.Source = bmpBanner;
+            }
         }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
@@ -44,6 +104,14 @@ namespace MediaManager.Forms
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void cboListaConteudo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedIndex != 0)
+            {
+                AtualizarInformacoes(_resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+            }
         }
     }
 }

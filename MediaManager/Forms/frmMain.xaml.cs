@@ -1,7 +1,15 @@
-﻿using System;
+﻿using MediaManager.Code;
+using Microsoft;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,24 +31,6 @@ namespace MediaManager
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo();
-            frmAdicionarConteudo.ShowDialog();
-            if (frmAdicionarConteudo.DialogResult == true)
-            {
-                // @TODO Salvar Conteúdo
-            }
-        }
-
-        private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
@@ -74,6 +64,26 @@ namespace MediaManager
         }
 
         private void menuItSair_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnPesquisarSerie_Click(object sender, RoutedEventArgs e)
+        {
+            var resultPesquisa = Helper.API_PesquisarConteudo(tbxPesquisarSerie.Text, "show");
+            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo();
+            frmAdicionarConteudo.ResultPesquisa =
+            frmAdicionarConteudo.ShowDialog();
+            if (frmAdicionarConteudo.DialogResult == true)
+            {
+                // @TODO Adicionar conteudo
+            }
+        }
+
+        private void btnPesquisarFilme_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnPesquisarAnime_Click(object sender, RoutedEventArgs e)
         {
         }
     }
