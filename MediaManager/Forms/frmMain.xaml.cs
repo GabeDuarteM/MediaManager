@@ -69,9 +69,7 @@ namespace MediaManager
 
         private void btnPesquisarSerie_Click(object sender, RoutedEventArgs e)
         {
-            var resultPesquisa = Helper.API_PesquisarConteudo(tbxPesquisarSerie.Text, "show");
-            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo();
-            frmAdicionarConteudo.ResultPesquisa =
+            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo(tbxPesquisarSerie.Text, "show");
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
             {
