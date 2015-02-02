@@ -28,6 +28,8 @@ namespace MediaManager.Code
             request.Method = "GET";
 
             request.Headers.Add("trakt-api-version", "2");
+            
+            request.Headers.Add("trakt-api-key","");
 
             request.ContentType = "application/json";
 
@@ -44,7 +46,7 @@ namespace MediaManager.Code
             }
         }
 
-        public static Serie API_GetSerieInfo(string id)
+        public static Serie API_GetSerieImages(string id)
         {
             var request = WebRequest.Create("https://api.trakt.tv/shows/" + id + "?extended=images") as System.Net.HttpWebRequest;
             request.KeepAlive = true;
@@ -69,5 +71,58 @@ namespace MediaManager.Code
                 }
             }
         }
+        
+        public static Translations API_GetSerieSinopse(string id)
+        {
+        	// @TODO Fazer funcionar com o idioma definido nas configurações.
+        	try{
+            var request = WebRequest.Create("https://api.trakt.tv/shows/"+id+"/translations/pt") as System.Net.HttpWebRequest;
+            request.KeepAlive = true;
+
+            request.Method = "GET";
+
+            request.ContentType = "application/json";
+
+            request.Headers.Add("trakt-api-version", "2");
+
+            request.Headers.Add("trakt-api-key", "");
+
+            string responseContent = null;
+
+            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            {
+                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    responseContent = reader.ReadToEnd();
+                    var searchResults = JsonConvert.DeserializeObject<List<Translations>>(responseContent);
+                    return searchResults[0];
+                }
+            }
+        }catch (Exception) {
+        	var request = WebRequest.Create("https://api.trakt.tv/shows/"+id+"/translations/en") as System.Net.HttpWebRequest;
+            request.KeepAlive = true;
+
+            request.Method = "GET";
+
+            request.ContentType = "application/json";
+
+            request.Headers.Add("trakt-api-version", "2");
+
+            request.Headers.Add("trakt-api-key", "");
+
+            string responseContent = null;
+
+            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            {
+                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    responseContent = reader.ReadToEnd();
+                    var searchResults = JsonConvert.DeserializeObject<List<Translations>>(responseContent);
+                    return searchResults[0];
+                }
+            }
+        }
+        }
+        
     }
 }
