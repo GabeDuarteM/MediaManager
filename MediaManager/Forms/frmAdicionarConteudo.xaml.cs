@@ -26,22 +26,25 @@ namespace MediaManager.Forms
 
         public frmAdicionarConteudo(string query, string type)
         {
-            resultPesquisa = Helper.API_PesquisarConteudo(query,type);
+            resultPesquisa = Helper.API_PesquisarConteudo(query, type);
             InitializeComponent();
-            
+
             for (int i = 0; i < resultPesquisa.Count; i++)
             {
                 cboListaConteudo.Items.Add(resultPesquisa[i].show.title);
             }
-            
+
             cboListaConteudo.SelectedIndex = 1;
-            AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+            cboListaConteudo.SelectionChanged += cboListaConteudo_SelectionChanged;
+            AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
         }
 
-        private void AtualizarInformacoes(string traktID)
+        private void AtualizarInformacoes(string traktSlug)
         {
-        	// @TODO Fazer atualizar também a pasta, de acordo com as opções do programa.
-            var midiaEscolhidaImagens = Helper.API_GetSerieImages(traktID);
+            // @TODO Fazer atualizar também a pasta, de acordo com as opções do programa.
+            var midiaEscolhida = resultPesquisa.Find(x => x.show.ids.slug == traktSlug);
+            var midiaEscolhidaImagens = Helper.API_GetSerieImages(traktSlug);
+            var midiaEscolhidaSinopse = Helper.API_GetSerieSinopse(midiaEscolhidaImagens.ids.slug);
 
             if (midiaEscolhidaImagens.images.poster.thumb != null)
             {
@@ -70,7 +73,7 @@ namespace MediaManager.Forms
 
                 imgPoster.Source = bmpPoster;
             }
-            
+
             if (midiaEscolhidaImagens.images.banner.full != null)
             {
                 BitmapImage bmpBanner = new BitmapImage();
@@ -80,10 +83,13 @@ namespace MediaManager.Forms
 
                 imgBanner.Source = bmpBanner;
             }
-            
-            var midiaEscolhidaSinopse = Helper.API_GetSerieSinopse(midiaEscolhidaImagens.ids.slug);
-            tbxSinopse.Text = midiaEscolhidaSinopse.overview;
-            
+
+            // @TODO alterar tbxPasta com a pasta padrão dos settings.
+
+            if (midiaEscolhidaSinopse == null)
+            {
+                tbxSinopse.Text = midiaEscolhida.show.overview;
+            }
         }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
@@ -102,6 +108,7 @@ namespace MediaManager.Forms
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
         }
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
@@ -112,7 +119,7 @@ namespace MediaManager.Forms
         {
             if ((sender as ComboBox).SelectedIndex != 0)
             {
-                AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.trakt);
+                AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
             }
         }
     }

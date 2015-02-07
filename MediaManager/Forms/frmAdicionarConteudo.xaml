@@ -22,12 +22,12 @@
         <Button Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,173,0,0" Height="22" Width="25" Click="btnConfig_Click">
             <Image Source="C:\Users\Gabriel\Desktop\1422789474_icon-ios7-gear-20.png" Height="15" Width="15" />
         </Button>
-        <ComboBox Name="cboListaConteudo" VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0" Margin="200,173,0,0" Width="240" SelectionChanged="cboListaConteudo_SelectionChanged">
+        <ComboBox Name="cboListaConteudo" VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0" Margin="200,173,0,0" Width="240">
             <ComboBoxItem Content="Selecione" />
         </ComboBox>
         <xctk:WatermarkTextBox Name="tbxPasta" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="333" Margin="445,173,0,0" />
         <Button Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,173,0,0" Height="22" Width="25" Click="btnPasta_Click" />
-    	<TextBox Name="tbxSinopse" Margin="10,220,10,40" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+        <TextBox Name="tbxSinopse" Margin="10,220,10,40" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" TextWrapping="Wrap" />
         <Button Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" Click="btnCancelar_Click" />
         <Button Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="90,10" Width="75" Click="btnSalvar_Click" />
     </Grid>

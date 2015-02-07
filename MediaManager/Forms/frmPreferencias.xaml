@@ -27,8 +27,8 @@
                             <Button Name="btnSelectAnime" Content="..." ToolTip="Selecionar..." Margin="508,76,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectAnime_Click" />
                             <Button Name="btnSelectDownloads" Content="..." ToolTip="Selecionar..." Margin="508,107,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Click="btnSelectDownloads_Click" />
                             <Label Content="Procurar por novos conteúdos a cada" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,134,10,0" />
-                            <xctk:IntegerUpDown Name="numTempoProcuraConteudo" Margin="10,137,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" DefaultValue="60" DisplayDefaultValueOnEmptyText="True" Width="67" Minimum="1" RenderTransformOrigin="0.5,0.5" />
-                            <Label Content="segundos." HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,197,0" />
+                            <xctk:IntegerUpDown Name="numTempoProcuraConteudo" Margin="10,137,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="1" RenderTransformOrigin="0.5,0.5" />
+                            <Label Content="minutos." HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,197,0" />
                         </Grid>
                     </GroupBox>
                     <Label Content="Trakt:" Margin="10,205,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />

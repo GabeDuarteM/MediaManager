@@ -57,10 +57,6 @@ namespace MediaManager
         {
             Forms.frmPreferencias frmPreferencias = new Forms.frmPreferencias();
             frmPreferencias.ShowDialog();
-            if (frmPreferencias.DialogResult == true)
-            {
-                // @TODO Salvar preferencias
-            }
         }
 
         private void menuItSair_Click(object sender, RoutedEventArgs e)

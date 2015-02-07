@@ -23,15 +23,156 @@ namespace MediaManager.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Media Manager")]
         public string AppName {
             get {
                 return ((string)(this["AppName"]));
             }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_PastaSeries {
+            get {
+                return ((string)(this["pref_PastaSeries"]));
+            }
             set {
-                this["AppName"] = value;
+                this["pref_PastaSeries"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_PastaFilmes {
+            get {
+                return ((string)(this["pref_PastaFilmes"]));
+            }
+            set {
+                this["pref_PastaFilmes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_PastaAnimes {
+            get {
+                return ((string)(this["pref_PastaAnimes"]));
+            }
+            set {
+                this["pref_PastaAnimes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_PastaDownloads {
+            get {
+                return ((string)(this["pref_PastaDownloads"]));
+            }
+            set {
+                this["pref_PastaDownloads"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int pref_IntervaloDeProcuraConteudoNovo {
+            get {
+                return ((int)(this["pref_IntervaloDeProcuraConteudoNovo"]));
+            }
+            set {
+                this["pref_IntervaloDeProcuraConteudoNovo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_FormatoSeries {
+            get {
+                return ((string)(this["pref_FormatoSeries"]));
+            }
+            set {
+                this["pref_FormatoSeries"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_FormatoFilmes {
+            get {
+                return ((string)(this["pref_FormatoFilmes"]));
+            }
+            set {
+                this["pref_FormatoFilmes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_FormatoAnimes {
+            get {
+                return ((string)(this["pref_FormatoAnimes"]));
+            }
+            set {
+                this["pref_FormatoAnimes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_accessToken {
+            get {
+                return ((string)(this["pref_accessToken"]));
+            }
+            set {
+                this["pref_accessToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bde862fb343e4249fff7af52459e5af3428d471e8bbd584db6355d2b1812aa60")]
+        public string ClientID {
+            get {
+                return ((string)(this["ClientID"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("79e450097ba69a929b696dab9c247534ecbc26112f00f687242dade1c9716f0b")]
+        public string ClientSecret {
+            get {
+                return ((string)(this["ClientSecret"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:51038/TraktLogin.aspx")]
+        public string CallbackUrl {
+            get {
+                return ((string)(this["CallbackUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api-v2launch.trakt.tv")]
+        public string APIBaseUrl {
+            get {
+                return ((string)(this["APIBaseUrl"]));
             }
         }
     }
