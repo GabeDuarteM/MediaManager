@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +31,7 @@ namespace MediaManager.Code.Series
         public string tvrage { get; set; }
     }
 
-    public class Fanart
+    public class Image
     {
         [JsonProperty("full")]
         public string full { get; set; }
@@ -38,89 +41,82 @@ namespace MediaManager.Code.Series
 
         [JsonProperty("thumb")]
         public string thumb { get; set; }
-    }
-
-    public class Poster
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-
-        [JsonProperty("medium")]
-        public string medium { get; set; }
-
-        [JsonProperty("thumb")]
-        public string thumb { get; set; }
-    }
-
-    public class Logo
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Clearart
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Banner
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Thumb
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
     }
 
     public class Images
     {
         [JsonProperty("fanart")]
-        public Fanart fanart { get; set; }
+        public Image fanart { get; set; }
 
         [JsonProperty("poster")]
-        public Poster poster { get; set; }
+        public Image poster { get; set; }
 
         [JsonProperty("logo")]
-        public Logo logo { get; set; }
+        public Image logo { get; set; }
 
         [JsonProperty("clearart")]
-        public Clearart clearart { get; set; }
+        public Image clearart { get; set; }
 
         [JsonProperty("banner")]
-        public Banner banner { get; set; }
+        public Image banner { get; set; }
 
         [JsonProperty("thumb")]
-        public Thumb thumb { get; set; }
+        public Image thumb { get; set; }
     }
 
     public class Serie
     {
-        [JsonProperty("title")]
-        public string title { get; set; }
+        [Key]
+        public int IDSerie { get; set; }
 
-        [JsonProperty("year")]
-        public string year { get; set; }
+        public string idTrakt { get; set; }
 
-        [JsonProperty("ids")]
-        public Ids ids { get; set; }
+        public string slugTrakt { get; set; }
 
-        [JsonProperty("images")]
-        public Images images { get; set; }
-    }
+        public string idImdb { get; set; }
 
-    public class Translations
-    {
+        public byte[] poster { get; set; }
+
+        public string folderPath { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 
         [JsonProperty("overview")]
         public string overview { get; set; }
 
+        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
+        public int year { get; set; }
+
+        [NotMapped]
         [JsonProperty("language")]
         public string language { get; set; }
+
+        [NotMapped]
+        [JsonProperty("ids")]
+        public Ids ids { get; set; }
+
+        [NotMapped]
+        [JsonProperty("images")]
+        public Images images { get; set; }
+
+        [NotMapped]
+        [JsonProperty("type")]
+        public string type { get; set; }
+
+        [NotMapped]
+        [JsonProperty("score")]
+        public double score { get; set; }
+
+        [NotMapped]
+        [JsonProperty("show")]
+        public Serie show { get; set; }
+    }
+
+    public class SerieContext : DbContext
+    {
+        public DbSet<Serie> Serie { get; set; }
+
+        public DbSet<Ids> Ids { get; set; }
     }
 }

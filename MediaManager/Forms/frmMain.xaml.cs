@@ -26,9 +26,9 @@ namespace MediaManager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class frmMain : Window
     {
-        public MainWindow()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -63,22 +63,10 @@ namespace MediaManager
         {
         }
 
-        private void btnPesquisarSerie_Click(object sender, RoutedEventArgs e)
+        private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmAdicionarConteudo frmAdicionarConteudo = new Forms.frmAdicionarConteudo(tbxPesquisarSerie.Text, "show");
-            frmAdicionarConteudo.ShowDialog();
-            if (frmAdicionarConteudo.DialogResult == true)
-            {
-                // @TODO Adicionar conteudo
-            }
-        }
-
-        private void btnPesquisarFilme_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnPesquisarAnime_Click(object sender, RoutedEventArgs e)
-        {
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Serie);
+            frmPopupPesquisa.ShowDialog();
         }
     }
 }

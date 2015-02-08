@@ -29,7 +29,7 @@
     <Setting Name="pref_FormatoAnimes" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="pref_accessToken" Type="System.String" Scope="User">
+    <Setting Name="user_accessToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ClientID" Type="System.String" Scope="Application">
@@ -43,6 +43,12 @@
     </Setting>
     <Setting Name="APIBaseUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://api-v2launch.trakt.tv</Value>
+    </Setting>
+    <Setting Name="user_username" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="pref_IdiomaPesquisa" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pt</Value>
     </Setting>
   </Settings>
 </SettingsFile>

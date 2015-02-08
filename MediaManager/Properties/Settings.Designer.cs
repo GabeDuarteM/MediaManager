@@ -131,12 +131,12 @@ namespace MediaManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string pref_accessToken {
+        public string user_accessToken {
             get {
-                return ((string)(this["pref_accessToken"]));
+                return ((string)(this["user_accessToken"]));
             }
             set {
-                this["pref_accessToken"] = value;
+                this["user_accessToken"] = value;
             }
         }
         
@@ -173,6 +173,30 @@ namespace MediaManager.Properties {
         public string APIBaseUrl {
             get {
                 return ((string)(this["APIBaseUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string user_username {
+            get {
+                return ((string)(this["user_username"]));
+            }
+            set {
+                this["user_username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("pt")]
+        public string pref_IdiomaPesquisa {
+            get {
+                return ((string)(this["pref_IdiomaPesquisa"]));
+            }
+            set {
+                this["pref_IdiomaPesquisa"] = value;
             }
         }
     }

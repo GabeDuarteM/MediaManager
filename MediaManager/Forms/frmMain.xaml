@@ -1,4 +1,4 @@
-﻿<Window x:Class="MediaManager.MainWindow"
+﻿<Window x:Class="MediaManager.frmMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -12,24 +12,9 @@
             <MenuItem Name="menuItArquivo" Header="_Arquivo" Height="21">
                 <MenuItem Name="menuItProcurarConteudo" Header="_Procurar por novos conteúdos" Height="21" Click="menuItProcurarConteudo_Click" />
                 <MenuItem Name="menuItAdicionar" Header="_Adicionar">
-                    <MenuItem Name="menuItAdicionarSerie" Header="Adicionar _série" Height="21">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="tbxPesquisarSerie" Width="200" />
-                            <Button Name="btnPesquisarSerie" Content="Pesquisar" Width="75" Margin="0,0,-45,0" Click="btnPesquisarSerie_Click" />
-                        </StackPanel>
-                    </MenuItem>
-                    <MenuItem Name="menuItAdicionarFilme" Header="Adicionar _filme" Height="21">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="tbxPesquisarFilme" Width="200" />
-                            <Button Name="btnPesquisarFilme" Content="Pesquisar" Width="75" Margin="0,0,-45,0" Click="btnPesquisarFilme_Click" />
-                        </StackPanel>
-                    </MenuItem>
-                    <MenuItem Name="menuItAdicionarAnime" Header="Adicionar _anime" Height="21">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="tbxPesquisarAnime" Width="200" />
-                            <Button Name="btnPesquisarAnime" Content="Pesquisar" Width="75" Margin="0,0,-45,0" Click="btnPesquisarAnime_Click" />
-                        </StackPanel>
-                    </MenuItem>
+                    <MenuItem Name="menuItAdicionarSerie" Header="Adicionar _série" Height="21" Click="menuItAdicionarSerie_Click" />
+                    <MenuItem Name="menuItAdicionarFilme" Header="Adicionar _filme" Height="21" />
+                    <MenuItem Name="menuItAdicionarAnime" Header="Adicionar _anime" Height="21" />
                 </MenuItem>
                 <MenuItem Name="menuItRenomear" Header="_Renomear" Height="21">
                     <MenuItem Name="menuItRenomearTudo" Header="_Tudo" Height="21" Click="menuItRenomearTudo_Click" />

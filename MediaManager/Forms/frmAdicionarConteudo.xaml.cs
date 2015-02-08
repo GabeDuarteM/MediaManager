@@ -1,5 +1,6 @@
 ﻿using MediaManager.Code;
-using MediaManager.Code.Searches;
+using MediaManager.Code.Modelos;
+using MediaManager.Code.Series;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MediaManager.Forms
 {
@@ -22,13 +24,29 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
-        private static List<Search> resultPesquisa;
+        private Properties.Settings settings = Properties.Settings.Default;
+        private static List<Serie> resultPesquisa;
 
-        public frmAdicionarConteudo(string query, string type)
+        public frmAdicionarConteudo(string query, Helper.Conteudo conteudo)
         {
-            resultPesquisa = Helper.API_PesquisarConteudo(query, type);
+            // TODO Arrumar imagem da engrenagem que não aparece.
             InitializeComponent();
+            string type = "";
+            switch (conteudo)
+            {
+                case Helper.Conteudo.Serie:
+                    type = "show";
+                    break;
 
+                case Helper.Conteudo.Filme:
+                    type = "movie";
+                    break;
+
+                case Helper.Conteudo.Anime:
+                    type = "show";
+                    break;
+            }
+            resultPesquisa = Helper.API_PesquisarConteudo(query, type);
             for (int i = 0; i < resultPesquisa.Count; i++)
             {
                 cboListaConteudo.Items.Add(resultPesquisa[i].show.title);
@@ -36,14 +54,15 @@ namespace MediaManager.Forms
 
             cboListaConteudo.SelectedIndex = 1;
             cboListaConteudo.SelectionChanged += cboListaConteudo_SelectionChanged;
-            AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
+            AtualizarInformacoes2(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
+            // TODO Resolver exception quando a pesquisa não retorna resultados (resultPesquisa = 0)
         }
 
-        private void AtualizarInformacoes(string traktSlug)
+        private void AtualizarInformacoes(string slugTrakt)
         {
-            // @TODO Fazer atualizar também a pasta, de acordo com as opções do programa.
-            var midiaEscolhida = resultPesquisa.Find(x => x.show.ids.slug == traktSlug);
-            var midiaEscolhidaImagens = Helper.API_GetSerieImages(traktSlug);
+            var midiaEscolhida = resultPesquisa.Find(x => x.show.ids.slug == slugTrakt);
+            var v = Helper.API_GetSerieInfo(slugTrakt);
+            var midiaEscolhidaImagens = Helper.API_GetSerieImages(slugTrakt);
             var midiaEscolhidaSinopse = Helper.API_GetSerieSinopse(midiaEscolhidaImagens.ids.slug);
 
             if (midiaEscolhidaImagens.images.poster.thumb != null)
@@ -82,13 +101,114 @@ namespace MediaManager.Forms
                 bmpBanner.EndInit();
 
                 imgBanner.Source = bmpBanner;
+            } // TODO Colocar imagem padrão caso não tenha banner/poster.
+
+            if (midiaEscolhidaSinopse != null)
+            {
+                if (midiaEscolhidaSinopse.overview != null)
+                {
+                    tbxSinopse.Text = midiaEscolhidaSinopse.overview;
+                }
+                else
+                {
+                    tbxSinopse.Text = "Sinopse não encontrada.";
+                };
+            }
+            else if (midiaEscolhidaSinopse == null)
+            {
+                if (midiaEscolhida.show.overview != null)
+                {
+                    tbxSinopse.Text = midiaEscolhida.show.overview;
+                }
+                else
+                {
+                    tbxSinopse.Text = "Sinopse não encontrada.";
+                }
+            }
+            else
+            {
+                tbxSinopse.Text = "Sinopse não encontrada.";
             }
 
-            // @TODO alterar tbxPasta com a pasta padrão dos settings.
-
-            if (midiaEscolhidaSinopse == null)
+            if (settings.pref_PastaSeries != "")
             {
-                tbxSinopse.Text = midiaEscolhida.show.overview;
+                tbxPasta.Text = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(midiaEscolhida.show.title));
+            }
+        }
+
+        private void AtualizarInformacoes2(string slugTrakt)
+        {
+            var midiaEscolhida = resultPesquisa.Find(x => x.show.ids.slug == slugTrakt);
+            Serie2 v = Helper.API_GetSerieInfo(slugTrakt);
+            //var midiaEscolhidaImagens = Helper.API_GetSerieImages(slugTrakt);
+            //var midiaEscolhidaSinopse = Helper.API_GetSerieSinopse(midiaEscolhidaImagens.ids.slug);
+
+            if (v.images.poster.thumb != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.thumb);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (v.images.poster.medium != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.medium);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (v.images.poster.full != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(v.images.poster.full);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+
+            if (v.images.banner.full != null)
+            {
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri(v.images.banner.full);
+                bmpBanner.EndInit();
+
+                imgBanner.Source = bmpBanner;
+            } // TODO Colocar imagem padrão caso não tenha banner/poster.
+
+            if (v.available_translations.Contains(settings.pref_IdiomaPesquisa))
+            {
+                var vv = Helper.API_GetSerieSinopse(slugTrakt);
+                if (vv.overview != null)
+                {
+                    tbxSinopse.Text = vv.overview;
+                }
+                else if (v.overview != null)
+                {
+                    tbxSinopse.Text = v.overview;
+                }
+                else
+                {
+                    tbxSinopse.Text = "Sinopse não encontrada.";
+                };
+            }
+            else if (v.overview != null)
+            {
+                tbxSinopse.Text = v.overview;
+            }
+            else
+            {
+                tbxSinopse.Text = "Sinopse não encontrada.";
+            };
+
+            if (settings.pref_PastaSeries != "")
+            {
+                tbxPasta.Text = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(midiaEscolhida.show.title));
             }
         }
 
@@ -98,7 +218,7 @@ namespace MediaManager.Forms
             frmConfigConteudo.ShowDialog();
             if (frmConfigConteudo.DialogResult == true)
             {
-                // @TODO Salvar configuração do conteúdo
+                // TODO Salvar configuração do conteúdo
             }
         }
 
@@ -119,8 +239,16 @@ namespace MediaManager.Forms
         {
             if ((sender as ComboBox).SelectedIndex != 0)
             {
-                AtualizarInformacoes(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
+                var timer = new DispatcherTimer();
+                timer.Tick += new EventHandler(timer_Tick);
+                timer.Interval = new TimeSpan(0, 0, 1);
+                timer.Start();
             }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            AtualizarInformacoes2(resultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
         }
     }
 }
