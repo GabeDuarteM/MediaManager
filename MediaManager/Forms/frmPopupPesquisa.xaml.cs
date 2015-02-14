@@ -1,6 +1,8 @@
 ﻿using MediaManager.Code;
+using MediaManager.Code.Modelos;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,6 +27,7 @@ namespace MediaManager.Forms
         {
             InitializeComponent();
             conteudo = conteudos;
+            tbxNome.Focus();
         }
 
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
@@ -34,6 +37,9 @@ namespace MediaManager.Forms
                 MessageBox.Show("Digite o nome do conteudo a ser pesquisado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            List<Search> resultPesquisa = new List<Search>();
+            BackgroundWorker bgwPesquisar = new BackgroundWorker();
+
             btnCancelar.Visibility = System.Windows.Visibility.Hidden;
             btnPesquisar.Visibility = System.Windows.Visibility.Hidden;
             tbxNome.Visibility = System.Windows.Visibility.Hidden;
@@ -47,18 +53,42 @@ namespace MediaManager.Forms
             WFH.Child = imgLoading;
             spLoading.Children.Add(lblLoading);
 
-            var timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
-        }
+            string type = "";
+            switch (conteudo)
+            {
+                case Helper.Conteudo.Serie:
+                    type = "show";
+                    break;
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            // TODO Arrumar travada ao abrir novo form
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tbxNome.Text, conteudo);
-            this.Close();
-            frmAdicionarConteudo.ShowDialog();
+                case Helper.Conteudo.Filme:
+                    type = "movie";
+                    break;
+
+                case Helper.Conteudo.Anime:
+                    type = "show";
+                    break;
+            }
+
+            bgwPesquisar.DoWork += (s, ex) =>
+            {
+                this.Dispatcher.Invoke((Action)(() => { resultPesquisa = Helper.API_PesquisarConteudo(tbxNome.Text, type); }));
+            };
+
+            bgwPesquisar.RunWorkerCompleted += (s, ex) =>
+            {
+                if (resultPesquisa.Count != 0)
+                {
+                    frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudo, resultPesquisa);
+                    this.Close();
+                    frmAdicionarConteudo.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Nenhum resultado foi encontrado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                }
+            };
+            bgwPesquisar.RunWorkerAsync();
         }
     }
 }

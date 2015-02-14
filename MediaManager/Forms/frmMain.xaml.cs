@@ -68,5 +68,17 @@ namespace MediaManager
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Serie);
             frmPopupPesquisa.ShowDialog();
         }
+
+        private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Filme);
+            frmPopupPesquisa.ShowDialog();
+        }
+
+        private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Anime);
+            frmPopupPesquisa.ShowDialog();
+        }
     }
 }

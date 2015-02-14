@@ -118,7 +118,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Code\Modelos\Serie2.cs" />
+    <Compile Include="Code\Modelos\Filme.cs" />
+    <Compile Include="Code\Modelos\Ids.cs" />
+    <Compile Include="Code\Modelos\Images.cs" />
+    <Compile Include="Code\Modelos\Search.cs" />
+    <Compile Include="Code\Modelos\Serie.cs" />
     <Compile Include="Code\Modelos\Usuario.cs" />
     <Compile Include="Forms\frmPopupPesquisa.xaml.cs">
       <DependentUpon>frmPopupPesquisa.xaml</DependentUpon>
@@ -141,7 +145,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\Helper.cs" />
-    <Compile Include="Code\Modelos\Serie.cs" />
     <Compile Include="Forms\frmAdicionarConteudo.xaml.cs">
       <DependentUpon>frmAdicionarConteudo.xaml</DependentUpon>
     </Compile>

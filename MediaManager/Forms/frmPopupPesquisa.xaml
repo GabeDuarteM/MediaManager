@@ -12,8 +12,8 @@
         <StackPanel Name="spLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <WindowsFormsHost Name="WFH" Margin="10" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </StackPanel>
-        <xctk:WatermarkTextBox Name="tbxNome" Watermark="Digite o nome do conteudo a ser pesquisado..." ToolTip="Digite o nome do conteudo a ser pesquisado..." Margin="10" VerticalAlignment="Top" />
-        <Button Name="btnCancelar" Content="Cancelar" Width="75" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" />
-        <Button Name="btnPesquisar" Content="Pesquisar" Width="75" Margin="10,10,90,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnPesquisar_Click" IsDefault="True" />
+        <xctk:WatermarkTextBox Name="tbxNome" Watermark="Digite o nome do conteudo a ser pesquisado..." ToolTip="Digite o nome do conteudo a ser pesquisado..." Margin="10" VerticalAlignment="Top" TabIndex="0" />
+        <Button Name="btnCancelar" Content="Cancelar" Width="75" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" TabIndex="2" />
+        <Button Name="btnPesquisar" Content="Pesquisar" Width="75" Margin="10,10,90,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="btnPesquisar_Click" IsDefault="True" TabIndex="1" />
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
 ﻿using MediaManager.Code.Modelos;
-using MediaManager.Code.Series;
 using MediaManager.Properties;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,7 +29,7 @@ namespace MediaManager.Code
             Anime
         }
 
-        public static List<Serie> API_PesquisarConteudo(string query, string type)
+        public static List<Search> API_PesquisarConteudo(string query, string type)
         {
             var request = WebRequest.Create(settings.APIBaseUrl + "/search?query=" + query + "&type=" + type) as System.Net.HttpWebRequest;
             request.KeepAlive = true;
@@ -50,42 +49,15 @@ namespace MediaManager.Code
                 using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
                 {
                     responseContent = reader.ReadToEnd();
-                    var searchResults = JsonConvert.DeserializeObject<List<Serie>>(responseContent);
+                    var searchResults = JsonConvert.DeserializeObject<List<Search>>(responseContent);
                     return searchResults;
                 }
             }
         }
 
-        public static Serie2 API_GetSerieInfo(string slugTrakt)
+        public static Serie API_GetSerieInfo(string slugTrakt)
         {
             var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + slugTrakt + "?extended=full,images") as System.Net.HttpWebRequest;
-            request.KeepAlive = true;
-
-            request.Method = "GET";
-
-            request.ContentType = "application/json";
-
-            request.Headers.Add("trakt-api-version", "2");
-
-            request.Headers.Add("trakt-api-key", "");
-
-            string responseContent = null;
-
-            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-            {
-                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-                {
-                    responseContent = reader.ReadToEnd();
-                    var searchResults = JsonConvert.DeserializeObject<Serie2>(responseContent);
-                    return searchResults;
-                }
-            }
-        }
-
-        public static Serie API_GetSerieImages(string id)
-        {
-            // TODO Pegar todas as informações direto (?extender=full,images).
-            var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + id + "?extended=images") as System.Net.HttpWebRequest;
             request.KeepAlive = true;
 
             request.Method = "GET";
@@ -109,12 +81,12 @@ namespace MediaManager.Code
             }
         }
 
-        public static Serie API_GetSerieSinopse(string id)
+        public static Serie API_GetSerieSinopse(string slugTrakt)
         {
             // TODO Fazer funcionar com o idioma definido nas configurações.
             try
             {
-                var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + id + "/translations/pt") as System.Net.HttpWebRequest;
+                var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;
                 request.KeepAlive = true;
 
                 request.Method = "GET";
@@ -133,6 +105,66 @@ namespace MediaManager.Code
                     {
                         responseContent = reader.ReadToEnd();
                         var searchResults = JsonConvert.DeserializeObject<List<Serie>>(responseContent);
+                        return searchResults[0];
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static Filme API_GetFilmeInfo(string slugTrakt)
+        {
+            var request = WebRequest.Create(settings.APIBaseUrl + "/movies/" + slugTrakt + "?extended=full,images") as System.Net.HttpWebRequest;
+            request.KeepAlive = true;
+
+            request.Method = "GET";
+
+            request.ContentType = "application/json";
+
+            request.Headers.Add("trakt-api-version", "2");
+
+            request.Headers.Add("trakt-api-key", "");
+
+            string responseContent = null;
+
+            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            {
+                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    responseContent = reader.ReadToEnd();
+                    var searchResults = JsonConvert.DeserializeObject<Filme>(responseContent);
+                    return searchResults;
+                }
+            }
+        }
+
+        public static Filme API_GetFilmeSinopse(string slugTrakt)
+        {
+            // TODO Fazer funcionar com o idioma definido nas configurações.
+            try
+            {
+                var request = WebRequest.Create(settings.APIBaseUrl + "/movies/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;
+                request.KeepAlive = true;
+
+                request.Method = "GET";
+
+                request.ContentType = "application/json";
+
+                request.Headers.Add("trakt-api-version", "2");
+
+                request.Headers.Add("trakt-api-key", "");
+
+                string responseContent = null;
+
+                using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+                {
+                    using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                    {
+                        responseContent = reader.ReadToEnd();
+                        var searchResults = JsonConvert.DeserializeObject<List<Filme>>(responseContent);
                         return searchResults[0];
                     }
                 }
