@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,9 @@ namespace MediaManager.Code.Modelos
 {
     public class Filme
     {
+        [Key]
+        public int IDFilme { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 
@@ -16,7 +20,7 @@ namespace MediaManager.Code.Modelos
         public int year { get; set; }
 
         [JsonProperty("ids")]
-        public Ids ids { get; set; }
+        public virtual Ids ids { get; set; }
 
         [JsonProperty("tagline")]
         public string tagline { get; set; }
@@ -58,6 +62,6 @@ namespace MediaManager.Code.Modelos
         public string certification { get; set; }
 
         [JsonProperty("images")]
-        public Images images { get; set; }
+        public virtual Images images { get; set; }
     }
 }

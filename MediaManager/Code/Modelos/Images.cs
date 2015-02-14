@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,24 +57,37 @@ namespace MediaManager.Code.Modelos
         public string full { get; set; }
     }
 
+    public class Avatar
+    {
+        [JsonProperty("full")]
+        public string full { get; set; }
+    }
+
     public class Images
     {
+        [Key]
+        public int IDImages { get; set; }
+
         [JsonProperty("fanart")]
-        public Fanart fanart { get; set; }
+        public virtual Fanart fanart { get; set; }
 
         [JsonProperty("poster")]
-        public Poster poster { get; set; }
+        public virtual Poster poster { get; set; }
 
         [JsonProperty("logo")]
-        public Logo logo { get; set; }
+        public virtual Logo logo { get; set; }
 
         [JsonProperty("clearart")]
-        public Clearart clearart { get; set; }
+        public virtual Clearart clearart { get; set; }
 
         [JsonProperty("banner")]
-        public Banner banner { get; set; }
+        public virtual Banner banner { get; set; }
 
         [JsonProperty("thumb")]
-        public Thumb thumb { get; set; }
+        public virtual Thumb thumb { get; set; }
+
+        [NotMapped]
+        [JsonProperty("avatar")]
+        public virtual Avatar avatar { get; set; }
     }
 }

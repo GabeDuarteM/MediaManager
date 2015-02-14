@@ -8,20 +8,7 @@ using System.Threading.Tasks;
 
 namespace MediaManager.Code.Modelos
 {
-    [DataContract]
-    public class Avatar
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Image
-    {
-        [JsonProperty("avatar")]
-        public Avatar avatar { get; set; }
-    }
-
-    public class User
+    public class Usuario
     {
         [JsonProperty("username")]
         public string username { get; set; }
@@ -51,7 +38,7 @@ namespace MediaManager.Code.Modelos
         public int age { get; set; }
 
         [JsonProperty("images")]
-        public Image images { get; set; }
+        public Images images { get; set; }
     }
 
     public class Account
@@ -93,7 +80,7 @@ namespace MediaManager.Code.Modelos
     public class UserInfo
     {
         [JsonProperty("user")]
-        public User user { get; set; }
+        public Usuario user { get; set; }
 
         [JsonProperty("account")]
         public Account account { get; set; }

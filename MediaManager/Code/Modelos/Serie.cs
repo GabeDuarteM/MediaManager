@@ -1,26 +1,18 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MediaManager.Code.Modelos
 {
-    public class Airs
-    {
-        [JsonProperty("day")]
-        public string day { get; set; }
-
-        [JsonProperty("time")]
-        public string time { get; set; }
-
-        [JsonProperty("timezone")]
-        public string timezone { get; set; }
-    }
-
     public class Serie
     {
+        [Key]
+        public int IDSerie { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 
@@ -28,16 +20,13 @@ namespace MediaManager.Code.Modelos
         public int year { get; set; }
 
         [JsonProperty("ids")]
-        public Ids ids { get; set; }
+        public virtual Ids ids { get; set; }
 
         [JsonProperty("overview")]
         public string overview { get; set; }
 
         [JsonProperty("first_aired", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime first_aired { get; set; }
-
-        [JsonProperty("airs")]
-        public Airs airs { get; set; }
 
         [JsonProperty("runtime", NullValueHandling = NullValueHandling.Ignore)]
         public int runtime { get; set; }
@@ -82,6 +71,15 @@ namespace MediaManager.Code.Modelos
         public int aired_episodes { get; set; }
 
         [JsonProperty("images")]
-        public Images images { get; set; }
+        public virtual Images images { get; set; }
+
+        [JsonProperty("day")]
+        public string airDay { get; set; }
+
+        [JsonProperty("time")]
+        public string airTime { get; set; }
+
+        [JsonProperty("timezone")]
+        public string airTimezone { get; set; }
     }
 }

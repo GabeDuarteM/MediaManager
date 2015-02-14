@@ -31,6 +31,14 @@ namespace MediaManager.Forms
 
         private Helper.Conteudo conteudo = new Helper.Conteudo();
 
+        private Filme filme = new Filme();
+
+        private Filme filmeTraduzido = new Filme();
+
+        private Serie serie = new Serie();
+
+        private Serie serieTraduzida = new Serie();
+
         public frmAdicionarConteudo(Helper.Conteudo conteudo, List<Search> resultPesquisa)
         {
             // TODO Arrumar imagem da engrenagem que não aparece.
@@ -65,8 +73,6 @@ namespace MediaManager.Forms
         {
             if (conteudo == Helper.Conteudo.Serie || conteudo == Helper.Conteudo.Anime)
             {
-                Serie serie = new Serie();
-
                 BackgroundWorker workerAtualizarCampos = new BackgroundWorker();
                 workerAtualizarCampos.DoWork += (s, e) =>
                 {
@@ -115,10 +121,10 @@ namespace MediaManager.Forms
 
                     if (serie.available_translations.Contains(settings.pref_IdiomaPesquisa))
                     {
-                        var vv = Helper.API_GetSerieSinopse(slugTrakt);
-                        if (vv.overview != null)
+                        serieTraduzida = Helper.API_GetSerieSinopse(slugTrakt);
+                        if (serieTraduzida.overview != null)
                         {
-                            tbxSinopse.Text = vv.overview;
+                            tbxSinopse.Text = serieTraduzida.overview;
                         }
                         else if (serie.overview != null)
                         {
@@ -155,8 +161,6 @@ namespace MediaManager.Forms
             }
             else if (conteudo == Helper.Conteudo.Filme)
             {
-                Filme filme = new Filme();
-
                 BackgroundWorker workerAtualizarCampos = new BackgroundWorker();
                 workerAtualizarCampos.DoWork += (s, e) =>
                 {
@@ -205,7 +209,7 @@ namespace MediaManager.Forms
 
                     if (filme.available_translations.Contains(settings.pref_IdiomaPesquisa))
                     {
-                        Filme filmeTraduzido = Helper.API_GetFilmeSinopse(slugTrakt);
+                        filmeTraduzido = Helper.API_GetFilmeSinopse(slugTrakt);
                         if (filmeTraduzido.overview != null)
                         {
                             tbxSinopse.Text = filmeTraduzido.overview;
@@ -257,14 +261,30 @@ namespace MediaManager.Forms
 
         private void btnPasta_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                tbxPasta.Text = dialog.SelectedPath;
+            }
         }
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if (conteudo == Helper.Conteudo.Serie || conteudo == Helper.Conteudo.Anime)
+            {
+                Context db = new Context();
+                db.Series.Add(serie);
+                db.SaveChanges();
+
+                var query = from a in db.Series
+                            select a;
+                foreach (var item in query)
+                {
+                    MessageBox.Show(item.title);
+                }
+                this.Close();
+            }
         }
 
         private void cboListaConteudo_SelectionChanged(object sender, SelectionChangedEventArgs e)
