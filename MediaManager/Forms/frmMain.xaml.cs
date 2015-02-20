@@ -31,7 +31,7 @@ namespace MediaManager
         public frmMain()
         {
             InitializeComponent();
-            AtualizarGrids(Helper.Conteudo.Tudo);
+            //AtualizarGrids(Helper.Conteudo.Tudo);
         }
 
         private void AtualizarGrids(Helper.Conteudo conteudo)
