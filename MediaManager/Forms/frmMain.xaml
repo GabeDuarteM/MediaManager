@@ -50,7 +50,7 @@
                             <ColumnDefinition Width="10*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15*" />
+                            <RowDefinition Height="15" />
                         </Grid.RowDefinitions>
                     </Grid>
                 </ScrollViewer>
@@ -76,7 +76,7 @@
                             <ColumnDefinition Width="10*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15*" />
+                            <RowDefinition Height="15" />
                         </Grid.RowDefinitions>
                     </Grid>
                 </ScrollViewer>
@@ -102,7 +102,7 @@
                             <ColumnDefinition Width="10*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="15*" />
+                            <RowDefinition Height="15" />
                         </Grid.RowDefinitions>
                     </Grid>
                 </ScrollViewer>

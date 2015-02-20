@@ -26,7 +26,8 @@ namespace MediaManager.Code
         {
             Serie,
             Filme,
-            Anime
+            Anime,
+            Tudo
         }
 
         public static List<Search> API_PesquisarConteudo(string query, string type)
@@ -248,6 +249,61 @@ namespace MediaManager.Code
         {
             string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
             return nomeNormalizado;
+        }
+
+        public static bool LogMessageToFile(string message)
+        {
+            bool sucesso = false;
+            StreamWriter sw = File.AppendText(Environment.CurrentDirectory + "//" + settings.AppName + ".log");
+            try
+            {
+                string logLine = "## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message;
+                sw.WriteLine(logLine);
+                sucesso = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                sucesso = false;
+                Environment.Exit(0);
+            }
+            finally
+            {
+                sw.Close();
+            }
+            return sucesso;
+        }
+
+        public static bool LogMessageToFile(string message, bool start)
+        {
+            bool sucesso = false;
+            string logPath = Environment.CurrentDirectory + "//" + settings.AppName + ".log";
+            StringBuilder logLine;
+            if (File.Exists(logPath))
+                logLine = new StringBuilder("\n");
+            else
+                logLine = new StringBuilder("");
+            StreamWriter sw = File.AppendText(logPath);
+            try
+            {
+                logLine.Append("####################################################################################################\n");
+                logLine.Append("############################################ " + settings.AppName + " ###########################################\n");
+                logLine.Append("####################################################################################################\n");
+                logLine.Append("\n");
+                logLine.Append("## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message);
+                sw.WriteLine(logLine);
+                sucesso = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                sucesso = false;
+            }
+            finally
+            {
+                sw.Close();
+            }
+            return sucesso;
         }
     }
 }

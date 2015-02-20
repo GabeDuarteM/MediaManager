@@ -118,6 +118,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\FileSearch.cs" />
     <Compile Include="Code\Modelos\Context.cs" />
     <Compile Include="Code\Modelos\Filme.cs" />
     <Compile Include="Code\Modelos\Ids.cs" />
@@ -135,6 +136,14 @@
     <Compile Include="Migrations\201502141931106_avatarChanges.cs" />
     <Compile Include="Migrations\201502141931106_avatarChanges.Designer.cs">
       <DependentUpon>201502141931106_avatarChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502142123400_metadataFolder.cs" />
+    <Compile Include="Migrations\201502142123400_metadataFolder.Designer.cs">
+      <DependentUpon>201502142123400_metadataFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502160112259_isAnime e folderPath.cs" />
+    <Compile Include="Migrations\201502160112259_isAnime e folderPath.Designer.cs">
+      <DependentUpon>201502160112259_isAnime e folderPath.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Settings.cs" />
@@ -196,6 +205,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502141931106_avatarChanges.resx">
       <DependentUpon>201502141931106_avatarChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502142123400_metadataFolder.resx">
+      <DependentUpon>201502142123400_metadataFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502160112259_isAnime e folderPath.resx">
+      <DependentUpon>201502160112259_isAnime e folderPath.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

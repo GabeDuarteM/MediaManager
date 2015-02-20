@@ -71,6 +71,7 @@ namespace MediaManager.Forms
 
             bgwPesquisar.DoWork += (s, ex) =>
             {
+                Thread.Sleep(250);
                 this.Dispatcher.Invoke((Action)(() => { resultPesquisa = Helper.API_PesquisarConteudo(tbxNome.Text, type); }));
             };
 
@@ -79,16 +80,25 @@ namespace MediaManager.Forms
                 if (resultPesquisa.Count != 0)
                 {
                     frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudo, resultPesquisa);
-                    this.Close();
                     frmAdicionarConteudo.ShowDialog();
+                    if (frmAdicionarConteudo.DialogResult == true)
+                        this.DialogResult = true;
+                    this.Close();
+
                 }
                 else
                 {
                     MessageBox.Show("Nenhum resultado foi encontrado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close();
                 }
             };
-            bgwPesquisar.RunWorkerAsync();
+
+            if (bgwPesquisar.IsBusy == false)
+                bgwPesquisar.RunWorkerAsync();
+            else
+            {
+                bgwPesquisar.CancelAsync();
+                bgwPesquisar.RunWorkerAsync();
+            }
         }
     }
 }

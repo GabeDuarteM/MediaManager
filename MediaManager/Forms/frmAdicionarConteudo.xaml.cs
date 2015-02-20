@@ -271,18 +271,113 @@ namespace MediaManager.Forms
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if (tbxPasta.Text == string.Empty || cboListaConteudo.SelectedIndex == 0)
+            {
+                MessageBox.Show("Preencha todos os campos antes de salvar.");
+                return;
+            }
             if (conteudo == Helper.Conteudo.Serie || conteudo == Helper.Conteudo.Anime)
             {
-                Context db = new Context();
-                db.Series.Add(serie);
-                db.SaveChanges();
+                serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), settings.AppName, "Metadata", "Series", Helper.RetirarCaracteresInvalidos(serie.title));
 
-                var query = from a in db.Series
-                            select a;
-                foreach (var item in query)
+                if (!System.IO.Directory.Exists(serie.metadataFolder))
+                    System.IO.Directory.CreateDirectory(serie.metadataFolder);
+
+                if (serie.images.poster.medium != null)
                 {
-                    MessageBox.Show(item.title);
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(serie.images.poster.medium, path);
+                    }
                 }
+                else if (serie.images.poster.thumb != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(serie.images.poster.thumb, path);
+                    }
+                }
+                else if (serie.images.poster.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(serie.images.poster.full, path);
+                    }
+                }
+
+                if (serie.images.banner.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(serie.metadataFolder, "banner.jpg");
+                        wc.DownloadFile(serie.images.banner.full, path);
+                    }
+                }
+                serie.folderPath = tbxPasta.Text;
+                if (conteudo == Helper.Conteudo.Anime)
+                    serie.isAnime = true;
+
+                using (Context db = new Context())
+                {
+                    db.Series.Add(serie);
+                    db.SaveChanges();
+                }
+                this.DialogResult = true;
+                this.Close();
+            }
+            else if (conteudo == Helper.Conteudo.Filme)
+            {
+                filme.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), settings.AppName, "Metadata", "Filmes", Helper.RetirarCaracteresInvalidos(filme.title));
+
+                if (!System.IO.Directory.Exists(filme.metadataFolder))
+                    System.IO.Directory.CreateDirectory(filme.metadataFolder);
+
+                if (filme.images.poster.medium != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(filme.images.poster.medium, path);
+                    }
+                }
+                else if (filme.images.poster.thumb != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(filme.images.poster.thumb, path);
+                    }
+                }
+                else if (filme.images.poster.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
+                        wc.DownloadFile(filme.images.poster.full, path);
+                    }
+                }
+
+                if (filme.images.banner.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(filme.metadataFolder, "banner.jpg");
+                        wc.DownloadFile(filme.images.banner.full, path);
+                    }
+                }
+
+                filme.folderPath = tbxPasta.Text;
+
+                using (Context db = new Context())
+                {
+                    db.Filmes.Add(filme);
+                    db.SaveChanges();
+                }
+
+                this.DialogResult = true;
                 this.Close();
             }
         }

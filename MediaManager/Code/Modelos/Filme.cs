@@ -13,6 +13,10 @@ namespace MediaManager.Code.Modelos
         [Key]
         public int IDFilme { get; set; }
 
+        public string metadataFolder { get; set; }
+
+        public string folderPath { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 
