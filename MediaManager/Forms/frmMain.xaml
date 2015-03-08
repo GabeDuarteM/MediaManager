@@ -31,80 +31,20 @@
         <TabControl Name="tcPrincipal" Margin="10,30,10,10">
             <TabItem Name="tiSeries" Header="Séries">
                 <ScrollViewer Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <Grid Name="gridSeries" Background="#FFE5E5E5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="10*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="15" />
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <WrapPanel Name="gridSeries" Height="Auto" Width="Auto" Background="#FFE5E5E5">
+                    </WrapPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="tiFilmes" Header="Filmes">
                 <ScrollViewer Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
-                    <Grid Name="gridFilmes" Background="#FFE5E5E5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="10*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="15" />
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <WrapPanel Name="gridFilmes" Height="Auto" Width="Auto" Background="#FFE5E5E5">
+                    </WrapPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="tiAnimes" Header="Animes">
                 <ScrollViewer Name="scrollAnimes" VerticalScrollBarVisibility="Auto">
-                    <Grid Name="gridAnimes" Background="#FFE5E5E5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="15*" />
-                            <ColumnDefinition Width="190*" />
-                            <ColumnDefinition Width="10*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="15" />
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <WrapPanel Name="gridAnimes" Height="Auto" Width="Auto" Background="#FFE5E5E5">
+                    </WrapPanel>
                 </ScrollViewer>
             </TabItem>
         </TabControl>

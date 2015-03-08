@@ -126,6 +126,9 @@
     <Compile Include="Code\Modelos\Search.cs" />
     <Compile Include="Code\Modelos\Serie.cs" />
     <Compile Include="Code\Modelos\Usuario.cs" />
+    <Compile Include="Code\ControlPoster.xaml.cs">
+      <DependentUpon>ControlPoster.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmPopupPesquisa.xaml.cs">
       <DependentUpon>frmPopupPesquisa.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Settings.cs" />
+    <Page Include="Code\ControlPoster.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\frmAdicionarConteudo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
