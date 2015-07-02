@@ -8,7 +8,26 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <view:ProcurarConteudoView x:Name="ProcurarConteudoView" />
+        <DataGrid Name="dgAll" ItemsSource="{Binding Path=Conteudos}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Pasta, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Pasta" Width="10*" />
+                <DataGridTextColumn Binding="{Binding Path=Nome, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Nome" Width="5*" />
+
+                <DataGridTextColumn Binding="{Binding Path=Tipo, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="1*" />
+                <DataGridTemplateColumn Width="0.6*" CanUserReorder="False" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkTodos_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkItem_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Bottom" Width="75" IsCancel="True" />
         <Button Name="btAdicionar" Content="Adicionar" HorizontalAlignment="Right" Margin="10,10,90,10" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="btAdicionar_Click" />
     </Grid>

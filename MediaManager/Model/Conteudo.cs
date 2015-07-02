@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace MediaManager.Model
 {
@@ -15,39 +10,39 @@ namespace MediaManager.Model
         private string _tipo;
         private string _traktSlug;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { _isSelected = value; RaisePropertyChanged("IsSelected"); }
+            set { _isSelected = value; OnPropertyChanged("IsSelected"); }
         }
 
         public string Nome
         {
             get { return _nome; }
-            set { _nome = value; RaisePropertyChanged("Nome"); }
+            set { _nome = value; OnPropertyChanged("Nome"); }
         }
 
         public string Pasta
         {
             get { return _pasta; }
-            set { _pasta = value; RaisePropertyChanged("Pasta"); }
+            set { _pasta = value; OnPropertyChanged("Pasta"); }
         }
 
         public string Tipo
         {
             get { return _tipo; }
-            set { _tipo = value; RaisePropertyChanged("Tipo"); }
+            set { _tipo = value; OnPropertyChanged("Tipo"); }
         }
 
         public string TraktSlug
         {
             get { return _traktSlug; }
-            set { _traktSlug = value; RaisePropertyChanged("TraktSlug"); }
+            set { _traktSlug = value; OnPropertyChanged("TraktSlug"); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
+        private void OnPropertyChanged(string property)
         {
             if (PropertyChanged != null)
             {

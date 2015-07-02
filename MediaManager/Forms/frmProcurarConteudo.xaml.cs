@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace MediaManager.Forms
@@ -55,17 +56,39 @@ namespace MediaManager.Forms
                 MessageBox.Show("Selecione pelo menos uma série para adicionar.");
         }
 
-        private void checkTodos_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO Check todos
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             contViewModel = new ProcurarConteudoViewModel();
-            contViewModel.Init();
-            ProcurarConteudoView.DataContext = contViewModel;
+            DataContext = contViewModel;
             contViewModel.LoadConteudos(conteudo);
+        }
+
+        private void checkTodos_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as CheckBox).IsChecked == true)
+                foreach (var item in contViewModel.Conteudos)
+                {
+                    item.IsSelected = true;
+                }
+            else
+                foreach (var item in contViewModel.Conteudos)
+                {
+                    item.IsSelected = false;
+                }
+        }
+
+        private void checkItem_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Verificar se todos os checks estão checados e checar/deschecar o checkAllItems
+
+            //int selecionado = 0;
+            //foreach (var item in contViewModel.Conteudos)
+            //{
+            //    if (item.IsSelected == true)
+            //    {
+            //        selecionado++;
+            //    }
+            //}
         }
     }
 }

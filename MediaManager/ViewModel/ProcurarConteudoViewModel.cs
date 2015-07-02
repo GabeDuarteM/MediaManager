@@ -3,6 +3,7 @@ using MediaManager.Helpers;
 using MediaManager.Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 
 namespace MediaManager.ViewModel
@@ -11,7 +12,7 @@ namespace MediaManager.ViewModel
     {
         public ObservableCollection<Conteudo> Conteudos { get; set; }
 
-        public void Init()
+        public ProcurarConteudoViewModel()
         {
             ObservableCollection<Conteudo> conteudos = new ObservableCollection<Conteudo>();
 
