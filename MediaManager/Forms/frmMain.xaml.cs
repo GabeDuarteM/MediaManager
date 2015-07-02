@@ -1,13 +1,11 @@
-﻿using MediaManager.Code;
-using MediaManager.Code.Modelos;
+﻿using MediaManager.Helpers;
+using MediaManager.Model;
+using MediaManager.View;
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
-namespace MediaManager
+namespace MediaManager.Forms
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,14 +17,14 @@ namespace MediaManager
         public frmMain()
         {
             InitializeComponent();
-            AtualizarGrid(Helper.Conteudo.Tudo);
+            AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
         }
 
-        public void AtualizarGrid(Helper.Conteudo conteudo)
+        public void AtualizarGrid(Helpers.Helper.TipoConteudo conteudo)
         {
             switch (conteudo)
             {
-                case Helper.Conteudo.Serie:
+                case Helpers.Helper.TipoConteudo.show:
                     gridSeries.Children.Clear();
                     using (Context db = new Context())
                     {
@@ -43,7 +41,7 @@ namespace MediaManager
                     }
                     break;
 
-                case Helper.Conteudo.Filme:
+                case Helpers.Helper.TipoConteudo.movie:
                     gridFilmes.Children.Clear();
                     using (Context db = new Context())
                     {
@@ -60,11 +58,11 @@ namespace MediaManager
                     }
                     break;
 
-                case Helper.Conteudo.Anime:
+                case Helpers.Helper.TipoConteudo.anime:
                     // TODO Fazer funcionar.
                     break;
 
-                case Helper.Conteudo.Tudo:
+                case Helpers.Helper.TipoConteudo.movieShowAnime:
                     gridSeries.Children.Clear();
                     gridFilmes.Children.Clear();
                     gridAnimes.Children.Clear();
@@ -99,32 +97,36 @@ namespace MediaManager
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
+            Forms.frmProcurarConteudo frmProcurarConteudo = new Forms.frmProcurarConteudo(Helpers.Helper.TipoConteudo.movieShowAnime);
+            frmProcurarConteudo.ShowDialog();
+            if (frmProcurarConteudo.DialogResult == true)
+            {
+                AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
+            }
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movieShowAnime);
+            frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            using (Context db = new Context())
-            {
-                var series = from serie in db.Series
-                             select serie;
-
-                foreach (var serie in series)
-                {
-                    FileSearch searcher = new FileSearch();
-                }
-            }
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.show);
+            frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movie);
+            frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.anime);
+            frmRenomear.ShowDialog();
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
@@ -135,30 +137,31 @@ namespace MediaManager
 
         private void menuItSair_Click(object sender, RoutedEventArgs e)
         {
+            Environment.Exit(0);
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Serie);
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.show);
             frmPopupPesquisa.ShowDialog();
             if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helper.Conteudo.Serie);
+                AtualizarGrid(Helpers.Helper.TipoConteudo.show);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Filme);
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie);
             frmPopupPesquisa.ShowDialog();
             if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helper.Conteudo.Filme);
+                AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
         }
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helper.Conteudo.Anime);
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.anime);
             frmPopupPesquisa.ShowDialog();
             if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helper.Conteudo.Anime);
+                AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
         }
     }
 }

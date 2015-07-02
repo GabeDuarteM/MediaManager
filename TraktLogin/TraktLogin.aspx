@@ -9,7 +9,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <h1>Login realizado com sucesso</h1> <h6>(ou não)</h6>
+            <h1>Login realizado com sucesso</h1>
+            <h6>(ou não)</h6>
         </div>
     </form>
 </body>

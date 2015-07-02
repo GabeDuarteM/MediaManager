@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MediaManager.Code.Modelos
+namespace MediaManager.Model
 {
-    public class Serie
+    public class Serie : Video
     {
         [Key]
         public int IDSerie { get; set; }
@@ -32,7 +29,7 @@ namespace MediaManager.Code.Modelos
         public string overview { get; set; }
 
         [JsonProperty("first_aired", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime first_aired { get; set; }
+        public DateTime? first_aired { get; set; }
 
         [JsonProperty("runtime", NullValueHandling = NullValueHandling.Ignore)]
         public int runtime { get; set; }
@@ -62,7 +59,7 @@ namespace MediaManager.Code.Modelos
         public int votes { get; set; }
 
         [JsonProperty("updated_at", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime updated_at { get; set; }
+        public DateTime? updated_at { get; set; }
 
         [JsonProperty("language")]
         public string language { get; set; }

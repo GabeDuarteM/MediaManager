@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
-namespace MediaManager.Code.Modelos
+namespace MediaManager.Model
 {
     public class Context : DbContext
     {

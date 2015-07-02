@@ -1,8 +1,7 @@
 namespace MediaManager.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class metadataFolder : DbMigration
     {
         public override void Up()
@@ -10,7 +9,7 @@ namespace MediaManager.Migrations
             AddColumn("dbo.Filmes", "metadataFolder", c => c.String());
             AddColumn("dbo.Series", "metadataFolder", c => c.String());
         }
-        
+
         public override void Down()
         {
             DropColumn("dbo.Series", "metadataFolder");

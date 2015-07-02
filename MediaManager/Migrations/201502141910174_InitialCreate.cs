@@ -1,8 +1,7 @@
 namespace MediaManager.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class InitialCreate : DbMigration
     {
         public override void Up()
@@ -31,7 +30,7 @@ namespace MediaManager.Migrations
                 .ForeignKey("dbo.Images", t => t.images_IDImages)
                 .Index(t => t.ids_IDIds)
                 .Index(t => t.images_IDImages);
-            
+
             CreateTable(
                 "dbo.Ids",
                 c => new
@@ -45,7 +44,7 @@ namespace MediaManager.Migrations
                         tvrage = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.IDIds);
-            
+
             CreateTable(
                 "dbo.Images",
                 c => new
@@ -64,7 +63,7 @@ namespace MediaManager.Migrations
                         avatar_full = c.String(),
                     })
                 .PrimaryKey(t => t.IDImages);
-            
+
             CreateTable(
                 "dbo.Series",
                 c => new
@@ -95,9 +94,8 @@ namespace MediaManager.Migrations
                 .ForeignKey("dbo.Images", t => t.images_IDImages)
                 .Index(t => t.ids_IDIds)
                 .Index(t => t.images_IDImages);
-            
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.Series", "images_IDImages", "dbo.Images");

@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MediaManager.Code.Modelos
+namespace MediaManager.Model
 {
-    public class Filme
+    public class Filme : Video
     {
         [Key]
         public int IDFilme { get; set; }

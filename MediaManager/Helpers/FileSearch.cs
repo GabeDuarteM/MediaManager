@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.IO;
 
-namespace MediaManager.Code
+namespace MediaManager.Helpers
 {
     /// <summary>
     /// Método que pesquisa os arquivos no diretório filtrando por uma ou mais extensões

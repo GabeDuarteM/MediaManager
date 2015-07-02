@@ -1,0 +1,35 @@
+﻿<Window x:Class="MediaManager.Forms.frmRenomear"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:properties="clr-namespace:MediaManager.Properties"
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear - {0}'}"
+        Height="410" Width="658" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+    </Window.Background>
+    <Grid>
+        <DataGrid Name="grdArquivos" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="334" Width="632">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Arquivo}" ClipboardContentBinding="{x:Null}" Header="Arquivo" />
+                <DataGridTextColumn Binding="{Binding Path=Nome}" ClipboardContentBinding="{x:Null}" Header="Nome" />
+                <DataGridTextColumn Binding="{Binding Path=ArquivoRenomeado}" ClipboardContentBinding="{x:Null}" Header="Arquivo renomeado" />
+                <DataGridTemplateColumn CanUserReorder="False" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Renomear" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="True" IsEnabled="{Binding Path=NoErrors}" Name="theCheckbox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <!--IsChecked="{Binding Path=Checked, UpdateSourceTrigger=PropertyChanged}" -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10,7" VerticalAlignment="Bottom" Width="75" />
+        <Button Name="btRenomear" Content="Renomear" HorizontalAlignment="Right" Margin="95,7" VerticalAlignment="Bottom" Width="75" />
+    </Grid>
+</Window>

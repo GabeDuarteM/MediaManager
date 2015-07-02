@@ -1,36 +1,24 @@
-﻿using MediaManager.Code;
-using MediaManager.Code.Modelos;
-using System;
+﻿using MediaManager.Helpers;
+using MediaManager.Model;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace MediaManager.Forms
 {
     public partial class frmPopupPesquisa : Window
     {
-        private static Helper.Conteudo conteudo;
+        public MediaManager.Helpers.Helper.TipoConteudo Conteudo;
 
-        public frmPopupPesquisa(Helper.Conteudo conteudos)
+        public frmPopupPesquisa(Helper.TipoConteudo conteudo)
         {
             InitializeComponent();
-            conteudo = conteudos;
+            Conteudo = conteudo;
             tbxNome.Focus();
         }
 
-        private void btnPesquisar_Click(object sender, RoutedEventArgs e)
+        private async void btnPesquisar_Click(object sender, RoutedEventArgs e)
         {
             if (tbxNome.Text == "")
             {
@@ -38,7 +26,7 @@ namespace MediaManager.Forms
                 return;
             }
             List<Search> resultPesquisa = new List<Search>();
-            BackgroundWorker bgwPesquisar = new BackgroundWorker();
+            //BackgroundWorker bgwPesquisar = new BackgroundWorker();
 
             btnCancelar.Visibility = System.Windows.Visibility.Hidden;
             btnPesquisar.Visibility = System.Windows.Visibility.Hidden;
@@ -53,52 +41,54 @@ namespace MediaManager.Forms
             WFH.Child = imgLoading;
             spLoading.Children.Add(lblLoading);
 
-            string type = "";
-            switch (conteudo)
+            //string type = "";
+            //switch (conteudo)
+            //{
+            //    case Helper.TipoConteudo.show:
+            //        type = "show";
+            //        break;
+
+            //    case Helper.Conteudo.Filme:
+            //        type = "movie";
+            //        break;
+
+            //    case Helper.Conteudo.Anime:
+            //        type = "show";
+            //        break;
+            //}
+
+            resultPesquisa = await Helpers.Helper.API_PesquisarConteudoAsync(tbxNome.Text, Conteudo.ToString());
+
+            if (resultPesquisa.Count != 0)
             {
-                case Helper.Conteudo.Serie:
-                    type = "show";
-                    break;
-
-                case Helper.Conteudo.Filme:
-                    type = "movie";
-                    break;
-
-                case Helper.Conteudo.Anime:
-                    type = "show";
-                    break;
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Conteudo, resultPesquisa);
+                frmAdicionarConteudo.ShowDialog();
+                if (frmAdicionarConteudo.DialogResult == true)
+                    this.DialogResult = true;
+                this.Close();
             }
-
-            bgwPesquisar.DoWork += (s, ex) =>
-            {
-                Thread.Sleep(250);
-                this.Dispatcher.Invoke((Action)(() => { resultPesquisa = Helper.API_PesquisarConteudo(tbxNome.Text, type); }));
-            };
-
-            bgwPesquisar.RunWorkerCompleted += (s, ex) =>
-            {
-                if (resultPesquisa.Count != 0)
-                {
-                    frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudo, resultPesquisa);
-                    frmAdicionarConteudo.ShowDialog();
-                    if (frmAdicionarConteudo.DialogResult == true)
-                        this.DialogResult = true;
-                    this.Close();
-
-                }
-                else
-                {
-                    MessageBox.Show("Nenhum resultado foi encontrado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            };
-
-            if (bgwPesquisar.IsBusy == false)
-                bgwPesquisar.RunWorkerAsync();
             else
             {
-                bgwPesquisar.CancelAsync();
-                bgwPesquisar.RunWorkerAsync();
+                MessageBox.Show("Nenhum resultado foi encontrado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
             }
+
+            //bgwPesquisar.DoWork += (s, ex) =>
+            //{
+            //    Thread.Sleep(250);
+            //    // FIXME this.Dispatcher.Invoke((Action)(() => { resultPesquisa = Helper.API_PesquisarConteudo(tbxNome.Text, type); }));
+            //};
+
+            //bgwPesquisar.RunWorkerCompleted += (s, ex) =>
+            //{
+            //};
+
+            //if (bgwPesquisar.IsBusy == false)
+            //    bgwPesquisar.RunWorkerAsync();
+            //else
+            //{
+            //    bgwPesquisar.CancelAsync();
+            //    bgwPesquisar.RunWorkerAsync();
+            //}
         }
     }
 }
