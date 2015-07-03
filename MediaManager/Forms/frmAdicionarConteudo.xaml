@@ -28,7 +28,7 @@
         </ComboBox>
         <xctk:WatermarkTextBox x:Name="tbxPasta" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="333" Margin="445,173,0,0" />
         <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,173,0,0" Height="22" Width="25" Click="btnPasta_Click" />
-        <TextBox x:Name="tbxSinopse" Margin="10,220,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"  Text="Sinopse não encontrada." />
+        <TextBox x:Name="tbxSinopse" Margin="10,220,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"  Text="Carregando sinopse..." />
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" IsCancel="True" />
         <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="90,10" Width="75" Click="btnSalvar_Click" IsDefault="True" />
     </Grid>

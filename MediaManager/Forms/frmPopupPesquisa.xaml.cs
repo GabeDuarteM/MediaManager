@@ -26,7 +26,6 @@ namespace MediaManager.Forms
                 return;
             }
             List<Search> resultPesquisa = new List<Search>();
-            //BackgroundWorker bgwPesquisar = new BackgroundWorker();
 
             btnCancelar.Visibility = System.Windows.Visibility.Hidden;
             btnPesquisar.Visibility = System.Windows.Visibility.Hidden;
@@ -40,22 +39,6 @@ namespace MediaManager.Forms
             lblLoading.Content = "Procurando...";
             WFH.Child = imgLoading;
             spLoading.Children.Add(lblLoading);
-
-            //string type = "";
-            //switch (conteudo)
-            //{
-            //    case Helper.TipoConteudo.show:
-            //        type = "show";
-            //        break;
-
-            //    case Helper.Conteudo.Filme:
-            //        type = "movie";
-            //        break;
-
-            //    case Helper.Conteudo.Anime:
-            //        type = "show";
-            //        break;
-            //}
 
             resultPesquisa = await Helpers.Helper.API_PesquisarConteudoAsync(tbxNome.Text, Conteudo.ToString());
 
@@ -71,24 +54,6 @@ namespace MediaManager.Forms
             {
                 MessageBox.Show("Nenhum resultado foi encontrado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
-            //bgwPesquisar.DoWork += (s, ex) =>
-            //{
-            //    Thread.Sleep(250);
-            //    // FIXME this.Dispatcher.Invoke((Action)(() => { resultPesquisa = Helper.API_PesquisarConteudo(tbxNome.Text, type); }));
-            //};
-
-            //bgwPesquisar.RunWorkerCompleted += (s, ex) =>
-            //{
-            //};
-
-            //if (bgwPesquisar.IsBusy == false)
-            //    bgwPesquisar.RunWorkerAsync();
-            //else
-            //{
-            //    bgwPesquisar.CancelAsync();
-            //    bgwPesquisar.RunWorkerAsync();
-            //}
         }
     }
 }

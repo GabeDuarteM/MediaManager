@@ -17,13 +17,13 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmProcurarConteudo : Window
     {
-        public Helper.TipoConteudo conteudo;
         public ProcurarConteudoViewModel contViewModel;
+        public Helper.TipoConteudo TipoConteudo;
 
-        public frmProcurarConteudo(Helpers.Helper.TipoConteudo conteudo)
+        public frmProcurarConteudo(Helpers.Helper.TipoConteudo tipoConteudo)
         {
             InitializeComponent();
-            this.conteudo = conteudo;
+            this.TipoConteudo = tipoConteudo;
         }
 
         private async void btAdicionar_Click(object sender, RoutedEventArgs e)
@@ -36,9 +36,21 @@ namespace MediaManager.Forms
                     switch (item.Tipo)
                     {
                         case "Show":
-                            Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug);
-                            DatabaseHelper.adicionarSerie(serie);
+                            Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.show);
+                            await DatabaseHelper.adicionarSerieAsync(serie);
+                            break;
 
+                        case "Anime":
+                            Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.anime);
+                            await DatabaseHelper.adicionarAnimeAsync(anime);
+                            break;
+
+                        case "Filme":
+                            Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
+                            await DatabaseHelper.adicionarFilmeAsync(filme);
+                            break;
+
+                        default:
                             break;
                     }
                     count++;
@@ -56,11 +68,18 @@ namespace MediaManager.Forms
                 MessageBox.Show("Selecione pelo menos uma série para adicionar.");
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void checkItem_Click(object sender, RoutedEventArgs e)
         {
-            contViewModel = new ProcurarConteudoViewModel();
-            DataContext = contViewModel;
-            contViewModel.LoadConteudos(conteudo);
+            // TODO Verificar se todos os checks estão checados e checar/deschecar o checkAllItems
+
+            //int selecionado = 0;
+            //foreach (var item in contViewModel.Conteudos)
+            //{
+            //    if (item.IsSelected == true)
+            //    {
+            //        selecionado++;
+            //    }
+            //}
         }
 
         private void checkTodos_Click(object sender, RoutedEventArgs e)
@@ -77,18 +96,11 @@ namespace MediaManager.Forms
                 }
         }
 
-        private void checkItem_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO Verificar se todos os checks estão checados e checar/deschecar o checkAllItems
-
-            //int selecionado = 0;
-            //foreach (var item in contViewModel.Conteudos)
-            //{
-            //    if (item.IsSelected == true)
-            //    {
-            //        selecionado++;
-            //    }
-            //}
+            contViewModel = new ProcurarConteudoViewModel();
+            DataContext = contViewModel;
+            contViewModel.LoadConteudos(TipoConteudo);
         }
     }
 }

@@ -32,63 +32,38 @@ namespace MediaManager.Helpers
 
         #region { APIs trakt }
 
-        public static async Task<List<Search>> API_PesquisarConteudoAsync(string query, string type)
+        /// <summary>
+        /// Realiza a troca do código do trakt pelo access token necessário para realizar as transações específicas de usuário.
+        /// </summary>
+        /// <param name="code">Código a ser trocado.</param>
+        /// <returns>Access token</returns>
+        public async static Task<UserAuth> API_GetAccessTokenAsync(string code)
         {
             string responseData = "";
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
-
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
-
-                using (var response = await httpClient.GetAsync("search?query=" + query + "&type=" + type).ConfigureAwait(false))
+                using (var content = new StringContent("{  \"code\": " + code + ",  \"client_id\": " + settings.ClientID + ",  \"client_secret\": " + settings.ClientSecret + ",  \"redirect_uri\": " + settings.CallbackUrl + ",  \"grant_type\": \"authorization_code\"}", System.Text.Encoding.Default, "application/json"))
                 {
-                    responseData = await response.Content.ReadAsStringAsync();
+                    using (var response = await httpClient.PostAsync("oauth/token", content))
+                    {
+                        responseData = await response.Content.ReadAsStringAsync();
+                    }
                 }
             }
-            return JsonConvert.DeserializeObject<List<Search>>(responseData);
+            return JsonConvert.DeserializeObject<UserAuth>(responseData);
         }
 
-        public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt)
-        {
-            string responseData = "";
-
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
-            {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
-
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
-
-                using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "?extended=full,images"))
-                {
-                    responseData = await response.Content.ReadAsStringAsync();
-                }
-            }
-            return JsonConvert.DeserializeObject<Serie>(responseData);
-        }
-
-        public async static Task<Serie> API_GetSerieSinopseAsync(string slugTrakt)
-        {
-            string responseData = "";
-
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
-            {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
-
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
-
-                using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "/translations/pt"))
-                {
-                    responseData = await response.Content.ReadAsStringAsync();
-                }
-            }
-            return JsonConvert.DeserializeObject<List<Serie>>(responseData)[0];
-        }
-
+        /// <summary>
+        /// Realiza uma pesquisa pelo filme no Trakt.tv baseado no slug (Id) do trakt
+        /// </summary>
+        /// <param name="slugTrakt">Slug (id) do trakt. Ex.: breaking-bad</param>
+        /// <returns>Objeto contendo as informações do filme</returns>
         public async static Task<Filme> API_GetFilmeInfoAsync(string slugTrakt)
         {
             string responseData = "";
+
+            Filme filme = new Filme();
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
@@ -101,9 +76,19 @@ namespace MediaManager.Helpers
                     responseData = await response.Content.ReadAsStringAsync();
                 }
             }
-            return JsonConvert.DeserializeObject<Filme>(responseData);
+            filme = JsonConvert.DeserializeObject<Filme>(responseData);
+            filme.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.title));
+            if (settings.pref_PastaFilmes != "")
+                filme.folderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.title));
+            return filme;
         }
 
+        /// <summary>
+        /// Realiza uma pesquisa pelo filme no Trakt.tv baseado no slug (Id) do trakt para retornar a sinopse traduzida do filme
+        /// </summary>
+        /// <param name="slugTrakt">Slug (id) do trakt. Ex.: breaking-bad</param>
+        /// <returns>Objeto contendo as informações traduzidas do filme</returns>
         public async static Task<Filme> API_GetFilmeSinopseAsync(string slugTrakt)
         {
             string responseData = "";
@@ -122,21 +107,60 @@ namespace MediaManager.Helpers
             return JsonConvert.DeserializeObject<List<Filme>>(responseData)[0];
         }
 
-        public async static Task<UserAuth> API_GetAccessTokenAsync(string code)
+        public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt, Helper.TipoConteudo tipoConteudo)
+        {
+            string responseData = "";
+
+            Serie serie = new Serie();
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "?extended=full,images"))
+                {
+                    responseData = await response.Content.ReadAsStringAsync();
+                }
+            }
+            serie = JsonConvert.DeserializeObject<Serie>(responseData);
+
+            if (tipoConteudo == TipoConteudo.anime)
+            {
+                serie.isAnime = true;
+                serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Properties.Settings.Default.AppName, "Metadata", "Animes", Helpers.Helper.RetirarCaracteresInvalidos(serie.title));
+                if (settings.pref_PastaAnimes != "")
+                    serie.folderPath = System.IO.Path.Combine(settings.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(serie.title));
+            }
+            else if (tipoConteudo == TipoConteudo.show)
+            {
+                serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Properties.Settings.Default.AppName, "Metadata", "Séries", Helpers.Helper.RetirarCaracteresInvalidos(serie.title));
+                if (settings.pref_PastaSeries != "")
+                    serie.folderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.title));
+            }
+
+            return serie;
+        }
+
+        public async static Task<Serie> API_GetSerieSinopseAsync(string slugTrakt)
         {
             string responseData = "";
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
-                using (var content = new StringContent("{  \"code\": " + code + ",  \"client_id\": " + settings.ClientID + ",  \"client_secret\": " + settings.ClientSecret + ",  \"redirect_uri\": " + settings.CallbackUrl + ",  \"grant_type\": \"authorization_code\"}", System.Text.Encoding.Default, "application/json"))
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "/translations/pt"))
                 {
-                    using (var response = await httpClient.PostAsync("oauth/token", content))
-                    {
-                        responseData = await response.Content.ReadAsStringAsync();
-                    }
+                    responseData = await response.Content.ReadAsStringAsync();
                 }
             }
-            return JsonConvert.DeserializeObject<UserAuth>(responseData);
+            return JsonConvert.DeserializeObject<List<Serie>>(responseData)[0];
         }
 
         /// <summary>
@@ -161,6 +185,27 @@ namespace MediaManager.Helpers
                 }
             }
             return JsonConvert.DeserializeObject<UserInfo>(responseData);
+        }
+
+        public static async Task<List<Search>> API_PesquisarConteudoAsync(string query, string type)
+        {
+            string responseData = "";
+
+            if (type == Helper.TipoConteudo.anime.ToString())
+                type = Helper.TipoConteudo.show.ToString();
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                using (var response = await httpClient.GetAsync("search?query=" + query + "&type=" + type).ConfigureAwait(false))
+                {
+                    responseData = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return JsonConvert.DeserializeObject<List<Search>>(responseData);
         }
 
         #region { OLD API Methods }
@@ -380,17 +425,6 @@ namespace MediaManager.Helpers
         #endregion { APIs trakt }
 
         /// <summary>
-        /// Retira os caracteres que o windows não aceita na criação de pastas e arquivos.
-        /// </summary>
-        /// <param name="nome">Nome do arquivo a ser normalizado.</param>
-        /// <returns>Nome sem os caracteres não permitidos.</returns>
-        public static string RetirarCaracteresInvalidos(string nome)
-        {
-            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
-            return nomeNormalizado;
-        }
-
-        /// <summary>
         /// Adiciona mensagem no log.
         /// </summary>
         /// <param name="message">Mensagem a ser adicionada</param>
@@ -456,6 +490,17 @@ namespace MediaManager.Helpers
                 throw new ArgumentNullException("extensions");
             IEnumerable<FileInfo> files = dir.EnumerateFiles();
             return files.Where(f => extensao.Contains(f.Extension));
+        }
+
+        /// <summary>
+        /// Retira os caracteres que o windows não aceita na criação de pastas e arquivos.
+        /// </summary>
+        /// <param name="nome">Nome do arquivo a ser normalizado.</param>
+        /// <returns>Nome sem os caracteres não permitidos.</returns>
+        public static string RetirarCaracteresInvalidos(string nome)
+        {
+            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
+            return nomeNormalizado;
         }
 
         public static DirectoryInfo[] retornarDiretoriosSeries()

@@ -2,7 +2,9 @@
 using MediaManager.Model;
 using MediaManager.View;
 using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MediaManager.Forms
@@ -20,7 +22,7 @@ namespace MediaManager.Forms
             AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
         }
 
-        public void AtualizarGrid(Helpers.Helper.TipoConteudo conteudo)
+        public async void AtualizarGrid(Helpers.Helper.TipoConteudo conteudo)
         {
             switch (conteudo)
             {
@@ -29,9 +31,12 @@ namespace MediaManager.Forms
                     using (Context db = new Context())
                     {
                         var series = from serie in db.Series
+                                     where serie.isAnime == false
                                      select serie;
                         foreach (Serie serie in series)
                         {
+                            while (!File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg")))
+                                await Task.Delay(500);
                             ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"));
 
                             gridSeries.Children.Add(poster);
@@ -49,6 +54,8 @@ namespace MediaManager.Forms
                                      select filme;
                         foreach (Filme filme in filmes)
                         {
+                            while (!File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg")))
+                                await Task.Delay(500).ConfigureAwait(false);
                             ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"));
 
                             gridFilmes.Children.Add(poster);
@@ -59,7 +66,23 @@ namespace MediaManager.Forms
                     break;
 
                 case Helpers.Helper.TipoConteudo.anime:
-                    // TODO Fazer funcionar.
+                    gridAnimes.Children.Clear();
+                    using (Context db = new Context())
+                    {
+                        var animes = from anime in db.Series
+                                     where anime.isAnime == true
+                                     select anime;
+                        foreach (Serie anime in animes)
+                        {
+                            while (!File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg")))
+                                await Task.Delay(500);
+                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"));
+
+                            gridAnimes.Children.Add(poster);
+
+                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
+                        }
+                    }
                     break;
 
                 case Helpers.Helper.TipoConteudo.movieShowAnime:
@@ -69,6 +92,7 @@ namespace MediaManager.Forms
                     using (Context db = new Context())
                     {
                         var series = from serie in db.Series
+                                     where serie.isAnime == false
                                      select serie;
                         foreach (Serie serie in series)
                         {
@@ -89,7 +113,17 @@ namespace MediaManager.Forms
 
                             // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
                         }
-                        // TODO Funcionar com animes.
+                        var animes = from anime in db.Series
+                                     where anime.isAnime == true
+                                     select anime;
+                        foreach (Serie anime in animes)
+                        {
+                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"));
+
+                            gridAnimes.Children.Add(poster);
+
+                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
+                        }
                     }
                     break;
             }

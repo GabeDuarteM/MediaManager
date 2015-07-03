@@ -306,7 +306,9 @@
   <ItemGroup>
     <None Include="Resources\IMG_Gear.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DELETE CONTENT.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TargetPath).locked" del "$(TargetPath).locked"
