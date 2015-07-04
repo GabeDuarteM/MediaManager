@@ -143,6 +143,7 @@
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
+    <Compile Include="ViewModel\frmMainViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>

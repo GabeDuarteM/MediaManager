@@ -53,6 +53,34 @@ namespace MediaManager.Forms
             // TODO Resolver exception quando a pesquisa não retorna resultados (resultPesquisa = 0)
         }
 
+        public frmAdicionarConteudo(Helper.TipoConteudo conteudo, Serie serie)
+        {
+            InitializeComponent();
+
+            Serie = serie;
+            Conteudo = conteudo;
+
+            cboListaConteudo.Items.Add(serie.title);
+            cboListaConteudo.IsEnabled = false;
+            cboListaConteudo.SelectedIndex = 1;
+
+            AtualizarInformacoesAsync(serie);
+        }
+
+        public frmAdicionarConteudo(Helper.TipoConteudo conteudo, Filme filme)
+        {
+            InitializeComponent();
+
+            Filme = filme;
+            Conteudo = conteudo;
+
+            cboListaConteudo.Items.Add(filme.title);
+            cboListaConteudo.IsEnabled = false;
+            cboListaConteudo.SelectedIndex = 1;
+
+            AtualizarInformacoesAsync(filme);
+        }
+
         private async void AtualizarInformacoesAsync(string slugTrakt)
         {
             if (Conteudo == Helper.TipoConteudo.show || Conteudo == Helper.TipoConteudo.anime)
@@ -197,7 +225,143 @@ namespace MediaManager.Forms
             }
         }
 
-        #region { OLD AtualizarInformações }
+        private async void AtualizarInformacoesAsync(Serie serie)
+        {
+            tbxPasta.Text = serie.folderPath;
+
+            if (serie.images.poster.thumb != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(serie.images.poster.thumb);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (serie.images.poster.medium != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(serie.images.poster.medium);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (serie.images.poster.full != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(serie.images.poster.full);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+
+            if (serie.images.banner.full != null)
+            {
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri(serie.images.banner.full);
+                bmpBanner.EndInit();
+
+                imgBanner.Source = bmpBanner;
+            } // TODO Colocar imagem padrão caso não tenha banner/poster.
+
+            if (serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+            {
+                SerieTraduzida = await Helper.API_GetSerieSinopseAsync(serie.ids.slug);
+                if (SerieTraduzida.overview != null)
+                {
+                    tbxSinopse.Text = SerieTraduzida.overview;
+                }
+                else if (serie.overview != null)
+                {
+                    tbxSinopse.Text = serie.overview;
+                }
+                else
+                {
+                    tbxSinopse.Text = "Sinopse não encontrada.";
+                };
+            }
+            else if (serie.overview != null)
+            {
+                tbxSinopse.Text = serie.overview;
+            }
+            else
+            {
+                tbxSinopse.Text = "Sinopse não encontrada.";
+            };
+        }
+
+        private async void AtualizarInformacoesAsync(Filme filme)
+        {
+            tbxPasta.Text = Filme.folderPath;
+
+            if (Filme.images.poster.thumb != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(Filme.images.poster.thumb);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (Filme.images.poster.medium != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(Filme.images.poster.medium);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else if (Filme.images.poster.full != null)
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(Filme.images.poster.full);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+
+            if (Filme.images.banner.full != null)
+            {
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri(Filme.images.banner.full);
+                bmpBanner.EndInit();
+
+                imgBanner.Source = bmpBanner;
+            } // TODO Colocar imagem padrão caso não tenha banner/poster.
+
+            if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+            {
+                FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(filme.ids.slug);
+                if (FilmeTraduzido.overview != null)
+                {
+                    tbxSinopse.Text = FilmeTraduzido.overview;
+                }
+                else if (Filme.overview != null)
+                {
+                    tbxSinopse.Text = Filme.overview;
+                }
+                else
+                {
+                    tbxSinopse.Text = "Sinopse não encontrada.";
+                };
+            }
+            else if (Filme.overview != null)
+            {
+                tbxSinopse.Text = Filme.overview;
+            }
+            else
+            {
+                tbxSinopse.Text = "Sinopse não encontrada.";
+            };
+        }
+
+        #region [ OLD AtualizarInformações ]
 
         //private void AtualizarInformacoes(string slugTrakt)
         //{
@@ -379,9 +543,10 @@ namespace MediaManager.Forms
         //    }
         //}
 
-        #endregion { OLD AtualizarInformações }
+        #endregion [ OLD AtualizarInformações ]
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
+
         {
             Forms.frmConfigConteudo frmConfigConteudo = new frmConfigConteudo();
             frmConfigConteudo.ShowDialog();
@@ -410,21 +575,21 @@ namespace MediaManager.Forms
             else if (Conteudo == Helper.TipoConteudo.show)
             {
                 Serie.folderPath = tbxPasta.Text;
-                await DatabaseHelper.adicionarSerieAsync(Serie);
+                await DatabaseHelper.AddSerieAsync(Serie);
                 this.DialogResult = true;
                 this.Close();
             }
             else if (Conteudo == Helper.TipoConteudo.movie)
             {
                 Filme.folderPath = tbxPasta.Text;
-                await DatabaseHelper.adicionarFilmeAsync(Filme);
+                await DatabaseHelper.AddFilmeAsync(Filme);
                 this.DialogResult = true;
                 this.Close();
             }
             else if (Conteudo == Helper.TipoConteudo.anime)
             {
                 Serie.folderPath = tbxPasta.Text;
-                await DatabaseHelper.adicionarAnimeAsync(Serie);
+                await DatabaseHelper.AddAnimeAsync(Serie);
                 this.DialogResult = true;
                 this.Close();
             }

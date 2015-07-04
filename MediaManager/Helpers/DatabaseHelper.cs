@@ -10,7 +10,7 @@ namespace MediaManager.Helpers
 {
     public class DatabaseHelper
     {
-        public async static Task<bool> adicionarAnimeAsync(Serie anime)
+        public async static Task<bool> AddAnimeAsync(Serie anime)
         {
             if (!System.IO.Directory.Exists(anime.metadataFolder))
                 System.IO.Directory.CreateDirectory(anime.metadataFolder);
@@ -61,7 +61,7 @@ namespace MediaManager.Helpers
             return true;
         }
 
-        public async static Task<bool> adicionarFilmeAsync(Filme filme)
+        public async static Task<bool> AddFilmeAsync(Filme filme)
         {
             if (!System.IO.Directory.Exists(filme.metadataFolder))
                 System.IO.Directory.CreateDirectory(filme.metadataFolder);
@@ -112,7 +112,7 @@ namespace MediaManager.Helpers
             return true;
         }
 
-        public async static Task<bool> adicionarSerieAsync(Serie serie)
+        public async static Task<bool> AddSerieAsync(Serie serie)
         {
             if (!System.IO.Directory.Exists(serie.metadataFolder))
                 System.IO.Directory.CreateDirectory(serie.metadataFolder);
@@ -161,6 +161,109 @@ namespace MediaManager.Helpers
                 db.SaveChanges();
             }
             return true;
+        }
+
+        internal static Serie GetAnimePorId(int IdBanco)
+        {
+            using (Context db = new Context())
+            {
+                var animes = from anime in db.Series.Include("Images").Include("Ids")
+                             where anime.isAnime && anime.IDSerie == IdBanco
+                             select anime;
+                if (animes.Count() > 0)
+                    return animes.ToList()[0];
+                else
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Consulta todos os animes contidos no banco.
+        /// </summary>
+        /// <returns>Retorna um List<Serie> contendo todos os animes que tenham serie.isAnime == true</returns>
+        internal static List<Serie> GetAnimes()
+        {
+            using (Context db = new Context())
+            {
+                var animes = from anime in db.Series.Include("Images").Include("Ids")
+                             where anime.isAnime == true
+                             select anime;
+                return animes.ToList();
+            }
+        }
+
+        internal static Filme GetFilmePorId(int IdBanco)
+        {
+            using (Context db = new Context())
+            {
+                var filmes = from filme in db.Filmes.Include("Images").Include("Ids")
+                             where filme.IDFilme == IdBanco
+                             select filme;
+                if (filmes.Count() > 0)
+                    return filmes.ToList()[0];
+                else
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Consulta todos os filmes contidos no banco.
+        /// </summary>
+        /// <returns>Retorna um List<Filme> contendo todos os filmes contidos no banco.</returns>
+        internal static List<Filme> GetFilmes()
+        {
+            using (Context db = new Context())
+            {
+                var filmes = from filme in db.Filmes.Include("Images").Include("Ids")
+                             select filme;
+                return filmes.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa se o conteúdo ja existe no banco.
+        /// </summary>
+        /// <param name="traktId">Id do trakt</param>
+        /// <returns>Retorna true se o conteúdo for encontrado no banco</returns>
+        internal static bool VerificaSeExiste(int traktId)
+        {
+            using (Context db = new Context())
+            {
+                var ids = from id in db.Ids select id.trakt;
+                if (ids.Contains(traktId))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        internal static Serie GetSeriePorId(int IdBanco)
+        {
+            using (Context db = new Context())
+            {
+                var series = from serie in db.Series.Include("Images").Include("Ids")
+                             where !serie.isAnime && serie.IDSerie == IdBanco
+                             select serie;
+                if (series.Count() > 0)
+                    return series.ToList()[0];
+                else
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Consulta todas as séries contidas no banco.
+        /// </summary>
+        /// <returns>Retorna um List<Serie> contendo todas as séries que tenham serie.isAnime == false</returns>
+        internal static List<Serie> GetSeries()
+        {
+            using (Context db = new Context())
+            {
+                var series = from serie in db.Series.Include("Images").Include("Ids")
+                             where serie.isAnime == false
+                             select serie;
+                return series.ToList();
+            }
         }
     }
 }

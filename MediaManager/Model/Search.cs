@@ -29,9 +29,9 @@ namespace MediaManager.Model
         public double score { get; set; }
 
         [JsonProperty("show")]
-        public Show show { get; set; }
+        public virtual Show show { get; set; }
 
         [JsonProperty("movie")]
-        public Show movie { get; set; }
+        public virtual Show movie { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using MediaManager.Model;
 using MediaManager.View;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,109 +23,90 @@ namespace MediaManager.Forms
             AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
         }
 
-        public async void AtualizarGrid(Helpers.Helper.TipoConteudo conteudo)
+        public async void AtualizarGrid(Helpers.Helper.TipoConteudo tipoConteudo)
         {
-            switch (conteudo)
+            List<Serie> series = null;
+            List<Serie> animes = null;
+            List<Filme> filmes = null;
+            switch (tipoConteudo)
             {
                 case Helpers.Helper.TipoConteudo.show:
                     gridSeries.Children.Clear();
-                    using (Context db = new Context())
+                    series = DatabaseHelper.GetSeries();
+                    foreach (Serie serie in series)
                     {
-                        var series = from serie in db.Series
-                                     where serie.isAnime == false
-                                     select serie;
-                        foreach (Serie serie in series)
-                        {
-                            while (!File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg")))
-                                await Task.Delay(500);
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"));
+                        while (!File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg")))
+                            await Task.Delay(500);
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), tipoConteudo, serie.IDSerie);
 
-                            gridSeries.Children.Add(poster);
+                        gridSeries.Children.Add(poster);
 
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
+                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
                     }
+
                     break;
 
                 case Helpers.Helper.TipoConteudo.movie:
                     gridFilmes.Children.Clear();
-                    using (Context db = new Context())
+                    filmes = DatabaseHelper.GetFilmes();
+                    foreach (Filme filme in filmes)
                     {
-                        var filmes = from filme in db.Filmes
-                                     select filme;
-                        foreach (Filme filme in filmes)
-                        {
-                            while (!File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg")))
-                                await Task.Delay(500).ConfigureAwait(false);
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"));
+                        while (!File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg")))
+                            await Task.Delay(500).ConfigureAwait(false);
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), tipoConteudo, filme.IDFilme);
 
-                            gridFilmes.Children.Add(poster);
+                        gridFilmes.Children.Add(poster);
 
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
+                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
                     }
+
                     break;
 
                 case Helpers.Helper.TipoConteudo.anime:
                     gridAnimes.Children.Clear();
-                    using (Context db = new Context())
+                    animes = DatabaseHelper.GetAnimes();
+                    foreach (Serie anime in animes)
                     {
-                        var animes = from anime in db.Series
-                                     where anime.isAnime == true
-                                     select anime;
-                        foreach (Serie anime in animes)
-                        {
-                            while (!File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg")))
-                                await Task.Delay(500);
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"));
+                        while (!File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg")))
+                            await Task.Delay(500);
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), tipoConteudo, anime.IDSerie);
 
-                            gridAnimes.Children.Add(poster);
+                        gridAnimes.Children.Add(poster);
 
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
+                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
                     }
+
                     break;
 
                 case Helpers.Helper.TipoConteudo.movieShowAnime:
                     gridSeries.Children.Clear();
                     gridFilmes.Children.Clear();
                     gridAnimes.Children.Clear();
-                    using (Context db = new Context())
+                    series = DatabaseHelper.GetSeries();
+                    animes = DatabaseHelper.GetAnimes();
+                    filmes = DatabaseHelper.GetFilmes();
+
+                    foreach (Serie serie in series)
                     {
-                        var series = from serie in db.Series
-                                     where serie.isAnime == false
-                                     select serie;
-                        foreach (Serie serie in series)
-                        {
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"));
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), Helper.TipoConteudo.show, serie.IDSerie);
 
-                            gridSeries.Children.Add(poster);
-
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
-
-                        var filmes = from filme in db.Filmes
-                                     select filme;
-                        foreach (Filme filme in filmes)
-                        {
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"));
-
-                            gridFilmes.Children.Add(poster);
-
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
-                        var animes = from anime in db.Series
-                                     where anime.isAnime == true
-                                     select anime;
-                        foreach (Serie anime in animes)
-                        {
-                            ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"));
-
-                            gridAnimes.Children.Add(poster);
-
-                            // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                        }
+                        gridSeries.Children.Add(poster);
                     }
+
+                    foreach (Serie anime in animes)
+                    {
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), Helper.TipoConteudo.anime, anime.IDSerie);
+
+                        gridAnimes.Children.Add(poster);
+                    }
+
+                    foreach (Filme filme in filmes)
+                    {
+                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), Helper.TipoConteudo.movie, filme.IDFilme);
+
+                        gridFilmes.Children.Add(poster);
+                    }
+
                     break;
             }
         }

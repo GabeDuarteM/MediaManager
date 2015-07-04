@@ -28,6 +28,7 @@ namespace MediaManager.Forms
 
         private async void btAdicionar_Click(object sender, RoutedEventArgs e)
         {
+            btAdicionar.IsEnabled = false;
             int count = 0;
             foreach (var item in contViewModel.Conteudos)
             {
@@ -37,17 +38,17 @@ namespace MediaManager.Forms
                     {
                         case "Show":
                             Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.show);
-                            await DatabaseHelper.adicionarSerieAsync(serie);
+                            await DatabaseHelper.AddSerieAsync(serie);
                             break;
 
                         case "Anime":
                             Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.anime);
-                            await DatabaseHelper.adicionarAnimeAsync(anime);
+                            await DatabaseHelper.AddAnimeAsync(anime);
                             break;
 
                         case "Filme":
                             Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                            await DatabaseHelper.adicionarFilmeAsync(filme);
+                            await DatabaseHelper.AddFilmeAsync(filme);
                             break;
 
                         default:

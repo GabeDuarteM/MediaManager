@@ -503,9 +503,33 @@ namespace MediaManager.Helpers
             return nomeNormalizado;
         }
 
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de séries, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosSeries()
         {
             DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
+            return dir.GetDirectories();
+        }
+
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de animes, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo[] retornarDiretoriosAnimes()
+        {
+            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
+            return dir.GetDirectories();
+        }
+
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de filmes, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo[] retornarDiretoriosFilmes()
+        {
+            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
             return dir.GetDirectories();
         }
     }

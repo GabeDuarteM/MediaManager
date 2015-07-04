@@ -8,7 +8,6 @@
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
-        <Image Name="posterImage" Stretch="Fill">
-        </Image>
+        <Image Name="posterImage" Stretch="Fill" MouseLeftButtonUp="posterImage_MouseLeftButtonUp" />
     </Grid>
 </UserControl>
