@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MediaManager.Model
 {
+    [Table("Ids")]
     public class Ids
     {
         [Key]

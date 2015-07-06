@@ -77,6 +77,7 @@ namespace MediaManager.Helpers
                 }
             }
             filme = JsonConvert.DeserializeObject<Filme>(responseData);
+            var traducoes = new { available_translations = JsonConvert.DeserializeObject(responseData) };
             filme.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.title));
             if (settings.pref_PastaFilmes != "")

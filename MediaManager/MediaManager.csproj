@@ -134,13 +134,19 @@
     <Compile Include="Migrations\201507020132197_AddNullDatas.Designer.cs">
       <DependentUpon>201507020132197_AddNullDatas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507052105120_Add_Generos_e_Traducoes.cs" />
+    <Compile Include="Migrations\201507052105120_Add_Generos_e_Traducoes.Designer.cs">
+      <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Conteudo.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
+    <Compile Include="Model\Genero.cs" />
     <Compile Include="Model\Ids.cs" />
     <Compile Include="Model\Images.cs" />
     <Compile Include="Model\Search.cs" />
     <Compile Include="Model\Serie.cs" />
+    <Compile Include="Model\Traducao.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="ViewModel\frmMainViewModel.cs" />
@@ -257,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507020132197_AddNullDatas.resx">
       <DependentUpon>201507020132197_AddNullDatas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507052105120_Add_Generos_e_Traducoes.resx">
+      <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

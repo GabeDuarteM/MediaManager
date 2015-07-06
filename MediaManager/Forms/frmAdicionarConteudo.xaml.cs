@@ -193,22 +193,22 @@ namespace MediaManager.Forms
                     imgBanner.Source = bmpBanner;
                 } // TODO Colocar imagem padrão caso não tenha banner/poster.
 
-                if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
-                {
-                    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(slugTrakt);
-                    if (FilmeTraduzido.overview != null)
-                    {
-                        tbxSinopse.Text = FilmeTraduzido.overview;
-                    }
-                    else if (Filme.overview != null)
-                    {
-                        tbxSinopse.Text = Filme.overview;
-                    }
-                    else
-                    {
-                        tbxSinopse.Text = "Sinopse não encontrada.";
-                    };
-                }
+                //if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+                //{
+                //    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(slugTrakt);
+                //    if (FilmeTraduzido.overview != null)
+                //    {
+                //        tbxSinopse.Text = FilmeTraduzido.overview;
+                //    }
+                //    else if (Filme.overview != null)
+                //    {
+                //        tbxSinopse.Text = Filme.overview;
+                //    }
+                //    else
+                //    {
+                //        tbxSinopse.Text = "Sinopse não encontrada.";
+                //    };
+                //}
                 else if (Filme.overview != null)
                 {
                     tbxSinopse.Text = Filme.overview;
@@ -335,22 +335,22 @@ namespace MediaManager.Forms
                 imgBanner.Source = bmpBanner;
             } // TODO Colocar imagem padrão caso não tenha banner/poster.
 
-            if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
-            {
-                FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(filme.ids.slug);
-                if (FilmeTraduzido.overview != null)
-                {
-                    tbxSinopse.Text = FilmeTraduzido.overview;
-                }
-                else if (Filme.overview != null)
-                {
-                    tbxSinopse.Text = Filme.overview;
-                }
-                else
-                {
-                    tbxSinopse.Text = "Sinopse não encontrada.";
-                };
-            }
+            //if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+            //{
+            //    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(filme.ids.slug);
+            //    if (FilmeTraduzido.overview != null)
+            //    {
+            //        tbxSinopse.Text = FilmeTraduzido.overview;
+            //    }
+            //    else if (Filme.overview != null)
+            //    {
+            //        tbxSinopse.Text = Filme.overview;
+            //    }
+            //    else
+            //    {
+            //        tbxSinopse.Text = "Sinopse não encontrada.";
+            //    };
+            //}
             else if (Filme.overview != null)
             {
                 tbxSinopse.Text = Filme.overview;

@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MediaManager.Model
 {
+    [Table("Series")]
     public class Serie : Video
     {
         [Key]

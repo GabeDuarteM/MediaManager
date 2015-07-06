@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MediaManager.Model
 {
+    [Table("Filmes")]
     public class Filme : Video
     {
         [Key]
@@ -54,10 +56,10 @@ namespace MediaManager.Model
         public string language { get; set; }
 
         [JsonProperty("available_translations", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> available_translations { get; set; }
+        public ICollection<Traducao> available_translations { get; set; }
 
         [JsonProperty("genres", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> genres { get; set; }
+        public ICollection<Genero> genres { get; set; }
 
         [JsonProperty("certification")]
         public string certification { get; set; }

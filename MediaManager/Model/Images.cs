@@ -58,6 +58,7 @@ namespace MediaManager.Model
         public string full { get; set; }
     }
 
+    [Table("Images")]
     public class Images
     {
         [Key]
