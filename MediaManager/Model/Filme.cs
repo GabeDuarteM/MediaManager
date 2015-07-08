@@ -16,6 +16,10 @@ namespace MediaManager.Model
 
         public string folderPath { get; set; }
 
+        public string Generos { get; set; }
+
+        public string Traducoes { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 
@@ -56,10 +60,10 @@ namespace MediaManager.Model
         public string language { get; set; }
 
         [JsonProperty("available_translations", NullValueHandling = NullValueHandling.Ignore)]
-        public ICollection<Traducao> available_translations { get; set; }
+        public IList<string> available_translations { get; set; }
 
         [JsonProperty("genres", NullValueHandling = NullValueHandling.Ignore)]
-        public ICollection<Genero> genres { get; set; }
+        public IList<string> genres { get; set; }
 
         [JsonProperty("certification")]
         public string certification { get; set; }

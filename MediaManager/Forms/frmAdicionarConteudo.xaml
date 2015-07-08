@@ -21,7 +21,8 @@
             </Image.Effect>
         </Image>
         <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,173,0,0" Height="22" Width="25" Click="btnConfig_Click">
-            <Image x:Name="imgGear" Height="15" Width="15" Source="pack://application:,,,/Resources/IMG_Gear.png" />
+            <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" /> <!--Source="/Resources/IMG_Gear.png" />-->
+            <!--Source="pack://application:,,,/Resources/IMG_Gear.png" />-->
         </Button>
         <ComboBox x:Name="cboListaConteudo" VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0" Margin="200,173,0,0" Width="240">
             <ComboBoxItem Content="Selecione" />

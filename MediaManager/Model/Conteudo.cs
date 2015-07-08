@@ -9,8 +9,15 @@ namespace MediaManager.Model
         private string _pasta;
         private string _tipo;
         private string _traktSlug;
+        private bool _isAlterado;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool IsAlterado
+        {
+            get { return _isAlterado; }
+            set { _isAlterado = value; OnPropertyChanged("IsAlterado"); }
+        }
 
         public bool IsSelected
         {

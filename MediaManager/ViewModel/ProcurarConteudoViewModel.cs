@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MediaManager.ViewModel
 {
@@ -21,7 +22,7 @@ namespace MediaManager.ViewModel
 
         public ObservableCollection<Conteudo> Conteudos { get; set; }
 
-        public async void LoadConteudos(Helper.TipoConteudo conteudo)
+        public async Task LoadConteudos(Helper.TipoConteudo conteudo)
         {
             ObservableCollection<Conteudo> conteudos = new ObservableCollection<Conteudo>();
 
@@ -47,23 +48,32 @@ namespace MediaManager.ViewModel
 
                     foreach (var dir in dirSeries)
                     {
-                        series = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.show.ToString());
-                        if (series.Count != 0 && !DatabaseHelper.VerificaSeExiste(series[0].show.ids.trakt))
-                            conteudos.Add(new Conteudo { Nome = series[0].show.title, Pasta = dir.FullName, Tipo = "Show", TraktSlug = series[0].show.ids.slug, IsSelected = true });
+                        if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
+                        {
+                            series = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.show.ToString());
+                            if (series.Count != 0 && !DatabaseHelper.VerificaSeExiste(series[0].show.ids.trakt))
+                                conteudos.Add(new Conteudo { Nome = series[0].show.title, Pasta = dir.FullName, Tipo = "Show", TraktSlug = series[0].show.ids.slug, IsSelected = true });
+                        }
                     }
 
                     foreach (var dir in dirAnimes)
                     {
-                        animes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.show.ToString());
-                        if (animes.Count != 0 && !DatabaseHelper.VerificaSeExiste(animes[0].show.ids.trakt))
-                            conteudos.Add(new Conteudo { Nome = animes[0].show.title, Pasta = dir.FullName, Tipo = "Anime", TraktSlug = animes[0].show.ids.slug, IsSelected = true });
+                        if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
+                        {
+                            animes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.show.ToString());
+                            if (animes.Count != 0 && !DatabaseHelper.VerificaSeExiste(animes[0].show.ids.trakt))
+                                conteudos.Add(new Conteudo { Nome = animes[0].show.title, Pasta = dir.FullName, Tipo = "Anime", TraktSlug = animes[0].show.ids.slug, IsSelected = true });
+                        }
                     }
 
                     foreach (var dir in dirFilmes)
                     {
-                        filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.movie.ToString());
-                        if (filmes.Count != 0 && !DatabaseHelper.VerificaSeExiste(filmes[0].movie.ids.trakt))
-                            conteudos.Add(new Conteudo { Nome = filmes[0].movie.title, Pasta = dir.FullName, Tipo = "Filme", TraktSlug = filmes[0].movie.ids.slug, IsSelected = true });
+                        if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
+                        {
+                            filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.TipoConteudo.movie.ToString());
+                            if (filmes.Count != 0 && !DatabaseHelper.VerificaSeExiste(filmes[0].movie.ids.trakt))
+                                conteudos.Add(new Conteudo { Nome = filmes[0].movie.title, Pasta = dir.FullName, Tipo = "Filme", TraktSlug = filmes[0].movie.ids.slug, IsSelected = true });
+                        }
                     }
                     break;
 

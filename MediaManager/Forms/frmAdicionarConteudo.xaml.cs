@@ -2,6 +2,9 @@
 using MediaManager.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -13,13 +16,14 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
-        private Helper.TipoConteudo Conteudo = new Helper.TipoConteudo();
-        private Filme Filme = new Filme();
+        public Helper.TipoConteudo TipoConteudo = new Helper.TipoConteudo();
+        public Filme Filme = new Filme();
         private Filme FilmeTraduzido = new Filme();
         private List<Search> ResultPesquisa = new List<Search>();
-        private Serie Serie = new Serie();
+        public Serie Serie = new Serie();
         private Serie SerieTraduzida = new Serie();
         private Properties.Settings Settings = Properties.Settings.Default;
+        private Conteudo Conteudo;
 
         public frmAdicionarConteudo(Helper.TipoConteudo conteudo, List<Search> resultPesquisa)
         {
@@ -27,7 +31,7 @@ namespace MediaManager.Forms
             InitializeComponent();
 
             ResultPesquisa = resultPesquisa;
-            Conteudo = conteudo;
+            TipoConteudo = conteudo;
             if (conteudo == Helper.TipoConteudo.show || conteudo == Helper.TipoConteudo.anime)
             {
                 foreach (var item in resultPesquisa)
@@ -58,13 +62,85 @@ namespace MediaManager.Forms
             InitializeComponent();
 
             Serie = serie;
-            Conteudo = conteudo;
+            TipoConteudo = conteudo;
 
-            cboListaConteudo.Items.Add(serie.title);
-            cboListaConteudo.IsEnabled = false;
-            cboListaConteudo.SelectedIndex = 1;
+            PreencherCombo();
 
-            AtualizarInformacoesAsync(serie);
+        }
+
+        private async void PreencherCombo()
+        {
+            switch (TipoConteudo)
+            {
+                case Helper.TipoConteudo.movie:
+                    ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetDirectoryName(Filme.folderPath), TipoConteudo.ToString());
+                    if (ResultPesquisa.Count > 0)
+                    {
+                        foreach (var item in ResultPesquisa)
+                        {
+                            cboListaConteudo.Items.Add(item.movie.title);
+                        }
+                        cboListaConteudo.SelectedItem = Filme.title;
+                        if (Conteudo == null)
+                            AtualizarInformacoesAsync(Filme);
+                        else
+                            AtualizarInformacoesAsync(ResultPesquisa[cboListaConteudo.SelectedIndex - 1].movie.ids.slug);
+                    }
+                    else
+                    {
+                        cboListaConteudo.Items.Add(Filme.title);
+                        cboListaConteudo.SelectedIndex = 1;
+                        cboListaConteudo.IsEnabled = false;
+                    }
+                    break;
+                case Helper.TipoConteudo.show:
+                    ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.folderPath), TipoConteudo.ToString());
+                    if (ResultPesquisa.Count > 0)
+                    {
+                        foreach (var item in ResultPesquisa)
+                        {
+                            cboListaConteudo.Items.Add(item.show.title);
+                        }
+                        cboListaConteudo.SelectedItem = Serie.title;
+                        if (Conteudo == null)
+                            AtualizarInformacoesAsync(Serie);
+                        else
+                            AtualizarInformacoesAsync(ResultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
+                    }
+                    else
+                    {
+                        cboListaConteudo.Items.Add(Serie.title);
+                        cboListaConteudo.SelectedIndex = 1;
+                        cboListaConteudo.IsEnabled = false;
+                    }
+                    break;
+                case Helper.TipoConteudo.anime:
+                    ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.folderPath), TipoConteudo.ToString());
+                    if (ResultPesquisa.Count > 0)
+                    {
+                        foreach (var item in ResultPesquisa)
+                        {
+                            cboListaConteudo.Items.Add(item.show.title);
+                        }
+                        cboListaConteudo.SelectedItem = Serie.title;
+                        if (Conteudo == null)
+                            AtualizarInformacoesAsync(Serie);
+                        else
+                            AtualizarInformacoesAsync(ResultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
+                    }
+                    else
+                    {
+                        cboListaConteudo.Items.Add(Serie.title);
+                        cboListaConteudo.SelectedIndex = 1;
+                        cboListaConteudo.IsEnabled = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            cboListaConteudo.SelectionChanged += cboListaConteudo_SelectionChanged;
+
         }
 
         public frmAdicionarConteudo(Helper.TipoConteudo conteudo, Filme filme)
@@ -72,20 +148,54 @@ namespace MediaManager.Forms
             InitializeComponent();
 
             Filme = filme;
-            Conteudo = conteudo;
+            TipoConteudo = conteudo;
 
             cboListaConteudo.Items.Add(filme.title);
             cboListaConteudo.IsEnabled = false;
             cboListaConteudo.SelectedIndex = 1;
+        }
 
-            AtualizarInformacoesAsync(filme);
+        public frmAdicionarConteudo(Conteudo conteudo)
+        {
+            InitializeComponent();
+            Conteudo = conteudo;
+
+            btnSalvar.Content = "Alterar";
+
+            switch (conteudo.Tipo)
+            {
+                case "Show":
+                    TipoConteudo = Helper.TipoConteudo.show;
+                    Serie.title = conteudo.Nome;
+                    Serie.folderPath = conteudo.Pasta;
+                    PreencherCombo();
+                    break;
+                case "Anime":
+                    TipoConteudo = Helper.TipoConteudo.anime;
+                    Serie.title = conteudo.Nome;
+                    Serie.folderPath = conteudo.Pasta;
+                    PreencherCombo();
+                    break;
+                case "Filme":
+                    TipoConteudo = Helper.TipoConteudo.movie;
+                    Filme.title = conteudo.Nome;
+                    Filme.folderPath = conteudo.Pasta;
+                    PreencherCombo();
+                    break;
+                default:
+                    break;
+            }
+
+
         }
 
         private async void AtualizarInformacoesAsync(string slugTrakt)
         {
-            if (Conteudo == Helper.TipoConteudo.show || Conteudo == Helper.TipoConteudo.anime)
+            if (TipoConteudo == Helper.TipoConteudo.show || TipoConteudo == Helper.TipoConteudo.anime)
             {
-                Serie = await Helper.API_GetSerieInfoAsync(slugTrakt, Conteudo);
+                int idSerieTemp = Serie.IDSerie;
+                Serie = await Helper.API_GetSerieInfoAsync(slugTrakt, TipoConteudo);
+                Serie.IDSerie = idSerieTemp;
                 tbxPasta.Text = Serie.folderPath;
 
                 if (Serie.images.poster.thumb != null)
@@ -115,6 +225,15 @@ namespace MediaManager.Forms
 
                     imgPoster.Source = bmpPoster;
                 }
+                else
+                {
+                    BitmapImage bmpPoster = new BitmapImage();
+                    bmpPoster.BeginInit();
+                    bmpPoster.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png");
+                    bmpPoster.EndInit();
+
+                    imgPoster.Source = bmpPoster;
+                }
 
                 if (Serie.images.banner.full != null)
                 {
@@ -124,23 +243,24 @@ namespace MediaManager.Forms
                     bmpBanner.EndInit();
 
                     imgBanner.Source = bmpBanner;
-                } // TODO Colocar imagem padrão caso não tenha banner/poster.
+                }
+                else
+                {
+                    BitmapImage bmpBanner = new BitmapImage();
+                    bmpBanner.BeginInit();
+                    bmpBanner.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_BannerDefault.png");
+                    bmpBanner.EndInit();
 
-                if (Serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+                    imgBanner.Source = bmpBanner;
+                }
+
+                if (Serie.available_translations != null && Serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
                 {
                     SerieTraduzida = await Helper.API_GetSerieSinopseAsync(slugTrakt);
                     if (SerieTraduzida.overview != null)
                     {
                         tbxSinopse.Text = SerieTraduzida.overview;
                     }
-                    else if (Serie.overview != null)
-                    {
-                        tbxSinopse.Text = Serie.overview;
-                    }
-                    else
-                    {
-                        tbxSinopse.Text = "Sinopse não encontrada.";
-                    };
                 }
                 else if (Serie.overview != null)
                 {
@@ -149,11 +269,13 @@ namespace MediaManager.Forms
                 else
                 {
                     tbxSinopse.Text = "Sinopse não encontrada.";
-                };
+                }
             }
-            else if (Conteudo == Helper.TipoConteudo.movie)
+            else if (TipoConteudo == Helper.TipoConteudo.movie)
             {
+                int idFilmeTemp = Filme.IDFilme;
                 Filme = await Helper.API_GetFilmeInfoAsync(slugTrakt);
+                Filme.IDFilme = idFilmeTemp;
 
                 if (Filme.images.poster.thumb != null)
                 {
@@ -182,6 +304,15 @@ namespace MediaManager.Forms
 
                     imgPoster.Source = bmpPoster;
                 }
+                else
+                {
+                    BitmapImage bmpPoster = new BitmapImage();
+                    bmpPoster.BeginInit();
+                    bmpPoster.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png");
+                    bmpPoster.EndInit();
+
+                    imgPoster.Source = bmpPoster;
+                }
 
                 if (Filme.images.banner.full != null)
                 {
@@ -191,24 +322,25 @@ namespace MediaManager.Forms
                     bmpBanner.EndInit();
 
                     imgBanner.Source = bmpBanner;
-                } // TODO Colocar imagem padrão caso não tenha banner/poster.
+                }
+                else
+                {
+                    BitmapImage bmpBanner = new BitmapImage();
+                    bmpBanner.BeginInit();
+                    bmpBanner.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_BannerDefault.png");
+                    bmpBanner.EndInit();
 
-                //if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
-                //{
-                //    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(slugTrakt);
-                //    if (FilmeTraduzido.overview != null)
-                //    {
-                //        tbxSinopse.Text = FilmeTraduzido.overview;
-                //    }
-                //    else if (Filme.overview != null)
-                //    {
-                //        tbxSinopse.Text = Filme.overview;
-                //    }
-                //    else
-                //    {
-                //        tbxSinopse.Text = "Sinopse não encontrada.";
-                //    };
-                //}
+                    imgBanner.Source = bmpBanner;
+                }
+
+                if (Filme.available_translations != null && Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+                {
+                    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(slugTrakt);
+                    if (FilmeTraduzido.overview != null)
+                    {
+                        tbxSinopse.Text = FilmeTraduzido.overview;
+                    }
+                }
                 else if (Filme.overview != null)
                 {
                     tbxSinopse.Text = Filme.overview;
@@ -256,6 +388,15 @@ namespace MediaManager.Forms
 
                 imgPoster.Source = bmpPoster;
             }
+            else
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png");
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
 
             if (serie.images.banner.full != null)
             {
@@ -265,23 +406,24 @@ namespace MediaManager.Forms
                 bmpBanner.EndInit();
 
                 imgBanner.Source = bmpBanner;
-            } // TODO Colocar imagem padrão caso não tenha banner/poster.
+            }
+            else
+            {
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_BannerDefault.png");
+                bmpBanner.EndInit();
 
-            if (serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+                imgBanner.Source = bmpBanner;
+            }
+
+            if (serie.available_translations != null && serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
             {
                 SerieTraduzida = await Helper.API_GetSerieSinopseAsync(serie.ids.slug);
                 if (SerieTraduzida.overview != null)
                 {
                     tbxSinopse.Text = SerieTraduzida.overview;
                 }
-                else if (serie.overview != null)
-                {
-                    tbxSinopse.Text = serie.overview;
-                }
-                else
-                {
-                    tbxSinopse.Text = "Sinopse não encontrada.";
-                };
             }
             else if (serie.overview != null)
             {
@@ -295,65 +437,75 @@ namespace MediaManager.Forms
 
         private async void AtualizarInformacoesAsync(Filme filme)
         {
-            tbxPasta.Text = Filme.folderPath;
+            tbxPasta.Text = filme.folderPath;
 
-            if (Filme.images.poster.thumb != null)
+            if (filme.images.poster.thumb != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(Filme.images.poster.thumb);
+                bmpPoster.UriSource = new Uri(filme.images.poster.thumb);
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
-            else if (Filme.images.poster.medium != null)
+            else if (filme.images.poster.medium != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(Filme.images.poster.medium);
+                bmpPoster.UriSource = new Uri(filme.images.poster.medium);
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
-            else if (Filme.images.poster.full != null)
+            else if (filme.images.poster.full != null)
             {
                 BitmapImage bmpPoster = new BitmapImage();
                 bmpPoster.BeginInit();
-                bmpPoster.UriSource = new Uri(Filme.images.poster.full);
+                bmpPoster.UriSource = new Uri(filme.images.poster.full);
+                bmpPoster.EndInit();
+
+                imgPoster.Source = bmpPoster;
+            }
+            else
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png");
                 bmpPoster.EndInit();
 
                 imgPoster.Source = bmpPoster;
             }
 
-            if (Filme.images.banner.full != null)
+            if (filme.images.banner.full != null)
             {
                 BitmapImage bmpBanner = new BitmapImage();
                 bmpBanner.BeginInit();
-                bmpBanner.UriSource = new Uri(Filme.images.banner.full);
+                bmpBanner.UriSource = new Uri(filme.images.banner.full);
                 bmpBanner.EndInit();
 
                 imgBanner.Source = bmpBanner;
-            } // TODO Colocar imagem padrão caso não tenha banner/poster.
-
-            //if (Filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
-            //{
-            //    FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(filme.ids.slug);
-            //    if (FilmeTraduzido.overview != null)
-            //    {
-            //        tbxSinopse.Text = FilmeTraduzido.overview;
-            //    }
-            //    else if (Filme.overview != null)
-            //    {
-            //        tbxSinopse.Text = Filme.overview;
-            //    }
-            //    else
-            //    {
-            //        tbxSinopse.Text = "Sinopse não encontrada.";
-            //    };
-            //}
-            else if (Filme.overview != null)
+            }
+            else
             {
-                tbxSinopse.Text = Filme.overview;
+                BitmapImage bmpBanner = new BitmapImage();
+                bmpBanner.BeginInit();
+                bmpBanner.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_BannerDefault.png");
+                bmpBanner.EndInit();
+
+                imgBanner.Source = bmpBanner;
+            }
+
+            if (filme.available_translations != null && filme.available_translations.Contains(Settings.pref_IdiomaPesquisa))
+            {
+                FilmeTraduzido = await Helper.API_GetFilmeSinopseAsync(filme.ids.slug);
+                if (FilmeTraduzido.overview != null)
+                {
+                    tbxSinopse.Text = FilmeTraduzido.overview;
+                }
+            }
+            else if (filme.overview != null)
+            {
+                tbxSinopse.Text = filme.overview;
             }
             else
             {
@@ -572,39 +724,93 @@ namespace MediaManager.Forms
             {
                 MessageBox.Show("Favor preencher todos os campos antes de salvar.");
             }
-            else if (Conteudo == Helper.TipoConteudo.show)
+            else if (TipoConteudo == Helper.TipoConteudo.show)
             {
                 Serie.folderPath = tbxPasta.Text;
-                await DatabaseHelper.AddSerieAsync(Serie);
-                this.DialogResult = true;
-                this.Close();
+                if (Conteudo != null)
+                {
+                    DialogResult = true;
+                    Close();
+                }
+                else if (Serie.IDSerie == 0)
+                {
+                    if (await DatabaseHelper.AddSerieAsync(Serie))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
+                else
+                {
+                    if (await DatabaseHelper.UpdateSerieAsync(Serie))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
             }
-            else if (Conteudo == Helper.TipoConteudo.movie)
+            else if (TipoConteudo == Helper.TipoConteudo.movie)
             {
                 Filme.folderPath = tbxPasta.Text;
-                await DatabaseHelper.AddFilmeAsync(Filme);
-                this.DialogResult = true;
-                this.Close();
+                if (Conteudo != null)
+                {
+                    DialogResult = true;
+                    Close();
+                }
+                else if (Filme.IDFilme == 0)
+                {
+                    if (await DatabaseHelper.AddFilmeAsync(Filme))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
+                else
+                {
+                    if (await DatabaseHelper.UpdateFilmeAsync(Filme))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
             }
-            else if (Conteudo == Helper.TipoConteudo.anime)
+            else if (TipoConteudo == Helper.TipoConteudo.anime)
             {
                 Serie.folderPath = tbxPasta.Text;
-                await DatabaseHelper.AddAnimeAsync(Serie);
-                this.DialogResult = true;
-                this.Close();
+                if (Conteudo != null)
+                {
+                    DialogResult = true;
+                    Close();
+                }
+                else if (Serie.IDSerie == 0)
+                {
+                    if (await DatabaseHelper.AddAnimeAsync(Serie))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
+                else
+                {
+                    if (await DatabaseHelper.UpdateAnimeAsync(Serie))
+                    {
+                        DialogResult = true;
+                        Close();
+                    }
+                }
             }
         }
 
         private void cboListaConteudo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Conteudo == Helper.TipoConteudo.show || Conteudo == Helper.TipoConteudo.anime)
+            if (TipoConteudo == Helper.TipoConteudo.show || TipoConteudo == Helper.TipoConteudo.anime)
             {
                 if ((sender as ComboBox).SelectedIndex != 0)
                 {
                     AtualizarInformacoesAsync(ResultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
                 }
             }
-            else if (Conteudo == Helper.TipoConteudo.movie)
+            else if (TipoConteudo == Helper.TipoConteudo.movie)
             {
                 if ((sender as ComboBox).SelectedIndex != 0)
                 {

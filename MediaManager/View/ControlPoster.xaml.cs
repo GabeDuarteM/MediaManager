@@ -2,6 +2,7 @@
 using MediaManager.Helpers;
 using MediaManager.Model;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -28,13 +29,24 @@ namespace MediaManager.View
 
             TipoConteudo = tipoConteudo;
             IdBanco = idBanco;
+            if (File.Exists(posterImagePath))
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri(posterImagePath);
+                bmpPoster.EndInit();
 
-            BitmapImage bmpPoster = new BitmapImage();
-            bmpPoster.BeginInit();
-            bmpPoster.UriSource = new Uri(posterImagePath);
-            bmpPoster.EndInit();
+                posterImage.Source = bmpPoster;
+            }
+            else
+            {
+                BitmapImage bmpPoster = new BitmapImage();
+                bmpPoster.BeginInit();
+                bmpPoster.UriSource = new Uri("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png");
+                bmpPoster.EndInit();
 
-            posterImage.Source = bmpPoster;
+                posterImage.Source = bmpPoster;
+            }
         }
 
         private void posterImage_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -56,7 +68,7 @@ namespace MediaManager.View
                     break;
 
                 case Helper.TipoConteudo.anime:
-                    Serie anime = DatabaseHelper.GetSeriePorId(IdBanco);
+                    Serie anime = DatabaseHelper.GetAnimePorId(IdBanco);
                     frmAdicionarConteudo frmAdicionarConteudoAnime = new frmAdicionarConteudo(TipoConteudo, anime);
                     frmAdicionarConteudoAnime.ShowDialog();
                     break;

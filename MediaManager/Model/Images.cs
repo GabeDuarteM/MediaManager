@@ -4,6 +4,48 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MediaManager.Model
 {
+
+    [Table("Images")]
+    public class Images
+    {
+        [Key]
+        public int IDImages { get; set; }
+
+        //[ForeignKey("Serie")]
+        //public int IDSerie { get; set; }
+
+        //[ForeignKey("Series")]
+        //public virtual Serie Serie { get; set; }
+        
+        //[ForeignKey("Filme")]
+        //public int IDFilme { get; set; }
+
+        //[ForeignKey("Filmes")]
+        //public virtual Filme Filme { get; set; }
+
+        [JsonProperty("fanart")]
+        public virtual Fanart fanart { get; set; }
+
+        [JsonProperty("poster")]
+        public virtual Poster poster { get; set; }
+
+        [JsonProperty("logo")]
+        public virtual Logo logo { get; set; }
+
+        [JsonProperty("clearart")]
+        public virtual Clearart clearart { get; set; }
+
+        [JsonProperty("banner")]
+        public virtual Banner banner { get; set; }
+
+        [JsonProperty("thumb")]
+        public virtual Thumb thumb { get; set; }
+
+        [NotMapped]
+        [JsonProperty("avatar")]
+        public virtual Avatar avatar { get; set; }
+    }
+
     public class Fanart
     {
         [JsonProperty("full")]
@@ -58,32 +100,5 @@ namespace MediaManager.Model
         public string full { get; set; }
     }
 
-    [Table("Images")]
-    public class Images
-    {
-        [Key]
-        public int IDImages { get; set; }
 
-        [JsonProperty("fanart")]
-        public virtual Fanart fanart { get; set; }
-
-        [JsonProperty("poster")]
-        public virtual Poster poster { get; set; }
-
-        [JsonProperty("logo")]
-        public virtual Logo logo { get; set; }
-
-        [JsonProperty("clearart")]
-        public virtual Clearart clearart { get; set; }
-
-        [JsonProperty("banner")]
-        public virtual Banner banner { get; set; }
-
-        [JsonProperty("thumb")]
-        public virtual Thumb thumb { get; set; }
-
-        [NotMapped]
-        [JsonProperty("avatar")]
-        public virtual Avatar avatar { get; set; }
-    }
 }

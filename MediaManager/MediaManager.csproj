@@ -13,7 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <NuGetPackageImportStamp>9abb27dc</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>C:\Users\Gabriel\Desktop\TestePublish\</PublishUrl>
     <Install>true</Install>
@@ -138,17 +139,28 @@
     <Compile Include="Migrations\201507052105120_Add_Generos_e_Traducoes.Designer.cs">
       <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507062325456_Remover_Generos_Traducoes.cs" />
+    <Compile Include="Migrations\201507062325456_Remover_Generos_Traducoes.Designer.cs">
+      <DependentUpon>201507062325456_Remover_Generos_Traducoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.cs" />
+    <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.Designer.cs">
+      <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Conteudo.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
-    <Compile Include="Model\Genero.cs" />
     <Compile Include="Model\Ids.cs" />
     <Compile Include="Model\Images.cs" />
     <Compile Include="Model\Search.cs" />
     <Compile Include="Model\Serie.cs" />
-    <Compile Include="Model\Traducao.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\frmMainViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">
@@ -236,11 +248,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -267,8 +274,14 @@
     <EmbeddedResource Include="Migrations\201507052105120_Add_Generos_e_Traducoes.resx">
       <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507062325456_Remover_Generos_Traducoes.resx">
+      <DependentUpon>201507062325456_Remover_Generos_Traducoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507062344073_Alterar_Serie_Traducoes.resx">
+      <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="MediaManager_TemporaryKey.pfx" />
@@ -283,9 +296,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -305,19 +315,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TraktLogin\TraktLogin.csproj">
-      <Project>{547463f6-3511-43ca-8151-1f6505605863}</Project>
-      <Name>TraktLogin</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\IMG_Loading.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\IMG_Gear.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="DELETE CONTENT.sql" />
+    <Resource Include="Resources\IMG_BannerDefault.png" />
+    <Resource Include="Resources\IMG_PosterDefault.png" />
+    <EmbeddedResource Include="Resources\IMG_Loading.gif" />
+    <Resource Include="Resources\IMG_Gear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -328,13 +330,6 @@ if exist "$(TargetPath)" if not exist "$(TargetPath).locked" move "$(TargetPath)
     <PostBuildEvent>if not exist "$(ProjectDir)Executavel" mkdir "$(ProjectDir)Executavel"
 copy /Y "$(TargetPath)" "$(ProjectDir)Executavel"</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Fody.1.26.1\build\Fody.targets" Condition="Exists('..\packages\Fody.1.26.1\build\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.1.26.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.26.1\build\Fody.targets'))" />
-  </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />

@@ -113,7 +113,7 @@ namespace MediaManager.Forms
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmProcurarConteudo frmProcurarConteudo = new Forms.frmProcurarConteudo(Helpers.Helper.TipoConteudo.movieShowAnime);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.TipoConteudo.movieShowAnime);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
             {

@@ -18,6 +18,10 @@ namespace MediaManager.Model
 
         public bool isAnime { get; set; }
 
+        public string Traducoes { get; set; }
+
+        public string Generos { get; set; }
+
         [JsonProperty("title")]
         public string title { get; set; }
 

@@ -82,6 +82,8 @@ namespace MediaManager.Helpers
                 Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.title));
             if (settings.pref_PastaFilmes != "")
                 filme.folderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.title));
+            filme.Traducoes = ListToString(filme.available_translations.ToList());
+            filme.Generos = ListToString(filme.genres.ToList());
             return filme;
         }
 
@@ -138,11 +140,12 @@ namespace MediaManager.Helpers
             else if (tipoConteudo == TipoConteudo.show)
             {
                 serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    Properties.Settings.Default.AppName, "Metadata", "Séries", Helpers.Helper.RetirarCaracteresInvalidos(serie.title));
+                    Properties.Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.title));
                 if (settings.pref_PastaSeries != "")
                     serie.folderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.title));
             }
-
+            serie.Traducoes = ListToString(serie.available_translations.ToList());
+            serie.Generos = ListToString(serie.genres.ToList());
             return serie;
         }
 
@@ -510,6 +513,7 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosSeries()
         {
+            // TODO Validação para quando não tem pasta nas preferências.
             DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
             return dir.GetDirectories();
         }
@@ -533,5 +537,20 @@ namespace MediaManager.Helpers
             DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
             return dir.GetDirectories();
         }
+
+        public static string ListToString(IList<string> list)
+        {
+            var s = "";
+            foreach (var item in list)
+            {
+                s += item + "|";
+            }
+            if (s != "")
+                return s.Remove(s.Length - 1);
+            else
+                return null;
+        }
     }
+
+
 }

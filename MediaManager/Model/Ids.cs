@@ -10,6 +10,14 @@ namespace MediaManager.Model
         [Key]
         public int IDIds { get; set; }
 
+        //public int? IDSerie { get; set; }
+
+        //public virtual Serie Serie { get; set; }
+
+        //public int? IDFilme { get; set; }
+
+        //public virtual Filme Filme { get; set; }
+
         [JsonProperty("trakt", NullValueHandling = NullValueHandling.Ignore)]
         public int trakt { get; set; }
 
@@ -27,5 +35,6 @@ namespace MediaManager.Model
 
         [JsonProperty("tvrage", NullValueHandling = NullValueHandling.Ignore)]
         public int tvrage { get; set; }
+
     }
 }

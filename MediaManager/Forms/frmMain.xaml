@@ -31,20 +31,17 @@
         <TabControl Name="tcPrincipal" Margin="10,30,10,10">
             <TabItem Name="tiSeries" Header="Séries">
                 <ScrollViewer Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="gridSeries" Height="Auto" Width="Auto" Background="#FFE5E5E5">
-                    </WrapPanel>
+                    <WrapPanel Name="gridSeries" Height="Auto" Width="Auto" Background="#FFE5E5E5" />
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="tiFilmes" Header="Filmes">
                 <ScrollViewer Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="gridFilmes" Height="Auto" Width="Auto" Background="#FFE5E5E5">
-                    </WrapPanel>
+                    <WrapPanel Name="gridFilmes" Height="Auto" Width="Auto" Background="#FFE5E5E5" />
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="tiAnimes" Header="Animes">
                 <ScrollViewer Name="scrollAnimes" VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="gridAnimes" Height="Auto" Width="Auto" Background="#FFE5E5E5">
-                    </WrapPanel>
+                    <WrapPanel Name="gridAnimes" Height="Auto" Width="Auto" Background="#FFE5E5E5" />                    
                 </ScrollViewer>
             </TabItem>
         </TabControl>
