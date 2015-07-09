@@ -23,7 +23,7 @@ namespace MediaManager.Forms
         public Serie Serie = new Serie();
         private Serie SerieTraduzida = new Serie();
         private Properties.Settings Settings = Properties.Settings.Default;
-        private Conteudo Conteudo;
+        private ConteudoGrid Conteudo;
 
         public frmAdicionarConteudo(Helper.TipoConteudo conteudo, List<Search> resultPesquisa)
         {
@@ -155,7 +155,7 @@ namespace MediaManager.Forms
             cboListaConteudo.SelectedIndex = 1;
         }
 
-        public frmAdicionarConteudo(Conteudo conteudo)
+        public frmAdicionarConteudo(ConteudoGrid conteudo)
         {
             InitializeComponent();
             Conteudo = conteudo;

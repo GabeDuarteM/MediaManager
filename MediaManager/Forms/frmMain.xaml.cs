@@ -1,6 +1,7 @@
 ﻿using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.View;
+using MediaManager.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,96 +21,97 @@ namespace MediaManager.Forms
         public frmMain()
         {
             InitializeComponent();
-            AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
+            DataContext = MainViewModel.Conteudos;
+            //AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
         }
 
-        public async void AtualizarGrid(Helpers.Helper.TipoConteudo tipoConteudo)
-        {
-            List<Serie> series = null;
-            List<Serie> animes = null;
-            List<Filme> filmes = null;
-            switch (tipoConteudo)
-            {
-                case Helpers.Helper.TipoConteudo.show:
-                    gridSeries.Children.Clear();
-                    series = DatabaseHelper.GetSeries();
-                    foreach (Serie serie in series)
-                    {
-                        while (!File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg")))
-                            await Task.Delay(500);
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), tipoConteudo, serie.IDSerie);
+        //public async void AtualizarGrid(Helpers.Helper.TipoConteudo tipoConteudo)
+        //{
+        //    List<Serie> series = null;
+        //    List<Serie> animes = null;
+        //    List<Filme> filmes = null;
+        //    switch (tipoConteudo)
+        //    {
+        //        case Helpers.Helper.TipoConteudo.show:
+        //            gridSeries.Children.Clear();
+        //            series = DatabaseHelper.GetSeries();
+        //            foreach (Serie serie in series)
+        //            {
+        //                while (!File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg")))
+        //                    await Task.Delay(500);
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), tipoConteudo, serie.IDSerie);
 
-                        gridSeries.Children.Add(poster);
+        //                gridSeries.Children.Add(poster);
 
-                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                    }
+        //                // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
+        //            }
 
-                    break;
+        //            break;
 
-                case Helpers.Helper.TipoConteudo.movie:
-                    gridFilmes.Children.Clear();
-                    filmes = DatabaseHelper.GetFilmes();
-                    foreach (Filme filme in filmes)
-                    {
-                        while (!File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg")))
-                            await Task.Delay(500).ConfigureAwait(false);
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), tipoConteudo, filme.IDFilme);
+        //        case Helpers.Helper.TipoConteudo.movie:
+        //            gridFilmes.Children.Clear();
+        //            filmes = DatabaseHelper.GetFilmes();
+        //            foreach (Filme filme in filmes)
+        //            {
+        //                while (!File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg")))
+        //                    await Task.Delay(500).ConfigureAwait(false);
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), tipoConteudo, filme.IDFilme);
 
-                        gridFilmes.Children.Add(poster);
+        //                gridFilmes.Children.Add(poster);
 
-                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                    }
+        //                // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
+        //            }
 
-                    break;
+        //            break;
 
-                case Helpers.Helper.TipoConteudo.anime:
-                    gridAnimes.Children.Clear();
-                    animes = DatabaseHelper.GetAnimes();
-                    foreach (Serie anime in animes)
-                    {
-                        while (!File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg")))
-                            await Task.Delay(500);
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), tipoConteudo, anime.IDSerie);
+        //        case Helpers.Helper.TipoConteudo.anime:
+        //            gridAnimes.Children.Clear();
+        //            animes = DatabaseHelper.GetAnimes();
+        //            foreach (Serie anime in animes)
+        //            {
+        //                while (!File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg")))
+        //                    await Task.Delay(500);
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), tipoConteudo, anime.IDSerie);
 
-                        gridAnimes.Children.Add(poster);
+        //                gridAnimes.Children.Add(poster);
 
-                        // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
-                    }
+        //                // TODO Ao clicar no poster abrir tela de edição frmAdicionarConteudo
+        //            }
 
-                    break;
+        //            break;
 
-                case Helpers.Helper.TipoConteudo.movieShowAnime:
-                    gridSeries.Children.Clear();
-                    gridFilmes.Children.Clear();
-                    gridAnimes.Children.Clear();
-                    series = DatabaseHelper.GetSeries();
-                    animes = DatabaseHelper.GetAnimes();
-                    filmes = DatabaseHelper.GetFilmes();
+        //        case Helpers.Helper.TipoConteudo.movieShowAnime:
+        //            gridSeries.Children.Clear();
+        //            gridFilmes.Children.Clear();
+        //            gridAnimes.Children.Clear();
+        //            series = DatabaseHelper.GetSeries();
+        //            animes = DatabaseHelper.GetAnimes();
+        //            filmes = DatabaseHelper.GetFilmes();
 
-                    foreach (Serie serie in series)
-                    {
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), Helper.TipoConteudo.show, serie.IDSerie);
+        //            foreach (Serie serie in series)
+        //            {
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(serie.metadataFolder, "poster.jpg"), Helper.TipoConteudo.show, serie.IDSerie);
 
-                        gridSeries.Children.Add(poster);
-                    }
+        //                gridSeries.Children.Add(poster);
+        //            }
 
-                    foreach (Serie anime in animes)
-                    {
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), Helper.TipoConteudo.anime, anime.IDSerie);
+        //            foreach (Serie anime in animes)
+        //            {
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(anime.metadataFolder, "poster.jpg"), Helper.TipoConteudo.anime, anime.IDSerie);
 
-                        gridAnimes.Children.Add(poster);
-                    }
+        //                gridAnimes.Children.Add(poster);
+        //            }
 
-                    foreach (Filme filme in filmes)
-                    {
-                        ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), Helper.TipoConteudo.movie, filme.IDFilme);
+        //            foreach (Filme filme in filmes)
+        //            {
+        //                ControlPoster poster = new ControlPoster(System.IO.Path.Combine(filme.metadataFolder, "poster.jpg"), Helper.TipoConteudo.movie, filme.IDFilme);
 
-                        gridFilmes.Children.Add(poster);
-                    }
+        //                gridFilmes.Children.Add(poster);
+        //            }
 
-                    break;
-            }
-        }
+        //            break;
+        //    }
+        //}
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
@@ -117,7 +119,7 @@ namespace MediaManager.Forms
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
             {
-                AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
+                //AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
             }
         }
 
@@ -160,24 +162,29 @@ namespace MediaManager.Forms
         {
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.show);
             frmPopupPesquisa.ShowDialog();
-            if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helpers.Helper.TipoConteudo.show);
+            //if (frmPopupPesquisa.DialogResult == true)
+                //AtualizarGrid(Helpers.Helper.TipoConteudo.show);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie);
             frmPopupPesquisa.ShowDialog();
-            if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
+            //if (frmPopupPesquisa.DialogResult == true)
+                //AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
         }
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.anime);
             frmPopupPesquisa.ShowDialog();
-            if (frmPopupPesquisa.DialogResult == true)
-                AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
+            //if (frmPopupPesquisa.DialogResult == true)
+            //    AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
+        }
+
+        private void ControlPoster_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
         }
     }
 }

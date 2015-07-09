@@ -11,62 +11,6 @@ namespace MediaManager.Helpers
     public class DatabaseHelper
     {
         /// <summary>
-        /// Adiciona o anime de forma assíncrona no banco.
-        /// </summary>
-        /// <param name="anime">Anime a ser adicionado.</param>
-        /// <returns>True caso o anime tenha sido adicionado com sucesso.</returns>
-        public async static Task<bool> AddAnimeAsync(Serie anime)
-        {
-            if (!System.IO.Directory.Exists(anime.metadataFolder))
-                System.IO.Directory.CreateDirectory(anime.metadataFolder);
-
-            if (anime.images.poster.medium != null)
-            {
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.medium), path);
-                    File.Move(path, path.Remove(path.Length - 5));
-                }
-            }
-            else if (anime.images.poster.thumb != null)
-            {
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.thumb), path);
-                    File.Move(path, path.Remove(path.Length - 5));
-                }
-            }
-            else if (anime.images.poster.full != null)
-            {
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
-                }
-            }
-
-            if (anime.images.banner.full != null)
-            {
-                using (System.Net.WebClient wc = new System.Net.WebClient())
-                {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "banner.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.banner.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
-                }
-            }
-
-            using (Context db = new Context())
-            {
-                db.Series.Add(anime);
-                db.SaveChanges();
-            }
-            return true;
-        }
-
-        /// <summary>
         /// Adiciona o filme de forma assíncrona no banco.
         /// </summary>
         /// <param name="filme">Filme a ser adicionado.</param>
@@ -117,6 +61,62 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 db.Filmes.Add(filme);
+                db.SaveChanges();
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Adiciona o anime de forma assíncrona no banco.
+        /// </summary>
+        /// <param name="anime">Anime a ser adicionado.</param>
+        /// <returns>True caso o anime tenha sido adicionado com sucesso.</returns>
+        public async static Task<bool> AddAnimeAsync(Serie anime)
+        {
+            if (!System.IO.Directory.Exists(anime.metadataFolder))
+                System.IO.Directory.CreateDirectory(anime.metadataFolder);
+
+            if (anime.images.poster.medium != null)
+            {
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.medium), path);
+                    File.Move(path, path.Remove(path.Length - 5));
+                }
+            }
+            else if (anime.images.poster.thumb != null)
+            {
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.thumb), path);
+                    File.Move(path, path.Remove(path.Length - 5));
+                }
+            }
+            else if (anime.images.poster.full != null)
+            {
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.full), path);
+                    File.Move(path, path.Remove(path.Length - 5));
+                }
+            }
+
+            if (anime.images.banner.full != null)
+            {
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "banner.jpg.temp");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.banner.full), path);
+                    File.Move(path, path.Remove(path.Length - 5));
+                }
+            }
+
+            using (Context db = new Context())
+            {
+                db.Series.Add(anime);
                 db.SaveChanges();
             }
             return true;
@@ -179,42 +179,37 @@ namespace MediaManager.Helpers
         }
 
         /// <summary>
-        /// Consulta todos os animes contidos no banco que tenham a id especificada.
+        /// Consulta todos os filmes contidos no banco.
         /// </summary>
-        /// <param name="IdBanco">ID do anime.</param>
-        /// <returns>Retorna o anime caso este exista no banco, ou null caso não exista.</returns>
-        internal static Serie GetAnimePorId(int IdBanco)
+        /// <returns>Retorna um List<Filme> contendo todos os filmes contidos no banco ordenados pelo título.</returns>
+        internal static List<Filme> GetFilmes()
         {
             using (Context db = new Context())
             {
-                var animes = from animeDb in db.Series.Include("Images").Include("Ids")
-                             where animeDb.isAnime && animeDb.IDSerie == IdBanco
-                             select animeDb;
-                var anime = animes.ToList()[0];
-                if (anime != null)
+                var filmes = from filme in db.Filmes.Include("Images").Include("Ids")
+                             orderby filme.title
+                             select filme;
+                var filmesList = filmes.ToList();
+                foreach (var item in filmesList)
                 {
-                    if (anime.Traducoes != null)
-                        anime.available_translations = anime.Traducoes.Split('|').ToList();
-                    if (anime.Generos != null)
-                        anime.genres = anime.Generos.Split('|').ToList();
-                    return anime;
+                    item.available_translations = item.Traducoes.Split('|').ToList();
+                    item.genres = item.Generos.Split('|').ToList();
                 }
-
-                else
-                    return null;
+                return filmesList;
             }
         }
 
         /// <summary>
         /// Consulta todos os animes contidos no banco.
         /// </summary>
-        /// <returns>Retorna um List<Serie> contendo todos os animes que tenham serie.isAnime == true</returns>
+        /// <returns>Retorna um List<Serie> contendo todos os animes que tenham serie.isAnime == true ordenados pelo título.</returns>
         internal static List<Serie> GetAnimes()
         {
             using (Context db = new Context())
             {
                 var animes = from anime in db.Series.Include("Images").Include("Ids")
                              where anime.isAnime == true
+                             orderby anime.title
                              select anime;
                 var animesList = animes.ToList();
                 foreach (var item in animesList)
@@ -225,6 +220,30 @@ namespace MediaManager.Helpers
                         item.genres = item.Generos.Split('|').ToList();
                 }
                 return animesList;
+            }
+        }
+
+        /// <summary>
+        /// Consulta todas as séries contidas no banco.
+        /// </summary>
+        /// <returns>Retorna um List<Serie> contendo todas as séries que tenham serie.isAnime == false ordenados pelo título.</returns>
+        internal static List<Serie> GetSeries()
+        {
+            using (Context db = new Context())
+            {
+                var series = from serie in db.Series.Include("Images").Include("Ids")
+                             where serie.isAnime == false
+                             orderby serie.title
+                             select serie;
+                var seriesList = series.ToList();
+                foreach (var item in seriesList)
+                {
+                    if (item.Traducoes != null)
+                        item.available_translations = item.Traducoes.Split('|').ToList();
+                    if (item.Generos != null)
+                        item.genres = item.Generos.Split('|').ToList();
+                }
+                return seriesList;
             }
         }
 
@@ -253,62 +272,29 @@ namespace MediaManager.Helpers
         }
 
         /// <summary>
-        /// Consulta todos os filmes contidos no banco.
+        /// Consulta todos os animes contidos no banco que tenham a id especificada.
         /// </summary>
-        /// <returns>Retorna um List<Filme> contendo todos os filmes contidos no banco.</returns>
-        internal static List<Filme> GetFilmes()
+        /// <param name="IdBanco">ID do anime.</param>
+        /// <returns>Retorna o anime caso este exista no banco, ou null caso não exista.</returns>
+        internal static Serie GetAnimePorId(int IdBanco)
         {
             using (Context db = new Context())
             {
-                var filmes = from filme in db.Filmes.Include("Images").Include("Ids")
-                             select filme;
-                var filmesList = filmes.ToList();
-                foreach (var item in filmesList)
+                var animes = from animeDb in db.Series.Include("Images").Include("Ids")
+                             where animeDb.isAnime && animeDb.IDSerie == IdBanco
+                             select animeDb;
+                var anime = animes.ToList()[0];
+                if (anime != null)
                 {
-                    item.available_translations = item.Traducoes.Split('|').ToList();
-                    item.genres = item.Generos.Split('|').ToList();
+                    if (anime.Traducoes != null)
+                        anime.available_translations = anime.Traducoes.Split('|').ToList();
+                    if (anime.Generos != null)
+                        anime.genres = anime.Generos.Split('|').ToList();
+                    return anime;
                 }
-                return filmesList;
-            }
-        }
 
-        /// <summary>
-        /// Pesquisa se o conteúdo ja existe no banco.
-        /// </summary>
-        /// <param name="traktId">Id do trakt</param>
-        /// <returns>Retorna true se o conteúdo for encontrado no banco</returns>
-        internal static bool VerificaSeExiste(int traktId)
-        {
-            using (Context db = new Context())
-            {
-                var ids = from id in db.Ids select id.trakt;
-                if (ids.Contains(traktId))
-                    return true;
                 else
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Pesquisa se o conteúdo ja existe no banco.
-        /// </summary>
-        /// <param name="path">Diretório do conteúdo</param>
-        /// <returns>Retorna true se o conteúdo for encontrado no banco</returns>
-        internal static bool VerificaSeExiste(string path)
-        {
-            using (Context db = new Context())
-            {
-                var series = from serie in db.Series
-                             where serie.folderPath == path
-                             select serie;
-                var filmes = from filme in db.Filmes
-                             where filme.folderPath == path
-                             select filme;
-
-                if (series.Count() > 0 || filmes.Count() > 0)
-                    return true;
-                else
-                    return false;
+                    return null;
             }
         }
 
@@ -336,108 +322,6 @@ namespace MediaManager.Helpers
                 else
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Consulta todas as séries contidas no banco.
-        /// </summary>
-        /// <returns>Retorna um List<Serie> contendo todas as séries que tenham serie.isAnime == false</returns>
-        internal static List<Serie> GetSeries()
-        {
-            using (Context db = new Context())
-            {
-                var series = from serie in db.Series.Include("Images").Include("Ids")
-                             where serie.isAnime == false
-                             select serie;
-                var seriesList = series.ToList();
-                foreach (var item in seriesList)
-                {
-                    if (item.Traducoes != null)
-                        item.available_translations = item.Traducoes.Split('|').ToList();
-                    if (item.Generos != null)
-                        item.genres = item.Generos.Split('|').ToList();
-                }
-                return seriesList;
-            }
-        }
-
-        /// <summary>
-        /// Realiza o update da série informada de forma assíncrona.
-        /// </summary>
-        /// <param name="atualizado">Série atualizada (precisa estar com o ID preenchido).</param>
-        /// <returns>Retorna true caso a operação tenha sucesso.</returns>
-        internal async static Task<bool> UpdateSerieAsync(Serie atualizado)
-        {
-            bool isDiferente = false;
-            bool retorno = false;
-            Serie original = null;
-            try
-            {
-                using (Context db = new Context())
-                {
-                    original = db.Series.Find(atualizado.IDSerie);
-
-                    if (original.title != atualizado.title)
-                        isDiferente = true;
-                    if (original != null)
-                    {
-                        db.Entry(original).CurrentValues.SetValues(atualizado);
-                        db.SaveChanges();
-                    }
-                }
-                retorno = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.InnerException);
-                return false;
-            }
-            if (isDiferente)
-            {
-                if (Directory.Exists(original.metadataFolder))
-                    File.Delete(original.metadataFolder);
-                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
-                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
-
-                if (atualizado.images.poster.medium != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
-                        File.Move(path, path.Remove(path.Length - 5));
-                    }
-                }
-                else if (atualizado.images.poster.thumb != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
-                        File.Move(path, path.Remove(path.Length - 5));
-                    }
-                }
-                else if (atualizado.images.poster.full != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
-                    }
-                }
-
-                if (atualizado.images.banner.full != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "banner.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
-                    }
-                }
-            }
-            return retorno;
         }
 
         /// <summary>
@@ -599,5 +483,123 @@ namespace MediaManager.Helpers
             return retorno;
         }
 
+        /// <summary>
+        /// Realiza o update da série informada de forma assíncrona.
+        /// </summary>
+        /// <param name="atualizado">Série atualizada (precisa estar com o ID preenchido).</param>
+        /// <returns>Retorna true caso a operação tenha sucesso.</returns>
+        internal async static Task<bool> UpdateSerieAsync(Serie atualizado)
+        {
+            bool isDiferente = false;
+            bool retorno = false;
+            Serie original = null;
+            try
+            {
+                using (Context db = new Context())
+                {
+                    original = db.Series.Find(atualizado.IDSerie);
+
+                    if (original.title != atualizado.title)
+                        isDiferente = true;
+                    if (original != null)
+                    {
+                        db.Entry(original).CurrentValues.SetValues(atualizado);
+                        db.SaveChanges();
+                    }
+                }
+                retorno = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.InnerException);
+                return false;
+            }
+            if (isDiferente)
+            {
+                if (Directory.Exists(original.metadataFolder))
+                    File.Delete(original.metadataFolder);
+                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
+                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
+
+                if (atualizado.images.poster.medium != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
+                        File.Move(path, path.Remove(path.Length - 5));
+                    }
+                }
+                else if (atualizado.images.poster.thumb != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
+                        File.Move(path, path.Remove(path.Length - 5));
+                    }
+                }
+                else if (atualizado.images.poster.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
+                        File.Move(path, path.Remove(path.Length - 5));
+                    }
+                }
+
+                if (atualizado.images.banner.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "banner.jpg.temp");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
+                        File.Move(path, path.Remove(path.Length - 5));
+                    }
+                }
+            }
+            return retorno;
+        }
+
+        /// <summary>
+        /// Pesquisa se o conteúdo ja existe no banco.
+        /// </summary>
+        /// <param name="traktId">Id do trakt</param>
+        /// <returns>Retorna true se o conteúdo for encontrado no banco</returns>
+        internal static bool VerificaSeExiste(int traktId)
+        {
+            using (Context db = new Context())
+            {
+                var ids = from id in db.Ids select id.trakt;
+                if (ids.Contains(traktId))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Pesquisa se o conteúdo ja existe no banco.
+        /// </summary>
+        /// <param name="path">Diretório do conteúdo</param>
+        /// <returns>Retorna true se o conteúdo for encontrado no banco</returns>
+        internal static bool VerificaSeExiste(string path)
+        {
+            using (Context db = new Context())
+            {
+                var series = from serie in db.Series
+                             where serie.folderPath == path
+                             select serie;
+                var filmes = from filme in db.Filmes
+                             where filme.folderPath == path
+                             select filme;
+
+                if (series.Count() > 0 || filmes.Count() > 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 }

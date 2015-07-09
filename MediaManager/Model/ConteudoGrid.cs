@@ -2,7 +2,7 @@
 
 namespace MediaManager.Model
 {
-    public class Conteudo : INotifyPropertyChanged
+    public class ConteudoGrid : INotifyPropertyChanged
     {
         private bool _isSelected;
         private string _nome;

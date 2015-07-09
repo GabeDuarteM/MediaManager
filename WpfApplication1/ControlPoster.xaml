@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="MediaManager.View.ControlPoster"
+﻿<UserControl x:Class="WpfApplication1.ControlPoster"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfApplication1"
              mc:Ignorable="d" Height="300" Width="200">
     <Grid Margin="15,15,7.5,7.5">
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
-        <Image Stretch="Fill" MouseLeftButtonUp="posterImage_MouseLeftButtonUp" Source="{Binding PosterPath}" />
+        <Image Stretch="Fill" MouseLeftButtonDown="posterImage_MouseLeftButtonUp" Source="{Binding Poster, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

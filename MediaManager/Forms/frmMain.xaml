@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
+        xmlns:local="clr-namespace:MediaManager.View"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName}" Height="759" Width="1280" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
@@ -31,7 +32,21 @@
         <TabControl Name="tcPrincipal" Margin="10,30,10,10">
             <TabItem Name="tiSeries" Header="Séries">
                 <ScrollViewer Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="gridSeries" Height="Auto" Width="Auto" Background="#FFE5E5E5" />
+                    <ItemsControl ItemsSource="{Binding }" Background="#FFE5E5E5">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl>
+                                    <local:ControlPoster MouseLeftButtonUp="ControlPoster_MouseLeftButtonUp"/>
+                                </ContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--<WrapPanel Name="gridSeries" Height="Auto" Width="Auto" Background="#FFE5E5E5" />-->
                 </ScrollViewer>
             </TabItem>
             <TabItem Name="tiFilmes" Header="Filmes">

@@ -147,11 +147,12 @@
     <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.Designer.cs">
       <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Conteudo.cs" />
+    <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
     <Compile Include="Model\Ids.cs" />
     <Compile Include="Model\Images.cs" />
+    <Compile Include="Model\PosterGrid.cs" />
     <Compile Include="Model\Search.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\Video.cs" />
@@ -161,7 +162,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\frmMainViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>

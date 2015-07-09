@@ -1,14 +1,8 @@
 ﻿using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.ViewModel;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace MediaManager.Forms
@@ -131,7 +125,7 @@ namespace MediaManager.Forms
         {
             if(dgAll.SelectedItem != null)
             {
-                Conteudo conteudo = dgAll.SelectedItem as Conteudo;
+                ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
                 frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudo);
                 frmAdicionarConteudo.ShowDialog();
                 if (frmAdicionarConteudo.DialogResult == true)
@@ -140,25 +134,25 @@ namespace MediaManager.Forms
                     {
                         case Helper.TipoConteudo.movie:
                             Filme = frmAdicionarConteudo.Filme;
-                            (dgAll.SelectedItem as Conteudo).Nome = Filme.title;
-                            (dgAll.SelectedItem as Conteudo).Pasta = Filme.folderPath;
-                            (dgAll.SelectedItem as Conteudo).TraktSlug = Filme.ids.slug;
-                            (dgAll.SelectedItem as Conteudo).IsAlterado = true;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Filme.title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Filme.folderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Filme.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             Filme = frmAdicionarConteudo.Filme;
                             break;
                         case Helper.TipoConteudo.show:
                             Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as Conteudo).Nome = Serie.title;
-                            (dgAll.SelectedItem as Conteudo).Pasta = Serie.folderPath;
-                            (dgAll.SelectedItem as Conteudo).TraktSlug = Serie.ids.slug;
-                            (dgAll.SelectedItem as Conteudo).IsAlterado = true;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.folderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             break;
                         case Helper.TipoConteudo.anime:
                             Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as Conteudo).Nome = Serie.title;
-                            (dgAll.SelectedItem as Conteudo).Pasta = Serie.folderPath;
-                            (dgAll.SelectedItem as Conteudo).TraktSlug = Serie.ids.slug;
-                            (dgAll.SelectedItem as Conteudo).IsAlterado = true;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.folderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             break;
                         default:
                             break;
