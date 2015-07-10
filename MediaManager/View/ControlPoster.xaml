@@ -8,6 +8,18 @@
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
-        <Image Stretch="Fill" MouseLeftButtonUp="posterImage_MouseLeftButtonUp" Source="{Binding PosterPath}" />
+        <TextBlock>
+            <Hyperlink Command="{Binding posterClick}" >
+                <Hyperlink.Style>
+                    <Style TargetType="Hyperlink">
+                        <Setter Property="TextDecorations" Value="{x:Null}" />
+                        <Setter Property="Cursor" Value="Arrow" />
+                    </Style>
+                </Hyperlink.Style>
+            <Image Stretch="Fill" Source="{Binding PosterPath, Mode=TwoWay}" />
+                </Hyperlink>
+        </TextBlock>
     </Grid>
 </UserControl>
+    
+    

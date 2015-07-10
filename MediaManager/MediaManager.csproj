@@ -125,6 +125,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\PosterClickCommand.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\FileSearch.cs" />
     <Compile Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs" />

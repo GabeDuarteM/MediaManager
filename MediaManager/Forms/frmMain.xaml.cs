@@ -21,8 +21,6 @@ namespace MediaManager.Forms
         public frmMain()
         {
             InitializeComponent();
-            DataContext = MainViewModel.Conteudos;
-            //AtualizarGrid(Helpers.Helper.TipoConteudo.movieShowAnime);
         }
 
         //public async void AtualizarGrid(Helpers.Helper.TipoConteudo tipoConteudo)
@@ -113,6 +111,7 @@ namespace MediaManager.Forms
         //    }
         //}
 
+        #region [ MenuItems ]
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
             frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.TipoConteudo.movieShowAnime);
@@ -163,7 +162,7 @@ namespace MediaManager.Forms
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.show);
             frmPopupPesquisa.ShowDialog();
             //if (frmPopupPesquisa.DialogResult == true)
-                //AtualizarGrid(Helpers.Helper.TipoConteudo.show);
+            //AtualizarGrid(Helpers.Helper.TipoConteudo.show);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
@@ -171,7 +170,7 @@ namespace MediaManager.Forms
             Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie);
             frmPopupPesquisa.ShowDialog();
             //if (frmPopupPesquisa.DialogResult == true)
-                //AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
+            //AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
         }
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
@@ -180,6 +179,15 @@ namespace MediaManager.Forms
             frmPopupPesquisa.ShowDialog();
             //if (frmPopupPesquisa.DialogResult == true)
             //    AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
+        }
+        #endregion
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MainViewModel mainVM = new MainViewModel();
+            gridSeries.DataContext = mainVM;
+            gridAnimes.DataContext = mainVM;
+            gridFilmes.DataContext = mainVM;
         }
 
         private void ControlPoster_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
