@@ -58,6 +58,7 @@
     <Compile Include="Commands\CustomerUpdateCommand.cs" />
     <Compile Include="ViewModels\CustomerInfoViewModel.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\CustomerInfoView.xaml.cs">
       <DependentUpon>CustomerInfoView.xaml</DependentUpon>
     </Compile>

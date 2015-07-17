@@ -4,9 +4,10 @@ using WpfApplication1.ViewModels;
 
 namespace WpfApplication1.Commands
 {
-    class CustomerUpdateCommand : ICommand
+    internal class CustomerUpdateCommand : ICommand
     {
         private CustomerViewModel _customerVM;
+
         public CustomerUpdateCommand(CustomerViewModel customerVM)
         {
             _customerVM = customerVM;

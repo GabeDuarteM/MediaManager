@@ -1,10 +1,11 @@
-﻿using MediaManager.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediaManager.Forms;
+using MediaManager.Model;
 
 namespace MediaManager.Helpers
 {
@@ -292,7 +293,6 @@ namespace MediaManager.Helpers
                         anime.genres = anime.Generos.Split('|').ToList();
                     return anime;
                 }
-
                 else
                     return null;
             }
@@ -340,7 +340,7 @@ namespace MediaManager.Helpers
                 {
                     original = db.Filmes.Find(atualizado.IDFilme);
 
-                    if (original.title != atualizado.title)
+                    if (original.ids.slug != atualizado.ids.slug)
                         isDiferente = true;
                     if (original != null)
                     {
@@ -499,8 +499,8 @@ namespace MediaManager.Helpers
                 {
                     original = db.Series.Find(atualizado.IDSerie);
 
-                    if (original.title != atualizado.title)
-                        isDiferente = true;
+                    //if (original.ids.slug != atualizado.ids.slug)
+                    isDiferente = true;
                     if (original != null)
                     {
                         db.Entry(original).CurrentValues.SetValues(atualizado);
@@ -517,7 +517,21 @@ namespace MediaManager.Helpers
             if (isDiferente)
             {
                 if (Directory.Exists(original.metadataFolder))
-                    File.Delete(original.metadataFolder);
+                {
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
+
+                    //frmMain.mainVM.Series.Clear();
+
+                    foreach (FileInfo file in metaDir.GetFiles())
+                    {
+                        //file.Delete();
+                    }
+                    foreach (DirectoryInfo dir in metaDir.GetDirectories())
+                    {
+                        //dir.Delete(true);
+                    }
+                }
+                // File.Delete(original.metadataFolder);
                 if (!System.IO.Directory.Exists(atualizado.metadataFolder))
                     System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
 
@@ -525,7 +539,7 @@ namespace MediaManager.Helpers
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
                         File.Move(path, path.Remove(path.Length - 5));
                     }

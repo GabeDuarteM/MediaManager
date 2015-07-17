@@ -1,13 +1,13 @@
-﻿using MediaManager.Helpers;
-using MediaManager.Model;
-using MediaManager.View;
-using MediaManager.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MediaManager.Helpers;
+using MediaManager.Model;
+using MediaManager.View;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -16,11 +16,16 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmMain : Window
     {
-        private static string[] allowedExtensions = { ".mkv", ".avi", ".mp4", ".flv", ".rmvb", ".rm", ".srt", ".nfo" };
+        //private static string[] allowedExtensions = { ".mkv", ".avi", ".mp4", ".flv", ".rmvb", ".rm", ".srt", ".nfo" };
+        public static MainViewModel mainVM;
 
         public frmMain()
         {
             InitializeComponent();
+
+            mainVM = new MainViewModel();
+
+            DataContext = mainVM;
         }
 
         //public async void AtualizarGrid(Helpers.Helper.TipoConteudo tipoConteudo)
@@ -112,6 +117,7 @@ namespace MediaManager.Forms
         //}
 
         #region [ MenuItems ]
+
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
             frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.TipoConteudo.movieShowAnime);
@@ -180,19 +186,7 @@ namespace MediaManager.Forms
             //if (frmPopupPesquisa.DialogResult == true)
             //    AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
         }
-        #endregion
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            MainViewModel mainVM = new MainViewModel();
-            gridSeries.DataContext = mainVM;
-            gridAnimes.DataContext = mainVM;
-            gridFilmes.DataContext = mainVM;
-        }
-
-        private void ControlPoster_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
+        #endregion [ MenuItems ]
     }
 }

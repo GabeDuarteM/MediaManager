@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
+using MediaManager.Model;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
 {
-    class PosterClickCommand : ICommand
+    public class PosterClickCommand : ICommand
     {
         private MainViewModel _mainVM;
 
@@ -26,7 +27,7 @@ namespace MediaManager.Commands
 
         public void Execute(object parameter)
         {
-            _mainVM.Salvar();
+            //_mainVM.Editar((PosterGrid)parameter);
         }
     }
 }

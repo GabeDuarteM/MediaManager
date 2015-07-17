@@ -5,7 +5,7 @@ using WpfApplication1.Views;
 
 namespace WpfApplication1.ViewModels
 {
-    class CustomerViewModel
+    internal class CustomerViewModel
     {
         public ICommand UpdateCommand { get; private set; }
 
@@ -13,10 +13,7 @@ namespace WpfApplication1.ViewModels
 
         private CustomerInfoViewModel childVM;
 
-        public Customer Customer
-        {
-            get { return _customer; }
-        }
+        public Customer Customer { get { return _customer; } }
 
         public CustomerViewModel()
         {

@@ -8,12 +8,12 @@
         xmlns:ViewModels="clr-namespace:WpfApplication1.ViewModels" x:Class="WpfApplication1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen">
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10" >
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
         <StackPanel.DataContext>
-            <ViewModels:CustomerViewModel/>
+            <ViewModels:MainViewModel />
         </StackPanel.DataContext>
         <Label Content="Nome:" />
-        <TextBox x:Name="tbxNome" Text="{Binding Customer.Nome, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="150"/>
+        <ComboBox IsEditable="True" x:Name="tbxNome" Text="{Binding Cu, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="150" />
         <Button Command="{Binding UpdateCommand}" x:Name="btSalvar" Content="Salvar" HorizontalAlignment="Right" />
     </StackPanel>
 </Window>

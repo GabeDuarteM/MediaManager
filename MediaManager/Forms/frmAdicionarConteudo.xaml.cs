@@ -1,6 +1,4 @@
-﻿using MediaManager.Helpers;
-using MediaManager.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -8,6 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using MediaManager.Helpers;
+using MediaManager.Model;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -65,7 +66,6 @@ namespace MediaManager.Forms
             TipoConteudo = conteudo;
 
             PreencherCombo();
-
         }
 
         private async void PreencherCombo()
@@ -93,6 +93,7 @@ namespace MediaManager.Forms
                         cboListaConteudo.IsEnabled = false;
                     }
                     break;
+
                 case Helper.TipoConteudo.show:
                     ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.folderPath), TipoConteudo.ToString());
                     if (ResultPesquisa.Count > 0)
@@ -114,6 +115,7 @@ namespace MediaManager.Forms
                         cboListaConteudo.IsEnabled = false;
                     }
                     break;
+
                 case Helper.TipoConteudo.anime:
                     ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.folderPath), TipoConteudo.ToString());
                     if (ResultPesquisa.Count > 0)
@@ -135,12 +137,12 @@ namespace MediaManager.Forms
                         cboListaConteudo.IsEnabled = false;
                     }
                     break;
+
                 default:
                     break;
             }
 
             cboListaConteudo.SelectionChanged += cboListaConteudo_SelectionChanged;
-
         }
 
         public frmAdicionarConteudo(Helper.TipoConteudo conteudo, Filme filme)
@@ -170,23 +172,24 @@ namespace MediaManager.Forms
                     Serie.folderPath = conteudo.Pasta;
                     PreencherCombo();
                     break;
+
                 case "Anime":
                     TipoConteudo = Helper.TipoConteudo.anime;
                     Serie.title = conteudo.Nome;
                     Serie.folderPath = conteudo.Pasta;
                     PreencherCombo();
                     break;
+
                 case "Filme":
                     TipoConteudo = Helper.TipoConteudo.movie;
                     Filme.title = conteudo.Nome;
                     Filme.folderPath = conteudo.Pasta;
                     PreencherCombo();
                     break;
+
                 default:
                     break;
             }
-
-
         }
 
         private async void AtualizarInformacoesAsync(string slugTrakt)
@@ -420,12 +423,12 @@ namespace MediaManager.Forms
             if (serie.available_translations != null && serie.available_translations.Contains(Settings.pref_IdiomaPesquisa))
             {
                 SerieTraduzida = await Helper.API_GetSerieSinopseAsync(serie.ids.slug);
-                if (SerieTraduzida.overview != null)
+                if (SerieTraduzida.overview != null && SerieTraduzida.overview != "")
                 {
                     tbxSinopse.Text = SerieTraduzida.overview;
                 }
             }
-            else if (serie.overview != null)
+            else if (SerieTraduzida.overview == "" || serie.overview != null)
             {
                 tbxSinopse.Text = serie.overview;
             }
@@ -736,6 +739,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddSerieAsync(Serie))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -744,6 +748,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateSerieAsync(Serie))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -761,6 +766,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddFilmeAsync(Filme))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -769,6 +775,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateFilmeAsync(Filme))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -786,6 +793,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddAnimeAsync(Serie))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -794,6 +802,7 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateAnimeAsync(Serie))
                     {
+                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }

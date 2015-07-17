@@ -3,23 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MediaManager.ViewModel"
              mc:Ignorable="d" Height="300" Width="200">
     <Grid Margin="15,15,7.5,7.5">
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
-        <TextBlock>
-            <Hyperlink Command="{Binding posterClick}" >
-                <Hyperlink.Style>
-                    <Style TargetType="Hyperlink">
-                        <Setter Property="TextDecorations" Value="{x:Null}" />
-                        <Setter Property="Cursor" Value="Arrow" />
-                    </Style>
-                </Hyperlink.Style>
-            <Image Stretch="Fill" Source="{Binding PosterPath, Mode=TwoWay}" />
-                </Hyperlink>
-        </TextBlock>
+        <Image Name="imgPoster" Stretch="Fill" Source="{Binding PosterPath, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MouseLeftButtonUp="posterImage_MouseLeftButtonUp" />
     </Grid>
 </UserControl>
-    
-    

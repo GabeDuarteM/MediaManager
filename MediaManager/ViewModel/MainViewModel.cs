@@ -7,9 +7,9 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    internal class MainViewModel
+    public class MainViewModel
     {
-        public ICommand SalvarCommand { get; private set; }
+        public ICommand EditarCommand { get; private set; }
 
         public ObservableCollection<PosterGrid> Series { get; set; }
 
@@ -18,6 +18,11 @@ namespace MediaManager.ViewModel
         public ObservableCollection<PosterGrid> Filmes { get; set; }
 
         public MainViewModel()
+        {
+            Load();
+        }
+
+        public void Load()
         {
             ObservableCollection<PosterGrid> series = new ObservableCollection<PosterGrid>();
 
@@ -55,14 +60,6 @@ namespace MediaManager.ViewModel
             Series = series;
             Animes = animes;
             Filmes = filmes;
-
-            SalvarCommand = new PosterClickCommand(this);
-
-        }
-
-        public void Salvar()
-        {
-
         }
     }
 }

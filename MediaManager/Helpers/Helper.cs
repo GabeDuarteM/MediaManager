@@ -153,6 +153,8 @@ namespace MediaManager.Helpers
         {
             string responseData = "";
 
+            List<Serie> series = new List<Serie>();
+
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
@@ -164,7 +166,8 @@ namespace MediaManager.Helpers
                     responseData = await response.Content.ReadAsStringAsync();
                 }
             }
-            return JsonConvert.DeserializeObject<List<Serie>>(responseData)[0];
+            series = JsonConvert.DeserializeObject<List<Serie>>(responseData);
+            return (series.Count > 0) ? series[0] : new Serie(); ;
         }
 
         /// <summary>

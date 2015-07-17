@@ -5,7 +5,7 @@
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:local="clr-namespace:MediaManager.View"
         xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" x:Class="MediaManager.Forms.frmMain"
-        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -33,10 +33,7 @@
         <TabControl x:Name="tcPrincipal" Margin="10,30,10,10">
             <TabItem x:Name="tiSeries" Header="Séries">
                 <ScrollViewer x:Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding Series}" Background="#FFE5E5E5">
-                        <ItemsControl.DataContext>
-                            <ViewModel:MainViewModel/>
-                        </ItemsControl.DataContext>
+                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding Series, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FFE5E5E5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -45,7 +42,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <local:ControlPoster />
+                                    <local:ControlPoster IdBanco="{Binding IdBanco, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TipoConteudo="{Binding TipoConteudo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -55,9 +52,6 @@
             <TabItem x:Name="tiFilmes" Header="Filmes">
                 <ScrollViewer x:Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
                     <ItemsControl x:Name="gridFilmes" ItemsSource="{Binding Filmes}" Background="#FFE5E5E5">
-                        <ItemsControl.DataContext>
-                            <ViewModel:MainViewModel />
-                        </ItemsControl.DataContext>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -66,7 +60,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <local:ControlPoster MouseLeftButtonUp="ControlPoster_MouseLeftButtonUp"/>
+                                    <local:ControlPoster MouseLeftButtonUp="ControlPoster_MouseLeftButtonUp" />
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -84,7 +78,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <local:ControlPoster MouseLeftButtonUp="ControlPoster_MouseLeftButtonUp"/>
+                                    <local:ControlPoster />
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
