@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -7,13 +8,41 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<PosterViewModel> Series { get; set; }
+        private ObservableCollection<PosterViewModel> _series;
+        private ObservableCollection<PosterViewModel> _animes;
+        private ObservableCollection<PosterViewModel> _filmes;
 
-        public ObservableCollection<PosterGrid> Animes { get; set; }
+        public ObservableCollection<PosterViewModel> Filmes
+        {
+            get { return _filmes; }
+            set
+            {
+                _filmes = value;
+                OnPropertyChanged("Filmes");
+            }
+        }
 
-        public ObservableCollection<PosterGrid> Filmes { get; set; }
+        public ObservableCollection<PosterViewModel> Animes
+        {
+            get { return _animes; }
+            set
+            {
+                _animes = value;
+                OnPropertyChanged("Animes");
+            }
+        }
+
+        public ObservableCollection<PosterViewModel> Series
+        {
+            get { return _series; }
+            set
+            {
+                _series = value;
+                OnPropertyChanged("Series");
+            }
+        }
 
         public MainViewModel()
         {
@@ -22,11 +51,9 @@ namespace MediaManager.ViewModel
 
         public void Load()
         {
-            ObservableCollection<PosterViewModel> series = new ObservableCollection<PosterViewModel>();
-
-            ObservableCollection<PosterGrid> animes = new ObservableCollection<PosterGrid>();
-
-            ObservableCollection<PosterGrid> filmes = new ObservableCollection<PosterGrid>();
+            _series = new ObservableCollection<PosterViewModel>();
+            _animes = new ObservableCollection<PosterViewModel>();
+            _filmes = new ObservableCollection<PosterViewModel>();
 
             var seriesDB = DatabaseHelper.GetSeries();
             var animesDB = DatabaseHelper.GetAnimes();
@@ -40,26 +67,46 @@ namespace MediaManager.ViewModel
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDSerie, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.show };
                 PosterViewModel posterVM = new PosterViewModel();
                 posterVM.Poster = pg;
-                series.Add(posterVM);
+                _series.Add(posterVM);
             }
 
             foreach (var item in animesDB)
             {
                 var path = Path.Combine(item.metadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDSerie, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.anime };
-                animes.Add(pg);
+                PosterViewModel posterVM = new PosterViewModel();
+                posterVM.Poster = pg;
+                _animes.Add(posterVM);
             }
 
             foreach (var item in filmesDB)
             {
                 var path = Path.Combine(item.metadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDFilme, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.movie };
-                filmes.Add(pg);
+                PosterViewModel posterVM = new PosterViewModel();
+                posterVM.Poster = pg;
+                _filmes.Add(posterVM);
             }
 
-            Series = series;
-            Animes = animes;
-            Filmes = filmes;
+            Series = _series;
+            Animes = _animes;
+            Filmes = _filmes;
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion INotifyPropertyChanged Members
     }
 }

@@ -21,31 +21,28 @@ namespace MediaManager.Helpers
             if (!System.IO.Directory.Exists(filme.metadataFolder))
                 System.IO.Directory.CreateDirectory(filme.metadataFolder);
 
-            if (filme.images.poster.medium != null)
+            if (filme.images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.medium), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.thumb), path);
                 }
             }
-            else if (filme.images.poster.thumb != null)
+            else if (filme.images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.thumb), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.medium), path);
                 }
             }
             else if (filme.images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg.temp");
+                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -53,9 +50,8 @@ namespace MediaManager.Helpers
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "banner.jpg.temp");
+                    var path = System.IO.Path.Combine(filme.metadataFolder, "banner.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(filme.images.banner.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -77,31 +73,28 @@ namespace MediaManager.Helpers
             if (!System.IO.Directory.Exists(anime.metadataFolder))
                 System.IO.Directory.CreateDirectory(anime.metadataFolder);
 
-            if (anime.images.poster.medium != null)
+            if (anime.images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.medium), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.thumb), path);
                 }
             }
-            else if (anime.images.poster.thumb != null)
+            else if (anime.images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.thumb), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.medium), path);
                 }
             }
             else if (anime.images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg.temp");
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -109,9 +102,8 @@ namespace MediaManager.Helpers
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "banner.jpg.temp");
+                    var path = System.IO.Path.Combine(anime.metadataFolder, "banner.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(anime.images.banner.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -133,31 +125,28 @@ namespace MediaManager.Helpers
             if (!System.IO.Directory.Exists(serie.metadataFolder))
                 System.IO.Directory.CreateDirectory(serie.metadataFolder);
 
-            if (serie.images.poster.medium != null)
+            if (serie.images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.medium), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.thumb), path);
                 }
             }
-            else if (serie.images.poster.thumb != null)
+            else if (serie.images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg.temp");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.thumb), path);
-                    File.Move(path, path.Remove(path.Length - 5));
+                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.medium), path);
                 }
             }
             else if (serie.images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg.temp");
+                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -165,9 +154,8 @@ namespace MediaManager.Helpers
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "banner.jpg.temp");
+                    var path = System.IO.Path.Combine(serie.metadataFolder, "banner.jpg");
                     await wc.DownloadFileTaskAsync(new Uri(serie.images.banner.full), path);
-                    File.Move(path, path.Remove(path.Length - 5));
                 }
             }
 
@@ -344,7 +332,11 @@ namespace MediaManager.Helpers
                         isDiferente = true;
                     if (original != null)
                     {
+                        atualizado.images.IDImages = original.images.IDImages;
+                        atualizado.ids.IDIds = original.ids.IDIds;
                         db.Entry(original).CurrentValues.SetValues(atualizado);
+                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
+                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
                         db.SaveChanges();
                     }
                 }
@@ -359,35 +351,45 @@ namespace MediaManager.Helpers
             if (isDiferente)
             {
                 if (Directory.Exists(original.metadataFolder))
-                    File.Delete(original.metadataFolder);
-                if (!Directory.Exists(atualizado.metadataFolder))
-                    Directory.CreateDirectory(atualizado.metadataFolder);
+                {
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
 
-                if (atualizado.images.poster.medium != null)
+                    foreach (FileInfo file in metaDir.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                    foreach (DirectoryInfo dir in metaDir.GetDirectories())
+                    {
+                        dir.Delete(true);
+                    }
+                    Directory.Delete(metaDir.FullName);
+                }
+
+                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
+                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
+
+                if (atualizado.images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.thumb != null)
+                else if (atualizado.images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
                     }
                 }
                 else if (atualizado.images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
 
@@ -395,9 +397,8 @@ namespace MediaManager.Helpers
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
             }
@@ -424,7 +425,11 @@ namespace MediaManager.Helpers
                         isDiferente = true;
                     if (original != null)
                     {
+                        atualizado.images.IDImages = original.images.IDImages;
+                        atualizado.ids.IDIds = original.ids.IDIds;
                         db.Entry(original).CurrentValues.SetValues(atualizado);
+                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
+                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
                         db.SaveChanges();
                     }
                 }
@@ -438,35 +443,45 @@ namespace MediaManager.Helpers
             if (isDiferente)
             {
                 if (Directory.Exists(original.metadataFolder))
-                    File.Delete(original.metadataFolder);
+                {
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
+
+                    foreach (FileInfo file in metaDir.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                    foreach (DirectoryInfo dir in metaDir.GetDirectories())
+                    {
+                        dir.Delete(true);
+                    }
+                    Directory.Delete(metaDir.FullName);
+                }
+
                 if (!System.IO.Directory.Exists(atualizado.metadataFolder))
                     System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
 
-                if (atualizado.images.poster.medium != null)
+                if (atualizado.images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.thumb != null)
+                else if (atualizado.images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
                     }
                 }
                 else if (atualizado.images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
 
@@ -474,9 +489,8 @@ namespace MediaManager.Helpers
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "banner.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
             }
@@ -499,11 +513,15 @@ namespace MediaManager.Helpers
                 {
                     original = db.Series.Find(atualizado.IDSerie);
 
-                    //if (original.ids.slug != atualizado.ids.slug)
-                    isDiferente = true;
+                    if (original.ids.slug != atualizado.ids.slug)
+                        isDiferente = true;
                     if (original != null)
                     {
+                        atualizado.images.IDImages = original.images.IDImages;
+                        atualizado.ids.IDIds = original.ids.IDIds;
                         db.Entry(original).CurrentValues.SetValues(atualizado);
+                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
+                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
                         db.SaveChanges();
                     }
                 }
@@ -520,46 +538,42 @@ namespace MediaManager.Helpers
                 {
                     System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
 
-                    //frmMain.mainVM.Series.Clear();
-
                     foreach (FileInfo file in metaDir.GetFiles())
                     {
-                        //file.Delete();
+                        file.Delete();
                     }
                     foreach (DirectoryInfo dir in metaDir.GetDirectories())
                     {
-                        //dir.Delete(true);
+                        dir.Delete(true);
                     }
+                    Directory.Delete(metaDir.FullName);
                 }
-                // File.Delete(original.metadataFolder);
+
                 if (!System.IO.Directory.Exists(atualizado.metadataFolder))
                     System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
 
-                if (atualizado.images.poster.medium != null)
+                if (atualizado.images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.thumb != null)
+                else if (atualizado.images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
-                        File.Move(path, path.Remove(path.Length - 5));
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
                     }
                 }
                 else if (atualizado.images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "poster.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
 
@@ -567,9 +581,8 @@ namespace MediaManager.Helpers
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = System.IO.Path.Combine(atualizado.metadataFolder, "banner.jpg.temp");
+                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
                         await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
-                        File.Move(path, path.Remove(path.Length - 5));
                     }
                 }
             }

@@ -1,7 +1,4 @@
-﻿using MediaManager.Model;
-using MediaManager.Properties;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +6,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MediaManager.Model;
+using MediaManager.Properties;
+using Newtonsoft.Json;
 
 namespace MediaManager.Helpers
 {
@@ -554,6 +554,4 @@ namespace MediaManager.Helpers
                 return null;
         }
     }
-
-
 }

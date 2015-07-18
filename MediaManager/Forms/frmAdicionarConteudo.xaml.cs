@@ -28,7 +28,6 @@ namespace MediaManager.Forms
 
         public frmAdicionarConteudo(Helper.TipoConteudo conteudo, List<Search> resultPesquisa)
         {
-            // TODO Arrumar imagem da engrenagem que não aparece.
             InitializeComponent();
 
             ResultPesquisa = resultPesquisa;
@@ -73,7 +72,7 @@ namespace MediaManager.Forms
             switch (TipoConteudo)
             {
                 case Helper.TipoConteudo.movie:
-                    ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetDirectoryName(Filme.folderPath), TipoConteudo.ToString());
+                    ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Filme.folderPath), TipoConteudo.ToString());
                     if (ResultPesquisa.Count > 0)
                     {
                         foreach (var item in ResultPesquisa)
@@ -152,9 +151,7 @@ namespace MediaManager.Forms
             Filme = filme;
             TipoConteudo = conteudo;
 
-            cboListaConteudo.Items.Add(filme.title);
-            cboListaConteudo.IsEnabled = false;
-            cboListaConteudo.SelectedIndex = 1;
+            PreencherCombo();
         }
 
         public frmAdicionarConteudo(ConteudoGrid conteudo)
@@ -739,7 +736,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddSerieAsync(Serie))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -748,7 +744,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateSerieAsync(Serie))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -766,7 +761,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddFilmeAsync(Filme))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -775,7 +769,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateFilmeAsync(Filme))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -793,7 +786,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.AddAnimeAsync(Serie))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
@@ -802,7 +794,6 @@ namespace MediaManager.Forms
                 {
                     if (await DatabaseHelper.UpdateAnimeAsync(Serie))
                     {
-                        frmMain.mainVM.Load();
                         DialogResult = true;
                         Close();
                     }
