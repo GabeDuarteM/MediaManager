@@ -2,7 +2,7 @@
 
 namespace WpfApplication1.Models
 {
-    class Customer : INotifyPropertyChanged, IDataErrorInfo
+    internal class Customer : INotifyPropertyChanged, IDataErrorInfo
     {
         private string _nome;
 
@@ -35,9 +35,10 @@ namespace WpfApplication1.Models
             }
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged Members
 
         #region IDataErrorInfo Members
+
         public string this[string columnName]
         {
             get
@@ -58,7 +59,7 @@ namespace WpfApplication1.Models
         }
 
         public string Error { get; private set; }
-        #endregion
 
+        #endregion IDataErrorInfo Members
     }
 }

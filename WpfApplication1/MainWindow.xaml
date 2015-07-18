@@ -13,7 +13,7 @@
             <ViewModels:MainViewModel />
         </StackPanel.DataContext>
         <Label Content="Nome:" />
-        <ComboBox IsEditable="True" x:Name="tbxNome" Text="{Binding Cu, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="150" />
+        <ComboBox IsEditable="True" x:Name="tbxNome" Text="{Binding C, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="150" />
         <Button Command="{Binding UpdateCommand}" x:Name="btSalvar" Content="Salvar" HorizontalAlignment="Right" />
     </StackPanel>
 </Window>

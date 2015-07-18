@@ -33,7 +33,10 @@
         <TabControl x:Name="tcPrincipal" Margin="10,30,10,10">
             <TabItem x:Name="tiSeries" Header="Séries">
                 <ScrollViewer x:Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding Series, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="#FFE5E5E5">
+                    <!--<ScrollViewer.DataContext>
+                        <ViewModel:MainViewModel />
+                    </ScrollViewer.DataContext>-->
+                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding Series}" Background="#FFE5E5E5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -42,7 +45,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <local:ControlPoster IdBanco="{Binding IdBanco, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TipoConteudo="{Binding TipoConteudo, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    <local:ControlPoster />
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -60,7 +63,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ContentControl>
-                                    <local:ControlPoster MouseLeftButtonUp="ControlPoster_MouseLeftButtonUp" />
+                                    <local:ControlPoster />
                                 </ContentControl>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

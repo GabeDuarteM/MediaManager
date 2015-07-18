@@ -9,6 +9,10 @@
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
-        <Image Name="imgPoster" Stretch="Fill" Source="{Binding PosterPath, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MouseLeftButtonUp="posterImage_MouseLeftButtonUp" />
+        <TextBlock>
+            <Hyperlink TextDecorations="None" Cursor="Arrow" Command="{Binding AbrirEdicaoCommand}">
+                <Image Name="imgPoster" Stretch="Fill" Source="{Binding Poster.PosterPath}" />
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 </UserControl>

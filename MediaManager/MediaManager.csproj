@@ -125,7 +125,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\PosterClickCommand.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\FileSearch.cs" />
     <Compile Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs" />
@@ -163,7 +162,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Commands\EdicaoPosterCommand.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PosterViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>

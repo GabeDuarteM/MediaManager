@@ -9,9 +9,7 @@ namespace MediaManager.ViewModel
 {
     public class MainViewModel
     {
-        public ICommand EditarCommand { get; private set; }
-
-        public ObservableCollection<PosterGrid> Series { get; set; }
+        public ObservableCollection<PosterViewModel> Series { get; set; }
 
         public ObservableCollection<PosterGrid> Animes { get; set; }
 
@@ -24,7 +22,7 @@ namespace MediaManager.ViewModel
 
         public void Load()
         {
-            ObservableCollection<PosterGrid> series = new ObservableCollection<PosterGrid>();
+            ObservableCollection<PosterViewModel> series = new ObservableCollection<PosterViewModel>();
 
             ObservableCollection<PosterGrid> animes = new ObservableCollection<PosterGrid>();
 
@@ -40,7 +38,9 @@ namespace MediaManager.ViewModel
             {
                 var path = Path.Combine(item.metadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDSerie, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.show };
-                series.Add(pg);
+                PosterViewModel posterVM = new PosterViewModel();
+                posterVM.Poster = pg;
+                series.Add(posterVM);
             }
 
             foreach (var item in animesDB)
