@@ -1,94 +1,116 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MediaManager.Model
 {
     [Table("Series")]
     public class Serie : Video
     {
+        private string _title;
+        private string _folderPath;
+        private string _overview;
+        private Images _images;
+
         [Key]
         public int IDSerie { get; set; }
 
-        public string metadataFolder { get; set; }
+        [JsonProperty("title")]
+        public string Title { get { return _title; } set { _title = value; OnPropertyChanged("Title"); } }
 
-        public string folderPath { get; set; }
+        public string FolderPath { get { return _folderPath; } set { _folderPath = value; OnPropertyChanged("FolderPath"); } }
 
-        public bool isAnime { get; set; }
+        [JsonProperty("images")]
+        public virtual Images Images { get { return _images; } set { _images = value; OnPropertyChanged("Images"); } }
+
+        [JsonProperty("overview")]
+        public string Overview { get { return _overview; } set { _overview = value; OnPropertyChanged("Overview"); } }
+
+        public string MetadataFolder { get; set; }
+
+        public bool IsAnime { get; set; }
 
         public string Traducoes { get; set; }
 
         public string Generos { get; set; }
 
-        [JsonProperty("title")]
-        public string title { get; set; }
-
         [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
-        public int year { get; set; }
+        public int Year { get; set; }
 
         [JsonProperty("ids")]
-        public virtual Ids ids { get; set; }
-
-        [JsonProperty("overview")]
-        public string overview { get; set; }
+        public virtual Ids Ids { get; set; }
 
         [JsonProperty("first_aired", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? first_aired { get; set; }
+        public DateTime? FirstAired { get; set; }
 
         [JsonProperty("runtime", NullValueHandling = NullValueHandling.Ignore)]
-        public int runtime { get; set; }
+        public int Runtime { get; set; }
 
         [JsonProperty("certification")]
-        public string certification { get; set; }
+        public string Certification { get; set; }
 
         [JsonProperty("network")]
-        public string network { get; set; }
+        public string Network { get; set; }
 
         [JsonProperty("country")]
-        public string country { get; set; }
+        public string Country { get; set; }
 
         [JsonProperty("trailer")]
-        public object trailer { get; set; }
+        public object Trailer { get; set; }
 
         [JsonProperty("homepage")]
-        public object homepage { get; set; }
+        public object Homepage { get; set; }
 
         [JsonProperty("status")]
-        public string status { get; set; }
+        public string Status { get; set; }
 
         [JsonProperty("rating", NullValueHandling = NullValueHandling.Ignore)]
-        public double rating { get; set; }
+        public double Rating { get; set; }
 
         [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
-        public int votes { get; set; }
+        public int Votes { get; set; }
 
         [JsonProperty("updated_at", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? updated_at { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonProperty("language")]
-        public string language { get; set; }
+        public string Language { get; set; }
 
         [JsonProperty("available_translations")]
-        public IList<string> available_translations { get; set; }
+        public IList<string> AvailableTranslations { get; set; }
 
         [JsonProperty("genres")]
-        public IList<string> genres { get; set; }
+        public IList<string> Genres { get; set; }
 
         [JsonProperty("aired_episodes", NullValueHandling = NullValueHandling.Ignore)]
-        public int aired_episodes { get; set; }
-
-        [JsonProperty("images")]
-        public virtual Images images { get; set; }
+        public int AiredEpisodes { get; set; }
 
         [JsonProperty("day")]
-        public string airDay { get; set; }
+        public string AirDay { get; set; }
 
         [JsonProperty("time")]
-        public string airTime { get; set; }
+        public string AirTime { get; set; }
 
         [JsonProperty("timezone")]
-        public string airTimezone { get; set; }
+        public string AirTimezone { get; set; }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion INotifyPropertyChanged Members
     }
 }

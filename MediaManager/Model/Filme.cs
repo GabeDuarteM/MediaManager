@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MediaManager.Model
 {
@@ -12,63 +13,79 @@ namespace MediaManager.Model
         [Key]
         public int IDFilme { get; set; }
 
-        public string metadataFolder { get; set; }
+        [JsonProperty("title")]
+        public string Title { get; set; }
 
-        public string folderPath { get; set; }
+        public string FolderPath { get; set; }
+
+        [JsonProperty("images")]
+        public virtual Images Images { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
+
+        public string MetadataFolder { get; set; }
 
         public string Generos { get; set; }
 
         public string Traducoes { get; set; }
 
-        [JsonProperty("title")]
-        public string title { get; set; }
-
         [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
-        public int year { get; set; }
+        public int Year { get; set; }
 
         [JsonProperty("ids")]
-        public virtual Ids ids { get; set; }
+        public virtual Ids Ids { get; set; }
 
         [JsonProperty("tagline")]
-        public string tagline { get; set; }
-
-        [JsonProperty("overview")]
-        public string overview { get; set; }
+        public string Tagline { get; set; }
 
         [JsonProperty("released")]
-        public string released { get; set; }
+        public string Released { get; set; }
 
         [JsonProperty("runtime", NullValueHandling = NullValueHandling.Ignore)]
-        public int runtime { get; set; }
+        public int Runtime { get; set; }
 
         [JsonProperty("trailer", NullValueHandling = NullValueHandling.Ignore)]
-        public object trailer { get; set; }
+        public object Trailer { get; set; }
 
         [JsonProperty("homepage", NullValueHandling = NullValueHandling.Ignore)]
-        public object homepage { get; set; }
+        public object Homepage { get; set; }
 
         [JsonProperty("rating", NullValueHandling = NullValueHandling.Ignore)]
-        public double rating { get; set; }
+        public double Rating { get; set; }
 
         [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
-        public int votes { get; set; }
+        public int Votes { get; set; }
 
         [JsonProperty("updated_at", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime updated_at { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         [JsonProperty("language")]
-        public string language { get; set; }
+        public string Language { get; set; }
 
         [JsonProperty("available_translations", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> available_translations { get; set; }
+        public IList<string> AvailableTranslations { get; set; }
 
         [JsonProperty("genres", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> genres { get; set; }
+        public IList<string> Genres { get; set; }
 
         [JsonProperty("certification")]
-        public string certification { get; set; }
+        public string Certification { get; set; }
 
-        [JsonProperty("images")]
-        public virtual Images images { get; set; }
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion INotifyPropertyChanged Members
     }
 }

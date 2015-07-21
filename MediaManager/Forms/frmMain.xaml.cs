@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using MediaManager.Helpers;
-using MediaManager.Model;
-using MediaManager.View;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
@@ -17,7 +11,7 @@ namespace MediaManager.Forms
     public partial class frmMain : Window
     {
         //private static string[] allowedExtensions = { ".mkv", ".avi", ".mp4", ".flv", ".rmvb", ".rm", ".srt", ".nfo" };
-        public MainViewModel mainVM;
+        private MainViewModel mainVM;
 
         public frmMain()
         {
@@ -30,6 +24,32 @@ namespace MediaManager.Forms
 
         #region [ MenuItems ]
 
+        private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.anime, false);
+            frmPopupPesquisa.ShowDialog();
+        }
+
+        private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie, false);
+            frmPopupPesquisa.ShowDialog();
+        }
+
+        private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
+        {
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.TipoConteudo.show);
+            frmAdicionarConteudo.ShowDialog();
+            //frmPopupPesquisa frmPopupPesquisa = new frmPopupPesquisa(Helper.TipoConteudo.show, false);
+            //frmPopupPesquisa.ShowDialog();
+        }
+
+        private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.frmPreferencias frmPreferencias = new Forms.frmPreferencias();
+            frmPreferencias.ShowDialog();
+        }
+
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
             frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.TipoConteudo.movieShowAnime);
@@ -40,15 +60,9 @@ namespace MediaManager.Forms
             }
         }
 
-        private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
+        private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movieShowAnime);
-            frmRenomear.ShowDialog();
-        }
-
-        private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.show);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.anime);
             frmRenomear.ShowDialog();
         }
 
@@ -58,45 +72,21 @@ namespace MediaManager.Forms
             frmRenomear.ShowDialog();
         }
 
-        private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
+        private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.anime);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.show);
             frmRenomear.ShowDialog();
         }
 
-        private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
+        private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPreferencias frmPreferencias = new Forms.frmPreferencias();
-            frmPreferencias.ShowDialog();
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movieShowAnime);
+            frmRenomear.ShowDialog();
         }
 
         private void menuItSair_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
-        }
-
-        private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.show);
-            frmPopupPesquisa.ShowDialog();
-            //if (frmPopupPesquisa.DialogResult == true)
-            //AtualizarGrid(Helpers.Helper.TipoConteudo.show);
-        }
-
-        private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie);
-            frmPopupPesquisa.ShowDialog();
-            //if (frmPopupPesquisa.DialogResult == true)
-            //AtualizarGrid(Helpers.Helper.TipoConteudo.movie);
-        }
-
-        private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.anime);
-            frmPopupPesquisa.ShowDialog();
-            //if (frmPopupPesquisa.DialogResult == true)
-            //    AtualizarGrid(Helpers.Helper.TipoConteudo.anime);
         }
 
         #endregion [ MenuItems ]

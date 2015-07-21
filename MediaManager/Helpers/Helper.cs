@@ -78,12 +78,12 @@ namespace MediaManager.Helpers
             }
             filme = JsonConvert.DeserializeObject<Filme>(responseData);
             var traducoes = new { available_translations = JsonConvert.DeserializeObject(responseData) };
-            filme.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.title));
+            filme.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.Title));
             if (settings.pref_PastaFilmes != "")
-                filme.folderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.title));
-            filme.Traducoes = ListToString(filme.available_translations.ToList());
-            filme.Generos = ListToString(filme.genres.ToList());
+                filme.FolderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.Title));
+            filme.Traducoes = ListToString(filme.AvailableTranslations.ToList());
+            filme.Generos = ListToString(filme.Genres.ToList());
             return filme;
         }
 
@@ -131,21 +131,21 @@ namespace MediaManager.Helpers
 
             if (tipoConteudo == TipoConteudo.anime)
             {
-                serie.isAnime = true;
-                serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    Properties.Settings.Default.AppName, "Metadata", "Animes", Helpers.Helper.RetirarCaracteresInvalidos(serie.title));
+                serie.IsAnime = true;
+                serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Properties.Settings.Default.AppName, "Metadata", "Animes", Helpers.Helper.RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaAnimes != "")
-                    serie.folderPath = System.IO.Path.Combine(settings.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(serie.title));
+                    serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(serie.Title));
             }
             else if (tipoConteudo == TipoConteudo.show)
             {
-                serie.metadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    Properties.Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.title));
+                serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Properties.Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaSeries != "")
-                    serie.folderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.title));
+                    serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.Title));
             }
-            serie.Traducoes = ListToString(serie.available_translations.ToList());
-            serie.Generos = ListToString(serie.genres.ToList());
+            serie.Traducoes = ListToString(serie.AvailableTranslations.ToList());
+            serie.Generos = ListToString(serie.Genres.ToList());
             return serie;
         }
 

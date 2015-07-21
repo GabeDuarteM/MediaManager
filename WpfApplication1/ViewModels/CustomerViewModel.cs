@@ -7,28 +7,15 @@ namespace WpfApplication1.ViewModels
 {
     internal class CustomerViewModel
     {
-        public ICommand UpdateCommand { get; private set; }
-
         private Customer _customer;
 
         private CustomerInfoViewModel childVM;
-
-        public Customer Customer { get { return _customer; } }
 
         public CustomerViewModel()
         {
             _customer = new Customer("Gabriel");
             childVM = new CustomerInfoViewModel();
             UpdateCommand = new CustomerUpdateCommand(this);
-        }
-
-        public void Save()
-        {
-            CustomerInfoView view = new CustomerInfoView();
-            view.DataContext = childVM;
-
-            childVM.Info = Customer.Nome + " foi atualizado.";
-            view.ShowDialog();
         }
 
         public bool CanUpdate
@@ -41,6 +28,19 @@ namespace WpfApplication1.ViewModels
                 }
                 return !string.IsNullOrWhiteSpace(Customer.Nome);
             }
+        }
+
+        public Customer Customer { get { return _customer; } }
+
+        public ICommand UpdateCommand { get; private set; }
+
+        public void Save()
+        {
+            CustomerInfoView view = new CustomerInfoView();
+            view.DataContext = childVM;
+
+            childVM.Info = Customer.Nome + " foi atualizado.";
+            view.ShowDialog();
         }
     }
 }

@@ -125,6 +125,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Forms\InputMessageBox.xaml.cs">
+      <DependentUpon>InputMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\FileSearch.cs" />
     <Compile Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs" />
@@ -147,6 +150,10 @@
     <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.Designer.cs">
       <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507182203248_AjusteNomesMaiusculos.cs" />
+    <Compile Include="Migrations\201507182203248_AjusteNomesMaiusculos.Designer.cs">
+      <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
@@ -163,6 +170,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Commands\EdicaoPosterCommand.cs" />
+    <Compile Include="ViewModel\AdicionarConteudoViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PosterViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
@@ -196,6 +204,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Settings.cs" />
+    <Page Include="Forms\InputMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ControlPoster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -283,6 +295,9 @@
     <EmbeddedResource Include="Migrations\201507062344073_Alterar_Serie_Traducoes.resx">
       <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507182203248_AjusteNomesMaiusculos.resx">
+      <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -319,6 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DELETE CONTENT.sql" />
+    <Resource Include="Resources\IMG_FanartDefault.png" />
     <Resource Include="Resources\IMG_BannerDefault.png" />
     <Resource Include="Resources\IMG_PosterDefault.png" />
     <EmbeddedResource Include="Resources\IMG_Loading.gif" />

@@ -63,7 +63,7 @@ namespace MediaManager.ViewModel
 
             foreach (var item in seriesDB)
             {
-                var path = Path.Combine(item.metadataFolder, "poster.jpg");
+                var path = Path.Combine(item.MetadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDSerie, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.show };
                 PosterViewModel posterVM = new PosterViewModel();
                 posterVM.Poster = pg;
@@ -72,7 +72,7 @@ namespace MediaManager.ViewModel
 
             foreach (var item in animesDB)
             {
-                var path = Path.Combine(item.metadataFolder, "poster.jpg");
+                var path = Path.Combine(item.MetadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDSerie, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.anime };
                 PosterViewModel posterVM = new PosterViewModel();
                 posterVM.Poster = pg;
@@ -81,7 +81,7 @@ namespace MediaManager.ViewModel
 
             foreach (var item in filmesDB)
             {
-                var path = Path.Combine(item.metadataFolder, "poster.jpg");
+                var path = Path.Combine(item.MetadataFolder, "poster.jpg");
                 PosterGrid pg = new PosterGrid() { IdBanco = item.IDFilme, PosterPath = File.Exists(path) ? path : pack, TipoConteudo = Helper.TipoConteudo.movie };
                 PosterViewModel posterVM = new PosterViewModel();
                 posterVM.Poster = pg;

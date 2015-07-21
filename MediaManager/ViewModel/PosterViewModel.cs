@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
-using MediaManager.Properties;
 
 namespace MediaManager.ViewModel
 {
     public class PosterViewModel
     {
-        public ICommand AbrirEdicaoCommand { get; private set; }
-
         private PosterGrid _poster;
-
-        public PosterGrid Poster
-        {
-            get { return _poster; }
-            set { _poster = value; }
-        }
 
         public PosterViewModel()
         {
             AbrirEdicaoCommand = new EdicaoPosterCommand(this);
         }
+
+        public ICommand AbrirEdicaoCommand { get; private set; }
+
+        public PosterGrid Poster { get { return _poster; } set { _poster = value; } }
 
         internal void Editar()
         {
@@ -38,15 +29,16 @@ namespace MediaManager.ViewModel
                         Filme filme = new Filme();
                         filme = DatabaseHelper.GetFilmePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, filme);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, filme.IDFilme);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
+                            filme = frmAdicionarConteudo.Filme;
+
                             Poster.IdBanco = filme.IDFilme;
-                            Poster.PosterPath = (File.Exists(Path.Combine(filme.metadataFolder, "poster.jpg"))) ?
-                                Poster.PosterPath = Path.Combine(filme.metadataFolder, "poster.jpg") :
-                                Poster.PosterPath = "";
+                            Poster.PosterPath = (File.Exists(Path.Combine(filme.MetadataFolder, "poster.jpg"))) ?
+                                Path.Combine(filme.MetadataFolder, "poster.jpg") : "";
                             Poster.TipoConteudo = Helper.TipoConteudo.movie;
                         }
                         break;
@@ -56,7 +48,7 @@ namespace MediaManager.ViewModel
                         Serie serie = new Serie();
                         serie = DatabaseHelper.GetSeriePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, serie);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, serie.IDSerie);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
@@ -64,9 +56,8 @@ namespace MediaManager.ViewModel
                             serie = frmAdicionarConteudo.Serie;
 
                             Poster.IdBanco = serie.IDSerie;
-                            Poster.PosterPath = (File.Exists(Path.Combine(serie.metadataFolder, "poster.jpg"))) ?
-                                Poster.PosterPath = Path.Combine(serie.metadataFolder, "poster.jpg") :
-                                Poster.PosterPath = "";
+                            Poster.PosterPath = (File.Exists(Path.Combine(serie.MetadataFolder, "poster.jpg"))) ?
+                                Path.Combine(serie.MetadataFolder, "poster.jpg") : "";
                             Poster.TipoConteudo = Helper.TipoConteudo.show;
                         }
                         break;
@@ -76,15 +67,16 @@ namespace MediaManager.ViewModel
                         Serie anime = new Serie();
                         anime = DatabaseHelper.GetAnimePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, anime);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, anime.IDSerie);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
+                            anime = frmAdicionarConteudo.Serie;
+
                             Poster.IdBanco = anime.IDSerie;
-                            Poster.PosterPath = (File.Exists(Path.Combine(anime.metadataFolder, "poster.jpg"))) ?
-                                Poster.PosterPath = Path.Combine(anime.metadataFolder, "poster.jpg") :
-                                Poster.PosterPath = "";
+                            Poster.PosterPath = (File.Exists(Path.Combine(anime.MetadataFolder, "poster.jpg"))) ?
+                                Path.Combine(anime.MetadataFolder, "poster.jpg") : "";
                             Poster.TipoConteudo = Helper.TipoConteudo.anime;
                         }
                         break;

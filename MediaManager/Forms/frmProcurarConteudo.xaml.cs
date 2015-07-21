@@ -37,29 +37,29 @@ namespace MediaManager.Forms
                             if (!item.IsAlterado)
                             {
                                 Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.show);
-                                serie.Generos = Helper.ListToString(serie.genres);
-                                serie.Traducoes = Helper.ListToString(serie.available_translations);
+                                serie.Generos = Helper.ListToString(serie.Genres);
+                                serie.Traducoes = Helper.ListToString(serie.AvailableTranslations);
                                 await DatabaseHelper.AddSerieAsync(serie);
                             }
                             else
                             {
-                                Serie.Generos = Helper.ListToString(Serie.genres);
-                                Serie.Traducoes = Helper.ListToString(Serie.available_translations);
+                                Serie.Generos = Helper.ListToString(Serie.Genres);
+                                Serie.Traducoes = Helper.ListToString(Serie.AvailableTranslations);
                                 await DatabaseHelper.AddSerieAsync(Serie);
                             }
                             break;
 
                         case "Anime":
                             Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.anime);
-                            anime.Generos = Helper.ListToString(anime.genres);
-                            anime.Traducoes = Helper.ListToString(anime.available_translations);
+                            anime.Generos = Helper.ListToString(anime.Genres);
+                            anime.Traducoes = Helper.ListToString(anime.AvailableTranslations);
                             await DatabaseHelper.AddAnimeAsync(anime);
                             break;
 
                         case "Filme":
                             Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                            filme.Generos = Helper.ListToString(filme.genres);
-                            filme.Traducoes = Helper.ListToString(filme.available_translations);
+                            filme.Generos = Helper.ListToString(filme.Genres);
+                            filme.Traducoes = Helper.ListToString(filme.AvailableTranslations);
                             await DatabaseHelper.AddFilmeAsync(filme);
                             break;
 
@@ -134,24 +134,24 @@ namespace MediaManager.Forms
                     {
                         case Helper.TipoConteudo.movie:
                             Filme = frmAdicionarConteudo.Filme;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Filme.title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Filme.folderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Filme.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Filme.Title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Filme.FolderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Filme.Ids.slug;
                             (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             Filme = frmAdicionarConteudo.Filme;
                             break;
                         case Helper.TipoConteudo.show:
                             Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.folderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.Title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.FolderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.Ids.slug;
                             (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             break;
                         case Helper.TipoConteudo.anime:
                             Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.folderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.ids.slug;
+                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.Title;
+                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.FolderPath;
+                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.Ids.slug;
                             (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
                             break;
                         default:

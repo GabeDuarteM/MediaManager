@@ -1,19 +1,30 @@
-﻿using MediaManager.Helpers;
-using MediaManager.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using MediaManager.Helpers;
+using MediaManager.Model;
 
 namespace MediaManager.Forms
 {
     public partial class frmPopupPesquisa : Window
     {
-        public Helper.TipoConteudo Conteudo;
+        private Helper.TipoConteudo tipoConteudo;
 
-        public frmPopupPesquisa(Helper.TipoConteudo conteudo)
+        private List<Search> _resultPesquisa;
+
+        private bool isBuscaPersonalizada;
+
+        public List<Search> ResultPesquisa
+        {
+            get { return _resultPesquisa; }
+            private set { _resultPesquisa = value; }
+        }
+
+        public frmPopupPesquisa(Helper.TipoConteudo tipoConteudo, bool isBuscaPersonalizada)
         {
             InitializeComponent();
-            Conteudo = conteudo;
+            this.tipoConteudo = tipoConteudo;
+            this.isBuscaPersonalizada = isBuscaPersonalizada;
             tbxNome.Focus();
         }
 
@@ -24,7 +35,6 @@ namespace MediaManager.Forms
                 MessageBox.Show("Digite o nome do conteudo a ser pesquisado.", Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            List<Search> resultPesquisa = new List<Search>();
 
             btnCancelar.Visibility = Visibility.Hidden;
             btnPesquisar.Visibility = Visibility.Hidden;
@@ -39,14 +49,19 @@ namespace MediaManager.Forms
             WFH.Child = imgLoading;
             spLoading.Children.Add(lblLoading);
 
-            resultPesquisa = await Helper.API_PesquisarConteudoAsync(tbxNome.Text, Conteudo.ToString());
+            ResultPesquisa = await Helper.API_PesquisarConteudoAsync(tbxNome.Text, tipoConteudo.ToString());
 
-            if (resultPesquisa.Count != 0)
+            if (ResultPesquisa.Count > 0 && !isBuscaPersonalizada)
             {
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Conteudo, resultPesquisa);
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo, ResultPesquisa);
                 frmAdicionarConteudo.ShowDialog();
                 if (frmAdicionarConteudo.DialogResult == true)
                     DialogResult = true;
+                Close();
+            }
+            else if (ResultPesquisa.Count > 0 && isBuscaPersonalizada)
+            {
+                DialogResult = true;
                 Close();
             }
             else

@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
     x:Class="MediaManager.Forms.frmAdicionarConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Adicionar conteúdo - \{0\}}"
         Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -13,26 +13,20 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <Image x:Name="imgBanner" HorizontalAlignment="Center" Height="146" Margin="10,10,10,10" VerticalAlignment="Top" Width="792" Stretch="Fill" Opacity="0.7">
-            <Image.Effect>
-                <DropShadowEffect ShadowDepth="2" />
-            </Image.Effect>
+        <Image x:Name="imgBanner" Source="{Binding FanartUrl}" HorizontalAlignment="Center" Height="270" Width="790" Margin="10" VerticalAlignment="Top"  Stretch="UniformToFill">
         </Image>
-        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="188" Margin="30,20,10,10" VerticalAlignment="Top" Width="125" Stretch="Fill">
+        <Image Source="{Binding PosterUrl}" x:Name="imgPoster" HorizontalAlignment="Left" Height="188" Margin="30,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill">
             <Image.Effect>
                 <DropShadowEffect />
             </Image.Effect>
         </Image>
-        <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,173,0,0" Height="22" Width="25" Click="btnConfig_Click">
-            <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" /> <!--Source="/Resources/IMG_Gear.png" />-->
-            <!--Source="pack://application:,,,/Resources/IMG_Gear.png" />-->
+        <ComboBox x:Name="cboListaConteudo" ItemsSource="{Binding ResultPesquisa}" DisplayMemberPath="Title" SelectedItem="{Binding Video, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,289,0,0" Width="240" />
+        <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="254,289,0,0" Height="22" Width="25" Click="btnConfig_Click">
+            <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
         </Button>
-        <ComboBox x:Name="cboListaConteudo" VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0" Margin="200,173,0,0" Width="240">
-            <ComboBoxItem Content="Selecione" />
-        </ComboBox>
-        <xctk:WatermarkTextBox x:Name="tbxPasta" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="333" Margin="445,173,0,0" />
-        <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,173,0,0" Height="22" Width="25" Click="btnPasta_Click" />
-        <TextBox x:Name="tbxSinopse" Margin="10,220,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"  Text="Carregando sinopse..." />
+        <xctk:WatermarkTextBox x:Name="tbxPasta" Text="{Binding Video.FolderPath}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="494" Margin="284,289,0,0" />
+        <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,289,0,0" Height="22" Width="25" Click="btnPasta_Click" />
+        <TextBox x:Name="tbxSinopse" Text="{Binding Video.Overview}" Margin="10,316,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" IsCancel="True" />
         <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="90,10" Width="75" Click="btnSalvar_Click" IsDefault="True" />
     </Grid>

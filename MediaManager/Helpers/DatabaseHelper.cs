@@ -18,40 +18,40 @@ namespace MediaManager.Helpers
         /// <returns>True caso o filme tenha sido adicionado com sucesso.</returns>
         public async static Task<bool> AddFilmeAsync(Filme filme)
         {
-            if (!System.IO.Directory.Exists(filme.metadataFolder))
-                System.IO.Directory.CreateDirectory(filme.metadataFolder);
+            if (!System.IO.Directory.Exists(filme.MetadataFolder))
+                System.IO.Directory.CreateDirectory(filme.MetadataFolder);
 
-            if (filme.images.poster.thumb != null)
+            if (filme.Images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.thumb), path);
+                    var path = System.IO.Path.Combine(filme.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.Images.poster.thumb), path);
                 }
             }
-            else if (filme.images.poster.medium != null)
+            else if (filme.Images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.medium), path);
+                    var path = System.IO.Path.Combine(filme.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.Images.poster.medium), path);
                 }
             }
-            else if (filme.images.poster.full != null)
+            else if (filme.Images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.poster.full), path);
+                    var path = System.IO.Path.Combine(filme.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.Images.poster.full), path);
                 }
             }
 
-            if (filme.images.banner.full != null)
+            if (filme.Images.banner.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(filme.metadataFolder, "banner.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(filme.images.banner.full), path);
+                    var path = System.IO.Path.Combine(filme.MetadataFolder, "banner.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(filme.Images.banner.full), path);
                 }
             }
 
@@ -70,40 +70,40 @@ namespace MediaManager.Helpers
         /// <returns>True caso o anime tenha sido adicionado com sucesso.</returns>
         public async static Task<bool> AddAnimeAsync(Serie anime)
         {
-            if (!System.IO.Directory.Exists(anime.metadataFolder))
-                System.IO.Directory.CreateDirectory(anime.metadataFolder);
+            if (!System.IO.Directory.Exists(anime.MetadataFolder))
+                System.IO.Directory.CreateDirectory(anime.MetadataFolder);
 
-            if (anime.images.poster.thumb != null)
+            if (anime.Images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.thumb), path);
+                    var path = System.IO.Path.Combine(anime.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.Images.poster.thumb), path);
                 }
             }
-            else if (anime.images.poster.medium != null)
+            else if (anime.Images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.medium), path);
+                    var path = System.IO.Path.Combine(anime.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.Images.poster.medium), path);
                 }
             }
-            else if (anime.images.poster.full != null)
+            else if (anime.Images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.poster.full), path);
+                    var path = System.IO.Path.Combine(anime.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.Images.poster.full), path);
                 }
             }
 
-            if (anime.images.banner.full != null)
+            if (anime.Images.banner.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(anime.metadataFolder, "banner.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(anime.images.banner.full), path);
+                    var path = System.IO.Path.Combine(anime.MetadataFolder, "banner.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(anime.Images.banner.full), path);
                 }
             }
 
@@ -122,40 +122,40 @@ namespace MediaManager.Helpers
         /// <returns>True caso a série tenha sido adicionada com sucesso.</returns>
         public async static Task<bool> AddSerieAsync(Serie serie)
         {
-            if (!System.IO.Directory.Exists(serie.metadataFolder))
-                System.IO.Directory.CreateDirectory(serie.metadataFolder);
+            if (!System.IO.Directory.Exists(serie.MetadataFolder))
+                System.IO.Directory.CreateDirectory(serie.MetadataFolder);
 
-            if (serie.images.poster.thumb != null)
+            if (serie.Images.poster.thumb != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.thumb), path);
+                    var path = System.IO.Path.Combine(serie.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.Images.poster.thumb), path);
                 }
             }
-            else if (serie.images.poster.medium != null)
+            else if (serie.Images.poster.medium != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.medium), path);
+                    var path = System.IO.Path.Combine(serie.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.Images.poster.medium), path);
                 }
             }
-            else if (serie.images.poster.full != null)
+            else if (serie.Images.poster.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "poster.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.poster.full), path);
+                    var path = System.IO.Path.Combine(serie.MetadataFolder, "poster.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.Images.poster.full), path);
                 }
             }
 
-            if (serie.images.banner.full != null)
+            if (serie.Images.banner.full != null)
             {
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
-                    var path = System.IO.Path.Combine(serie.metadataFolder, "banner.jpg");
-                    await wc.DownloadFileTaskAsync(new Uri(serie.images.banner.full), path);
+                    var path = System.IO.Path.Combine(serie.MetadataFolder, "banner.jpg");
+                    await wc.DownloadFileTaskAsync(new Uri(serie.Images.banner.full), path);
                 }
             }
 
@@ -176,13 +176,13 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var filmes = from filme in db.Filmes.Include("Images").Include("Ids")
-                             orderby filme.title
+                             orderby filme.Title
                              select filme;
                 var filmesList = filmes.ToList();
                 foreach (var item in filmesList)
                 {
-                    item.available_translations = item.Traducoes.Split('|').ToList();
-                    item.genres = item.Generos.Split('|').ToList();
+                    item.AvailableTranslations = item.Traducoes.Split('|').ToList();
+                    item.Genres = item.Generos.Split('|').ToList();
                 }
                 return filmesList;
             }
@@ -197,16 +197,16 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var animes = from anime in db.Series.Include("Images").Include("Ids")
-                             where anime.isAnime == true
-                             orderby anime.title
+                             where anime.IsAnime == true
+                             orderby anime.Title
                              select anime;
                 var animesList = animes.ToList();
                 foreach (var item in animesList)
                 {
                     if (item.Traducoes != null)
-                        item.available_translations = item.Traducoes.Split('|').ToList();
+                        item.AvailableTranslations = item.Traducoes.Split('|').ToList();
                     if (item.Generos != null)
-                        item.genres = item.Generos.Split('|').ToList();
+                        item.Genres = item.Generos.Split('|').ToList();
                 }
                 return animesList;
             }
@@ -221,16 +221,16 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var series = from serie in db.Series.Include("Images").Include("Ids")
-                             where serie.isAnime == false
-                             orderby serie.title
+                             where serie.IsAnime == false
+                             orderby serie.Title
                              select serie;
                 var seriesList = series.ToList();
                 foreach (var item in seriesList)
                 {
                     if (item.Traducoes != null)
-                        item.available_translations = item.Traducoes.Split('|').ToList();
+                        item.AvailableTranslations = item.Traducoes.Split('|').ToList();
                     if (item.Generos != null)
-                        item.genres = item.Generos.Split('|').ToList();
+                        item.Genres = item.Generos.Split('|').ToList();
                 }
                 return seriesList;
             }
@@ -251,8 +251,8 @@ namespace MediaManager.Helpers
                 var filme = filmes.ToList()[0];
                 if (filme != null)
                 {
-                    filme.available_translations = filme.Traducoes.Split('|').ToList();
-                    filme.genres = filme.Generos.Split('|').ToList();
+                    filme.AvailableTranslations = filme.Traducoes.Split('|').ToList();
+                    filme.Genres = filme.Generos.Split('|').ToList();
                     return filme;
                 }
                 else
@@ -270,15 +270,15 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var animes = from animeDb in db.Series.Include("Images").Include("Ids")
-                             where animeDb.isAnime && animeDb.IDSerie == IdBanco
+                             where animeDb.IsAnime && animeDb.IDSerie == IdBanco
                              select animeDb;
                 var anime = animes.ToList()[0];
                 if (anime != null)
                 {
                     if (anime.Traducoes != null)
-                        anime.available_translations = anime.Traducoes.Split('|').ToList();
+                        anime.AvailableTranslations = anime.Traducoes.Split('|').ToList();
                     if (anime.Generos != null)
-                        anime.genres = anime.Generos.Split('|').ToList();
+                        anime.Genres = anime.Generos.Split('|').ToList();
                     return anime;
                 }
                 else
@@ -296,15 +296,15 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var series = from serieDB in db.Series.Include("Images").Include("Ids")
-                             where !serieDB.isAnime && serieDB.IDSerie == IdBanco
+                             where !serieDB.IsAnime && serieDB.IDSerie == IdBanco
                              select serieDB;
                 var serie = series.ToList()[0];
                 if (serie != null)
                 {
                     if (serie.Traducoes != null)
-                        serie.available_translations = serie.Traducoes.Split('|').ToList();
+                        serie.AvailableTranslations = serie.Traducoes.Split('|').ToList();
                     if (serie.Generos != null)
-                        serie.genres = serie.Generos.Split('|').ToList();
+                        serie.Genres = serie.Generos.Split('|').ToList();
                     return serie;
                 }
                 else
@@ -322,21 +322,23 @@ namespace MediaManager.Helpers
             bool isDiferente = false;
             bool retorno = false;
             Filme original = null;
+            string originalMetadata = null;
             try
             {
                 using (Context db = new Context())
                 {
                     original = db.Filmes.Find(atualizado.IDFilme);
+                    originalMetadata = original.MetadataFolder;
 
-                    if (original.ids.slug != atualizado.ids.slug)
+                    if (original.Ids.slug != atualizado.Ids.slug)
                         isDiferente = true;
                     if (original != null)
                     {
-                        atualizado.images.IDImages = original.images.IDImages;
-                        atualizado.ids.IDIds = original.ids.IDIds;
+                        atualizado.Images.IDImages = original.Images.IDImages;
+                        atualizado.Ids.IDIds = original.Ids.IDIds;
                         db.Entry(original).CurrentValues.SetValues(atualizado);
-                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
-                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
+                        db.Entry(original.Images).CurrentValues.SetValues(atualizado.Images);
+                        db.Entry(original.Ids).CurrentValues.SetValues(atualizado.Ids);
                         db.SaveChanges();
                     }
                 }
@@ -350,9 +352,9 @@ namespace MediaManager.Helpers
 
             if (isDiferente)
             {
-                if (Directory.Exists(original.metadataFolder))
+                if (Directory.Exists(originalMetadata))
                 {
-                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(originalMetadata);
 
                     foreach (FileInfo file in metaDir.GetFiles())
                     {
@@ -365,40 +367,40 @@ namespace MediaManager.Helpers
                     Directory.Delete(metaDir.FullName);
                 }
 
-                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
-                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
+                if (!System.IO.Directory.Exists(atualizado.MetadataFolder))
+                    System.IO.Directory.CreateDirectory(atualizado.MetadataFolder);
 
-                if (atualizado.images.poster.thumb != null)
+                if (atualizado.Images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.medium != null)
+                else if (atualizado.Images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.medium), path);
                     }
                 }
-                else if (atualizado.images.poster.full != null)
+                else if (atualizado.Images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.full), path);
                     }
                 }
 
-                if (atualizado.images.banner.full != null)
+                if (atualizado.Images.banner.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "banner.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.banner.full), path);
                     }
                 }
             }
@@ -415,21 +417,23 @@ namespace MediaManager.Helpers
             bool isDiferente = false;
             bool retorno = false;
             Serie original = null;
+            string originalMetadata = null;
             try
             {
                 using (Context db = new Context())
                 {
                     original = db.Series.Find(atualizado.IDSerie);
+                    originalMetadata = original.MetadataFolder;
 
-                    if (original.ids.slug != atualizado.ids.slug)
+                    if (original.Ids.slug != atualizado.Ids.slug)
                         isDiferente = true;
                     if (original != null)
                     {
-                        atualizado.images.IDImages = original.images.IDImages;
-                        atualizado.ids.IDIds = original.ids.IDIds;
+                        atualizado.Images.IDImages = original.Images.IDImages;
+                        atualizado.Ids.IDIds = original.Ids.IDIds;
                         db.Entry(original).CurrentValues.SetValues(atualizado);
-                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
-                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
+                        db.Entry(original.Images).CurrentValues.SetValues(atualizado.Images);
+                        db.Entry(original.Ids).CurrentValues.SetValues(atualizado.Ids);
                         db.SaveChanges();
                     }
                 }
@@ -442,9 +446,9 @@ namespace MediaManager.Helpers
             }
             if (isDiferente)
             {
-                if (Directory.Exists(original.metadataFolder))
+                if (Directory.Exists(originalMetadata))
                 {
-                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(originalMetadata);
 
                     foreach (FileInfo file in metaDir.GetFiles())
                     {
@@ -457,40 +461,40 @@ namespace MediaManager.Helpers
                     Directory.Delete(metaDir.FullName);
                 }
 
-                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
-                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
+                if (!System.IO.Directory.Exists(atualizado.MetadataFolder))
+                    System.IO.Directory.CreateDirectory(atualizado.MetadataFolder);
 
-                if (atualizado.images.poster.thumb != null)
+                if (atualizado.Images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.medium != null)
+                else if (atualizado.Images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.medium), path);
                     }
                 }
-                else if (atualizado.images.poster.full != null)
+                else if (atualizado.Images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.full), path);
                     }
                 }
 
-                if (atualizado.images.banner.full != null)
+                if (atualizado.Images.banner.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "banner.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.banner.full), path);
                     }
                 }
             }
@@ -506,22 +510,24 @@ namespace MediaManager.Helpers
         {
             bool isDiferente = false;
             bool retorno = false;
-            Serie original = null;
+            Serie originalDB = null;
+            string originalMetadata = null;
             try
             {
                 using (Context db = new Context())
                 {
-                    original = db.Series.Find(atualizado.IDSerie);
+                    originalDB = db.Series.Find(atualizado.IDSerie);
+                    originalMetadata = originalDB.MetadataFolder;
 
-                    if (original.ids.slug != atualizado.ids.slug)
+                    if (originalDB.Ids.slug != atualizado.Ids.slug)
                         isDiferente = true;
-                    if (original != null)
+                    if (originalDB != null)
                     {
-                        atualizado.images.IDImages = original.images.IDImages;
-                        atualizado.ids.IDIds = original.ids.IDIds;
-                        db.Entry(original).CurrentValues.SetValues(atualizado);
-                        db.Entry(original.images).CurrentValues.SetValues(atualizado.images);
-                        db.Entry(original.ids).CurrentValues.SetValues(atualizado.ids);
+                        atualizado.Images.IDImages = originalDB.Images.IDImages;
+                        atualizado.Ids.IDIds = originalDB.Ids.IDIds;
+                        db.Entry(originalDB).CurrentValues.SetValues(atualizado);
+                        db.Entry(originalDB.Images).CurrentValues.SetValues(atualizado.Images);
+                        db.Entry(originalDB.Ids).CurrentValues.SetValues(atualizado.Ids);
                         db.SaveChanges();
                     }
                 }
@@ -534,9 +540,9 @@ namespace MediaManager.Helpers
             }
             if (isDiferente)
             {
-                if (Directory.Exists(original.metadataFolder))
+                if (Directory.Exists(originalMetadata))
                 {
-                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(original.metadataFolder);
+                    System.IO.DirectoryInfo metaDir = new DirectoryInfo(originalMetadata);
 
                     foreach (FileInfo file in metaDir.GetFiles())
                     {
@@ -549,40 +555,40 @@ namespace MediaManager.Helpers
                     Directory.Delete(metaDir.FullName);
                 }
 
-                if (!System.IO.Directory.Exists(atualizado.metadataFolder))
-                    System.IO.Directory.CreateDirectory(atualizado.metadataFolder);
+                if (!System.IO.Directory.Exists(atualizado.MetadataFolder))
+                    System.IO.Directory.CreateDirectory(atualizado.MetadataFolder);
 
-                if (atualizado.images.poster.thumb != null)
+                if (atualizado.Images.poster.thumb != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.thumb), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.thumb), path);
                     }
                 }
-                else if (atualizado.images.poster.medium != null)
+                else if (atualizado.Images.poster.medium != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.medium), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.medium), path);
                     }
                 }
-                else if (atualizado.images.poster.full != null)
+                else if (atualizado.Images.poster.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.poster.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.poster.full), path);
                     }
                 }
 
-                if (atualizado.images.banner.full != null)
+                if (atualizado.Images.banner.full != null)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(atualizado.metadataFolder, "banner.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(atualizado.images.banner.full), path);
+                        var path = Path.Combine(atualizado.MetadataFolder, "banner.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(atualizado.Images.banner.full), path);
                     }
                 }
             }
@@ -616,10 +622,10 @@ namespace MediaManager.Helpers
             using (Context db = new Context())
             {
                 var series = from serie in db.Series
-                             where serie.folderPath == path
+                             where serie.FolderPath == path
                              select serie;
                 var filmes = from filme in db.Filmes
-                             where filme.folderPath == path
+                             where filme.FolderPath == path
                              select filme;
 
                 if (series.Count() > 0 || filmes.Count() > 0)

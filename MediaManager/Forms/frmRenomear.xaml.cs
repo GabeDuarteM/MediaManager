@@ -27,18 +27,18 @@ namespace MediaManager.Forms
                     using (Context db = new Context())
                     {
                         var series = from serie in db.Series
-                                     where serie.isAnime == false
+                                     where serie.IsAnime == false
                                      select serie;
                         foreach (var serie in series)
                         {
                             try
                             {
-                                DirectoryInfo dir = new DirectoryInfo(serie.folderPath);
+                                DirectoryInfo dir = new DirectoryInfo(serie.FolderPath);
                                 var files = dir.EnumerateFiles("*", SearchOption.AllDirectories);
 
                                 foreach (var file in files)
                                 {
-                                    Arquivos arquivo = new Arquivos { Arquivo = file.Name, ArquivoRenomeado = "", Nome = serie.title };
+                                    Arquivos arquivo = new Arquivos { Arquivo = file.Name, ArquivoRenomeado = "", Nome = serie.Title };
                                     grdArquivos.Items.Add(arquivo);
                                 }
                             }
