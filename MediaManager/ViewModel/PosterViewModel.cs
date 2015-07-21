@@ -29,7 +29,7 @@ namespace MediaManager.ViewModel
                         Filme filme = new Filme();
                         filme = DatabaseHelper.GetFilmePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, filme.IDFilme);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, filme);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
@@ -48,7 +48,7 @@ namespace MediaManager.ViewModel
                         Serie serie = new Serie();
                         serie = DatabaseHelper.GetSeriePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, serie.IDSerie);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, serie);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
@@ -67,7 +67,7 @@ namespace MediaManager.ViewModel
                         Serie anime = new Serie();
                         anime = DatabaseHelper.GetAnimePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, anime.IDSerie);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, anime);
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)

@@ -20,7 +20,7 @@
                 <DropShadowEffect />
             </Image.Effect>
         </Image>
-        <ComboBox x:Name="cboListaConteudo" ItemsSource="{Binding ResultPesquisa}" DisplayMemberPath="Title" SelectedItem="{Binding Video, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,289,0,0" Width="240" />
+        <ComboBox x:Name="cboListaConteudo" ItemsSource="{Binding ResultPesquisa,Mode=OneWay}" DisplayMemberPath="Title" SelectedItem="{Binding Video, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,289,0,0" Width="240" />
         <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="254,289,0,0" Height="22" Width="25" Click="btnConfig_Click">
             <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
         </Button>

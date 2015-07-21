@@ -17,7 +17,7 @@ namespace MediaManager.Forms
         private Serie Serie = new Serie();
         private Filme Filme = new Filme();
 
-        public frmProcurarConteudo(Helpers.Helper.TipoConteudo tipoConteudo)
+        public frmProcurarConteudo(Helper.TipoConteudo tipoConteudo)
         {
             InitializeComponent();
             TipoConteudo = tipoConteudo;
@@ -115,10 +115,6 @@ namespace MediaManager.Forms
             DataContext = contViewModel;
             await contViewModel.LoadConteudos(TipoConteudo);
             btAdicionar.IsEnabled = true;
-            //Style rowStyle = new Style(typeof(DataGridRow));
-            //rowStyle.Setters.Add(new EventSetter(DataGridRow.MouseDoubleClickEvent,
-            //                         new MouseButtonEventHandler(Row_DoubleClick)));
-            //dgAll.RowStyle = rowStyle;
         }
 
         private void dgAll_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -126,7 +122,24 @@ namespace MediaManager.Forms
             if(dgAll.SelectedItem != null)
             {
                 ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudo);
+
+                // TODO Arrumar gambiarra monstra:
+                Helper.TipoConteudo tipoConteudo = new Helper.TipoConteudo();
+                switch (conteudo.Tipo)
+                {
+                    case "Show":
+                        tipoConteudo = Helper.TipoConteudo.show;
+                        break;
+                    case "Anime":
+                        tipoConteudo = Helper.TipoConteudo.anime;
+                        break;
+                    case "Filme":
+                        tipoConteudo = Helper.TipoConteudo.movie;
+                        break;
+                    default:
+                        break;
+                }
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo,conteudo.ToVideo());
                 frmAdicionarConteudo.ShowDialog();
                 if (frmAdicionarConteudo.DialogResult == true)
                 {

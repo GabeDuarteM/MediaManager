@@ -56,5 +56,18 @@ namespace MediaManager.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+
+        /// <summary>
+        /// Realiza a conversão do objeto para o tipo Video. O objeto retornado irá conter somente a pasta e o título informado no ConteudoGrid.
+        /// </summary>
+        /// <param name="conteudoGrid">Objeto a ser convertido.</param>
+        /// <returns>Retorna um objeto Video, contendo SOMENTE a pasta e o título do ConteudoGrid.</returns>
+        public Video ToVideo()
+        {
+            Video video = new Serie();
+            video.FolderPath = Pasta;
+            video.Title = Nome;
+            return video;
+        }
     }
 }

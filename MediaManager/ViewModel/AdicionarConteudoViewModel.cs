@@ -8,52 +8,32 @@ namespace MediaManager.ViewModel
 {
     public class AdicionarConteudoViewModel : INotifyPropertyChanged
     {
-        private string _fanartUrl;
-        private string _posterUrl;
+        private string _fanartUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
+        private string _posterUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private List<Video> _resultPesquisa;
-
-        //private Video _selectedVideo;
         private Helper.TipoConteudo _tipoConteudo;
-
         private Video _video;
 
         public AdicionarConteudoViewModel(string title, Helper.TipoConteudo tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
-            PosterUrl = null;
-            FanartUrl = null;
+            //PosterUrl = null;
+            //FanartUrl = null;
             ResultPesquisa = new List<Video>();
             Video = new Serie();
             ResultPesquisa.Add(new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." });
             getResultPesquisaAsync(title);
         }
 
-        public AdicionarConteudoViewModel(int IdBanco, Helper.TipoConteudo tipoConteudo)
+        public AdicionarConteudoViewModel(Video video, Helper.TipoConteudo tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
-            PosterUrl = null;
-            FanartUrl = null;
+            //PosterUrl = null;
+            //FanartUrl = null;
             ResultPesquisa = new List<Video>();
-            switch (TipoConteudo)
-            {
-                case Helper.TipoConteudo.movie:
-                    Video = DatabaseHelper.GetFilmePorId(IdBanco);
-                    break;
-
-                case Helper.TipoConteudo.show:
-                    Video = DatabaseHelper.GetSeriePorId(IdBanco);
-                    break;
-
-                case Helper.TipoConteudo.anime:
-                    Video = DatabaseHelper.GetAnimePorId(IdBanco);
-                    break;
-
-                default:
-                    throw new InvalidEnumArgumentException();
-            }
             ResultPesquisa.Add(new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." });
 
-            getResultPesquisaAsync(Video);
+            getResultPesquisaAsync(video);
         }
 
         public string FanartUrl
@@ -121,14 +101,25 @@ namespace MediaManager.ViewModel
 
         private async void getResultPesquisaAsync(Video video)
         {
-            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(video.Title, TipoConteudo.ToString());
             ResultPesquisa = new List<Video>();
             ResultPesquisa.Add(video);
             Video = video;
+            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(Video.Title, TipoConteudo.ToString());
+            
             foreach (var item in listaSearch)
             {
-                if (item.Title != Video.Title)
-                    ResultPesquisa.Add(item.ToVideo());
+                Video videoItem = item.ToVideo();
+                videoItem.FolderPath = video.FolderPath;
+                if (videoItem.Title == Video.Title && (Video.Overview == null && Video.Images == null))
+                {
+                    Video = videoItem;
+                    ResultPesquisa.Remove(video);
+                    ResultPesquisa.Add(Video);
+                }
+                else if (videoItem.Title != Video.Title)
+                {
+                    ResultPesquisa.Add(videoItem);
+                }
             }
             ResultPesquisa.Add(new Serie() { Title = "Busca personalizada..." });
         }

@@ -53,10 +53,10 @@ namespace MediaManager.Forms
 
             if (ResultPesquisa.Count > 0 && !isBuscaPersonalizada)
             {
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo, ResultPesquisa);
-                frmAdicionarConteudo.ShowDialog();
-                if (frmAdicionarConteudo.DialogResult == true)
-                    DialogResult = true;
+                //frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo, ResultPesquisa);
+                //frmAdicionarConteudo.ShowDialog();
+                //if (frmAdicionarConteudo.DialogResult == true)
+                //    DialogResult = true;
                 Close();
             }
             else if (ResultPesquisa.Count > 0 && isBuscaPersonalizada)

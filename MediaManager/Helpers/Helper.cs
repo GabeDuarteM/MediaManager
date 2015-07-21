@@ -207,7 +207,7 @@ namespace MediaManager.Helpers
 
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
 
-                using (var response = await httpClient.GetAsync("search?query=" + query + "&type=" + type).ConfigureAwait(false))
+                using (var response = await httpClient.GetAsync("search?query=" + query + "&type=" + type))
                 {
                     responseData = await response.Content.ReadAsStringAsync();
                 }
