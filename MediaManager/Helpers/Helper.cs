@@ -16,21 +16,238 @@ namespace MediaManager.Helpers
     {
         private static Settings settings = Settings.Default;
 
-        /// <summary>
-        /// Define o tipo de conteúdo a ser usado.
-        /// </summary>
-        public enum TipoConteudo
+        public static string ListToString(IList<string> lista)
         {
-            movie,
-            show,
-            anime,
-            season,
-            episode,
-            person,
-            movieShowAnime
+            if (lista != null)
+            {
+                string strGeneros = "";
+                foreach (var item in lista)
+                {
+                    strGeneros += item + "|";
+                }
+                if (strGeneros != "")
+                    return strGeneros.Remove(strGeneros.Length - 1);
+                else
+                    return null;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        #region { APIs trakt }
+        /// <summary>
+        /// Adiciona mensagem no log.
+        /// </summary>
+        /// <param name="message">Mensagem a ser adicionada</param>
+        /// <returns>Retorna false se ocorrer um erro</returns>
+        public static bool LogMessageToFile(string message)
+        {
+            bool sucesso;
+            StreamWriter sw = File.AppendText(Environment.CurrentDirectory + "//" + settings.AppName + ".log");
+            try
+            {
+                string logLine = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message;
+                sw.WriteLine(logLine);
+                sucesso = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                sucesso = false;
+                Environment.Exit(0);
+            }
+            finally
+            {
+                sw.Close();
+            }
+            return sucesso;
+        }
+
+        public static bool LogMessageToFile(string message, bool start)
+        {
+            bool sucesso = false;
+            string logPath = Environment.CurrentDirectory + "//" + settings.AppName + ".log";
+            StringBuilder logLine;
+            if (File.Exists(logPath))
+                logLine = new StringBuilder("\n");
+            else
+                logLine = new StringBuilder("");
+            StreamWriter sw = File.AppendText(logPath);
+            try
+            {
+                logLine.Append("####################################################################################################\n");
+                logLine.Append("############################################ " + settings.AppName + " ###########################################\n");
+                logLine.Append("####################################################################################################\n");
+                logLine.Append("\n");
+                logLine.Append("## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message);
+                sw.WriteLine(logLine);
+                sucesso = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                sucesso = false;
+            }
+            finally
+            {
+                sw.Close();
+            }
+            return sucesso;
+        }
+
+        public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
+        {
+            if (extensao == null)
+                throw new ArgumentNullException("extensions");
+            IEnumerable<FileInfo> files = dir.EnumerateFiles();
+            return files.Where(f => extensao.Contains(f.Extension));
+        }
+
+        /// <summary>
+        /// Retira os caracteres que o windows não aceita na criação de pastas e arquivos.
+        /// </summary>
+        /// <param name="nome">Nome do arquivo a ser normalizado.</param>
+        /// <returns>Nome sem os caracteres não permitidos.</returns>
+        public static string RetirarCaracteresInvalidos(string nome)
+        {
+            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
+            return nomeNormalizado;
+        }
+
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de animes, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo[] retornarDiretoriosAnimes()
+        {
+            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
+            return dir.GetDirectories();
+        }
+
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de filmes, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo[] retornarDiretoriosFilmes()
+        {
+            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
+            return dir.GetDirectories();
+        }
+
+        /// <summary>
+        /// Retorna os subdiretórios do diretório de séries, configurado nas preferências.
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo[] retornarDiretoriosSeries()
+        {
+            // TODO Validação para quando não tem pasta nas preferências.
+            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
+            return dir.GetDirectories();
+        }
+
+        /// <summary>
+        /// Classe contendo todos os enums utilizados.
+        /// </summary>
+        public class Enums
+        {
+            /// <summary>
+            /// Define o tipo de conteúdo a ser usado.
+            /// </summary>
+            public enum TipoConteudo
+            {
+                unknown = 0,
+                movie = 1,
+                show = 2,
+                anime = 3,
+                season = 4,
+                episode = 5,
+                person = 6,
+                movieShowAnime = 7
+            }
+
+            public static object ToEnum(string s, Type enumType)
+            {
+                if (enumType == typeof(TipoConteudo))
+                {
+                    switch (s)
+                    {
+                        case "Desconhecido":
+                            return TipoConteudo.unknown;
+
+                        case "Filme":
+                            return TipoConteudo.movie;
+
+                        case "Série":
+                            return TipoConteudo.show;
+
+                        case "Anime":
+                            return TipoConteudo.anime;
+
+                        case "Temporada":
+                            return TipoConteudo.season;
+
+                        case "Episódio":
+                            return TipoConteudo.episode;
+
+                        case "Pessoa":
+                            return TipoConteudo.person;
+
+                        case "Filme, Serie e Anime":
+                            return TipoConteudo.movieShowAnime;
+
+                        default:
+                            return null;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Parâmetro inválido", "enumType");
+                }
+            }
+
+            public static string ToString(object enumItem)
+            {
+                if (enumItem.GetType() == typeof(TipoConteudo))
+                {
+                    switch ((TipoConteudo)enumItem)
+                    {
+                        case TipoConteudo.unknown:
+                            return "Desconhecido";
+
+                        case TipoConteudo.movie:
+                            return "Filme";
+
+                        case TipoConteudo.show:
+                            return "Série";
+
+                        case TipoConteudo.anime:
+                            return "Anime";
+
+                        case TipoConteudo.season:
+                            return "Temporada";
+
+                        case TipoConteudo.episode:
+                            return "Episódio";
+
+                        case TipoConteudo.person:
+                            return "Pessoa";
+
+                        case TipoConteudo.movieShowAnime:
+                            return "Filme, Serie e Anime";
+
+                        default:
+                            return null;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Parâmetro inválido", "enumItem");
+                }
+            }
+        }
+
+        #region [ APIs trakt ]
 
         /// <summary>
         /// Realiza a troca do código do trakt pelo access token necessário para realizar as transações específicas de usuário.
@@ -82,8 +299,6 @@ namespace MediaManager.Helpers
                 Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.Title));
             if (settings.pref_PastaFilmes != "")
                 filme.FolderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.Title));
-            filme.Traducoes = ListToString(filme.AvailableTranslations.ToList());
-            filme.Generos = ListToString(filme.Genres.ToList());
             return filme;
         }
 
@@ -110,7 +325,7 @@ namespace MediaManager.Helpers
             return JsonConvert.DeserializeObject<List<Filme>>(responseData)[0];
         }
 
-        public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt, Helper.TipoConteudo tipoConteudo)
+        public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt, Enums.TipoConteudo tipoConteudo)
         {
             string responseData = "";
 
@@ -129,7 +344,7 @@ namespace MediaManager.Helpers
             }
             serie = JsonConvert.DeserializeObject<Serie>(responseData);
 
-            if (tipoConteudo == TipoConteudo.anime)
+            if (tipoConteudo == Enums.TipoConteudo.anime)
             {
                 serie.IsAnime = true;
                 serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -137,15 +352,13 @@ namespace MediaManager.Helpers
                 if (settings.pref_PastaAnimes != "")
                     serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(serie.Title));
             }
-            else if (tipoConteudo == TipoConteudo.show)
+            else if (tipoConteudo == Enums.TipoConteudo.show)
             {
                 serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     Properties.Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaSeries != "")
                     serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.Title));
             }
-            serie.Traducoes = ListToString(serie.AvailableTranslations.ToList());
-            serie.Generos = ListToString(serie.Genres.ToList());
             return serie;
         }
 
@@ -198,8 +411,8 @@ namespace MediaManager.Helpers
         {
             string responseData = "";
 
-            if (type == Helper.TipoConteudo.anime.ToString())
-                type = Helper.TipoConteudo.show.ToString();
+            if (type == Enums.TipoConteudo.anime.ToString())
+                type = Enums.TipoConteudo.show.ToString();
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
@@ -215,7 +428,7 @@ namespace MediaManager.Helpers
             return JsonConvert.DeserializeObject<List<Search>>(responseData);
         }
 
-        #region { OLD API Methods }
+        #region [ OLD API Methods ]
 
         //public static List<Search> API_PesquisarConteudo(string query, string type)
         //{
@@ -427,131 +640,8 @@ namespace MediaManager.Helpers
         //    return user;
         //}
 
-        #endregion { OLD API Methods }
+        #endregion [ OLD API Methods ]
 
-        #endregion { APIs trakt }
-
-        /// <summary>
-        /// Adiciona mensagem no log.
-        /// </summary>
-        /// <param name="message">Mensagem a ser adicionada</param>
-        /// <returns>Retorna false se ocorrer um erro</returns>
-        public static bool LogMessageToFile(string message)
-        {
-            bool sucesso = false;
-            StreamWriter sw = File.AppendText(Environment.CurrentDirectory + "//" + settings.AppName + ".log");
-            try
-            {
-                string logLine = "## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message;
-                sw.WriteLine(logLine);
-                sucesso = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                sucesso = false;
-                Environment.Exit(0);
-            }
-            finally
-            {
-                sw.Close();
-            }
-            return sucesso;
-        }
-
-        public static bool LogMessageToFile(string message, bool start)
-        {
-            bool sucesso = false;
-            string logPath = Environment.CurrentDirectory + "//" + settings.AppName + ".log";
-            StringBuilder logLine;
-            if (File.Exists(logPath))
-                logLine = new StringBuilder("\n");
-            else
-                logLine = new StringBuilder("");
-            StreamWriter sw = File.AppendText(logPath);
-            try
-            {
-                logLine.Append("####################################################################################################\n");
-                logLine.Append("############################################ " + settings.AppName + " ###########################################\n");
-                logLine.Append("####################################################################################################\n");
-                logLine.Append("\n");
-                logLine.Append("## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message);
-                sw.WriteLine(logLine);
-                sucesso = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                sucesso = false;
-            }
-            finally
-            {
-                sw.Close();
-            }
-            return sucesso;
-        }
-
-        public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
-        {
-            if (extensao == null)
-                throw new ArgumentNullException("extensions");
-            IEnumerable<FileInfo> files = dir.EnumerateFiles();
-            return files.Where(f => extensao.Contains(f.Extension));
-        }
-
-        /// <summary>
-        /// Retira os caracteres que o windows não aceita na criação de pastas e arquivos.
-        /// </summary>
-        /// <param name="nome">Nome do arquivo a ser normalizado.</param>
-        /// <returns>Nome sem os caracteres não permitidos.</returns>
-        public static string RetirarCaracteresInvalidos(string nome)
-        {
-            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
-            return nomeNormalizado;
-        }
-
-        /// <summary>
-        /// Retorna os subdiretórios do diretório de séries, configurado nas preferências.
-        /// </summary>
-        /// <returns></returns>
-        public static DirectoryInfo[] retornarDiretoriosSeries()
-        {
-            // TODO Validação para quando não tem pasta nas preferências.
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
-            return dir.GetDirectories();
-        }
-
-        /// <summary>
-        /// Retorna os subdiretórios do diretório de animes, configurado nas preferências.
-        /// </summary>
-        /// <returns></returns>
-        public static DirectoryInfo[] retornarDiretoriosAnimes()
-        {
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
-            return dir.GetDirectories();
-        }
-
-        /// <summary>
-        /// Retorna os subdiretórios do diretório de filmes, configurado nas preferências.
-        /// </summary>
-        /// <returns></returns>
-        public static DirectoryInfo[] retornarDiretoriosFilmes()
-        {
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
-            return dir.GetDirectories();
-        }
-
-        public static string ListToString(IList<string> list)
-        {
-            var s = "";
-            foreach (var item in list)
-            {
-                s += item + "|";
-            }
-            if (s != "")
-                return s.Remove(s.Length - 1);
-            else
-                return null;
-        }
+        #endregion [ APIs trakt ]
     }
 }

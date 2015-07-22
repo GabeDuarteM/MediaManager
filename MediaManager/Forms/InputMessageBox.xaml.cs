@@ -61,12 +61,12 @@ namespace ConfigurableInputMessageBox
         {
             InitializeComponent();
 
-            InputVM = new InputMessageBoxViewModel(inputType);
+            InputViewModel = new InputMessageBoxViewModel(inputType);
 
-            DataContext = InputVM;
+            DataContext = InputViewModel;
         }
 
-        public InputMessageBoxViewModel InputVM { get; set; }
+        public InputMessageBoxViewModel InputViewModel { get; set; }
     }
 
     public class InputMessageBoxProperties : INotifyPropertyChanged, IDataErrorInfo

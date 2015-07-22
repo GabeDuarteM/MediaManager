@@ -13,17 +13,17 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmRenomear : Window
     {
-        public frmRenomear(Helpers.Helper.TipoConteudo conteudo)
+        public frmRenomear(Helpers.Helper.Enums.TipoConteudo conteudo)
         {
             InitializeComponent();
             PopularGrid(conteudo);
         }
 
-        public IEnumerable<FileInfo> PopularGrid(Helpers.Helper.TipoConteudo conteudo)
+        public IEnumerable<FileInfo> PopularGrid(Helpers.Helper.Enums.TipoConteudo conteudo)
         {
             switch (conteudo)
             {
-                case Helpers.Helper.TipoConteudo.show:
+                case Helpers.Helper.Enums.TipoConteudo.show:
                     using (Context db = new Context())
                     {
                         var series = from serie in db.Series
@@ -49,13 +49,13 @@ namespace MediaManager.Forms
                     }
                     break;
 
-                case MediaManager.Helpers.Helper.TipoConteudo.movie:
+                case Helper.Enums.TipoConteudo.movie:
                     break;
 
-                case MediaManager.Helpers.Helper.TipoConteudo.anime:
+                case Helper.Enums.TipoConteudo.anime:
                     break;
 
-                case MediaManager.Helpers.Helper.TipoConteudo.movieShowAnime:
+                case Helper.Enums.TipoConteudo.movieShowAnime:
                     break;
             }
             return null;

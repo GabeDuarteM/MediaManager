@@ -24,7 +24,7 @@
         <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="254,289,0,0" Height="22" Width="25" Click="btnConfig_Click">
             <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
         </Button>
-        <xctk:WatermarkTextBox x:Name="tbxPasta" Text="{Binding Video.FolderPath}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="494" Margin="284,289,0,0" />
+        <xctk:WatermarkTextBox x:Name="tbxPasta" Text="{Binding Video.FolderPath, Mode=TwoWay}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="494" Margin="284,289,0,0" />
         <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,289,0,0" Height="22" Width="25" Click="btnPasta_Click" />
         <TextBox x:Name="tbxSinopse" Text="{Binding Video.Overview}" Margin="10,316,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" IsCancel="True" />

@@ -10,12 +10,11 @@ namespace MediaManager.Model
 {
     public interface Video : INotifyPropertyChanged
     {
-        string Title { get; set; }
-
         string FolderPath { get; set; }
-
+        Ids Ids { get; set; }
         Images Images { get; set; }
-
+        string MetadataFolder { get; set; }
         string Overview { get; set; }
+        string Title { get; set; }
     }
 }

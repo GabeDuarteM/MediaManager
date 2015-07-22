@@ -8,12 +8,12 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <DataGrid Name="dgAll" ItemsSource="{Binding Path=Conteudos}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" MouseDoubleClick="dgAll_MouseDoubleClick">
+        <DataGrid Name="dgAll" ItemsSource="{Binding Path=Conteudos, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" MouseDoubleClick="dgAll_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Pasta, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Pasta" Width="10*" />
                 <DataGridTextColumn Binding="{Binding Path=Nome, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Nome" Width="5*" />
 
-                <DataGridTextColumn Binding="{Binding Path=Tipo, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="1*" />
+                <DataGridTextColumn Binding="{Binding Path=TipoConteudoString, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="1*" />
                 <DataGridTemplateColumn Width="0.6*" CanUserReorder="False" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>

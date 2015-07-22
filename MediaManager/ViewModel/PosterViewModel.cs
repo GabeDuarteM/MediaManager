@@ -11,73 +11,76 @@ namespace MediaManager.ViewModel
     {
         private PosterGrid _poster;
 
+        public ICommand AbrirEdicaoCommand { get; private set; }
+
+        public PosterGrid Poster { get { return _poster; } set { _poster = value; } }
+
         public PosterViewModel()
         {
             AbrirEdicaoCommand = new EdicaoPosterCommand(this);
         }
 
-        public ICommand AbrirEdicaoCommand { get; private set; }
-
-        public PosterGrid Poster { get { return _poster; } set { _poster = value; } }
-
         internal void Editar()
         {
             switch (Poster.TipoConteudo)
             {
-                case MediaManager.Helpers.Helper.TipoConteudo.movie:
+                case Helper.Enums.TipoConteudo.movie:
                     {
-                        Filme filme = new Filme();
-                        filme = DatabaseHelper.GetFilmePorId(Poster.IdBanco);
+                        Video video = new Filme();
+                        video = DatabaseHelper.GetFilmePorId(Poster.IdBanco);
 
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, filme);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, video);
+                        frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            filme = frmAdicionarConteudo.Filme;
+                            video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
 
-                            Poster.IdBanco = filme.IDFilme;
-                            Poster.PosterPath = (File.Exists(Path.Combine(filme.MetadataFolder, "poster.jpg"))) ?
-                                Path.Combine(filme.MetadataFolder, "poster.jpg") : "";
-                            Poster.TipoConteudo = Helper.TipoConteudo.movie;
+                            Poster.IdBanco = video.Ids.IdBanco;
+                            Poster.PosterPath = (File.Exists(Path.Combine(video.MetadataFolder, "poster.jpg"))) ?
+                                Path.Combine(video.MetadataFolder, "poster.jpg") : null;
+                            Poster.TipoConteudo = Helper.Enums.TipoConteudo.movie;
                         }
                         break;
                     }
-                case MediaManager.Helpers.Helper.TipoConteudo.show:
+                case Helper.Enums.TipoConteudo.show:
                     {
-                        Serie serie = new Serie();
+                        Video serie = new Serie();
                         serie = DatabaseHelper.GetSeriePorId(Poster.IdBanco);
 
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, serie);
+                        frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            serie = frmAdicionarConteudo.Serie;
+                            serie = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
 
-                            Poster.IdBanco = serie.IDSerie;
+                            Poster.IdBanco = serie.Ids.IdBanco;
                             Poster.PosterPath = (File.Exists(Path.Combine(serie.MetadataFolder, "poster.jpg"))) ?
-                                Path.Combine(serie.MetadataFolder, "poster.jpg") : "";
-                            Poster.TipoConteudo = Helper.TipoConteudo.show;
+                                Path.Combine(serie.MetadataFolder, "poster.jpg") : null;
+                            Poster.TipoConteudo = Helper.Enums.TipoConteudo.show;
                         }
                         break;
                     }
-                case MediaManager.Helpers.Helper.TipoConteudo.anime:
+                case Helper.Enums.TipoConteudo.anime:
                     {
-                        Serie anime = new Serie();
+                        Video anime = new Serie();
                         anime = DatabaseHelper.GetAnimePorId(Poster.IdBanco);
 
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.TipoConteudo, anime);
+                        frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            anime = frmAdicionarConteudo.Serie;
+                            anime = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
 
-                            Poster.IdBanco = anime.IDSerie;
+                            Poster.IdBanco = anime.Ids.IdBanco;
                             Poster.PosterPath = (File.Exists(Path.Combine(anime.MetadataFolder, "poster.jpg"))) ?
-                                Path.Combine(anime.MetadataFolder, "poster.jpg") : "";
-                            Poster.TipoConteudo = Helper.TipoConteudo.anime;
+                                Path.Combine(anime.MetadataFolder, "poster.jpg") : null;
+                            Poster.TipoConteudo = Helper.Enums.TipoConteudo.anime;
                         }
                         break;
                     }

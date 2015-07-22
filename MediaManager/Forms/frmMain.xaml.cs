@@ -26,21 +26,21 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.anime, false);
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.Enums.TipoConteudo.anime, false);
             frmPopupPesquisa.ShowDialog();
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.TipoConteudo.movie, false);
+            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.Enums.TipoConteudo.movie, false);
             frmPopupPesquisa.ShowDialog();
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.TipoConteudo.show);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.TipoConteudo.show);
             frmAdicionarConteudo.ShowDialog();
-            //frmPopupPesquisa frmPopupPesquisa = new frmPopupPesquisa(Helper.TipoConteudo.show, false);
+            //frmPopupPesquisa frmPopupPesquisa = new frmPopupPesquisa(Helper.Enums.TipoConteudo.show, false);
             //frmPopupPesquisa.ShowDialog();
         }
 
@@ -52,35 +52,31 @@ namespace MediaManager.Forms
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.TipoConteudo.movieShowAnime);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.Enums.TipoConteudo.movieShowAnime);
             frmProcurarConteudo.ShowDialog();
-            if (frmProcurarConteudo.DialogResult == true)
-            {
-                mainVM.Load();
-            }
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.anime);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.anime);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movie);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.movie);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.show);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.show);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.TipoConteudo.movieShowAnime);
+            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.movieShowAnime);
             frmRenomear.ShowDialog();
         }
 

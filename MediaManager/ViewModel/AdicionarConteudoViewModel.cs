@@ -11,10 +11,10 @@ namespace MediaManager.ViewModel
         private string _fanartUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
         private string _posterUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private List<Video> _resultPesquisa;
-        private Helper.TipoConteudo _tipoConteudo;
+        private Helper.Enums.TipoConteudo _tipoConteudo;
         private Video _video;
 
-        public AdicionarConteudoViewModel(string title, Helper.TipoConteudo tipoConteudo)
+        public AdicionarConteudoViewModel(string title, Helper.Enums.TipoConteudo tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
             //PosterUrl = null;
@@ -25,7 +25,7 @@ namespace MediaManager.ViewModel
             getResultPesquisaAsync(title);
         }
 
-        public AdicionarConteudoViewModel(Video video, Helper.TipoConteudo tipoConteudo)
+        public AdicionarConteudoViewModel(Video video, Helper.Enums.TipoConteudo tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
             //PosterUrl = null;
@@ -58,7 +58,7 @@ namespace MediaManager.ViewModel
 
         public List<Video> ResultPesquisa { get { return _resultPesquisa; } set { _resultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
 
-        public Helper.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; } }
+        public Helper.Enums.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; } }
 
         public Video Video { get { return _video; } set { _video = value; OnPropertyChanged("Video"); DefinirImagens(); } }
 
@@ -90,12 +90,13 @@ namespace MediaManager.ViewModel
         {
             List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(title, TipoConteudo.ToString());
             ResultPesquisa = new List<Video>();
+
             foreach (var item in listaSearch)
             {
                 ResultPesquisa.Add(item.ToVideo());
             }
-            ResultPesquisa.Add(new Serie() { Title = "Busca personalizada..." });
 
+            ResultPesquisa.Add(new Serie() { Title = "Busca personalizada..." });
             Video = ResultPesquisa[0];
         }
 
@@ -110,7 +111,9 @@ namespace MediaManager.ViewModel
             {
                 Video videoItem = item.ToVideo();
                 videoItem.FolderPath = video.FolderPath;
-                if (videoItem.Title == Video.Title && (Video.Overview == null && Video.Images == null))
+
+                // Vai cair no if abaixo quando a chamada do método vier do menu "Procurar novos conteúdos".
+                if (videoItem.Title == Video.Title && (Video.Overview == null && Video.Images == null)) 
                 {
                     Video = videoItem;
                     ResultPesquisa.Remove(video);

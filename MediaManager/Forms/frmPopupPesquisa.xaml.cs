@@ -8,7 +8,7 @@ namespace MediaManager.Forms
 {
     public partial class frmPopupPesquisa : Window
     {
-        private Helper.TipoConteudo tipoConteudo;
+        private Helper.Enums.TipoConteudo tipoConteudo;
 
         private List<Search> _resultPesquisa;
 
@@ -20,7 +20,7 @@ namespace MediaManager.Forms
             private set { _resultPesquisa = value; }
         }
 
-        public frmPopupPesquisa(Helper.TipoConteudo tipoConteudo, bool isBuscaPersonalizada)
+        public frmPopupPesquisa(Helper.Enums.TipoConteudo tipoConteudo, bool isBuscaPersonalizada)
         {
             InitializeComponent();
             this.tipoConteudo = tipoConteudo;

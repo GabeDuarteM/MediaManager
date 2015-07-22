@@ -1,9 +1,9 @@
-﻿using MediaManager.Helpers;
-using MediaManager.Model;
-using MediaManager.ViewModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MediaManager.Helpers;
+using MediaManager.Model;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -13,11 +13,9 @@ namespace MediaManager.Forms
     public partial class frmProcurarConteudo : Window
     {
         public ProcurarConteudoViewModel contViewModel;
-        public Helper.TipoConteudo TipoConteudo;
-        private Serie Serie = new Serie();
-        private Filme Filme = new Filme();
+        public Helper.Enums.TipoConteudo TipoConteudo;
 
-        public frmProcurarConteudo(Helper.TipoConteudo tipoConteudo)
+        public frmProcurarConteudo(Helper.Enums.TipoConteudo tipoConteudo)
         {
             InitializeComponent();
             TipoConteudo = tipoConteudo;
@@ -31,35 +29,23 @@ namespace MediaManager.Forms
             {
                 if (item.IsSelected == true)
                 {
-                    switch (item.Tipo)
+                    switch (item.TipoConteudoString)
                     {
                         case "Show":
-                            if (!item.IsAlterado)
-                            {
-                                Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.show);
-                                serie.Generos = Helper.ListToString(serie.Genres);
-                                serie.Traducoes = Helper.ListToString(serie.AvailableTranslations);
-                                await DatabaseHelper.AddSerieAsync(serie);
-                            }
-                            else
-                            {
-                                Serie.Generos = Helper.ListToString(Serie.Genres);
-                                Serie.Traducoes = Helper.ListToString(Serie.AvailableTranslations);
-                                await DatabaseHelper.AddSerieAsync(Serie);
-                            }
+                            Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.Enums.TipoConteudo.show);
+                            serie.FolderPath = item.Pasta;
+                            await DatabaseHelper.AddSerieAsync(serie);
                             break;
 
                         case "Anime":
-                            Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.TipoConteudo.anime);
-                            anime.Generos = Helper.ListToString(anime.Genres);
-                            anime.Traducoes = Helper.ListToString(anime.AvailableTranslations);
+                            Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.Enums.TipoConteudo.anime);
+                            anime.FolderPath = item.Pasta;
                             await DatabaseHelper.AddAnimeAsync(anime);
                             break;
 
                         case "Filme":
                             Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                            filme.Generos = Helper.ListToString(filme.Genres);
-                            filme.Traducoes = Helper.ListToString(filme.AvailableTranslations);
+                            filme.FolderPath = item.Pasta;
                             await DatabaseHelper.AddFilmeAsync(filme);
                             break;
 
@@ -109,70 +95,62 @@ namespace MediaManager.Forms
                 }
         }
 
+        private void dgAll_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgAll.SelectedItem != null)
+            {
+                ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
+
+                Helper.Enums.TipoConteudo tipoConteudo = (Helper.Enums.TipoConteudo)Helper.Enums.ToEnum(conteudo.TipoConteudoString, typeof(Helper.Enums.TipoConteudo));
+
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo, conteudo.ToVideo());
+                frmAdicionarConteudo.IsProcurarConteudo = true;
+                frmAdicionarConteudo.ShowDialog();
+                if (frmAdicionarConteudo.DialogResult == true)
+                {
+                    switch (frmAdicionarConteudo.AdicionarConteudoViewModel.TipoConteudo)
+                    {
+                        case Helper.Enums.TipoConteudo.movie:
+                            {
+                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
+                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
+                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
+                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
+                                break;
+                            }
+
+                        case Helper.Enums.TipoConteudo.show:
+                            {
+                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
+                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
+                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
+                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
+                                break;
+                            }
+                        case Helper.Enums.TipoConteudo.anime:
+                            {
+                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
+                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
+                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
+                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             contViewModel = new ProcurarConteudoViewModel();
             DataContext = contViewModel;
             await contViewModel.LoadConteudos(TipoConteudo);
             btAdicionar.IsEnabled = true;
-        }
-
-        private void dgAll_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(dgAll.SelectedItem != null)
-            {
-                ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
-
-                // TODO Arrumar gambiarra monstra:
-                Helper.TipoConteudo tipoConteudo = new Helper.TipoConteudo();
-                switch (conteudo.Tipo)
-                {
-                    case "Show":
-                        tipoConteudo = Helper.TipoConteudo.show;
-                        break;
-                    case "Anime":
-                        tipoConteudo = Helper.TipoConteudo.anime;
-                        break;
-                    case "Filme":
-                        tipoConteudo = Helper.TipoConteudo.movie;
-                        break;
-                    default:
-                        break;
-                }
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo,conteudo.ToVideo());
-                frmAdicionarConteudo.ShowDialog();
-                if (frmAdicionarConteudo.DialogResult == true)
-                {
-                    switch (frmAdicionarConteudo.TipoConteudo)
-                    {
-                        case Helper.TipoConteudo.movie:
-                            Filme = frmAdicionarConteudo.Filme;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Filme.Title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Filme.FolderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Filme.Ids.slug;
-                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                            Filme = frmAdicionarConteudo.Filme;
-                            break;
-                        case Helper.TipoConteudo.show:
-                            Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.Title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.FolderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.Ids.slug;
-                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                            break;
-                        case Helper.TipoConteudo.anime:
-                            Serie = frmAdicionarConteudo.Serie;
-                            (dgAll.SelectedItem as ConteudoGrid).Nome = Serie.Title;
-                            (dgAll.SelectedItem as ConteudoGrid).Pasta = Serie.FolderPath;
-                            (dgAll.SelectedItem as ConteudoGrid).TraktSlug = Serie.Ids.slug;
-                            (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
         }
     }
 }

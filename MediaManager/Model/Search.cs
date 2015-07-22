@@ -34,6 +34,7 @@ namespace MediaManager.Model
                         video.Title = Title;
                         video.Images = show.images;
                         video.Overview = show.overview;
+                        video.Ids = show.ids;
                         if (isAnime)
                             video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes) ? Path.Combine(Settings.Default.pref_PastaAnimes, video.Title) : null;
                         else
@@ -46,6 +47,7 @@ namespace MediaManager.Model
                         video.Title = Title;
                         video.Images = movie.images;
                         video.Overview = movie.overview;
+                        video.Ids = movie.ids;
                         video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes) ? Path.Combine(Settings.Default.pref_PastaFilmes, video.Title) : null;
                         return video;
                     }

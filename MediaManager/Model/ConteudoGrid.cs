@@ -1,17 +1,17 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace MediaManager.Model
 {
     public class ConteudoGrid : INotifyPropertyChanged
     {
+        private bool _isAlterado;
         private bool _isSelected;
         private string _nome;
         private string _pasta;
-        private string _tipo;
+        private Helpers.Helper.Enums.TipoConteudo _tipoConteudo;
+        private string _tipoConteudoString;
         private string _traktSlug;
-        private bool _isAlterado;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public bool IsAlterado
         {
@@ -37,25 +37,11 @@ namespace MediaManager.Model
             set { _pasta = value; OnPropertyChanged("Pasta"); }
         }
 
-        public string Tipo
-        {
-            get { return _tipo; }
-            set { _tipo = value; OnPropertyChanged("Tipo"); }
-        }
+        public Helpers.Helper.Enums.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; OnPropertyChanged("TipoConteudo"); DefinirTipoConteudoString(); } }
 
-        public string TraktSlug
-        {
-            get { return _traktSlug; }
-            set { _traktSlug = value; OnPropertyChanged("TraktSlug"); }
-        }
+        public string TipoConteudoString { get { return _tipoConteudoString; } }
 
-        private void OnPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
+        public string TraktSlug { get { return _traktSlug; } set { _traktSlug = value; OnPropertyChanged("TraktSlug"); } }
 
         /// <summary>
         /// Realiza a conversão do objeto para o tipo Video. O objeto retornado irá conter somente a pasta e o título informado no ConteudoGrid.
@@ -69,5 +55,63 @@ namespace MediaManager.Model
             video.Title = Nome;
             return video;
         }
+
+        private void DefinirTipoConteudoString()
+        {
+            switch (TipoConteudo)
+            {
+                case Helpers.Helper.Enums.TipoConteudo.unknown:
+                    _tipoConteudoString = "Desconhecido";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.movie:
+                    _tipoConteudoString = "Filme";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.show:
+                    _tipoConteudoString = "Série";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.anime:
+                    _tipoConteudoString = "Anime";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.season:
+                    _tipoConteudoString = "Temporada";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.episode:
+                    _tipoConteudoString = "Episódio";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.person:
+                    _tipoConteudoString = "Pessoa";
+                    break;
+
+                case Helpers.Helper.Enums.TipoConteudo.movieShowAnime:
+                    _tipoConteudoString = "Filme, Serie e Anime";
+                    break;
+
+                default:
+                    _tipoConteudoString = null;
+                    break;
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion INotifyPropertyChanged Members
     }
 }
