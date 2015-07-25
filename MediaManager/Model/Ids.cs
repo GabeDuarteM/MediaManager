@@ -7,14 +7,15 @@ namespace MediaManager.Model
     [Table("Ids")]
     public class Ids
     {
-        [NotMapped]
-        public int IdBanco { get; set; }
+        public virtual Filme Filme { get; set; }
 
-        [Key]
-        public int IDIds { get; set; }
+        [Key, Column(Order = 0)]
+        public int ID { get; set; }
 
         [JsonProperty("imdb")]
         public string imdb { get; set; }
+
+        public virtual Serie Serie { get; set; }
 
         [JsonProperty("slug")]
         public string slug { get; set; }

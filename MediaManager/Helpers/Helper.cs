@@ -16,6 +16,67 @@ namespace MediaManager.Helpers
     {
         private static Settings settings = Settings.Default;
 
+        /// <summary>
+        /// Faz o download do poster e da fanart disponiveis, na ordem thumb, medium e full para o diretório metadata informado no video
+        /// </summary>
+        public static async Task<bool> DownloadImages(Video video)
+        {
+            try
+            {
+                if (video.Images.poster.thumb != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.thumb), path);
+                    }
+                }
+                else if (video.Images.poster.medium != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.medium), path);
+                    }
+                }
+                else if (video.Images.poster.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.full), path);
+                    }
+                }
+
+                if (video.Images.fanart.thumb != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.thumb), path);
+                    }
+                }
+                else if (video.Images.fanart.medium != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.medium), path);
+                    }
+                }
+                else if (video.Images.fanart.full != null)
+                {
+                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    {
+                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.full), path);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+        }
+
         public static string ListToString(IList<string> lista)
         {
             if (lista != null)
@@ -166,11 +227,17 @@ namespace MediaManager.Helpers
                 movieShowAnime = 7
             }
 
-            public static object ToEnum(string s, Type enumType)
+            /// <summary>
+            /// Transforma a string em um enum
+            /// </summary>
+            /// <param name="str">String a ser transformada</param>
+            /// <param name="enumType">Tipo do enum destino</param>
+            /// <returns>Enum do tipo destino escolhido</returns>
+            public static object ToEnum(string str, Type enumType)
             {
                 if (enumType == typeof(TipoConteudo))
                 {
-                    switch (s)
+                    switch (str)
                     {
                         case "Desconhecido":
                             return TipoConteudo.unknown;
@@ -206,6 +273,9 @@ namespace MediaManager.Helpers
                 }
             }
 
+            /// <summary>
+            /// Transforma o enum numa string "enfeitada".
+            /// </summary>
             public static string ToString(object enumItem)
             {
                 if (enumItem.GetType() == typeof(TipoConteudo))
@@ -294,35 +364,36 @@ namespace MediaManager.Helpers
                 }
             }
             filme = JsonConvert.DeserializeObject<Filme>(responseData);
-            var traducoes = new { available_translations = JsonConvert.DeserializeObject(responseData) };
-            filme.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Properties.Settings.Default.AppName, "Metadata", "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(filme.Title));
-            if (settings.pref_PastaFilmes != "")
-                filme.FolderPath = System.IO.Path.Combine(settings.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(filme.Title));
-            return filme;
-        }
 
-        /// <summary>
-        /// Realiza uma pesquisa pelo filme no Trakt.tv baseado no slug (Id) do trakt para retornar a sinopse traduzida do filme
-        /// </summary>
-        /// <param name="slugTrakt">Slug (id) do trakt. Ex.: breaking-bad</param>
-        /// <returns>Objeto contendo as informações traduzidas do filme</returns>
-        public async static Task<Filme> API_GetFilmeSinopseAsync(string slugTrakt)
-        {
-            string responseData = "";
-
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
+            if (filme.AvailableTranslations.Contains(settings.pref_IdiomaPesquisa))
             {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+                string responseDataSinopse = "";
 
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+                List<Filme> traducoes = new List<Filme>();
 
-                using (var response = await httpClient.GetAsync("movies/" + slugTrakt + "/translations/pt"))
+                using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
                 {
-                    responseData = await response.Content.ReadAsStringAsync();
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                    using (var response = await httpClient.GetAsync("movies/" + slugTrakt + "/translations/" + settings.pref_IdiomaPesquisa))
+                    {
+                        responseDataSinopse = await response.Content.ReadAsStringAsync();
+                    }
                 }
+                traducoes = JsonConvert.DeserializeObject<List<Filme>>(responseDataSinopse);
+
+                var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
+                if (!string.IsNullOrWhiteSpace(sinopseTraduzida))
+                    filme.Overview = sinopseTraduzida;
             }
-            return JsonConvert.DeserializeObject<List<Filme>>(responseData)[0];
+
+            filme.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Settings.Default.AppName, "Metadata", "Filmes", RetirarCaracteresInvalidos(filme.Title));
+            if (settings.pref_PastaFilmes != "")
+                filme.FolderPath = Path.Combine(settings.pref_PastaFilmes, RetirarCaracteresInvalidos(filme.Title));
+            return filme;
         }
 
         public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt, Enums.TipoConteudo tipoConteudo)
@@ -344,43 +415,46 @@ namespace MediaManager.Helpers
             }
             serie = JsonConvert.DeserializeObject<Serie>(responseData);
 
+            if (serie.AvailableTranslations.Contains(settings.pref_IdiomaPesquisa))
+            {
+                string responseDataSinopse = "";
+
+                List<Serie> traducoes = new List<Serie>();
+
+                using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
+                {
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                    using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "/translations/" + settings.pref_IdiomaPesquisa))
+                    {
+                        responseDataSinopse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+                traducoes = JsonConvert.DeserializeObject<List<Serie>>(responseDataSinopse);
+
+                var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
+                if (!string.IsNullOrWhiteSpace(sinopseTraduzida))
+                    serie.Overview = sinopseTraduzida;
+            }
+
             if (tipoConteudo == Enums.TipoConteudo.anime)
             {
                 serie.IsAnime = true;
-                serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    Properties.Settings.Default.AppName, "Metadata", "Animes", Helpers.Helper.RetirarCaracteresInvalidos(serie.Title));
+                serie.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Settings.Default.AppName, "Metadata", "Animes", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaAnimes != "")
-                    serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(serie.Title));
+                    serie.FolderPath = Path.Combine(settings.pref_PastaAnimes, RetirarCaracteresInvalidos(serie.Title));
             }
             else if (tipoConteudo == Enums.TipoConteudo.show)
             {
-                serie.MetadataFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    Properties.Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
+                serie.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaSeries != "")
-                    serie.FolderPath = System.IO.Path.Combine(settings.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(serie.Title));
+                    serie.FolderPath = Path.Combine(settings.pref_PastaSeries, RetirarCaracteresInvalidos(serie.Title));
             }
             return serie;
-        }
-
-        public async static Task<Serie> API_GetSerieSinopseAsync(string slugTrakt)
-        {
-            string responseData = "";
-
-            List<Serie> series = new List<Serie>();
-
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
-            {
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
-
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
-
-                using (var response = await httpClient.GetAsync("shows/" + slugTrakt + "/translations/pt"))
-                {
-                    responseData = await response.Content.ReadAsStringAsync();
-                }
-            }
-            series = JsonConvert.DeserializeObject<List<Serie>>(responseData);
-            return (series.Count > 0) ? series[0] : new Serie(); ;
         }
 
         /// <summary>
@@ -407,9 +481,10 @@ namespace MediaManager.Helpers
             return JsonConvert.DeserializeObject<UserInfo>(responseData);
         }
 
-        public static async Task<List<Search>> API_PesquisarConteudoAsync(string query, string type)
+        public static async Task<List<Search>> API_PesquisarConteudoAsync(string query, string type, bool traduzirSinopse = true)
         {
             string responseData = "";
+            List<Search> responseList = null;
 
             if (type == Enums.TipoConteudo.anime.ToString())
                 type = Enums.TipoConteudo.show.ToString();
@@ -425,7 +500,37 @@ namespace MediaManager.Helpers
                     responseData = await response.Content.ReadAsStringAsync();
                 }
             }
-            return JsonConvert.DeserializeObject<List<Search>>(responseData);
+            responseList = JsonConvert.DeserializeObject<List<Search>>(responseData);
+
+            if (traduzirSinopse)
+            {
+                foreach (var item in responseList)
+                {
+                    var itemVideo = item.ToVideo();
+                    string responseDataSinopse = "";
+
+                    List<Serie> traducoes = new List<Serie>();
+
+                    using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
+                    {
+                        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
+
+                        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
+
+                        using (var response = await httpClient.GetAsync(type + "s/" + itemVideo.Ids.slug + "/translations/" + settings.pref_IdiomaPesquisa))
+                        {
+                            responseDataSinopse = await response.Content.ReadAsStringAsync();
+                        }
+                    }
+                    traducoes = JsonConvert.DeserializeObject<List<Serie>>(responseDataSinopse);
+
+                    var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
+                    if (!string.IsNullOrWhiteSpace(sinopseTraduzida))
+                        item.Video.overview = sinopseTraduzida;
+                }
+            }
+
+            return responseList;
         }
 
         #region [ OLD API Methods ]

@@ -81,17 +81,17 @@ namespace MediaManager.Forms
                 var url = "http://trakt.tv/oauth/authorize?client_id=bde862fb343e4249fff7af52459e5af3428d471e8bbd584db6355d2b1812aa60&redirect_uri=http%3A%2F%2Flocalhost%3A51038%2FTraktLogin.aspx&response_type=code";
                 Process.Start(url);
                 var fileName = "EFC1AEF31C5F001BEAE4FB75A236A621.txt";
-                var filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileName);
+                var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileName);
                 while (!File.Exists(filePath))
                 {
                 }
                 Thread.Sleep(1000);
                 string code = File.ReadAllText(filePath);
                 File.Delete(filePath);
-                UserAuth auth = await Helpers.Helper.API_GetAccessTokenAsync(code);
+                UserAuth auth = await Helper.API_GetAccessTokenAsync(code);
                 settings.user_accessToken = auth.access_token;
 
-                UserInfo user = await Helpers.Helper.API_GetUserSettingsAsync();
+                UserInfo user = await Helper.API_GetUserSettingsAsync();
                 settings.user_username = user.user.username;
                 lblUsuarioTrakt.Content = settings.user_username;
                 Properties.Settings.Default.Save();

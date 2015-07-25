@@ -50,9 +50,9 @@ namespace MediaManager.ViewModel
                     {
                         if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
                         {
-                            series = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.show.ToString());
-                            if (series.Count != 0 && !DatabaseHelper.VerificaSeExiste(series[0].show.ids.trakt))
-                                conteudos.Add(new ConteudoGrid { Nome = series[0].show.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.show, TraktSlug = series[0].show.ids.slug, IsSelected = true });
+                            series = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.show.ToString(), false);
+                            if (series.Count != 0 && !DatabaseHelper.VerificaSeExiste(series[0].Video.ids.trakt))
+                                conteudos.Add(new ConteudoGrid { Nome = series[0].Video.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.show, TraktSlug = series[0].Video.ids.slug, IsSelected = true });
                         }
                     }
 
@@ -60,9 +60,9 @@ namespace MediaManager.ViewModel
                     {
                         if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
                         {
-                            animes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.show.ToString());
-                            if (animes.Count != 0 && !DatabaseHelper.VerificaSeExiste(animes[0].show.ids.trakt))
-                                conteudos.Add(new ConteudoGrid { Nome = animes[0].show.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.anime, TraktSlug = animes[0].show.ids.slug, IsSelected = true });
+                            animes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.show.ToString(), false);
+                            if (animes.Count != 0 && !DatabaseHelper.VerificaSeExiste(animes[0].Video.ids.trakt))
+                                conteudos.Add(new ConteudoGrid { Nome = animes[0].Video.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.anime, TraktSlug = animes[0].Video.ids.slug, IsSelected = true });
                         }
                     }
 
@@ -70,9 +70,9 @@ namespace MediaManager.ViewModel
                     {
                         if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
                         {
-                            filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.movie.ToString());
-                            if (filmes.Count != 0 && !DatabaseHelper.VerificaSeExiste(filmes[0].movie.ids.trakt))
-                                conteudos.Add(new ConteudoGrid { Nome = filmes[0].movie.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.movie, TraktSlug = filmes[0].movie.ids.slug, IsSelected = true });
+                            filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.movie.ToString(), false);
+                            if (filmes.Count != 0 && !DatabaseHelper.VerificaSeExiste(filmes[0].Video.ids.trakt))
+                                conteudos.Add(new ConteudoGrid { Nome = filmes[0].Video.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.movie, TraktSlug = filmes[0].Video.ids.slug, IsSelected = true });
                         }
                     }
                     break;

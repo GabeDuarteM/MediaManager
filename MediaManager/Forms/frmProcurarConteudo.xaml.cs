@@ -31,7 +31,7 @@ namespace MediaManager.Forms
                 {
                     switch (item.TipoConteudoString)
                     {
-                        case "Show":
+                        case "Série":
                             Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.Enums.TipoConteudo.show);
                             serie.FolderPath = item.Pasta;
                             await DatabaseHelper.AddSerieAsync(serie);

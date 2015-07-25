@@ -23,7 +23,7 @@ namespace MediaManager.Forms
         {
             switch (conteudo)
             {
-                case Helpers.Helper.Enums.TipoConteudo.show:
+                case Helper.Enums.TipoConteudo.show:
                     using (Context db = new Context())
                     {
                         var series = from serie in db.Series

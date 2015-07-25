@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using MediaManager.Helpers;
 using MediaManager.ViewModel;
@@ -11,42 +12,46 @@ namespace MediaManager.Forms
     public partial class frmMain : Window
     {
         //private static string[] allowedExtensions = { ".mkv", ".avi", ".mp4", ".flv", ".rmvb", ".rm", ".srt", ".nfo" };
-        private MainViewModel mainVM;
+        public MainViewModel MainVM { get; private set; }
 
         public frmMain()
         {
             InitializeComponent();
 
-            mainVM = new MainViewModel();
+            MainVM = new MainViewModel();
 
-            DataContext = mainVM;
+            DataContext = MainVM;
         }
 
         #region [ MenuItems ]
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.Enums.TipoConteudo.anime, false);
-            frmPopupPesquisa.ShowDialog();
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.TipoConteudo.anime);
+            frmAdicionarConteudo.ShowDialog();
+            if (frmAdicionarConteudo.DialogResult == true)
+                MainVM.AtualizarConteudo(Helper.Enums.TipoConteudo.anime);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPopupPesquisa frmPopupPesquisa = new Forms.frmPopupPesquisa(Helpers.Helper.Enums.TipoConteudo.movie, false);
-            frmPopupPesquisa.ShowDialog();
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.TipoConteudo.movie);
+            frmAdicionarConteudo.ShowDialog();
+            if (frmAdicionarConteudo.DialogResult == true)
+                MainVM.AtualizarConteudo(Helper.Enums.TipoConteudo.movie);
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.TipoConteudo.show);
             frmAdicionarConteudo.ShowDialog();
-            //frmPopupPesquisa frmPopupPesquisa = new frmPopupPesquisa(Helper.Enums.TipoConteudo.show, false);
-            //frmPopupPesquisa.ShowDialog();
+            if (frmAdicionarConteudo.DialogResult == true)
+                MainVM.AtualizarConteudo(Helper.Enums.TipoConteudo.show);
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmPreferencias frmPreferencias = new Forms.frmPreferencias();
+            frmPreferencias frmPreferencias = new frmPreferencias();
             frmPreferencias.ShowDialog();
         }
 
@@ -54,29 +59,31 @@ namespace MediaManager.Forms
         {
             frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.Enums.TipoConteudo.movieShowAnime);
             frmProcurarConteudo.ShowDialog();
+            if (frmProcurarConteudo.DialogResult == true)
+                MainVM.AtualizarConteudo(Helper.Enums.TipoConteudo.movieShowAnime);
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.anime);
+            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.anime);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.movie);
+            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.movie);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.show);
+            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.show);
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmRenomear frmRenomear = new Forms.frmRenomear(Helpers.Helper.Enums.TipoConteudo.movieShowAnime);
+            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.movieShowAnime);
             frmRenomear.ShowDialog();
         }
 

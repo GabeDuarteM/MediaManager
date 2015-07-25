@@ -1,49 +1,25 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MediaManager.Model
 {
-
-    [Table("Images")]
-    public class Images
+    public class Avatar
     {
-        [Key]
-        public int IDImages { get; set; }
+        [JsonProperty("full")]
+        public string full { get; set; }
+    }
 
-        //[ForeignKey("Serie")]
-        //public int IDSerie { get; set; }
+    public class Banner
+    {
+        [JsonProperty("full")]
+        public string full { get; set; }
+    }
 
-        //[ForeignKey("Series")]
-        //public virtual Serie Serie { get; set; }
-        
-        //[ForeignKey("Filme")]
-        //public int IDFilme { get; set; }
-
-        //[ForeignKey("Filmes")]
-        //public virtual Filme Filme { get; set; }
-
-        [JsonProperty("fanart")]
-        public virtual Fanart fanart { get; set; }
-
-        [JsonProperty("poster")]
-        public virtual Poster poster { get; set; }
-
-        [JsonProperty("logo")]
-        public virtual Logo logo { get; set; }
-
-        [JsonProperty("clearart")]
-        public virtual Clearart clearart { get; set; }
-
-        [JsonProperty("banner")]
-        public virtual Banner banner { get; set; }
-
-        [JsonProperty("thumb")]
-        public virtual Thumb thumb { get; set; }
-
-        [NotMapped]
-        [JsonProperty("avatar")]
-        public virtual Avatar avatar { get; set; }
+    public class Clearart
+    {
+        [JsonProperty("full")]
+        public string full { get; set; }
     }
 
     public class Fanart
@@ -58,6 +34,45 @@ namespace MediaManager.Model
         public string thumb { get; set; }
     }
 
+    [Table("Images")]
+    public class Images
+    {
+        [NotMapped]
+        [JsonProperty("avatar")]
+        public virtual Avatar avatar { get; set; }
+
+        [JsonProperty("banner")]
+        public virtual Banner banner { get; set; }
+
+        [JsonProperty("clearart")]
+        public virtual Clearart clearart { get; set; }
+
+        [JsonProperty("fanart")]
+        public virtual Fanart fanart { get; set; }
+
+        public virtual Filme Filme { get; set; }
+
+        [Key, Column(Order = 0)]
+        public int ID { get; set; }
+
+        [JsonProperty("logo")]
+        public virtual Logo logo { get; set; }
+
+        [JsonProperty("poster")]
+        public virtual Poster poster { get; set; }
+
+        public virtual Serie Serie { get; set; }
+
+        [JsonProperty("thumb")]
+        public virtual Thumb thumb { get; set; }
+    }
+
+    public class Logo
+    {
+        [JsonProperty("full")]
+        public string full { get; set; }
+    }
+
     public class Poster
     {
         [JsonProperty("full")]
@@ -70,35 +85,9 @@ namespace MediaManager.Model
         public string thumb { get; set; }
     }
 
-    public class Logo
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Clearart
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-    public class Banner
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
     public class Thumb
     {
         [JsonProperty("full")]
         public string full { get; set; }
     }
-
-    public class Avatar
-    {
-        [JsonProperty("full")]
-        public string full { get; set; }
-    }
-
-
 }

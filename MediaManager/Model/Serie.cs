@@ -12,10 +12,9 @@ namespace MediaManager.Model
     {
         private IList<string> _availableTranslations;
         private string _folderPath;
-        private string _generos;
         private IList<string> _genresList;
-        private Ids _ids = new Ids();
-        private int _idSerie;
+        private int _id;
+        private Ids _ids;
         private Images _images;
         private string _overview;
         private string _title;
@@ -46,21 +45,21 @@ namespace MediaManager.Model
 
         public string FolderPath { get { return _folderPath; } set { _folderPath = value; OnPropertyChanged("FolderPath"); } }
 
-        public string Generos { get { return _generos; } set { _generos = value; } }
+        public string Generos { get; private set; }
 
         [JsonProperty("genres")]
-        public IList<string> GenresList { get { return _genresList; } set { _genresList = value; _generos = Helpers.Helper.ListToString(value); } }
+        public IList<string> GenresList { get { return _genresList; } set { _genresList = value; Generos = Helpers.Helper.ListToString(value); } }
 
         [JsonProperty("homepage")]
         public object Homepage { get; set; }
 
-        [JsonProperty("ids")]
+        [Key, Column(Order = 0)]
+        public int ID { get { return _id; } set { _id = value; } }
+
+        [JsonProperty("ids"), NotMapped]
         public virtual Ids Ids { get { return _ids; } set { _ids = value; } }
 
-        [Key]
-        public int IDSerie { get { return _idSerie; } set { _idSerie = value; _ids.IdBanco = value; } }
-
-        [JsonProperty("images")]
+        [JsonProperty("images"), NotMapped]
         public virtual Images Images { get { return _images; } set { _images = value; OnPropertyChanged("Images"); } }
 
         public bool IsAnime { get; set; }
@@ -88,7 +87,7 @@ namespace MediaManager.Model
         [JsonProperty("title")]
         public string Title { get { return _title; } set { _title = value; OnPropertyChanged("Title"); } }
 
-        public string Traducoes { get; set; }
+        public string Traducoes { get; private set; }
 
         [JsonProperty("trailer")]
         public object Trailer { get; set; }

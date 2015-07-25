@@ -13,6 +13,12 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
+        public AdicionarConteudoViewModel AdicionarConteudoViewModel { get; set; }
+
+        public bool IsEdicao { get; set; }
+
+        public bool IsProcurarConteudo { get; set; }
+
         public frmAdicionarConteudo(Helper.Enums.TipoConteudo tipoConteudo)
         {
             InitializeComponent();
@@ -32,18 +38,14 @@ namespace MediaManager.Forms
         {
             InitializeComponent();
 
-            AdicionarConteudoViewModel adicionarConteudoViewModel = new AdicionarConteudoViewModel(video, tipoConteudo);
+            AdicionarConteudoViewModel = new AdicionarConteudoViewModel(video, tipoConteudo);
 
-            DataContext = adicionarConteudoViewModel;
+            DataContext = AdicionarConteudoViewModel;
         }
-
-        public AdicionarConteudoViewModel AdicionarConteudoViewModel { get; set; }
-        public bool IsEdicao { get; set; }
-        public bool IsProcurarConteudo { get; set; }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
-            Forms.frmConfigConteudo frmConfigConteudo = new frmConfigConteudo();
+            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo();
             frmConfigConteudo.ShowDialog();
             if (frmConfigConteudo.DialogResult == true)
             {
@@ -82,6 +84,7 @@ namespace MediaManager.Forms
 
                         if (IsEdicao)
                         {
+                            filme.ID = AdicionarConteudoViewModel.Video.ID;
                             try { await DatabaseHelper.UpdateFilmeAsync(filme); }
                             catch (Exception ex)
                             {
@@ -98,22 +101,6 @@ namespace MediaManager.Forms
                                 DialogResult = false;
                             }
                         }
-                        //if (Filme.IDFilme == 0)
-                        //{
-                        //    if (await DatabaseHelper.AddFilmeAsync(Filme))
-                        //    {
-                        //        DialogResult = true;
-                        //        Close();
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    if (await DatabaseHelper.UpdateFilmeAsync(Filme))
-                        //    {
-                        //        DialogResult = true;
-                        //        Close();
-                        //    }
-                        //}
                         break;
 
                     case Helper.Enums.TipoConteudo.show:
@@ -123,6 +110,7 @@ namespace MediaManager.Forms
 
                             if (IsEdicao)
                             {
+                                serie.ID = AdicionarConteudoViewModel.Video.ID;
                                 try { await DatabaseHelper.UpdateSerieAsync(serie); }
                                 catch (Exception ex)
                                 {
@@ -149,6 +137,7 @@ namespace MediaManager.Forms
 
                             if (IsEdicao)
                             {
+                                anime.ID = AdicionarConteudoViewModel.Video.ID;
                                 try { await DatabaseHelper.UpdateAnimeAsync(anime); }
                                 catch (Exception ex)
                                 {

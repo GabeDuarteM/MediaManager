@@ -154,6 +154,18 @@
     <Compile Include="Migrations\201507182203248_AjusteNomesMaiusculos.Designer.cs">
       <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs" />
+    <Compile Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.Designer.cs">
+      <DependentUpon>201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507240220379_Ajustes_classe_interface_video.cs" />
+    <Compile Include="Migrations\201507240220379_Ajustes_classe_interface_video.Designer.cs">
+      <DependentUpon>201507240220379_Ajustes_classe_interface_video.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.cs" />
+    <Compile Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.Designer.cs">
+      <DependentUpon>201507240256177_Ajustes_Chaves_Primarias.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
@@ -297,6 +309,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507182203248_AjusteNomesMaiusculos.resx">
       <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.resx">
+      <DependentUpon>201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507240220379_Ajustes_classe_interface_video.resx">
+      <DependentUpon>201507240220379_Ajustes_classe_interface_video.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.resx">
+      <DependentUpon>201507240256177_Ajustes_Chaves_Primarias.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

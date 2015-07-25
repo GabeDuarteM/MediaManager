@@ -11,12 +11,12 @@ namespace MediaManager.Model
     public class Filme : Video
     {
         private IList<string> _availableTranslations;
-        private IList<string> _genres;
-        private int _idFilme;
-        private Ids _ids = new Ids();
+        private IList<string> _genresList;
+        private int _id;
+        private Ids _ids;
 
         [JsonProperty("available_translations", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> AvailableTranslations { get { return _availableTranslations; } set { _availableTranslations = value; Helpers.Helper.ListToString(value); } }
+        public IList<string> AvailableTranslations { get { return _availableTranslations; } set { _availableTranslations = value; Traducoes = Helpers.Helper.ListToString(value); } }
 
         [JsonProperty("certification")]
         public string Certification { get; set; }
@@ -26,18 +26,18 @@ namespace MediaManager.Model
         public string Generos { get; private set; }
 
         [JsonProperty("genres", NullValueHandling = NullValueHandling.Ignore)]
-        public IList<string> Genres { get { return _genres; } set { _genres = value; Generos = Helpers.Helper.ListToString(value); } }
+        public IList<string> GenresList { get { return _genresList; } set { _genresList = value; Generos = Helpers.Helper.ListToString(value); } }
 
         [JsonProperty("homepage", NullValueHandling = NullValueHandling.Ignore)]
         public object Homepage { get; set; }
 
-        [Key]
-        public int IDFilme { get { return _idFilme; } set { _idFilme = value; _ids.IdBanco = value; } }
+        [Key, Column(Order = 0)]
+        public int ID { get { return _id; } set { _id = value; } }
 
-        [JsonProperty("ids")]
+        [JsonProperty("ids"), NotMapped]
         public virtual Ids Ids { get { return _ids; } set { _ids = value; } }
 
-        [JsonProperty("images")]
+        [JsonProperty("images"), NotMapped]
         public virtual Images Images { get; set; }
 
         [JsonProperty("language")]
@@ -69,7 +69,7 @@ namespace MediaManager.Model
         public object Trailer { get; set; }
 
         [JsonProperty("updated_at", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
         public int Votes { get; set; }

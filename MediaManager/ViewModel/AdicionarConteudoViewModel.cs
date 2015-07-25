@@ -13,28 +13,10 @@ namespace MediaManager.ViewModel
         private List<Video> _resultPesquisa;
         private Helper.Enums.TipoConteudo _tipoConteudo;
         private Video _video;
-
-        public AdicionarConteudoViewModel(string title, Helper.Enums.TipoConteudo tipoConteudo)
-        {
-            TipoConteudo = tipoConteudo;
-            //PosterUrl = null;
-            //FanartUrl = null;
-            ResultPesquisa = new List<Video>();
-            Video = new Serie();
-            ResultPesquisa.Add(new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." });
-            getResultPesquisaAsync(title);
-        }
-
-        public AdicionarConteudoViewModel(Video video, Helper.Enums.TipoConteudo tipoConteudo)
-        {
-            TipoConteudo = tipoConteudo;
-            //PosterUrl = null;
-            //FanartUrl = null;
-            ResultPesquisa = new List<Video>();
-            ResultPesquisa.Add(new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." });
-
-            getResultPesquisaAsync(video);
-        }
+        private string folderPathEditar;
+        private int IdBanco;
+        private Video videoBuscaPersonalizada = new Serie() { Title = "Busca personalizada...", Overview = "Carregando sinopse..." };
+        private Video videoCarregando = new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." };
 
         public string FanartUrl
         {
@@ -60,71 +42,130 @@ namespace MediaManager.ViewModel
 
         public Helper.Enums.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; } }
 
-        public Video Video { get { return _video; } set { _video = value; OnPropertyChanged("Video"); DefinirImagens(); } }
+        public Video Video { get { return _video; } set { _video = value; OnPropertyChanged("Video"); DefinirImagens(); VerificarSeBuscaPersonalizada(); } }
+
+        public AdicionarConteudoViewModel(string title, Helper.Enums.TipoConteudo tipoConteudo)
+        {
+            TipoConteudo = tipoConteudo;
+            getResultPesquisaAsync(title);
+        }
+
+        public AdicionarConteudoViewModel(Video video, Helper.Enums.TipoConteudo tipoConteudo)
+        {
+            TipoConteudo = tipoConteudo;
+            getResultPesquisaAsync(video);
+        }
 
         private void DefinirImagens()
         {
-            if (Video.Images != null)
+            if (Video != null)
             {
-                if (Video.Images.poster.thumb != null)
-                    PosterUrl = Video.Images.poster.thumb;
-                else if (Video.Images.poster.medium != null)
-                    PosterUrl = Video.Images.poster.medium;
-                else if (Video.Images.poster.full != null)
-                    PosterUrl = Video.Images.poster.full;
-                else
-                    PosterUrl = null;
+                if (Video.Images != null)
+                {
+                    if (Video.Images.poster.thumb != null)
+                        PosterUrl = Video.Images.poster.thumb;
+                    else if (Video.Images.poster.medium != null)
+                        PosterUrl = Video.Images.poster.medium;
+                    else if (Video.Images.poster.full != null)
+                        PosterUrl = Video.Images.poster.full;
+                    else
+                        PosterUrl = null;
 
-                if (Video.Images.fanart.thumb != null)
-                    FanartUrl = Video.Images.fanart.thumb;
-                else if (Video.Images.fanart.medium != null)
-                    FanartUrl = Video.Images.fanart.medium;
-                else if (Video.Images.fanart.full != null)
-                    FanartUrl = Video.Images.fanart.full;
+                    if (Video.Images.fanart.thumb != null)
+                        FanartUrl = Video.Images.fanart.thumb;
+                    else if (Video.Images.fanart.medium != null)
+                        FanartUrl = Video.Images.fanart.medium;
+                    else if (Video.Images.fanart.full != null)
+                        FanartUrl = Video.Images.fanart.full;
+                    else
+                        FanartUrl = null;
+                }
                 else
+                {
+                    PosterUrl = null;
                     FanartUrl = null;
+                }
             }
         }
 
         private async void getResultPesquisaAsync(string title)
         {
-            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(title, TipoConteudo.ToString());
             ResultPesquisa = new List<Video>();
+            ResultPesquisa.Add(videoCarregando);
+            Video = videoCarregando;
+
+            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(title, TipoConteudo.ToString());
+            var resultPesquisaTemp = new List<Video>();
 
             foreach (var item in listaSearch)
             {
-                ResultPesquisa.Add(item.ToVideo());
+                if (TipoConteudo == Helper.Enums.TipoConteudo.anime)
+                    item.isAnime = true;
+
+                var videoItem = item.ToVideo();
+
+                if (!string.IsNullOrWhiteSpace(folderPathEditar))
+                    videoItem.FolderPath = folderPathEditar;
+                if (IdBanco > 0)
+                    videoItem.ID = IdBanco;
+                resultPesquisaTemp.Add(videoItem);
             }
 
-            ResultPesquisa.Add(new Serie() { Title = "Busca personalizada..." });
+            resultPesquisaTemp.Add(videoBuscaPersonalizada);
+            ResultPesquisa = resultPesquisaTemp;
             Video = ResultPesquisa[0];
         }
 
         private async void getResultPesquisaAsync(Video video)
         {
+            folderPathEditar = video.FolderPath;
+            IdBanco = video.ID;
             ResultPesquisa = new List<Video>();
-            ResultPesquisa.Add(video);
-            Video = video;
-            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(Video.Title, TipoConteudo.ToString());
-            
+            ResultPesquisa.Add(videoCarregando);
+            Video = videoCarregando;
+
+            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(video.Title, TipoConteudo.ToString());
+            var resultPesquisaTemp = new List<Video>();
+            resultPesquisaTemp.Add(video);
+
             foreach (var item in listaSearch)
             {
+                if (TipoConteudo == Helper.Enums.TipoConteudo.anime)
+                    item.isAnime = true;
                 Video videoItem = item.ToVideo();
                 videoItem.FolderPath = video.FolderPath;
+                videoItem.ID = IdBanco;
 
                 // Vai cair no if abaixo quando a chamada do método vier do menu "Procurar novos conteúdos".
-                if (videoItem.Title == Video.Title && (Video.Overview == null && Video.Images == null)) 
+                if (videoItem.Title == video.Title && (video.Overview == null && video.Images == null))
                 {
-                    Video = videoItem;
-                    ResultPesquisa.Remove(video);
-                    ResultPesquisa.Add(Video);
+                    resultPesquisaTemp.Remove(video);
+                    video = videoItem;
+                    resultPesquisaTemp.Add(video);
                 }
-                else if (videoItem.Title != Video.Title)
+                else if (videoItem.Title != video.Title)
                 {
-                    ResultPesquisa.Add(videoItem);
+                    resultPesquisaTemp.Add(videoItem);
                 }
             }
-            ResultPesquisa.Add(new Serie() { Title = "Busca personalizada..." });
+            resultPesquisaTemp.Add(videoBuscaPersonalizada);
+
+            ResultPesquisa = resultPesquisaTemp;
+            Video = video;
+        }
+
+        private void VerificarSeBuscaPersonalizada()
+        {
+            if (ResultPesquisa.Count > 0 && Video == videoBuscaPersonalizada)
+            {
+                ConfigurableInputMessageBox.InputMessageBox inputMessageBox =
+                    new ConfigurableInputMessageBox.InputMessageBox(ConfigurableInputMessageBox.inputType.AdicionarConteudo);
+                inputMessageBox.ShowDialog();
+                if (inputMessageBox.DialogResult == true)
+                {
+                    getResultPesquisaAsync(inputMessageBox.InputViewModel.Properties.InputText);
+                }
+            }
         }
 
         #region INotifyPropertyChanged Members

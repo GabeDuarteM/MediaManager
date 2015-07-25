@@ -1,13 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Windows.Input;
-using MediaManager.Commands;
-using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Properties;
-using MediaManager.ViewModel;
 
 namespace MediaManager.Model
 {
@@ -15,7 +10,7 @@ namespace MediaManager.Model
     {
         private int _idBanco;
         private byte[] _posterCache;
-        private string _posterPath;
+        private string _posterPath = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private Helper.Enums.TipoConteudo _tipoConteudo;
 
         public int IdBanco { get { return _idBanco; } set { _idBanco = value; OnPropertyChanged("IdBanco"); } }
