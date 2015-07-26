@@ -4,26 +4,26 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear - {0}'}"
-        Height="410" Width="658" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Height="400" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <DataGrid Name="grdArquivos" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="334" Width="632">
+        <DataGrid ItemsSource="{Binding Videos, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Arquivo}" ClipboardContentBinding="{x:Null}" Header="Arquivo" />
-                <DataGridTextColumn Binding="{Binding Path=Nome}" ClipboardContentBinding="{x:Null}" Header="Nome" />
-                <DataGridTextColumn Binding="{Binding Path=ArquivoRenomeado}" ClipboardContentBinding="{x:Null}" Header="Arquivo renomeado" />
-                <DataGridTemplateColumn CanUserReorder="False" CanUserResize="False">
+                <DataGridTextColumn Binding="{Binding Videos.Title, Mode=OneWay}" Header="Título" Width="5*" />
+                <DataGridTextColumn Binding="{Binding Videos.Title, Mode=OneWay}" Header="Nome do arquivo" Width="5*" />
+                <DataGridTextColumn Binding="{Binding Videos.Title, Mode=OneWay}" Header="Nome renomeado" Width="5*" />
+                <DataGridTextColumn Binding="{Binding Videos.TipoString, Mode=OneWay}" Header="Tipo" Width="1*" />
+                <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="Renomear" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="True" IsEnabled="{Binding Path=NoErrors}" Name="theCheckbox" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <!--IsChecked="{Binding Path=Checked, UpdateSourceTrigger=PropertyChanged}" -->
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

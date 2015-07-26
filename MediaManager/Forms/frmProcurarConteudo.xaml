@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="463" Width="785" ResizeMode="NoResize"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:view="clr-namespace:MediaManager.View"
-        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Procurar conteúdo - {0}'}" Loaded="Window_Loaded">
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear conteúdos - {0}'}">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>

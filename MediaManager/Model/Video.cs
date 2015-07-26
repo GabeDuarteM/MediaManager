@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace MediaManager.Model
 {
@@ -20,6 +23,8 @@ namespace MediaManager.Model
         string Overview { get; set; }
         double Rating { get; set; }
         int Runtime { get; set; }
+        Helpers.Helper.Enums.TipoConteudo Tipo { get; set; }
+        string TipoString { get; }
         string Title { get; set; }
         string Traducoes { get; }
         object Trailer { get; set; }

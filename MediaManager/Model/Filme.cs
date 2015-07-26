@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MediaManager.Helpers;
 using Newtonsoft.Json;
 
 namespace MediaManager.Model
@@ -59,6 +60,12 @@ namespace MediaManager.Model
 
         [JsonProperty("tagline")]
         public string Tagline { get; set; }
+
+        [NotMapped]
+        public Helper.Enums.TipoConteudo Tipo { get { return Helper.Enums.TipoConteudo.movie; } set { throw new NotSupportedException(); } }
+
+        [NotMapped]
+        public string TipoString { get { return Helper.Enums.ToString(Tipo); } }
 
         [JsonProperty("title")]
         public string Title { get; set; }

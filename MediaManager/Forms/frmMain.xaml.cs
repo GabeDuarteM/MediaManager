@@ -65,25 +65,25 @@ namespace MediaManager.Forms
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.anime);
+            frmRenomear frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.movie);
+            frmRenomear frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.show);
+            frmRenomear frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog();
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear(Helper.Enums.TipoConteudo.movieShowAnime);
+            frmRenomear frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog();
         }
 
