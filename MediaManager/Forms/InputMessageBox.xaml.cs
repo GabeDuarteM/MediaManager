@@ -9,7 +9,8 @@ namespace ConfigurableInputMessageBox
     public enum inputType
     {
         Default,
-        AdicionarConteudo
+        AdicionarConteudo,
+        SemResultados
     }
 
     public static class DialogCloser
@@ -57,6 +58,8 @@ namespace ConfigurableInputMessageBox
     /// </summary>
     public partial class InputMessageBox : Window
     {
+        public InputMessageBoxViewModel InputViewModel { get; set; }
+
         public InputMessageBox(inputType inputType = inputType.Default)
         {
             InitializeComponent();
@@ -65,8 +68,6 @@ namespace ConfigurableInputMessageBox
 
             DataContext = InputViewModel;
         }
-
-        public InputMessageBoxViewModel InputViewModel { get; set; }
     }
 
     public class InputMessageBoxProperties : INotifyPropertyChanged, IDataErrorInfo
@@ -148,6 +149,12 @@ namespace ConfigurableInputMessageBox
         private bool? _dialogResult;
         private InputMessageBoxProperties _properties;
 
+        public bool? DialogResult { get { return _dialogResult; } set { _dialogResult = value; OnPropertyChanged("DialogResult"); } }
+
+        public ICommand OkButtonClickCommand { get; private set; }
+
+        public InputMessageBoxProperties Properties { get { return _properties; } }
+
         public InputMessageBoxViewModel(inputType inputType)
         {
             _properties = new InputMessageBoxProperties();
@@ -179,16 +186,22 @@ namespace ConfigurableInputMessageBox
                         Properties.Width = 430;
                         break;
                     }
+                case inputType.SemResultados:
+                    {
+                        Properties.ButtonWidth = 75;
+                        Properties.CancelButtonText = "Cancelar";
+                        Properties.Height = 108;
+                        Properties.Message = "Não foram encontrados resultados para este nome, informe um novo nome.";
+                        Properties.ValidationMessage = "Digite o nome do conteudo a ser pesquisado.";
+                        Properties.OkButtonText = "Pesquisar";
+                        Properties.Title = string.Format("Pesquisar - {0}", Settings.Default.AppName);
+                        Properties.Width = 430;
+                        break;
+                    }
                 default:
                     break;
             }
         }
-
-        public bool? DialogResult { get { return _dialogResult; } set { _dialogResult = value; OnPropertyChanged("DialogResult"); } }
-
-        public ICommand OkButtonClickCommand { get; private set; }
-
-        public InputMessageBoxProperties Properties { get { return _properties; } }
 
         public void Save()
         {

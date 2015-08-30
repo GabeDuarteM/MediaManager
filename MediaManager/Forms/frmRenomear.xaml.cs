@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -16,6 +17,8 @@ namespace MediaManager.Forms
         public frmRenomear()
         {
             InitializeComponent();
+            RenomearViewModel renomearVM = new RenomearViewModel();
+            DataContext = renomearVM;
         }
     }
 }

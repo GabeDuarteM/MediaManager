@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaManager", "MediaManager\MediaManager.csproj", "{3CC14705-EF3F-4A78-B507-537A767067C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{ED7FB81B-FBF7-4459-880C-37514373FE78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowRenamer", "..\..\..\Visual Studio 2013\Projects\ShowRenamer\ShowRenamer\ShowRenamer\ShowRenamer.csproj", "{637759FA-88F9-4129-BDAA-5ECE21319109}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{ED7FB81B-FBF7-4459-880C-37514373FE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED7FB81B-FBF7-4459-880C-37514373FE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED7FB81B-FBF7-4459-880C-37514373FE78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{637759FA-88F9-4129-BDAA-5ECE21319109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{637759FA-88F9-4129-BDAA-5ECE21319109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{637759FA-88F9-4129-BDAA-5ECE21319109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{637759FA-88F9-4129-BDAA-5ECE21319109}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

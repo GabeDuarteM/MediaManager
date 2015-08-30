@@ -1,112 +1,203 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MediaManager.Helpers;
-using Newtonsoft.Json;
+using System.Globalization;
+using System.Xml.Serialization;
 
 namespace MediaManager.Model
 {
-    [Table("Series")]
-    public class Serie : Video
+    [System.Diagnostics.DebuggerDisplay("{SeasonNumber}x{EpisodeNumber} ({AbsoluteNumber}) - {EpisodeName}")]
+    public class Episode : INotifyPropertyChanged
     {
-        private IList<string> _availableTranslations;
-        private string _folderPath;
-        private IList<string> _genresList;
-        private int _id;
-        private Ids _ids;
-        private Images _images;
-        private string _overview;
-        private string _title;
+        [XmlElement("absolute_number")]
+        public string _AbsoluteNumber;
 
-        [JsonProperty("day")]
-        public string AirDay { get; set; }
+        [XmlElement("airsafter_season")]
+        public string _AirsAfterSeason;
 
-        [JsonProperty("aired_episodes", NullValueHandling = NullValueHandling.Ignore)]
-        public int AiredEpisodes { get; set; }
+        [XmlElement("airsbefore_episode")]
+        public string _AirsBeforeEpisode;
 
-        [JsonProperty("time")]
-        public string AirTime { get; set; }
+        [XmlElement("airsbefore_season")]
+        public string _AirsBeforeSeason;
 
-        [JsonProperty("timezone")]
-        public string AirTimezone { get; set; }
+        [XmlElement("FirstAired")]
+        public string _FirstAired;
 
-        [JsonProperty("available_translations")]
-        public IList<string> AvailableTranslations { get { return _availableTranslations; } set { _availableTranslations = value; Traducoes = Helpers.Helper.ListToString(value); } }
+        [XmlElement("Rating")]
+        public string _Rating;
 
-        [JsonProperty("certification")]
-        public string Certification { get; set; }
+        [XmlElement("RatingCount")]
+        public string _RatingCount;
 
-        [JsonProperty("country")]
-        public string Country { get; set; }
+        [XmlElement("thumb_added", IsNullable = true)]
+        public string _ThumbAddedDate;
 
-        [JsonProperty("first_aired", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? FirstAired { get; set; }
+        [XmlIgnore]
+        private string _Artwork;
 
-        public string FolderPath { get { return _folderPath; } set { _folderPath = value; OnPropertyChanged("FolderPath"); } }
+        [XmlIgnore]
+        private string _FolderPath;
 
-        public string Generos { get; private set; }
+        [XmlIgnore, Column(Order = 4)]
+        public int? AbsoluteNumber
+        {
+            get
+            {
+                int retval;
 
-        [JsonProperty("genres")]
-        public IList<string> GenresList { get { return _genresList; } set { _genresList = value; Generos = Helpers.Helper.ListToString(value); } }
+                return !string.IsNullOrWhiteSpace(_AbsoluteNumber) && int.TryParse(_AbsoluteNumber, out retval) ? (int?)retval : null;
+            }
+            set { _AbsoluteNumber = value.ToString(); }
+        }
 
-        [JsonProperty("homepage")]
-        public object Homepage { get; set; }
+        [XmlIgnore]
+        public int? AirsAfterSeason
+        {
+            get
+            {
+                int retval;
 
-        [Key, Column(Order = 0)]
-        public int ID { get { return _id; } set { _id = value; } }
+                return !string.IsNullOrWhiteSpace(_AirsAfterSeason) && int.TryParse(_AirsAfterSeason, out retval) ? (int?)retval : null;
+            }
+            set
+            {
+                _AirsAfterSeason = value.ToString();
+            }
+        }
 
-        [JsonProperty("ids"), NotMapped]
-        public virtual Ids Ids { get { return _ids; } set { _ids = value; } }
+        [XmlIgnore]
+        public int? AirsBeforeEpisode
+        {
+            get
+            {
+                int retval;
 
-        [JsonProperty("images"), NotMapped]
-        public virtual Images Images { get { return _images; } set { _images = value; OnPropertyChanged("Images"); } }
+                return !string.IsNullOrWhiteSpace(_AirsBeforeEpisode) && int.TryParse(_AirsBeforeEpisode, out retval) ? (int?)retval : null;
+            }
+            set
+            {
+                _AirsBeforeEpisode = value.ToString();
+            }
+        }
 
-        public bool IsAnime { get; set; }
+        [XmlIgnore]
+        public int? AirsBeforeSeason
+        {
+            get
+            {
+                int retval;
 
-        [JsonProperty("language")]
+                return !string.IsNullOrWhiteSpace(_AirsBeforeSeason) && int.TryParse(_AirsBeforeSeason, out retval) ? (int?)retval : null;
+            }
+            set
+            {
+                _AirsBeforeSeason = value.ToString();
+            }
+        }
+
+        [XmlElement("filename", IsNullable = true)]
+        public string Artwork
+        {
+            get { return _Artwork; }
+            set
+            {
+                if (value.StartsWith("http"))
+                    _Artwork = value;
+                else
+                {
+                    _Artwork = string.IsNullOrWhiteSpace(value) ?
+                        "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png"
+                        : Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
+                }
+            }
+        }
+
+        [XmlElement("EpisodeName"), Column(Order = 1)]
+        public string EpisodeName { get; set; }
+
+        [XmlElement("EpisodeNumber"), Column(Order = 2)]
+        public int EpisodeNumber { get; set; }
+
+        [XmlIgnore]
+        public DateTime? FirstAired
+        {
+            get { return _FirstAired != "" ? DateTime.Parse(_FirstAired) : default(DateTime?); }
+            set { _FirstAired = value.ToString(); }
+        }
+
+        [XmlIgnore]
+        public string FolderPath { get { return _FolderPath; } set { _FolderPath = value; OnPropertyChanged("FolderPath"); } }
+
+        [XmlIgnore, Key, Column("ID", Order = 0)]
+        public int IDBanco { get; set; }
+
+        [XmlElement("seasonid")]
+        public int IDSeasonTvdb { get; set; }
+
+        [XmlIgnore]
+        public int IDSerie { get; set; }
+
+        [XmlElement("seriesid")]
+        public int IDSeriesTvdb { get; set; }
+
+        [XmlElement("id")]
+        public int IDTvdb { get; set; }
+
+        [XmlIgnore]
+        public bool IsRenamed { get; set; }
+
+        [XmlElement("Language")]
         public string Language { get; set; }
 
-        public string MetadataFolder { get; set; }
+        [XmlElement("lastupdated", IsNullable = true)]
+        public string LastUpdated { get; set; }
 
-        [JsonProperty("network")]
-        public string Network { get; set; }
+        [XmlIgnore]
+        public string OriginalFolderPath { get; set; }
 
-        [JsonProperty("overview")]
-        public string Overview { get { return _overview; } set { _overview = value; OnPropertyChanged("Overview"); } }
+        [XmlElement("Overview", IsNullable = true)]
+        public string Overview { get; set; }
 
-        [JsonProperty("rating", NullValueHandling = NullValueHandling.Ignore)]
-        public double Rating { get; set; }
+        [XmlIgnore]
+        public double? Rating
+        {
+            get
+            {
+                double retval;
+                return !string.IsNullOrWhiteSpace(_Rating) && double.TryParse(_Rating, NumberStyles.Number, CultureInfo.InvariantCulture, out retval) ? (double?)retval : null;
+            }
+            set { _Rating = value.ToString(); }
+        }
 
-        [JsonProperty("runtime", NullValueHandling = NullValueHandling.Ignore)]
-        public int Runtime { get; set; }
+        [XmlIgnore]
+        public int? RatingCount
+        {
+            get
+            {
+                int retval;
 
-        [JsonProperty("status")]
-        public string Status { get; set; }
+                return !string.IsNullOrWhiteSpace(_RatingCount) && int.TryParse(_RatingCount, out retval) ? (int?)retval : null;
+            }
+            set
+            {
+                _RatingCount = value.ToString();
+            }
+        }
 
-        [NotMapped]
-        public Helper.Enums.TipoConteudo Tipo { get { return Helper.Enums.TipoConteudo.show; } set { throw new NotSupportedException(); } }
+        [XmlElement("SeasonNumber"), Column(Order = 3)]
+        public int SeasonNumber { get; set; }
 
-        [NotMapped]
-        public string TipoString { get { return Helper.Enums.ToString(Tipo); } }
+        [Column(Order = 5), ForeignKey("IDSerie"), Required]
+        public Serie Serie { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get { return _title; } set { _title = value; OnPropertyChanged("Title"); } }
-
-        public string Traducoes { get; private set; }
-
-        [JsonProperty("trailer")]
-        public object Trailer { get; set; }
-
-        [JsonProperty("updated_at", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? UpdatedAt { get; set; }
-
-        [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
-        public int Votes { get; set; }
-
-        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
-        public int Year { get; set; }
+        [XmlIgnore]
+        public DateTime? ThumbAddedDate
+        {
+            get { return _ThumbAddedDate != "" ? DateTime.Parse(_ThumbAddedDate) : default(DateTime?); }
+            set { _ThumbAddedDate = value.ToString(); }
+        }
 
         #region INotifyPropertyChanged Members
 
@@ -123,5 +214,224 @@ namespace MediaManager.Model
         }
 
         #endregion INotifyPropertyChanged Members
+    }
+
+    public class Serie : Video
+    {
+        [XmlElement("FirstAired")]
+        public string _FirstAired;
+
+        [XmlElement("Rating")]
+        public string _Rating;
+
+        [XmlElement("RatingCount")]
+        public string _RatingCount;
+
+        [XmlElement("Runtime")]
+        public string _Runtime;
+
+        [XmlIgnore]
+        private Helpers.Helper.Enums.ContentType _ContentType = Helpers.Helper.Enums.ContentType.show;
+
+        private string _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
+        private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
+
+        [XmlIgnore]
+        private bool _IsAnime;
+
+        [XmlIgnore]
+        private string _Overview;
+
+        [XmlIgnore]
+        private string _Title;
+
+        [XmlElement("Actors", IsNullable = true)]
+        public string Actors { get; set; }
+
+        [XmlElement("Airs_DayOfWeek", IsNullable = true)]
+        public string Airs_DayOfWeek { get; set; }
+
+        [XmlElement("Airs_Time", IsNullable = true)]
+        public string Airs_Time { get; set; }
+
+        [XmlElement("AliasNames")]
+        public string AliasNames { get; set; }
+
+        [XmlElement("ContentRating", IsNullable = true)]
+        public string ContentRating { get; set; }
+
+        [NotMapped]
+        public override Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }
+
+        [XmlIgnore, NotMapped]
+        public Episode[] Episodes { get; set; }
+
+        [XmlIgnore]
+        public DateTime? FirstAired { get { return DateTime.Parse(_FirstAired); } set { _FirstAired = value.ToString(); } }
+
+        [XmlElement("Genre", IsNullable = true)]
+        public string Genre { get; set; }
+
+        [XmlElement("id"), Column(Order = 2)]
+        public override int IDApi { get; set; }
+
+        [XmlIgnore, Key, Column("ID", Order = 0)]
+        public override int IDBanco { get; set; }
+
+        [XmlElement("fanart", IsNullable = true)]
+        public override string ImgFanart
+        {
+            get { return _ImgFanart; }
+            set
+            {
+                if (value.StartsWith("http"))
+                    _ImgFanart = value;
+                else
+                {
+                    _ImgFanart = string.IsNullOrWhiteSpace(value) ?
+                        _ImgFanart = ("pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png")
+                        : _ImgFanart = Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
+                }
+                OnPropertyChanged("ImgFanart");
+            }
+        }
+
+        [XmlElement("poster", IsNullable = true)]
+        public override string ImgPoster
+        {
+            get { return _ImgPoster; }
+            set
+            {
+                if (value.StartsWith("http"))
+                    _ImgPoster = value;
+                else
+                {
+                    _ImgPoster = string.IsNullOrWhiteSpace(value) ?
+                    _ImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                    : Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
+                    OnPropertyChanged("ImgPoster");
+                }
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsAnime { get { return _IsAnime; } set { _IsAnime = value; ContentType = (value == true) ? Helpers.Helper.Enums.ContentType.anime : ContentType; } }
+
+        [XmlElement("Language")]
+        public override string Language { get; set; }
+
+        [XmlElement("lastupdated", IsNullable = true)]
+        public override string LastUpdated { get; set; }
+
+        [XmlElement("Network", IsNullable = true)]
+        public string Network { get; set; }
+
+        [XmlElement("Overview", IsNullable = true)]
+        public override string Overview { get { return _Overview; } set { _Overview = value; OnPropertyChanged("Overview"); } }
+
+        [XmlIgnore]
+        public double? Rating
+        {
+            get
+            {
+                double retval;
+                return !string.IsNullOrWhiteSpace(_Rating) && double.TryParse(_Rating, NumberStyles.Number, CultureInfo.InvariantCulture, out retval) ? (double?)retval : null;
+            }
+            set { _Rating = value.ToString(); }
+        }
+
+        [XmlIgnore]
+        public int? RatingCount
+        {
+            get
+            {
+                int retval;
+
+                return !string.IsNullOrWhiteSpace(_RatingCount) && int.TryParse(_RatingCount, out retval) ? (int?)retval : null;
+            }
+            set { _RatingCount = value.ToString(); }
+        }
+
+        [XmlIgnore]
+        public int? Runtime
+        {
+            get
+            {
+                int retval;
+
+                return !string.IsNullOrWhiteSpace(_Runtime) && int.TryParse(_Runtime, out retval) ? (int?)retval : null;
+            }
+            set { _Runtime = value.ToString(); }
+        }
+
+        [XmlElement("Status", IsNullable = true)]
+        public string Status { get; set; }
+
+        [XmlElement("SeriesName", IsNullable = true), Column(Order = 1)]
+        public override string Title { get { return _Title; } set { _Title = value; OnPropertyChanged("Title"); } }
+
+        public override void Clone(object objectToClone)
+        {
+            Serie serie = objectToClone as Serie;
+
+            Actors = serie.Actors;
+            Airs_DayOfWeek = serie.Airs_DayOfWeek;
+            Airs_Time = serie.Airs_Time;
+            AliasNames = serie.AliasNames;
+            ContentRating = serie.ContentRating;
+            ContentType = serie.ContentType;
+            FirstAired = serie.FirstAired;
+            FolderPath = FolderPath;
+            Genre = serie.Genre;
+            IDApi = serie.IDApi;
+            IDBanco = serie.IDBanco;
+            ImgFanart = serie.ImgFanart;
+            ImgPoster = serie.ImgPoster;
+            IsAnime = serie.IsAnime;
+            Language = serie.Language;
+            LastUpdated = serie.LastUpdated;
+            Network = serie.Network;
+            Overview = serie.Overview;
+            Rating = serie.Rating;
+            RatingCount = serie.RatingCount;
+            Runtime = serie.Runtime;
+            Status = serie.Status;
+            Title = serie.Title;
+        }
+
+        public void SetDefaultFolderPath()
+        {
+            FolderPath = (ContentType == Helpers.Helper.Enums.ContentType.anime) ?
+                System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helpers.Helper.RetirarCaracteresInvalidos(Title))
+                : System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helpers.Helper.RetirarCaracteresInvalidos(Title));
+        }
+
+        //public Video ToVideo()
+        //{
+        //    Video video = new Serie();
+
+        //    video.FolderPath = FolderPath;
+        //    video.IDBanco = IDBanco;
+        //    video.IDApi = IDApi;
+        //    video.ImgFanart = ImgFanart;
+        //    video.ImgPoster = ImgPoster;
+        //    video.Language = Language;
+        //    video.LastUpdated = LastUpdated;
+        //    video.Overview = Overview;
+        //    video.Title = Title;
+        //    video.ContentType = ContentType;
+
+        //    return video;
+        //}
+    }
+
+    [XmlRoot("Data", Namespace = "", IsNullable = false)]
+    public class SeriesData
+    {
+        [XmlElement("Episode")]
+        public Episode[] Episodes { get; set; }
+
+        [XmlElement("Series")]
+        public Serie[] Series { get; set; }
     }
 }

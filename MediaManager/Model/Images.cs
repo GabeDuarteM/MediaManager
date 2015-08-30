@@ -61,7 +61,7 @@ namespace MediaManager.Model
         [JsonProperty("poster")]
         public virtual Poster poster { get; set; }
 
-        public virtual Serie Serie { get; set; }
+        //public virtual SerieOld Serie { get; set; }
 
         [JsonProperty("thumb")]
         public virtual Thumb thumb { get; set; }

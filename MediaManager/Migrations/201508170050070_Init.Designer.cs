@@ -7,13 +7,13 @@ namespace MediaManager.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.2-31219")]
-    public sealed partial class metadataFolder : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(metadataFolder));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201502142123400_metadataFolder"; }
+            get { return "201508170050070_Init"; }
         }
         
         string IMigrationMetadata.Source

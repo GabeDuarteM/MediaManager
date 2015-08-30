@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,55 +24,64 @@ namespace MediaManager.Helpers
         {
             try
             {
-                if (video.Images.poster.thumb != null)
+                if (video.ImgPoster != new Serie().ImgPoster)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.thumb), path);
+                        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.ImgPoster), path);
                     }
                 }
-                else if (video.Images.poster.medium != null)
+                if (video.ImgFanart != new Serie().ImgFanart)
                 {
                     using (System.Net.WebClient wc = new System.Net.WebClient())
                     {
-                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.medium), path);
-                    }
-                }
-                else if (video.Images.poster.full != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = Path.Combine(video.MetadataFolder, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.full), path);
+                        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
+                        await wc.DownloadFileTaskAsync(new Uri(video.ImgFanart), path);
                     }
                 }
 
-                if (video.Images.fanart.thumb != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.thumb), path);
-                    }
-                }
-                else if (video.Images.fanart.medium != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.medium), path);
-                    }
-                }
-                else if (video.Images.fanart.full != null)
-                {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
-                    {
-                        var path = Path.Combine(video.MetadataFolder, "fanart.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.full), path);
-                    }
-                }
+                //else if (video.Images.poster.medium != null)
+                //{
+                //    using (System.Net.WebClient wc = new System.Net.WebClient())
+                //    {
+                //        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
+                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.medium), path);
+                //    }
+                //}
+                //else if (video.Images.poster.full != null)
+                //{
+                //    using (System.Net.WebClient wc = new System.Net.WebClient())
+                //    {
+                //        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
+                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.full), path);
+                //    }
+                //}
+
+                //if (video.Images.fanart.thumb != null)
+                //{
+                //    using (System.Net.WebClient wc = new System.Net.WebClient())
+                //    {
+                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
+                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.thumb), path);
+                //    }
+                //}
+                //else if (video.Images.fanart.medium != null)
+                //{
+                //    using (System.Net.WebClient wc = new System.Net.WebClient())
+                //    {
+                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
+                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.medium), path);
+                //    }
+                //}
+                //else if (video.Images.fanart.full != null)
+                //{
+                //    using (System.Net.WebClient wc = new System.Net.WebClient())
+                //    {
+                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
+                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.full), path);
+                //    }
+                //}
                 return true;
             }
             catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
@@ -208,6 +218,17 @@ namespace MediaManager.Helpers
         }
 
         /// <summary>
+        /// Cria um Symbolic Link entre dois locais/arquivos.
+        /// </summary>
+        /// <param name="lpSymlinkFileName">Local de origem</param>
+        /// <param name="lpTargetFileName">Local de destino</param>
+        /// <param name="dwFlags">Tipo do arquivo: 0 = Arquivo, 1 = Diretório</param>
+        /// <returns>0 em caso de erro e 1 caso a operação seja efetuada com sucesso.</returns>
+        [DllImport("kernel32.dll")]
+        private static extern bool CreateSymbolicLink(
+        string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+
+        /// <summary>
         /// Classe contendo todos os enums utilizados.
         /// </summary>
         public class Enums
@@ -215,7 +236,7 @@ namespace MediaManager.Helpers
             /// <summary>
             /// Define o tipo de conteúdo a ser usado.
             /// </summary>
-            public enum TipoConteudo
+            public enum ContentType
             {
                 unknown = 0,
                 movie = 1,
@@ -235,33 +256,33 @@ namespace MediaManager.Helpers
             /// <returns>Enum do tipo destino escolhido</returns>
             public static object ToEnum(string str, Type enumType)
             {
-                if (enumType == typeof(TipoConteudo))
+                if (enumType == typeof(ContentType))
                 {
                     switch (str)
                     {
-                        case "Desconhecido":
-                            return TipoConteudo.unknown;
+                        case "":
+                            return ContentType.unknown;
 
                         case "Filme":
-                            return TipoConteudo.movie;
+                            return ContentType.movie;
 
                         case "Série":
-                            return TipoConteudo.show;
+                            return ContentType.show;
 
                         case "Anime":
-                            return TipoConteudo.anime;
+                            return ContentType.anime;
 
                         case "Temporada":
-                            return TipoConteudo.season;
+                            return ContentType.season;
 
                         case "Episódio":
-                            return TipoConteudo.episode;
+                            return ContentType.episode;
 
                         case "Pessoa":
-                            return TipoConteudo.person;
+                            return ContentType.person;
 
                         case "Filme, Serie e Anime":
-                            return TipoConteudo.movieShowAnime;
+                            return ContentType.movieShowAnime;
 
                         default:
                             return null;
@@ -278,32 +299,32 @@ namespace MediaManager.Helpers
             /// </summary>
             public static string ToString(object enumItem)
             {
-                if (enumItem.GetType() == typeof(TipoConteudo))
+                if (enumItem.GetType() == typeof(ContentType))
                 {
-                    switch ((TipoConteudo)enumItem)
+                    switch ((ContentType)enumItem)
                     {
-                        case TipoConteudo.unknown:
-                            return "Desconhecido";
+                        case ContentType.unknown:
+                            return "";
 
-                        case TipoConteudo.movie:
+                        case ContentType.movie:
                             return "Filme";
 
-                        case TipoConteudo.show:
+                        case ContentType.show:
                             return "Série";
 
-                        case TipoConteudo.anime:
+                        case ContentType.anime:
                             return "Anime";
 
-                        case TipoConteudo.season:
+                        case ContentType.season:
                             return "Temporada";
 
-                        case TipoConteudo.episode:
+                        case ContentType.episode:
                             return "Episódio";
 
-                        case TipoConteudo.person:
+                        case ContentType.person:
                             return "Pessoa";
 
-                        case TipoConteudo.movieShowAnime:
+                        case ContentType.movieShowAnime:
                             return "Filme, Serie e Anime";
 
                         default:
@@ -389,18 +410,18 @@ namespace MediaManager.Helpers
                     filme.Overview = sinopseTraduzida;
             }
 
-            filme.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            filme.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Settings.Default.AppName, "Metadata", "Filmes", RetirarCaracteresInvalidos(filme.Title));
             if (settings.pref_PastaFilmes != "")
                 filme.FolderPath = Path.Combine(settings.pref_PastaFilmes, RetirarCaracteresInvalidos(filme.Title));
             return filme;
         }
 
-        public async static Task<Serie> API_GetSerieInfoAsync(string slugTrakt, Enums.TipoConteudo tipoConteudo)
+        public async static Task<SerieOld> API_GetSerieInfoAsync(string slugTrakt, Enums.ContentType tipoConteudo)
         {
             string responseData = "";
 
-            Serie serie = new Serie();
+            SerieOld serie = new SerieOld();
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
@@ -413,13 +434,13 @@ namespace MediaManager.Helpers
                     responseData = await response.Content.ReadAsStringAsync();
                 }
             }
-            serie = JsonConvert.DeserializeObject<Serie>(responseData);
+            serie = JsonConvert.DeserializeObject<SerieOld>(responseData);
 
             if (serie.AvailableTranslations.Contains(settings.pref_IdiomaPesquisa))
             {
                 string responseDataSinopse = "";
 
-                List<Serie> traducoes = new List<Serie>();
+                List<SerieOld> traducoes = new List<SerieOld>();
 
                 using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
                 {
@@ -432,24 +453,24 @@ namespace MediaManager.Helpers
                         responseDataSinopse = await response.Content.ReadAsStringAsync();
                     }
                 }
-                traducoes = JsonConvert.DeserializeObject<List<Serie>>(responseDataSinopse);
+                traducoes = JsonConvert.DeserializeObject<List<SerieOld>>(responseDataSinopse);
 
                 var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
                 if (!string.IsNullOrWhiteSpace(sinopseTraduzida))
                     serie.Overview = sinopseTraduzida;
             }
 
-            if (tipoConteudo == Enums.TipoConteudo.anime)
+            if (tipoConteudo == Enums.ContentType.anime)
             {
                 serie.IsAnime = true;
-                serie.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                serie.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     Settings.Default.AppName, "Metadata", "Animes", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaAnimes != "")
                     serie.FolderPath = Path.Combine(settings.pref_PastaAnimes, RetirarCaracteresInvalidos(serie.Title));
             }
-            else if (tipoConteudo == Enums.TipoConteudo.show)
+            else if (tipoConteudo == Enums.ContentType.show)
             {
-                serie.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                serie.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
                 if (settings.pref_PastaSeries != "")
                     serie.FolderPath = Path.Combine(settings.pref_PastaSeries, RetirarCaracteresInvalidos(serie.Title));
@@ -486,8 +507,8 @@ namespace MediaManager.Helpers
             string responseData = "";
             List<Search> responseList = null;
 
-            if (type == Enums.TipoConteudo.anime.ToString())
-                type = Enums.TipoConteudo.show.ToString();
+            if (type == Enums.ContentType.anime.ToString())
+                type = Enums.ContentType.show.ToString();
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {
@@ -509,7 +530,7 @@ namespace MediaManager.Helpers
                     var itemVideo = item.ToVideo();
                     string responseDataSinopse = "";
 
-                    List<Serie> traducoes = new List<Serie>();
+                    List<SerieOld> traducoes = new List<SerieOld>();
 
                     using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
                     {
@@ -517,12 +538,12 @@ namespace MediaManager.Helpers
 
                         httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
 
-                        using (var response = await httpClient.GetAsync(type + "s/" + itemVideo.Ids.slug + "/translations/" + settings.pref_IdiomaPesquisa))
-                        {
-                            responseDataSinopse = await response.Content.ReadAsStringAsync();
-                        }
+                        //using (var response = await httpClient.GetAsync(type + "s/" + itemVideo.Ids.slug + "/translations/" + settings.pref_IdiomaPesquisa))
+                        //{
+                        //    responseDataSinopse = await response.Content.ReadAsStringAsync();
+                        //}
                     }
-                    traducoes = JsonConvert.DeserializeObject<List<Serie>>(responseDataSinopse);
+                    traducoes = JsonConvert.DeserializeObject<List<SerieOld>>(responseDataSinopse);
 
                     var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
                     if (!string.IsNullOrWhiteSpace(sinopseTraduzida))

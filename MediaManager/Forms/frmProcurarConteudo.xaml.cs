@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MediaManager.Helpers;
@@ -12,13 +13,17 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmProcurarConteudo : Window
     {
+        public Helper.Enums.ContentType ContentType;
         public ProcurarConteudoViewModel contViewModel;
-        public Helper.Enums.TipoConteudo TipoConteudo;
 
-        public frmProcurarConteudo(Helper.Enums.TipoConteudo tipoConteudo)
+        public frmProcurarConteudo(Helper.Enums.ContentType contentType)
         {
             InitializeComponent();
-            TipoConteudo = tipoConteudo;
+            ContentType = contentType;
+
+            contViewModel = new ProcurarConteudoViewModel(ContentType);
+            DataContext = contViewModel;
+            btAdicionar.IsEnabled = true;
         }
 
         private async void btAdicionar_Click(object sender, RoutedEventArgs e)
@@ -29,24 +34,40 @@ namespace MediaManager.Forms
             {
                 if (item.IsSelected == true)
                 {
-                    switch (item.TipoConteudoString)
+                    switch (item.ContentType)
                     {
-                        case "Série":
-                            Serie serie = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.Enums.TipoConteudo.show);
-                            serie.FolderPath = item.Pasta;
-                            await DatabaseHelper.AddSerieAsync(serie);
-                            break;
+                        case Helper.Enums.ContentType.show:
+                            {
+                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
+                                Serie serie = data.Series[0];
+                                serie.Episodes = data.Episodes;
+                                serie.FolderPath = item.FolderPath;
 
-                        case "Anime":
-                            Serie anime = await Helper.API_GetSerieInfoAsync(item.TraktSlug, Helper.Enums.TipoConteudo.anime);
-                            anime.FolderPath = item.Pasta;
-                            await DatabaseHelper.AddAnimeAsync(anime);
-                            break;
+                                await DatabaseHelper.AddSerieAsync(serie);
+                                break;
+                            }
+                        case Helper.Enums.ContentType.anime:
+                            {
+                                //SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
+                                //Serie anime = data.Series[0];
+                                //Episode[] episodes = data.Episodes;
+                                //anime.FolderPath = item.FolderPath;
+                                //anime.IsAnime = true;
 
-                        case "Filme":
-                            Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                            filme.FolderPath = item.Pasta;
-                            await DatabaseHelper.AddFilmeAsync(filme);
+                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
+                                Serie anime = data.Series[0];
+                                anime.Episodes = data.Episodes;
+                                anime.IsAnime = true;
+                                anime.FolderPath = item.FolderPath;
+
+                                await DatabaseHelper.AddSerieAsync(anime);
+                                break;
+                            }
+                        case Helper.Enums.ContentType.movie:
+                            // TODO Fazer funfar
+                            //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
+                            //filme.FolderPath = item.Pasta;
+                            //await DatabaseHelper.AddFilmeAsync(filme);
                             break;
 
                         default:
@@ -100,57 +121,48 @@ namespace MediaManager.Forms
             if (dgAll.SelectedItem != null)
             {
                 ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
-
-                Helper.Enums.TipoConteudo tipoConteudo = (Helper.Enums.TipoConteudo)Helper.Enums.ToEnum(conteudo.TipoConteudoString, typeof(Helper.Enums.TipoConteudo));
-
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(tipoConteudo, conteudo.ToVideo());
+                ConteudoGrid conteudoAlterado = new ConteudoGrid(); // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
+                conteudoAlterado.Clone(conteudo);
+                if (conteudoAlterado.IsNotFound)
+                    conteudoAlterado.Title = Path.GetFileName(conteudoAlterado.FolderPath);
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.ContentType, conteudoAlterado);
                 frmAdicionarConteudo.IsProcurarConteudo = true;
                 frmAdicionarConteudo.ShowDialog();
                 if (frmAdicionarConteudo.DialogResult == true)
                 {
-                    switch (frmAdicionarConteudo.AdicionarConteudoViewModel.TipoConteudo)
+                    Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                    int i;
+                    for (i = 0; i < contViewModel.Conteudos.Count; i++)
                     {
-                        case Helper.Enums.TipoConteudo.movie:
-                            {
-                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
-                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
-                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
-                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
-                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                                break;
-                            }
-
-                        case Helper.Enums.TipoConteudo.show:
-                            {
-                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
-                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
-                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
-                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
-                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                                break;
-                            }
-                        case Helper.Enums.TipoConteudo.anime:
-                            {
-                                Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
-                                (dgAll.SelectedItem as ConteudoGrid).Nome = video.Title;
-                                (dgAll.SelectedItem as ConteudoGrid).Pasta = video.FolderPath;
-                                (dgAll.SelectedItem as ConteudoGrid).TraktSlug = video.Ids.slug;
-                                (dgAll.SelectedItem as ConteudoGrid).IsAlterado = true;
-                                break;
-                            }
-                        default:
+                        if (contViewModel.Conteudos[i] == conteudo)
+                        {
                             break;
+                        }
                     }
+                    if (video is Serie)
+                    {
+                        //conteudo = (Serie)video;
+                        //conteudo.Video = (Serie)video;
+                        contViewModel.Conteudos[i] = (Serie)video;
+                        contViewModel.Conteudos[i].Video = (Serie)video;
+                        contViewModel.Conteudos[i].IsSelected = true;
+                    }
+                    else if (video is ConteudoGrid)
+                    {
+                        //conteudo = (ConteudoGrid)video;
+                        //conteudo.Video = (ConteudoGrid)video;
+                        contViewModel.Conteudos[i] = (ConteudoGrid)video;
+                        contViewModel.Conteudos[i].Video = (ConteudoGrid)video;
+                        contViewModel.Conteudos[i].IsSelected = true;
+                    }
+                    else
+                        throw new System.InvalidCastException();
                 }
+                //else if (frmAdicionarConteudo.AdicionarConteudoViewModel.Video != null && frmAdicionarConteudo.AdicionarConteudoViewModel.Video.IDApi == 0)
+                //{
+                //    (dgAll.SelectedItem as ConteudoGrid).IsNotFound = true;
+                //}
             }
-        }
-
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            contViewModel = new ProcurarConteudoViewModel();
-            DataContext = contViewModel;
-            await contViewModel.LoadConteudos(TipoConteudo);
-            btAdicionar.IsEnabled = true;
         }
     }
 }

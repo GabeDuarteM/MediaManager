@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Windows;
+using ConfigurableInputMessageBox;
 using MediaManager.Helpers;
 using MediaManager.Model;
 
@@ -8,84 +11,24 @@ namespace MediaManager.ViewModel
 {
     public class AdicionarConteudoViewModel : INotifyPropertyChanged
     {
-        private string _fanartUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
-        private string _posterUrl = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
-        private List<Video> _resultPesquisa;
-        private Helper.Enums.TipoConteudo _tipoConteudo;
-        private Video _video;
+        private List<Video> _ResultPesquisa;
+        private Helper.Enums.ContentType _TipoConteudo;
+        private Video _Video;
         private string folderPathEditar;
-        private int IdBanco;
+        private int IDBanco;
         private Video videoBuscaPersonalizada = new Serie() { Title = "Busca personalizada...", Overview = "Carregando sinopse..." };
         private Video videoCarregando = new Serie() { Title = "Carregando...", Overview = "Carregando sinopse..." };
 
-        public string FanartUrl
-        {
-            get { return _fanartUrl; }
-            set
-            {
-                _fanartUrl = string.IsNullOrWhiteSpace(value) ? ("pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png") : value;
-                OnPropertyChanged("FanartUrl");
-            }
-        }
+        public List<Video> ResultPesquisa { get { return _ResultPesquisa; } set { _ResultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
 
-        public string PosterUrl
-        {
-            get { return _posterUrl; }
-            set
-            {
-                _posterUrl = string.IsNullOrWhiteSpace(value) ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png") : value;
-                OnPropertyChanged("PosterUrl");
-            }
-        }
+        public Helper.Enums.ContentType TipoConteudo { get { return _TipoConteudo; } set { _TipoConteudo = value; } }
 
-        public List<Video> ResultPesquisa { get { return _resultPesquisa; } set { _resultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
+        public Video Video { get { return _Video; } set { _Video = value; OnPropertyChanged("Video"); VerificarSeBuscaPersonalizada(); } }
 
-        public Helper.Enums.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; } }
-
-        public Video Video { get { return _video; } set { _video = value; OnPropertyChanged("Video"); DefinirImagens(); VerificarSeBuscaPersonalizada(); } }
-
-        public AdicionarConteudoViewModel(string title, Helper.Enums.TipoConteudo tipoConteudo)
-        {
-            TipoConteudo = tipoConteudo;
-            getResultPesquisaAsync(title);
-        }
-
-        public AdicionarConteudoViewModel(Video video, Helper.Enums.TipoConteudo tipoConteudo)
+        public AdicionarConteudoViewModel(Video video, Helper.Enums.ContentType tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
             getResultPesquisaAsync(video);
-        }
-
-        private void DefinirImagens()
-        {
-            if (Video != null)
-            {
-                if (Video.Images != null)
-                {
-                    if (Video.Images.poster.thumb != null)
-                        PosterUrl = Video.Images.poster.thumb;
-                    else if (Video.Images.poster.medium != null)
-                        PosterUrl = Video.Images.poster.medium;
-                    else if (Video.Images.poster.full != null)
-                        PosterUrl = Video.Images.poster.full;
-                    else
-                        PosterUrl = null;
-
-                    if (Video.Images.fanart.thumb != null)
-                        FanartUrl = Video.Images.fanart.thumb;
-                    else if (Video.Images.fanart.medium != null)
-                        FanartUrl = Video.Images.fanart.medium;
-                    else if (Video.Images.fanart.full != null)
-                        FanartUrl = Video.Images.fanart.full;
-                    else
-                        FanartUrl = null;
-                }
-                else
-                {
-                    PosterUrl = null;
-                    FanartUrl = null;
-                }
-            }
         }
 
         private async void getResultPesquisaAsync(string title)
@@ -93,22 +36,66 @@ namespace MediaManager.ViewModel
             ResultPesquisa = new List<Video>();
             ResultPesquisa.Add(videoCarregando);
             Video = videoCarregando;
+            List<Video> resultPesquisaTemp = new List<Video>();
 
-            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(title, TipoConteudo.ToString());
-            var resultPesquisaTemp = new List<Video>();
-
-            foreach (var item in listaSearch)
+            if (TipoConteudo == Helper.Enums.ContentType.show || TipoConteudo == Helper.Enums.ContentType.anime)
             {
-                if (TipoConteudo == Helper.Enums.TipoConteudo.anime)
-                    item.isAnime = true;
+                SeriesData data = await API_Requests.GetSeriesAsync(title, true);
 
-                var videoItem = item.ToVideo();
+                if (data.Series == null) // Verificar a primeira vez se é null para não exibir a mensagem quando não encontra resultados na tela de procurar conteúdo.
+                {
+                    InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                    InputMessageBox.InputViewModel.Properties.InputText = title;
+                    InputMessageBox.ShowDialog();
+                    if (InputMessageBox.DialogResult == true)
+                    {
+                        data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
+                    }
+                }
 
-                if (!string.IsNullOrWhiteSpace(folderPathEditar))
-                    videoItem.FolderPath = folderPathEditar;
-                if (IdBanco > 0)
-                    videoItem.ID = IdBanco;
-                resultPesquisaTemp.Add(videoItem);
+                while (data.Series == null)
+                {
+                    if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                        InputMessageBox.InputViewModel.Properties.InputText = title;
+                        InputMessageBox.ShowDialog();
+                        if (InputMessageBox.DialogResult == true)
+                        {
+                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                foreach (var item in data.Series)
+                {
+                    if (TipoConteudo == Helper.Enums.ContentType.anime)
+                        item.IsAnime = true;
+
+                    if (!string.IsNullOrWhiteSpace(folderPathEditar)) // Verifica se é edição para setar o folderpath igual.
+                        item.FolderPath = folderPathEditar;
+                    else
+                        item.SetDefaultFolderPath();
+
+                    item.IDBanco = IDBanco;
+                    item.ContentType = TipoConteudo;
+                    bool isExistente = false;
+
+                    foreach (var itemResultPesquisa in resultPesquisaTemp)
+                    {
+                        if (item.IDApi == itemResultPesquisa.IDApi)
+                        {
+                            isExistente = true;
+                            break;
+                        }
+                    }
+                    if (!isExistente)
+                        resultPesquisaTemp.Add(item);
+                }
             }
 
             resultPesquisaTemp.Add(videoBuscaPersonalizada);
@@ -118,39 +105,76 @@ namespace MediaManager.ViewModel
 
         private async void getResultPesquisaAsync(Video video)
         {
-            folderPathEditar = video.FolderPath;
-            IdBanco = video.ID;
             ResultPesquisa = new List<Video>();
             ResultPesquisa.Add(videoCarregando);
             Video = videoCarregando;
-
-            List<Search> listaSearch = await Helper.API_PesquisarConteudoAsync(video.Title, TipoConteudo.ToString());
+            folderPathEditar = video.FolderPath;
+            IDBanco = video.IDBanco; // Guarda o IDBanco para caso for realizada uma Busca personalizada.
             var resultPesquisaTemp = new List<Video>();
-            resultPesquisaTemp.Add(video);
+            if (video.IDApi != 0 && video.Estado == Estado.COMPLETO)
+                resultPesquisaTemp.Add(video);
 
-            foreach (var item in listaSearch)
+            if (video.ContentType == Helper.Enums.ContentType.show || video.ContentType == Helper.Enums.ContentType.anime)
             {
-                if (TipoConteudo == Helper.Enums.TipoConteudo.anime)
-                    item.isAnime = true;
-                Video videoItem = item.ToVideo();
-                videoItem.FolderPath = video.FolderPath;
-                videoItem.ID = IdBanco;
+                SeriesData data = new SeriesData();
+                if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
+                    data = await API_Requests.GetSeriesAsync(video.Title, true);
 
-                // Vai cair no if abaixo quando a chamada do método vier do menu "Procurar novos conteúdos".
-                if (videoItem.Title == video.Title && (video.Overview == null && video.Images == null))
+                while (data.Series == null)
                 {
-                    resultPesquisaTemp.Remove(video);
-                    video = videoItem;
-                    resultPesquisaTemp.Add(video);
+                    if (video is ConteudoGrid && (video as ConteudoGrid).IsNotFound)
+                    {
+                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                        InputMessageBox.InputViewModel.Properties.InputText = video.Title;
+                        InputMessageBox.ShowDialog();
+                        if (InputMessageBox.DialogResult == true)
+                        {
+                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
+                        }
+                    }
+                    else if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                        InputMessageBox.InputViewModel.Properties.InputText = video.Title;
+                        InputMessageBox.ShowDialog();
+                        if (InputMessageBox.DialogResult == true)
+                        {
+                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else if (videoItem.Title != video.Title)
+
+                foreach (var item in data.Series)
                 {
-                    resultPesquisaTemp.Add(videoItem);
+                    //bool isExistente = false;
+                    if (video.ContentType == Helper.Enums.ContentType.anime)
+                        item.IsAnime = true;
+                    item.FolderPath = video.FolderPath;
+                    item.IDBanco = video.IDBanco;
+                    item.ContentType = video.ContentType;
+
+                    foreach (var itemResultPesquisa in resultPesquisaTemp)
+                    {
+                        if (item.IDApi == itemResultPesquisa.IDApi && item.Estado == Estado.COMPLETO)
+                        {
+                            resultPesquisaTemp.Remove(itemResultPesquisa);
+                            resultPesquisaTemp.Add(item);
+                            //isExistente = true;
+                            break;
+                        }
+                    }
+                    //if (!isExistente)
+                    //    resultPesquisaTemp.Add(item);
                 }
             }
-            resultPesquisaTemp.Add(videoBuscaPersonalizada);
 
+            resultPesquisaTemp.Add(videoBuscaPersonalizada);
             ResultPesquisa = resultPesquisaTemp;
+            video = ResultPesquisa[0];
             Video = video;
         }
 

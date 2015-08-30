@@ -70,6 +70,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>C:\Users\Gabriel\Desktop\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -128,44 +131,14 @@
     <Compile Include="Forms\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\API_Requests.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\FileSearch.cs" />
-    <Compile Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs" />
-    <Compile Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.Designer.cs">
-      <DependentUpon>201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs</DependentUpon>
+    <Compile Include="Migrations\201508170050070_Init.cs" />
+    <Compile Include="Migrations\201508170050070_Init.Designer.cs">
+      <DependentUpon>201508170050070_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201507020132197_AddNullDatas.cs" />
-    <Compile Include="Migrations\201507020132197_AddNullDatas.Designer.cs">
-      <DependentUpon>201507020132197_AddNullDatas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507052105120_Add_Generos_e_Traducoes.cs" />
-    <Compile Include="Migrations\201507052105120_Add_Generos_e_Traducoes.Designer.cs">
-      <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507062325456_Remover_Generos_Traducoes.cs" />
-    <Compile Include="Migrations\201507062325456_Remover_Generos_Traducoes.Designer.cs">
-      <DependentUpon>201507062325456_Remover_Generos_Traducoes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.cs" />
-    <Compile Include="Migrations\201507062344073_Alterar_Serie_Traducoes.Designer.cs">
-      <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507182203248_AjusteNomesMaiusculos.cs" />
-    <Compile Include="Migrations\201507182203248_AjusteNomesMaiusculos.Designer.cs">
-      <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs" />
-    <Compile Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.Designer.cs">
-      <DependentUpon>201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507240220379_Ajustes_classe_interface_video.cs" />
-    <Compile Include="Migrations\201507240220379_Ajustes_classe_interface_video.Designer.cs">
-      <DependentUpon>201507240220379_Ajustes_classe_interface_video.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.cs" />
-    <Compile Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.Designer.cs">
-      <DependentUpon>201507240256177_Ajustes_Chaves_Primarias.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Filme.cs" />
@@ -173,10 +146,11 @@
     <Compile Include="Model\Images.cs" />
     <Compile Include="Model\PosterGrid.cs" />
     <Compile Include="Model\Search.cs" />
+    <Compile Include="Model\SerieOld.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
-    <Compile Include="Model\VideoFile.cs" />
+    <Compile Include="Model\EpisodeToRename.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -187,6 +161,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PosterViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
+    <Compile Include="ViewModel\RenomearViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>
     </Compile>
@@ -199,23 +174,6 @@
     <Compile Include="Forms\frmRenomear.xaml.cs">
       <DependentUpon>frmRenomear.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201502141910174_InitialCreate.cs" />
-    <Compile Include="Migrations\201502141910174_InitialCreate.Designer.cs">
-      <DependentUpon>201502141910174_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502141931106_avatarChanges.cs" />
-    <Compile Include="Migrations\201502141931106_avatarChanges.Designer.cs">
-      <DependentUpon>201502141931106_avatarChanges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502142123400_metadataFolder.cs" />
-    <Compile Include="Migrations\201502142123400_metadataFolder.Designer.cs">
-      <DependentUpon>201502142123400_metadataFolder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201502160112259_isAnime e folderPath.cs" />
-    <Compile Include="Migrations\201502160112259_isAnime e folderPath.Designer.cs">
-      <DependentUpon>201502160112259_isAnime e folderPath.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="Forms\InputMessageBox.xaml">
       <SubType>Designer</SubType>
@@ -281,44 +239,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201502141910174_InitialCreate.resx">
-      <DependentUpon>201502141910174_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502141931106_avatarChanges.resx">
-      <DependentUpon>201502141931106_avatarChanges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502142123400_metadataFolder.resx">
-      <DependentUpon>201502142123400_metadataFolder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502160112259_isAnime e folderPath.resx">
-      <DependentUpon>201502160112259_isAnime e folderPath.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.resx">
-      <DependentUpon>201507020052303_AddPermitirNullFirst_AiredAndUpdated_At.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020132197_AddNullDatas.resx">
-      <DependentUpon>201507020132197_AddNullDatas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507052105120_Add_Generos_e_Traducoes.resx">
-      <DependentUpon>201507052105120_Add_Generos_e_Traducoes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507062325456_Remover_Generos_Traducoes.resx">
-      <DependentUpon>201507062325456_Remover_Generos_Traducoes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507062344073_Alterar_Serie_Traducoes.resx">
-      <DependentUpon>201507062344073_Alterar_Serie_Traducoes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507182203248_AjusteNomesMaiusculos.resx">
-      <DependentUpon>201507182203248_AjusteNomesMaiusculos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507240124042_Ajuste_Nos_Ids_Serie_Filme.resx">
-      <DependentUpon>201507240124042_Ajuste_Nos_Ids_Serie_Filme.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507240220379_Ajustes_classe_interface_video.resx">
-      <DependentUpon>201507240220379_Ajustes_classe_interface_video.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507240256177_Ajustes_Chaves_Primarias.resx">
-      <DependentUpon>201507240256177_Ajustes_Chaves_Primarias.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508170050070_Init.resx">
+      <DependentUpon>201508170050070_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

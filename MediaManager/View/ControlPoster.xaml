@@ -11,7 +11,7 @@
         </Grid.Effect>
         <TextBlock>
             <Hyperlink TextDecorations="None" Cursor="Arrow" Command="{Binding AbrirEdicaoCommand}">
-                <Image Name="imgPoster" Stretch="Fill"  Source="{Binding Poster.PosterCache, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Image Stretch="Fill"  Source="{Binding Poster.ImgPosterCache, Mode=OneWay}" />
             </Hyperlink>
         </TextBlock>
     </Grid>

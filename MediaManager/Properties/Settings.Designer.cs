@@ -199,5 +199,51 @@ namespace MediaManager.Properties {
                 this["pref_IdiomaPesquisa"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BD9B52E38797143A")]
+        public string API_KeyTheTVDB {
+            get {
+                return ((string)(this["API_KeyTheTVDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2570d7bcbdfbc9af419035abdeef1452")]
+        public string API_KeyFanartTv {
+            get {
+                return ((string)(this["API_KeyFanartTv"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://thetvdb.com")]
+        public string API_UrlTheTVDB {
+            get {
+                return ((string)(this["API_UrlTheTVDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://webservice.fanart.tv")]
+        public string API_UrlFanartTv {
+            get {
+                return ((string)(this["API_UrlFanartTv"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".webm|.mkv|.flv|.avi|.qt|.mov|.wmv|.yuv|.rm|.rmvb|.asf|.mp4|.m4p|.m4v|.mpg|.mp2|." +
+            "mpeg|.mpe|.mpv|.m2v|.svi|.3gp|.3g2|.mxf|.roq|.nsv")]
+        public string ExtensoesRenomeioPermitidas {
+            get {
+                return ((string)(this["ExtensoesRenomeioPermitidas"]));
+            }
+        }
     }
 }

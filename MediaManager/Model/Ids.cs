@@ -15,7 +15,7 @@ namespace MediaManager.Model
         [JsonProperty("imdb")]
         public string imdb { get; set; }
 
-        public virtual Serie Serie { get; set; }
+        //public virtual SerieOld Serie { get; set; }
 
         [JsonProperty("slug")]
         public string slug { get; set; }

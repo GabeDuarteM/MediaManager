@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -21,39 +22,42 @@ namespace MediaManager.ViewModel
 
         public MainViewModel()
         {
-            AtualizarConteudo(Helper.Enums.TipoConteudo.movieShowAnime);
+            AtualizarConteudo(Helper.Enums.ContentType.movieShowAnime);
         }
 
-        public void AtualizarConteudo(Helper.Enums.TipoConteudo tipoConteudo)
+        public void AtualizarConteudo(Helper.Enums.ContentType tipoConteudo)
         {
             switch (tipoConteudo)
             {
-                case Helper.Enums.TipoConteudo.movie:
+                case Helper.Enums.ContentType.movie:
                     {
-                        Filmes = new ObservableCollection<PosterViewModel>();
-                        List<Filme> filmesDB = DatabaseHelper.GetFilmes();
+                        //Filmes = new ObservableCollection<PosterViewModel>();
+                        //List<Filme> filmesDB = DatabaseHelper.GetFilmes();
 
-                        foreach (var item in filmesDB)
-                        {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.movie };
-                            PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
-                            _filmes.Add(posterVM);
-                        }
+                        //foreach (var item in filmesDB)
+                        //{
+                        //    var path = Path.Combine(item.FolderMetadata, "poster.jpg");
+                        //    PosterGrid pg = new PosterGrid() { IDBanco = item.IDBanco, ImgPoster = File.Exists(path) ? path : null, Type = Helper.Enums.TipoConteudo.movie };
+                        //    PosterViewModel posterVM = new PosterViewModel();
+                        //    posterVM.Poster = pg;
+                        //    _filmes.Add(posterVM);
+                        //}
 
-                        Filmes = _filmes;
-                        break;
+                        //Filmes = _filmes;
+                        //break;
+                        throw new NotImplementedException();
                     }
-                case Helper.Enums.TipoConteudo.show:
+                case Helper.Enums.ContentType.show:
                     {
                         Series = new ObservableCollection<PosterViewModel>();
-                        List<Serie> seriesDB = DatabaseHelper.GetSeries();
+                        List<Serie> series = DatabaseHelper.GetSeries();
 
-                        foreach (var item in seriesDB)
+                        foreach (var item in series)
                         {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.show };
+                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
+                            PosterGrid pg = item;
+                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            pg.ContentType = Helper.Enums.ContentType.show;
                             PosterViewModel posterVM = new PosterViewModel();
                             posterVM.Poster = pg;
                             _series.Add(posterVM);
@@ -62,15 +66,17 @@ namespace MediaManager.ViewModel
                         Series = _series;
                         break;
                     }
-                case Helper.Enums.TipoConteudo.anime:
+                case Helper.Enums.ContentType.anime:
                     {
                         Animes = new ObservableCollection<PosterViewModel>();
-                        List<Serie> animesDB = DatabaseHelper.GetAnimes();
+                        List<Serie> animes = DatabaseHelper.GetAnimes();
 
-                        foreach (var item in animesDB)
+                        foreach (var item in animes)
                         {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.anime };
+                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
+                            PosterGrid pg = item;
+                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            pg.ContentType = Helper.Enums.ContentType.anime;
                             PosterViewModel posterVM = new PosterViewModel();
                             posterVM.Poster = pg;
                             _animes.Add(posterVM);
@@ -79,49 +85,53 @@ namespace MediaManager.ViewModel
                         Animes = _animes;
                         break;
                     }
-                case Helper.Enums.TipoConteudo.movieShowAnime:
+                case Helper.Enums.ContentType.movieShowAnime:
                     {
                         Series = new ObservableCollection<PosterViewModel>();
                         Animes = new ObservableCollection<PosterViewModel>();
                         Filmes = new ObservableCollection<PosterViewModel>();
 
-                        List<Serie> seriesDB = DatabaseHelper.GetSeries();
-                        List<Serie> animesDB = DatabaseHelper.GetAnimes();
-                        List<Filme> filmesDB = DatabaseHelper.GetFilmes();
+                        List<Serie> series = DatabaseHelper.GetSeries();
+                        List<Serie> animes = DatabaseHelper.GetAnimes();
+                        //List<Filme> filmesDB = DatabaseHelper.GetFilmes();
 
-                        foreach (var item in seriesDB)
+                        foreach (var item in series)
                         {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.show };
+                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
+                            PosterGrid pg = item;
+                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            pg.ContentType = Helper.Enums.ContentType.show;
                             PosterViewModel posterVM = new PosterViewModel();
                             posterVM.Poster = pg;
                             _series.Add(posterVM);
                         }
 
-                        foreach (var item in animesDB)
+                        foreach (var item in animes)
                         {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.anime };
+                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
+                            PosterGrid pg = item;
+                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            pg.ContentType = Helper.Enums.ContentType.anime;
                             PosterViewModel posterVM = new PosterViewModel();
                             posterVM.Poster = pg;
                             _animes.Add(posterVM);
                         }
 
-                        foreach (var item in filmesDB)
-                        {
-                            var path = Path.Combine(item.MetadataFolder, "poster.jpg");
-                            PosterGrid pg = new PosterGrid() { IdBanco = item.ID, PosterPath = File.Exists(path) ? path : null, TipoConteudo = Helper.Enums.TipoConteudo.movie };
-                            PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
-                            _filmes.Add(posterVM);
-                        }
+                        //foreach (var item in filmesDB)
+                        //{
+                        //    var path = Path.Combine(item.FolderMetadata, "poster.jpg");
+                        //    PosterGrid pg = new PosterGrid() { IDBanco = item.IDBanco, ImgPoster = File.Exists(path) ? path : null, Type = Helper.Enums.TipoConteudo.movie };
+                        //    PosterViewModel posterVM = new PosterViewModel();
+                        //    posterVM.Poster = pg;
+                        //    _filmes.Add(posterVM);
+                        //}
 
                         Series = _series;
                         Animes = _animes;
                         Filmes = _filmes;
                         break;
                     }
-                case Helper.Enums.TipoConteudo.unknown:
+                case Helper.Enums.ContentType.unknown:
                     throw new InvalidEnumArgumentException();
                 default:
                     throw new InvalidEnumArgumentException();

@@ -26,55 +26,55 @@ namespace MediaManager.Model
 
         public Video ToVideo()
         {
-            Video video;
-            switch (type)
-            {
-                case "show":
-                    {
-                        video = new Serie();
-                        video.Title = Video.title;
-                        video.Images = Video.images;
-                        video.Overview = Video.overview;
-                        video.Ids = Video.ids;
-                        if (isAnime)
-                        {
-                            video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes) ? Path.Combine(Settings.Default.pref_PastaAnimes, video.Title) : null;
-                            video.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-    Settings.Default.AppName, "Metadata", "Animes", Helper.RetirarCaracteresInvalidos(video.Title));
-                        }
-                        else
-                        {
-                            video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaSeries) ? Path.Combine(Settings.Default.pref_PastaSeries, video.Title) : null;
-                            video.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-    Settings.Default.AppName, "Metadata", "Séries", Helper.RetirarCaracteresInvalidos(video.Title));
-                        }
-                        return video;
-                    }
-                case "movie":
-                    {
-                        video = new Filme();
-                        video.Title = Video.title;
-                        video.Images = Video.images;
-                        video.Overview = Video.overview;
-                        video.Ids = Video.ids;
-                        video.MetadataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                            Settings.Default.AppName, "Metadata", "Filmes", Helper.RetirarCaracteresInvalidos(video.Title));
-                        video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes) ? Path.Combine(Settings.Default.pref_PastaFilmes, video.Title) : null;
-                        return video;
-                    }
-                default:
-                    return null;
-            }
+            //        Video video;
+            //        switch (type)
+            //        {
+            //            case "show":
+            //                {
+            //                    video = new SerieOld();
+            //                    video.Title = Video.title;
+            //                    video.Images = Video.images;
+            //                    video.Overview = Video.overview;
+            //                    video.Ids = Video.ids;
+            //                    if (isAnime)
+            //                    {
+            //                        video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes) ? Path.Combine(Settings.Default.pref_PastaAnimes, video.Title) : null;
+            //                        video.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            //Settings.Default.AppName, "Metadata", "Animes", Helper.RetirarCaracteresInvalidos(video.Title));
+            //                    }
+            //                    else
+            //                    {
+            //                        video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaSeries) ? Path.Combine(Settings.Default.pref_PastaSeries, video.Title) : null;
+            //                        video.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            //Settings.Default.AppName, "Metadata", "Séries", Helper.RetirarCaracteresInvalidos(video.Title));
+            //                    }
+            //                    return video;
+            //                }
+            //            case "movie":
+            //                {
+            //                    video = new Filme();
+            //                    video.Title = Video.title;
+            //                    video.Images = Video.images;
+            //                    video.Overview = Video.overview;
+            //                    video.Ids = Video.ids;
+            //                    video.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            //                        Settings.Default.AppName, "Metadata", "Filmes", Helper.RetirarCaracteresInvalidos(video.Title));
+            //                    video.FolderPath = !string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes) ? Path.Combine(Settings.Default.pref_PastaFilmes, video.Title) : null;
+            //                    return video;
+            //                }
+            //default:
+            return null;
+            //}
         }
     }
 
     public class Show
     {
-        [JsonProperty("ids")]
-        public Ids ids { get; set; }
+        //[JsonProperty("ids")]
+        //public Ids ids { get; set; }
 
-        [JsonProperty("images")]
-        public Images images { get; set; }
+        //[JsonProperty("images")]
+        //public Images images { get; set; }
 
         [JsonProperty("overview")]
         public string overview { get; set; }

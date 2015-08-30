@@ -1,51 +1,65 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Drawing;
 using System.IO;
-using MediaManager.Helpers;
 using MediaManager.Properties;
 
 namespace MediaManager.Model
 {
-    public class PosterGrid : INotifyPropertyChanged
+    public class PosterGrid : Video
     {
-        private int _idBanco;
-        private byte[] _posterCache;
-        private string _posterPath = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
-        private Helper.Enums.TipoConteudo _tipoConteudo;
+        private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
+        private byte[] _ImgPosterCache = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
 
-        public int IdBanco { get { return _idBanco; } set { _idBanco = value; OnPropertyChanged("IdBanco"); } }
-
-        public byte[] PosterCache { get { return _posterCache; } }
-
-        public string PosterPath
+        public new string ImgPoster
         {
-            get { return _posterPath; }
+            get { return _ImgPoster; }
             set
             {
-                _posterPath = (string.IsNullOrWhiteSpace(value))
+                _ImgPoster = string.IsNullOrWhiteSpace(value)
                     ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                     : value;
-                _posterCache = (_posterPath == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                _ImgPosterCache = _ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
                     ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                    : File.ReadAllBytes(_posterPath); OnPropertyChanged("PosterPath");
-                OnPropertyChanged("PosterCache");
+                    : File.ReadAllBytes(_ImgPoster);
+                OnPropertyChanged("ImgPoster");
+                OnPropertyChanged("ImgPosterCache");
             }
         }
 
-        public Helper.Enums.TipoConteudo TipoConteudo { get { return _tipoConteudo; } set { _tipoConteudo = value; OnPropertyChanged("TipoConteudo"); } }
+        public byte[] ImgPosterCache { get { return _ImgPosterCache; } }
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string property)
+        public static implicit operator PosterGrid(Serie v)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
+            PosterGrid posterGrid = new PosterGrid();
+
+            posterGrid.FolderPath = v.FolderPath;
+            posterGrid.IDApi = v.IDApi;
+            posterGrid.IDBanco = v.IDBanco;
+            posterGrid.ImgFanart = Path.Combine(v.FolderMetadata, "fanart.jpg");
+            posterGrid.ImgPoster = Path.Combine(v.FolderMetadata, "poster.jpg"); ;
+            posterGrid.Language = v.Language;
+            posterGrid.LastUpdated = v.LastUpdated;
+            posterGrid.Overview = v.Overview;
+            posterGrid.Title = v.Title;
+            posterGrid.ContentType = v.ContentType;
+
+            return posterGrid;
         }
 
-        #endregion INotifyPropertyChanged Members
+        public override void Clone(object objectToClone)
+        {
+            PosterGrid poster = objectToClone as PosterGrid;
+
+            ContentType = poster.ContentType;
+            FolderPath = poster.FolderPath;
+            IDApi = poster.IDApi;
+            IDBanco = poster.IDBanco;
+            ImgFanart = poster.ImgFanart;
+            ImgPoster = poster.ImgPoster;
+            Language = poster.Language;
+            LastUpdated = poster.LastUpdated;
+            Overview = poster.Overview;
+            Title = poster.Title;
+        }
     }
 }

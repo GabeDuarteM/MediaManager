@@ -3,18 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="463" Width="785" ResizeMode="NoResize"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:view="clr-namespace:MediaManager.View"
-        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear conteúdos - {0}'}">
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Procurar conteúdos - {0}'}">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
         <DataGrid Name="dgAll" ItemsSource="{Binding Path=Conteudos, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" MouseDoubleClick="dgAll_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=Pasta, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Pasta" Width="10*" />
-                <DataGridTextColumn Binding="{Binding Path=Nome, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Nome" Width="5*" />
+                <DataGridTextColumn Binding="{Binding Path=FolderPath, Mode=OneWay}" Header="Pasta" Width="10*" />
+                <DataGridTextColumn Binding="{Binding Path=Title, Mode=OneWay}" Header="Nome" Width="5*" />
 
-                <DataGridTextColumn Binding="{Binding Path=TipoConteudoString, Mode=OneWay}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="1*" />
-                <DataGridTemplateColumn Width="0.6*" CanUserReorder="False" CanUserResize="False">
+                <DataGridTextColumn Binding="{Binding Path=ContentTypeString, Mode=OneWay}" Header="Tipo" Width="1*" />
+                <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
+                    <!--0.6*-->
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkTodos_Click" />

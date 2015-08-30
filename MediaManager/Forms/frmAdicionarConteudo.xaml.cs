@@ -19,7 +19,7 @@ namespace MediaManager.Forms
 
         public bool IsProcurarConteudo { get; set; }
 
-        public frmAdicionarConteudo(Helper.Enums.TipoConteudo tipoConteudo)
+        public frmAdicionarConteudo(Helper.Enums.ContentType tipoConteudo)
         {
             InitializeComponent();
 
@@ -28,13 +28,17 @@ namespace MediaManager.Forms
 
             if (inputMessageBox.DialogResult == true)
             {
-                AdicionarConteudoViewModel = new AdicionarConteudoViewModel(inputMessageBox.InputViewModel.Properties.InputText, tipoConteudo);
+                Video serie = new Serie();
+                serie.ContentType = tipoConteudo;
+                serie.Title = inputMessageBox.InputViewModel.Properties.InputText;
+
+                AdicionarConteudoViewModel = new AdicionarConteudoViewModel(serie, tipoConteudo);
             }
 
             DataContext = AdicionarConteudoViewModel;
         }
 
-        public frmAdicionarConteudo(Helper.Enums.TipoConteudo tipoConteudo, Video video)
+        public frmAdicionarConteudo(Helper.Enums.ContentType tipoConteudo, Video video)
         {
             InitializeComponent();
 
@@ -78,39 +82,37 @@ namespace MediaManager.Forms
             {
                 switch (AdicionarConteudoViewModel.TipoConteudo)
                 {
-                    case Helper.Enums.TipoConteudo.movie:
-                        Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
-                        filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
+                    case Helper.Enums.ContentType.movie:
+                        //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
+                        //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
 
-                        if (IsEdicao)
-                        {
-                            filme.ID = AdicionarConteudoViewModel.Video.ID;
-                            try { await DatabaseHelper.UpdateFilmeAsync(filme); }
-                            catch (Exception ex)
-                            {
-                                Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                                DialogResult = false;
-                            }
-                        }
-                        else
-                        {
-                            try { await DatabaseHelper.AddFilmeAsync(filme); }
-                            catch (Exception ex)
-                            {
-                                Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                                DialogResult = false;
-                            }
-                        }
+                        //if (IsEdicao)
+                        //{
+                        //    filme.ID = AdicionarConteudoViewModel.Video.ID;
+                        //    try { await DatabaseHelper.UpdateFilmeAsync(filme); }
+                        //    catch (Exception ex)
+                        //    {
+                        //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+                        //        DialogResult = false;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    try { await DatabaseHelper.AddFilmeAsync(filme); }
+                        //    catch (Exception ex)
+                        //    {
+                        //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+                        //        DialogResult = false;
+                        //    }
+                        //}
                         break;
 
-                    case Helper.Enums.TipoConteudo.show:
+                    case Helper.Enums.ContentType.show:
                         {
-                            Serie serie = await Helper.API_GetSerieInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug, Helper.Enums.TipoConteudo.show);
-                            serie.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
+                            Serie serie = (Serie)AdicionarConteudoViewModel.Video;
 
                             if (IsEdicao)
                             {
-                                serie.ID = AdicionarConteudoViewModel.Video.ID;
                                 try { await DatabaseHelper.UpdateSerieAsync(serie); }
                                 catch (Exception ex)
                                 {
@@ -130,15 +132,13 @@ namespace MediaManager.Forms
                             break;
                         }
 
-                    case Helper.Enums.TipoConteudo.anime:
+                    case Helper.Enums.ContentType.anime:
                         {
-                            Serie anime = await Helper.API_GetSerieInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug, Helper.Enums.TipoConteudo.anime);
-                            anime.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
+                            Serie anime = (Serie)AdicionarConteudoViewModel.Video;
 
                             if (IsEdicao)
                             {
-                                anime.ID = AdicionarConteudoViewModel.Video.ID;
-                                try { await DatabaseHelper.UpdateAnimeAsync(anime); }
+                                try { await DatabaseHelper.UpdateSerieAsync(anime); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
@@ -147,7 +147,7 @@ namespace MediaManager.Forms
                             }
                             else
                             {
-                                try { await DatabaseHelper.AddAnimeAsync(anime); }
+                                try { await DatabaseHelper.AddSerieAsync(anime); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);

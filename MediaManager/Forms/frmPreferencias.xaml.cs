@@ -109,7 +109,7 @@ namespace MediaManager.Forms
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
@@ -125,7 +125,7 @@ namespace MediaManager.Forms
             settings.pref_FormatoFilmes = tbxFormatoFilmes.Text;
             settings.pref_FormatoAnimes = tbxFormatoAnimes.Text;
             Properties.Settings.Default.Save();
-            this.Close();
+            Close();
         }
     }
 }
