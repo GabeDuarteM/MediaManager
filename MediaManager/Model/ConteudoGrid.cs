@@ -26,6 +26,7 @@ namespace MediaManager.Model
             conteudoGrid.Overview = v.Overview;
             conteudoGrid.Title = v.Title;
             conteudoGrid.ContentType = v.ContentType;
+            conteudoGrid.AliasNames = v.AliasNames;
 
             return conteudoGrid;
         }
@@ -47,6 +48,7 @@ namespace MediaManager.Model
             LastUpdated = conteudo.LastUpdated;
             Overview = conteudo.Overview;
             Title = conteudo.Title;
+            AliasNames = conteudo.AliasNames;
         }
     }
 }

@@ -54,7 +54,6 @@ namespace MediaManager.Migrations
                         Actors = c.String(),
                         Airs_DayOfWeek = c.String(),
                         Airs_Time = c.String(),
-                        AliasNames = c.String(),
                         ContentRating = c.String(),
                         FirstAired = c.DateTime(),
                         Genre = c.String(),
@@ -69,6 +68,7 @@ namespace MediaManager.Migrations
                         RatingCount = c.Int(),
                         Runtime = c.Int(),
                         Status = c.String(),
+                        AliasNames = c.String(),
                         FolderPath = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
@@ -137,16 +137,33 @@ namespace MediaManager.Migrations
                 .ForeignKey("dbo.Filmes", t => t.Filme_IDBanco)
                 .Index(t => t.Filme_IDBanco);
             
+            CreateTable(
+                "dbo.Serie_Alias",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        AliasName = c.String(),
+                        Episodio = c.Int(nullable: false),
+                        IDSerie = c.Int(nullable: false),
+                        Temporada = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Series", t => t.IDSerie, cascadeDelete: true)
+                .Index(t => t.IDSerie);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Serie_Alias", "IDSerie", "dbo.Series");
             DropForeignKey("dbo.Images", "Filme_IDBanco", "dbo.Filmes");
             DropForeignKey("dbo.Ids", "Filme_IDBanco", "dbo.Filmes");
             DropForeignKey("dbo.Episodes", "IDSerie", "dbo.Series");
+            DropIndex("dbo.Serie_Alias", new[] { "IDSerie" });
             DropIndex("dbo.Images", new[] { "Filme_IDBanco" });
             DropIndex("dbo.Ids", new[] { "Filme_IDBanco" });
             DropIndex("dbo.Episodes", new[] { "IDSerie" });
+            DropTable("dbo.Serie_Alias");
             DropTable("dbo.Images");
             DropTable("dbo.Ids");
             DropTable("dbo.Filmes");

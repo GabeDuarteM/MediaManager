@@ -157,6 +157,19 @@ namespace MediaManager.Helpers
                         item.Serie = serie;
                         db.Episode.Add(item);
                     }
+
+                    if (serie.AliasNames != null)
+                    {
+                        foreach (var item in serie.AliasNames.Split('|'))
+                        {
+                            Serie_Alias alias = new Serie_Alias();
+                            alias.AliasName = item;
+                            alias.Episodio = 1;
+                            alias.Temporada = 1;
+                            alias.Serie = serie;
+                            db.Serie_Alias.Add(alias);
+                        } 
+                    }
                     db.SaveChanges();
                     retorno = true;
                 }

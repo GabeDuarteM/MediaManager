@@ -38,10 +38,11 @@ namespace MediaManager.Forms
                     {
                         case Helper.Enums.ContentType.show:
                             {
-                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
+                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie serie = data.Series[0];
                                 serie.Episodes = data.Episodes;
                                 serie.FolderPath = item.FolderPath;
+                                serie.AliasNames = item.AliasNames;
 
                                 await DatabaseHelper.AddSerieAsync(serie);
                                 break;
@@ -54,11 +55,12 @@ namespace MediaManager.Forms
                                 //anime.FolderPath = item.FolderPath;
                                 //anime.IsAnime = true;
 
-                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
+                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie anime = data.Series[0];
                                 anime.Episodes = data.Episodes;
                                 anime.IsAnime = true;
                                 anime.FolderPath = item.FolderPath;
+                                anime.AliasNames = item.AliasNames;
 
                                 await DatabaseHelper.AddSerieAsync(anime);
                                 break;

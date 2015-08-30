@@ -20,12 +20,16 @@
         private string _Overview;
         private string _Title;
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        [System.Xml.Serialization.XmlIgnore]
+        public string AliasNames { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
         public virtual Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
         public virtual string ContentTypeString { get { return Helpers.Helper.Enums.ToString(ContentType); } }
 
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
         public Estado Estado { get; set; }
 
         [System.Xml.Serialization.XmlIgnore]

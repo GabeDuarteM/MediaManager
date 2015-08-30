@@ -120,19 +120,20 @@ namespace MediaManager.ViewModel
                 if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
                     data = await API_Requests.GetSeriesAsync(video.Title, true);
 
+                if (video is ConteudoGrid && (video as ConteudoGrid).IsNotFound)
+                {
+                    InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                    InputMessageBox.InputViewModel.Properties.InputText = video.Title;
+                    InputMessageBox.ShowDialog();
+                    if (InputMessageBox.DialogResult == true)
+                    {
+                        data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
+                    }
+                }
+
                 while (data.Series == null)
                 {
-                    if (video is ConteudoGrid && (video as ConteudoGrid).IsNotFound)
-                    {
-                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
-                        InputMessageBox.InputViewModel.Properties.InputText = video.Title;
-                        InputMessageBox.ShowDialog();
-                        if (InputMessageBox.DialogResult == true)
-                        {
-                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, true);
-                        }
-                    }
-                    else if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
                         InputMessageBox.InputViewModel.Properties.InputText = video.Title;
@@ -150,7 +151,7 @@ namespace MediaManager.ViewModel
 
                 foreach (var item in data.Series)
                 {
-                    //bool isExistente = false;
+                    bool isExistente = false;
                     if (video.ContentType == Helper.Enums.ContentType.anime)
                         item.IsAnime = true;
                     item.FolderPath = video.FolderPath;
@@ -163,12 +164,12 @@ namespace MediaManager.ViewModel
                         {
                             resultPesquisaTemp.Remove(itemResultPesquisa);
                             resultPesquisaTemp.Add(item);
-                            //isExistente = true;
+                            isExistente = true;
                             break;
                         }
                     }
-                    //if (!isExistente)
-                    //    resultPesquisaTemp.Add(item);
+                    if (!isExistente)
+                        resultPesquisaTemp.Add(item);
                 }
             }
 
@@ -182,12 +183,11 @@ namespace MediaManager.ViewModel
         {
             if (ResultPesquisa.Count > 0 && Video == videoBuscaPersonalizada)
             {
-                ConfigurableInputMessageBox.InputMessageBox inputMessageBox =
-                    new ConfigurableInputMessageBox.InputMessageBox(ConfigurableInputMessageBox.inputType.AdicionarConteudo);
+                InputMessageBox inputMessageBox = new InputMessageBox(inputType.AdicionarConteudo);
                 inputMessageBox.ShowDialog();
                 if (inputMessageBox.DialogResult == true)
                 {
-                    getResultPesquisaAsync(inputMessageBox.InputViewModel.Properties.InputText);
+                    getResultPesquisaAsync(new Serie() { Title = inputMessageBox.InputViewModel.Properties.InputText });
                 }
             }
         }

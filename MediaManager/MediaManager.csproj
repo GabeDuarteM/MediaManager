@@ -134,9 +134,9 @@
     <Compile Include="Helpers\API_Requests.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\FileSearch.cs" />
-    <Compile Include="Migrations\201508170050070_Init.cs" />
-    <Compile Include="Migrations\201508170050070_Init.Designer.cs">
-      <DependentUpon>201508170050070_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201508302200562_Init.cs" />
+    <Compile Include="Migrations\201508302200562_Init.Designer.cs">
+      <DependentUpon>201508302200562_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ConteudoGrid.cs" />
@@ -148,6 +148,7 @@
     <Compile Include="Model\Search.cs" />
     <Compile Include="Model\SerieOld.cs" />
     <Compile Include="Model\Serie.cs" />
+    <Compile Include="Model\Serie_Alias.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\EpisodeToRename.cs" />
@@ -239,8 +240,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201508170050070_Init.resx">
-      <DependentUpon>201508170050070_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508302200562_Init.resx">
+      <DependentUpon>201508302200562_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
