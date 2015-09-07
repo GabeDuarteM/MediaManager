@@ -236,6 +236,7 @@ namespace MediaManager.ViewModel
             if (data.Series[0].ContentType == Helper.Enums.ContentType.anime)
                 data.Series[0].IsAnime = true;
             data.Series[0].AliasNames = SelectedVideo.AliasNames;
+            data.Series[0].IDBanco = IDBanco > 0 ? IDBanco : data.Series[0].IDBanco;
             for (int i = 0; i < ResultPesquisa.Count; i++)
             {
                 if (ResultPesquisa[i].IDApi == SelectedVideo.IDApi)

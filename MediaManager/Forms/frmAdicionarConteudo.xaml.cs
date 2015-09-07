@@ -142,7 +142,14 @@ namespace MediaManager.Forms
 
                     case Helper.Enums.ContentType.anime:
                         {
-                            Serie anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
+                            Serie anime = null;
+                            if (AdicionarConteudoViewModel.SelectedVideo is Serie)
+                                anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
+                            else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                            {
+                                anime = DatabaseHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                                anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+                            }
 
                             if (IsEdicao)
                             {

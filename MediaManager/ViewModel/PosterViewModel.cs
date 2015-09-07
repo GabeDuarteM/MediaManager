@@ -61,20 +61,17 @@ namespace MediaManager.ViewModel
                     }
                 case Helper.Enums.ContentType.anime:
                     {
-                        Video anime = new Serie();
-                        anime = DatabaseHelper.GetSeriePorID(Poster.IDBanco);
-
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, anime);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            anime = frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                            Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
-                            Poster.IDBanco = anime.IDBanco;
-                            Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
-                            Poster.ContentType = Helper.Enums.ContentType.anime;
+                            //Poster.IDBanco = anime.IDBanco;
+                            //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
+                            //Poster.ContentType = Helper.Enums.ContentType.anime;
                         }
                         break;
                     }
