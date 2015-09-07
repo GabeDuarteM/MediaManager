@@ -18,7 +18,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="pref_IntervaloDeProcuraConteudoNovo" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="pref_FormatoSeries" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -64,6 +64,9 @@
     </Setting>
     <Setting Name="ExtensoesRenomeioPermitidas" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.webm|.mkv|.flv|.avi|.qt|.mov|.wmv|.yuv|.rm|.rmvb|.asf|.mp4|.m4p|.m4v|.mpg|.mp2|.mpeg|.mpe|.mpv|.m2v|.svi|.3gp|.3g2|.mxf|.roq|.nsv</Value>
+    </Setting>
+    <Setting Name="API_UltimaDataAtualizacaoTVDB" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1440855070</Value>
     </Setting>
   </Settings>
 </SettingsFile>

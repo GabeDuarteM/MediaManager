@@ -23,13 +23,13 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10,7" VerticalAlignment="Bottom" Width="75" />
-        <Button Name="btRenomear" Content="Renomear" HorizontalAlignment="Right" Margin="95,7" VerticalAlignment="Bottom" Width="75" />
+        <Button Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10,7" VerticalAlignment="Bottom" Width="75" IsCancel="True" />
+        <Button Name="btRenomear" Content="Renomear" HorizontalAlignment="Right" Margin="95,7" VerticalAlignment="Bottom" Width="75" Command="{Binding RenomearCommand}" CommandParameter="{Binding}" />
     </Grid>
 </Window>

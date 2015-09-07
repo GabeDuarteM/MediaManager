@@ -1,22 +1,38 @@
-﻿<Window x:Class="MediaManager.Forms.frmConfigConteudo"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
-        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Configurar conteúdo - {0}'}"
-        Height="276"
-        Width="327" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        xmlns:helper="clr-namespace:MediaManager.Helpers"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmConfigConteudo"
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Configurar conteúdo - \{0\}}"
+        Height="350.275"
+        Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <xctk:WatermarkTextBox Name="tbxTraktID" Watermark="Trakt ID (Ex.: breaking-bad)..." ToolTip="Trakt ID (Ex.: breaking-bad)..." VerticalAlignment="Top" Margin="10" />
-        <xctk:WatermarkTextBox Name="tbxFormatoRenomeio" Watermark="Formato de renomeio customizado..." ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="10,35" />
-        <xctk:WatermarkTextBox Name="tbxNomeAlternativo" Watermark="Nomes alternativos..." ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="10,60,58,10" />
-        <Button Name="btnRemoverNomeAlternativo" Content="-" ToolTip="Remover nome alternativo..." Margin="10,60,10,10" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="22" Click="btnRemoverNomeAlternativo_Click" />
-        <Button Name="btnAdicionarNomeAlternativo" Content="+" ToolTip="Adicionar nome alternativo..." Margin="10,60,34,10" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="22" Click="btnAdicionarNomeAlternativo_Click" />
-        <ListBox Name="listNomesAlternativos" Margin="10,85,10,40" />
-        <Button Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" Click="btnCancelar_Click" />
-        <Button Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,90,10" Width="75" Click="btnSalvar_Click" />
+        <xctk:WatermarkTextBox Watermark="Formato de renomeio customizado...(Ainda não funfa :))" ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="10,10,10,0" />
+        <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" />
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,90,10" Width="75" />
+        <GroupBox Header="Alias" Margin="10,36.96,10,34.96">
+            <Grid Margin="0,1.12,1,0.667">
+                <xctk:WatermarkTextBox Text="{Binding AliasName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..." ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="0,0,115.667,0" />
+                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding TemporadaStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
+                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding EpisodioStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
+                <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" />
+                <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" />
+                <DataGrid SelectedItem="{Binding SelectedAlias}" ItemsSource="{Binding SerieAliases, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
+                    <DataGrid.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding AliasName, Mode=OneWay}" Header="Alias" Width="10*" />
+                        <DataGridTextColumn Binding="{Binding Temporada, Mode=OneWay}" Header="S00" Width="1*" />
+                        <DataGridTextColumn Binding="{Binding Episodio, Mode=OneWay}" Header="E00" Width="1*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>

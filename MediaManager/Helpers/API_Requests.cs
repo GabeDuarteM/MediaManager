@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 using Ionic.Zip;
 using MediaManager.Model;
@@ -15,6 +16,82 @@ namespace MediaManager.Helpers
 {
     public class API_Requests
     {
+        public async static Task<bool> GetAtualizacoes()
+        {
+            string responseData = null;
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            {
+                using (var response = await httpClient.GetAsync("/api/Updates.php?type=all&time=" + Settings.Default.API_UltimaDataAtualizacaoTVDB))
+                {
+                    responseData = await response.Content.ReadAsStringAsync();
+                }
+            }
+            XmlDocument xml = new XmlDocument();
+
+            xml.LoadXml(responseData);
+
+            XmlNodeList nodesSeries = xml.SelectNodes("/Items/Series");
+            XmlNodeList nodesEpisodios = xml.SelectNodes("/Items/Episode");
+            XmlNodeList nodesHoraServidorTVDB = xml.SelectNodes("/Items/Time");
+
+            List<Serie> listaSeriesAnimes = DatabaseHelper.GetSeries();
+            List<Serie> tempListaAnimes = DatabaseHelper.GetAnimes();
+            List<Episode> listaEpisodios = DatabaseHelper.GetEpisodes();
+            List<string> listaSeriesAnimesIDApi = new List<string>();
+            List<string> listaEpisodiosIDApi = new List<string>();
+            foreach (var item in tempListaAnimes)
+            {
+                listaSeriesAnimes.Add(item);
+            }
+            foreach (var item in listaSeriesAnimes)
+            {
+                listaSeriesAnimesIDApi.Add(item.IDApi + "");
+            }
+            foreach (var item in listaEpisodios)
+            {
+                listaEpisodiosIDApi.Add(item.IDTvdb + "");
+            }
+
+            foreach (XmlNode item in nodesSeries)
+            {
+                if (listaSeriesAnimesIDApi.Contains(item.InnerText))
+                {
+                    int IDApi = 0;
+                    int.TryParse(item.InnerText, out IDApi);
+                    SeriesData serie = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                    serie.Series[0].Episodes = serie.Episodes;
+
+                    Serie serieDB = DatabaseHelper.GetSerieOuAnimePorIDApi(IDApi);
+                    serie.Series[0].IDBanco = serieDB.IDBanco;
+                    serie.Series[0].FolderPath = serieDB.FolderPath;
+                    serie.Series[0].IsAnime = serieDB.IsAnime;
+                    serie.Series[0].ContentType = serieDB.ContentType;
+                    serie.Series[0].Title = serieDB.Title;
+                    serie.Series[0].AliasNames = serieDB.AliasNames;
+
+                    await DatabaseHelper.UpdateSerieAsync(serie.Series[0]);
+                }
+            }
+
+            foreach (XmlNode item in nodesEpisodios)
+            {
+                if (listaEpisodiosIDApi.Contains(item.InnerText))
+                {
+                    int IDApi = 0;
+                    int.TryParse(item.InnerText, out IDApi);
+                    Episode episode = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+
+                    Episode episodeDB = DatabaseHelper.GetEpisode(episode.IDTvdb);
+                    episode.IDBanco = episodeDB.IDBanco;
+
+                    DatabaseHelper.UpdateEpisodio(episode);
+                }
+            }
+            Settings.Default.API_UltimaDataAtualizacaoTVDB = int.Parse(nodesHoraServidorTVDB[0].InnerText);
+            return true;
+        }
+
         /// <summary>
         /// Retorna um Tuple, onde o primeiro valor é a fanart e o segundo é o poster.
         /// </summary>
@@ -143,7 +220,7 @@ namespace MediaManager.Helpers
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
             {
-                using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query + "&language=" + Settings.Default.pref_IdiomaPesquisa))
+                using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query/* + "&language=" + Settings.Default.pref_IdiomaPesquisa*/))
                 {
                     responseData = await response.Content.ReadAsStringAsync();
                 }
@@ -218,6 +295,29 @@ namespace MediaManager.Helpers
             }
 
             return data;
+        }
+
+        private static async Task<Episode> GetEpisodeInfoAsync(int IDApi, string pref_IdiomaPesquisa)
+        {
+            string responseData = null;
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            {
+                using (var response = await httpClient.GetAsync("/api/" + Settings.Default.API_KeyTheTVDB + "/episodes/" + IDApi + "/" + Settings.Default.pref_IdiomaPesquisa + ".xml"))
+                {
+                    responseData = await response.Content.ReadAsStringAsync();
+                }
+            }
+
+            Episode episode = new Episode();
+            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+
+            using (var reader = new StringReader(responseData))
+            {
+                var data = (SeriesData)serializer.Deserialize(reader);
+                episode = data.Episodes[0];
+            }
+            return episode;
         }
     }
 }

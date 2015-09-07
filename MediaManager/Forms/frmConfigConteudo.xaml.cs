@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using MediaManager.Model;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -7,25 +9,13 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmConfigConteudo : Window
     {
-        public frmConfigConteudo()
+        public static ConfigurarConteudoViewModel ConfigurarConteudoVM { get; set; }
+
+        public frmConfigConteudo(Video video)
         {
             InitializeComponent();
-        }
-
-        private void btnRemoverNomeAlternativo_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnAdicionarNomeAlternativo_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void btnSalvar_Click(object sender, RoutedEventArgs e)
-        {
+            ConfigurarConteudoVM = new ConfigurarConteudoViewModel(video);
+            DataContext = ConfigurarConteudoVM;
         }
     }
 }

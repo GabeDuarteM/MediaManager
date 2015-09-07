@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MediaManager.Model;
 using MediaManager.Properties;
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 
 namespace MediaManager.Helpers
@@ -16,6 +17,10 @@ namespace MediaManager.Helpers
     public class Helper
     {
         private static Settings settings = Settings.Default;
+
+        [DllImport("kernel32.dll")]
+        public static extern bool CreateSymbolicLink(
+                        string lpSymlinkFileName, string lpTargetFileName, Enums.SymbolicLink dwFlags);
 
         /// <summary>
         /// Faz o download do poster e da fanart disponiveis, na ordem thumb, medium e full para o diretório metadata informado no video
@@ -218,17 +223,6 @@ namespace MediaManager.Helpers
         }
 
         /// <summary>
-        /// Cria um Symbolic Link entre dois locais/arquivos.
-        /// </summary>
-        /// <param name="lpSymlinkFileName">Local de origem</param>
-        /// <param name="lpTargetFileName">Local de destino</param>
-        /// <param name="dwFlags">Tipo do arquivo: 0 = Arquivo, 1 = Diretório</param>
-        /// <returns>0 em caso de erro e 1 caso a operação seja efetuada com sucesso.</returns>
-        [DllImport("kernel32.dll")]
-        private static extern bool CreateSymbolicLink(
-        string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
-
-        /// <summary>
         /// Classe contendo todos os enums utilizados.
         /// </summary>
         public class Enums
@@ -246,6 +240,12 @@ namespace MediaManager.Helpers
                 episode = 5,
                 person = 6,
                 movieShowAnime = 7
+            }
+
+            public enum SymbolicLink
+            {
+                File = 0,
+                Directory = 1
             }
 
             /// <summary>

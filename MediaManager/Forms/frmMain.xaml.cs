@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Forms;
 using MediaManager.Helpers;
-using MediaManager.Model;
+using MediaManager.Properties;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
@@ -13,8 +13,9 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmMain : Window
     {
-        //private static string[] allowedExtensions = { ".mkv", ".avi", ".mp4", ".flv", ".rmvb", ".rm", ".srt", ".nfo" };
         public MainViewModel MainVM { get; private set; }
+
+        private Timer timerAtualizarConteudo;
 
         public frmMain()
         {
@@ -23,7 +24,20 @@ namespace MediaManager.Forms
             MainVM = new MainViewModel();
 
             DataContext = MainVM;
-            //Teste();
+
+            timerAtualizarConteudo = new Timer();
+            timerAtualizarConteudo.Tick += TimerAtualizarConteudo_Tick;
+            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // in miliseconds
+            timerAtualizarConteudo.Start();
+
+            API_Requests.GetAtualizacoes();
+
+            Teste();
+        }
+
+        private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
+        {
+            API_Requests.GetAtualizacoes();
         }
 
         private /*async*/ void Teste() // TODO Apagar método.
@@ -87,10 +101,6 @@ namespace MediaManager.Forms
             }
 
             //Pra criar cenarios de teste  */
-
-            //SeriesData series = await API_Requests.GetSeriesAsync("arrow", false);
-            //SeriesData serie = await API_Requests.GetSerieInfoAsync(series.Series[0].IDApi, series.Series[0].Language);
-            //await API_Requests.GetImagesAsync(serie.Series[0]);
         }
 
         #region [ MenuItems ]

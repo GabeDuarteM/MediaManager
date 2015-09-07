@@ -43,6 +43,7 @@ namespace MediaManager.Forms
                                 serie.Episodes = data.Episodes;
                                 serie.FolderPath = item.FolderPath;
                                 serie.AliasNames = item.AliasNames;
+                                serie.Title = item.Title;
 
                                 await DatabaseHelper.AddSerieAsync(serie);
                                 break;
@@ -61,6 +62,7 @@ namespace MediaManager.Forms
                                 anime.IsAnime = true;
                                 anime.FolderPath = item.FolderPath;
                                 anime.AliasNames = item.AliasNames;
+                                anime.Title = item.Title;
 
                                 await DatabaseHelper.AddSerieAsync(anime);
                                 break;
@@ -132,7 +134,7 @@ namespace MediaManager.Forms
                 frmAdicionarConteudo.ShowDialog();
                 if (frmAdicionarConteudo.DialogResult == true)
                 {
-                    Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                    Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
                     int i;
                     for (i = 0; i < contViewModel.Conteudos.Count; i++)
                     {

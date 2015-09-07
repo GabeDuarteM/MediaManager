@@ -9,6 +9,6 @@ namespace MediaManager.Model
         public DbSet<Ids> Ids { get; set; }
         public DbSet<Images> Images { get; set; }
         public DbSet<Serie> Serie { get; set; }
-        public DbSet<Serie_Alias> Serie_Alias { get; set; }
+        public DbSet<SerieAlias> SerieAlias { get; set; }
     }
 }

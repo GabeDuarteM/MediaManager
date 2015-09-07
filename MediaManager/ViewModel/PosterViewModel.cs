@@ -45,27 +45,24 @@ namespace MediaManager.ViewModel
                     }
                 case Helper.Enums.ContentType.show:
                     {
-                        Video serie = new Serie();
-                        serie = DatabaseHelper.GetSeriePorID(Poster.IDBanco);
-
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, serie);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            serie = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                            Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
-                            Poster.IDBanco = serie.IDBanco;
-                            Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
-                            Poster.ContentType = Helper.Enums.ContentType.show;
+                            //Poster.IDBanco = serie.IDBanco;
+                            //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
+                            //Poster.ContentType = Helper.Enums.ContentType.show;
                         }
                         break;
                     }
                 case Helper.Enums.ContentType.anime:
                     {
                         Video anime = new Serie();
-                        anime = DatabaseHelper.GetAnimePorID(Poster.IDBanco);
+                        anime = DatabaseHelper.GetSeriePorID(Poster.IDBanco);
 
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, anime);
                         frmAdicionarConteudo.IsEdicao = true;
@@ -73,7 +70,7 @@ namespace MediaManager.ViewModel
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            anime = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
+                            anime = frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
                             Poster.IDBanco = anime.IDBanco;
                             Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");

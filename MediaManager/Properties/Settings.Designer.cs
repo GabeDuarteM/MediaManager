@@ -82,7 +82,7 @@ namespace MediaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int pref_IntervaloDeProcuraConteudoNovo {
             get {
                 return ((int)(this["pref_IntervaloDeProcuraConteudoNovo"]));
@@ -243,6 +243,18 @@ namespace MediaManager.Properties {
         public string ExtensoesRenomeioPermitidas {
             get {
                 return ((string)(this["ExtensoesRenomeioPermitidas"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1440855070")]
+        public int API_UltimaDataAtualizacaoTVDB {
+            get {
+                return ((int)(this["API_UltimaDataAtualizacaoTVDB"]));
+            }
+            set {
+                this["API_UltimaDataAtualizacaoTVDB"] = value;
             }
         }
     }

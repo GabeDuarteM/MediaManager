@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MediaManager.Model
 {
-    public class Serie_Alias
+    public class SerieAlias
     {
         public string AliasName { get; set; }
 
@@ -16,9 +16,10 @@ namespace MediaManager.Model
 
         public int ID { get; set; }
 
+        [Required]
         public int IDSerie { get; set; }
 
-        [Column(Order = 2), ForeignKey("IDSerie"), Required]
+        [Column(Order = 2), ForeignKey("IDSerie")]
         public Serie Serie { get; set; }
 
         public int Temporada { get; set; }

@@ -46,6 +46,28 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static Episode GetEpisode(int IDApi)
+        {
+            using (Context db = new Context())
+            {
+                var todosEpisodiosDB = from episodioDB in db.Episode
+                                       where episodioDB.IDTvdb == IDApi
+                                       select episodioDB;
+                return todosEpisodiosDB.Count() != 0 ? todosEpisodiosDB.First() : null;
+            }
+        }
+
+        public static List<Episode> GetEpisodes()
+        {
+            using (Context db = new Context())
+            {
+                var todosEpisodiosDB = from episodioDB in db.Episode
+                                       select episodioDB;
+                var listaEpisodios = todosEpisodiosDB.ToList();
+                return listaEpisodios;
+            }
+        }
+
         public static List<Episode> GetEpisodesToRename()
         {
             using (Context db = new Context())
@@ -106,12 +128,149 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static bool UpdateEpisodio(Episode atualizado)
+        {
+            Episode original = null;
+            try
+            {
+                using (Context db = new Context())
+                {
+                    original = db.Episode.Find(atualizado.IDBanco);
+
+                    if (original != null)
+                    {
+                        original.AbsoluteNumber = atualizado.AbsoluteNumber;
+                        //original.AirsAfterSeason = atualizado.AirsAfterSeason;
+                        //original.AirsBeforeEpisode = atualizado.AirsBeforeEpisode;
+                        //original.AirsBeforeSeason = atualizado.AirsBeforeSeason;
+                        original.Artwork = atualizado.Artwork;
+                        original.EpisodeName = atualizado.EpisodeName;
+                        original.EpisodeNumber = atualizado.EpisodeNumber;
+                        original.FirstAired = atualizado.FirstAired;
+                        original.IDSeasonTvdb = atualizado.IDSeasonTvdb;
+                        original.IDSeriesTvdb = atualizado.IDSeriesTvdb;
+                        original.IDTvdb = atualizado.IDTvdb;
+                        original.Language = atualizado.Language;
+                        original.LastUpdated = atualizado.LastUpdated;
+                        original.Overview = atualizado.Overview;
+                        original.Rating = atualizado.Rating;
+                        //original.RatingCount = atualizado.RatingCount;
+                        original.SeasonNumber = atualizado.SeasonNumber;
+                        original.ThumbAddedDate = atualizado.ThumbAddedDate;
+
+                        db.SaveChanges();
+                        return true;
+                    }
+                    else return false;
+                }
+            }
+            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+        }
+
+        public static bool UpdateEpisodioRenomeado(Episode atualizado)
+        {
+            Episode original;
+            using (Context db = new Context())
+            {
+                original = db.Episode.Find(atualizado.IDBanco);
+                if (original != null)
+                {
+                    original.FolderPath = atualizado.Serie.FolderPath;
+                    original.OriginalFilePath = atualizado.OriginalFilePath;
+                    original.FilePath = atualizado.FilePath;
+                    original.IsRenamed = atualizado.IsRenamed;
+                    db.SaveChanges();
+                    return true;
+                }
+                else return false;
+            }
+        }
+
+        public static List<Episode> GetEpisodes(Serie serie)
+        {
+            using (Context db = new Context())
+            {
+                var episodios = from episodiosDB in db.Episode
+                                where episodiosDB.IDSerie == serie.IDBanco
+                                select episodiosDB;
+                var listaEpisodios = episodios.ToList();
+                return listaEpisodios;
+            }
+        }
+
+        public static bool VerificarSeEpisodioJaFoiRenomeado(string filePath)
+        {
+            using (Context db = new Context())
+            {
+                var episodios = from episodiosDB in db.Episode
+                                where episodiosDB.OriginalFilePath == filePath
+                                select episodiosDB;
+                return episodios.Count() > 0 ? true : false;
+            }
+        }
+
+        public static List<SerieAlias> GetSerieAliases(Video video)
+        {
+            using (Context db = new Context())
+            {
+                var aliases = from aliasDB in db.SerieAlias
+                              where aliasDB.IDSerie == video.IDBanco
+                              select aliasDB;
+                return aliases != null ? aliases.ToList() : null;
+            }
+        }
+
+        public static List<SerieAlias> GetAllAliases()
+        {
+            using (Context db = new Context())
+            {
+                var aliases = from aliasDB in db.SerieAlias
+                              select aliasDB;
+                return aliases != null ? aliases.ToList() : null;
+            }
+        }
+
+        public static bool AddSerieAlias(SerieAlias alias)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    db.SerieAlias.Add(alias);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public static bool RemoveSerieAlias(SerieAlias alias)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    db.SerieAlias.Attach(alias);
+                    db.SerieAlias.Remove(alias);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Adiciona o filme de forma assíncrona no banco.
         /// </summary>
         /// <param name="filme">Filme a ser adicionado.</param>
         /// <returns>True caso o filme tenha sido adicionado com sucesso.</returns>
-        internal async static Task<bool> AddFilmeAsync(Filme filme)
+        public async static Task<bool> AddFilmeAsync(Filme filme)
         {
             throw new NotImplementedException();
             bool retorno = false;
@@ -138,7 +297,7 @@ namespace MediaManager.Helpers
             catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
         }
 
-        internal async static Task<bool> AddSerieAsync(Serie serie)
+        public async static Task<bool> AddSerieAsync(Serie serie)
         {
             bool retorno = false;
             try
@@ -162,13 +321,13 @@ namespace MediaManager.Helpers
                     {
                         foreach (var item in serie.AliasNames.Split('|'))
                         {
-                            Serie_Alias alias = new Serie_Alias();
+                            SerieAlias alias = new SerieAlias();
                             alias.AliasName = item;
                             alias.Episodio = 1;
                             alias.Temporada = 1;
                             alias.Serie = serie;
-                            db.Serie_Alias.Add(alias);
-                        } 
+                            db.SerieAlias.Add(alias);
+                        }
                     }
                     db.SaveChanges();
                     retorno = true;
@@ -205,27 +364,10 @@ namespace MediaManager.Helpers
         //}
 
         /// <summary>
-        /// Consulta todos os animes contidos no banco que tenham a id especificada.
-        /// </summary>
-        /// <param name="IDBanco">ID do anime.</param>
-        /// <returns>Retorna o anime caso este exista no banco, ou null caso não exista.</returns>
-        internal static Serie GetAnimePorID(int IDBanco)
-        {
-            using (Context db = new Context())
-            {
-                var animesDB = (from animeDB in db.Serie
-                                where animeDB.IsAnime && animeDB.IDBanco == IDBanco
-                                select animeDB);
-                Serie anime = animesDB.First();
-                return anime;
-            }
-        }
-
-        /// <summary>
         /// Consulta todos os animes contidos no banco.
         /// </summary>
         /// <returns>Retorna um List<Serie> contendo todos os animes que tenham serie.isAnime == true ordenados pelo título.</returns>
-        internal static List<Serie> GetAnimes()
+        public static List<Serie> GetAnimes()
         {
             using (Context db = new Context())
             {
@@ -234,6 +376,12 @@ namespace MediaManager.Helpers
                                 orderby animeDB.Title
                                 select animeDB);
                 List<Serie> animes = animesDB.ToList();
+                foreach (var item in animes)
+                {
+                    item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
+                        : Helper.Enums.ContentType.show;
+                    item.Estado = Estado.COMPLETO_SEM_EPISODIO;
+                }
                 return animes;
             }
         }
@@ -243,7 +391,7 @@ namespace MediaManager.Helpers
         /// </summary>
         /// <param name="IdBanco">ID do filme.</param>
         /// <returns>Retorna o filme caso este exista no banco, ou null caso não exista.</returns>
-        internal static Filme GetFilmePorID(int IdBanco)
+        public static Filme GetFilmePorID(int IdBanco)
         {
             //using (Context db = new Context())
             //{
@@ -265,7 +413,7 @@ namespace MediaManager.Helpers
         /// Consulta todos os filmes contidos no banco.
         /// </summary>
         /// <returns>Retorna um List<Filme> contendo todos os filmes contidos no banco ordenados pelo título.</returns>
-        internal static List<Filme> GetFilmes()
+        public static List<Filme> GetFilmes()
         {
             using (Context db = new Context())
             {
@@ -291,14 +439,15 @@ namespace MediaManager.Helpers
         /// </summary>
         /// <param name="IDBanco">ID da série.</param>
         /// <returns>Retorna a série caso esta exista no banco, ou null caso não exista.</returns>
-        internal static Serie GetSeriePorID(int IDBanco)
+        public static Serie GetSeriePorID(int IDBanco)
         {
             using (Context db = new Context())
             {
                 var seriesDB = (from serieDB in db.Serie
-                                where !serieDB.IsAnime && serieDB.IDBanco == IDBanco
+                                where serieDB.IDBanco == IDBanco
                                 select serieDB);
                 Serie serie = seriesDB.First();
+                serie.Estado = Estado.COMPLETO_SEM_EPISODIO;
                 return serie;
             }
         }
@@ -307,7 +456,7 @@ namespace MediaManager.Helpers
         /// Consulta todas as séries contidas no banco.
         /// </summary>
         /// <returns>Retorna um List<Serie> contendo todas as séries que tenham serie.isAnime == false ordenados pelo título.</returns>
-        internal static List<Serie> GetSeries()
+        public static List<Serie> GetSeries()
         {
             using (Context db = new Context())
             {
@@ -320,6 +469,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
                         : Helper.Enums.ContentType.show;
+                    item.Estado = Estado.COMPLETO_SEM_EPISODIO;
                 }
                 return series;
             }
@@ -399,7 +549,7 @@ namespace MediaManager.Helpers
         /// </summary>
         /// <param name="atualizado">Filme atualizado (precisa estar com o ID preenchido).</param>
         /// <returns>Retorna true caso a operação tenha sucesso.</returns>
-        internal async static Task<bool> UpdateFilmeAsync(Filme atualizado)
+        public async static Task<bool> UpdateFilmeAsync(Filme atualizado)
         {
             //bool isDiferente = false;
             bool retorno = false;
@@ -531,7 +681,7 @@ namespace MediaManager.Helpers
         //    return retorno;
         //}
 
-        internal async static Task<bool> UpdateSerieAsync(Serie atualizado)
+        public async static Task<bool> UpdateSerieAsync(Serie atualizado)
         {
             bool isDiferente = false;
             bool retorno = false;
@@ -558,7 +708,7 @@ namespace MediaManager.Helpers
             }
             catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
 
-            if (isDiferente)
+            if (isDiferente || oldMetadata != atualizado.FolderMetadata)
             {
                 if (Directory.Exists(oldMetadata))
                 {
@@ -596,7 +746,7 @@ namespace MediaManager.Helpers
             return retorno;
         }
 
-        internal static bool VerificaSeExiste(int IDApi)
+        public static bool VerificaSeExiste(int IDApi)
         {
             using (Context db = new Context())
             {
@@ -605,7 +755,7 @@ namespace MediaManager.Helpers
             }
         }
 
-        internal static bool VerificaSeExiste(string folderPath)
+        public static bool VerificaSeExiste(string folderPath)
         {
             using (Context db = new Context())
             {

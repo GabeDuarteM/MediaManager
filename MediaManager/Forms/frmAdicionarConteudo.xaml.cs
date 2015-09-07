@@ -49,7 +49,8 @@ namespace MediaManager.Forms
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
-            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo();
+            Video serie = AdicionarConteudoViewModel.SelectedVideo;
+            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoViewModel.SelectedVideo);
             frmConfigConteudo.ShowDialog();
             if (frmConfigConteudo.DialogResult == true)
             {
@@ -69,7 +70,7 @@ namespace MediaManager.Forms
 
         private async void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if (AdicionarConteudoViewModel.Video == null || AdicionarConteudoViewModel.Video.FolderPath == null)
+            if (AdicionarConteudoViewModel.SelectedVideo == null || AdicionarConteudoViewModel.SelectedVideo.FolderPath == null)
             {
                 MessageBox.Show("Favor preencher todos os campos antes de salvar.");
                 return;
@@ -109,7 +110,14 @@ namespace MediaManager.Forms
 
                     case Helper.Enums.ContentType.show:
                         {
-                            Serie serie = (Serie)AdicionarConteudoViewModel.Video;
+                            Serie serie = null;
+                            if (AdicionarConteudoViewModel.SelectedVideo is Serie)
+                                serie = (Serie)AdicionarConteudoViewModel.SelectedVideo;
+                            else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                            {
+                                serie = DatabaseHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                                serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+                            }
 
                             if (IsEdicao)
                             {
@@ -134,7 +142,7 @@ namespace MediaManager.Forms
 
                     case Helper.Enums.ContentType.anime:
                         {
-                            Serie anime = (Serie)AdicionarConteudoViewModel.Video;
+                            Serie anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
 
                             if (IsEdicao)
                             {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using MediaManager.Helpers;
-using MediaManager.Model;
+﻿using System.Windows;
+using System.Windows.Input;
+using MediaManager.Commands;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
@@ -14,11 +10,14 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmRenomear : Window
     {
+        public RenomearViewModel RenomearVM;
+
         public frmRenomear()
         {
             InitializeComponent();
-            RenomearViewModel renomearVM = new RenomearViewModel();
-            DataContext = renomearVM;
+            RenomearVM = new RenomearViewModel();
+            DataContext = RenomearVM;
+            RenomearVM.CloseAction = new System.Action(() => Close()); // Para poder fechar depois no RenomearCommand
         }
     }
 }

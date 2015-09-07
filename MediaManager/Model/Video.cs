@@ -7,7 +7,8 @@
     {
         NOVO,
         SIMPLES,
-        COMPLETO
+        COMPLETO,
+        COMPLETO_SEM_EPISODIO
     }
 
     [System.Diagnostics.DebuggerDisplay("{IDApi} - {Title} - {Language}")]
@@ -21,7 +22,7 @@
         private string _Title;
 
         [System.Xml.Serialization.XmlIgnore]
-        public string AliasNames { get; set; }
+        public virtual string AliasNames { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
         public virtual Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }

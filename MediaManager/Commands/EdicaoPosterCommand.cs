@@ -7,7 +7,7 @@ using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
 {
-    internal class EdicaoPosterCommand : ICommand
+    public class EdicaoPosterCommand : ICommand
     {
         private PosterViewModel _posterVM;
 
@@ -18,15 +18,15 @@ namespace MediaManager.Commands
 
         #region ICommand Members
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
         }
 
         public void Execute(object parameter)

@@ -38,6 +38,9 @@ namespace MediaManager.Model
         private string _Artwork;
 
         [XmlIgnore]
+        private string _FilePath;
+
+        [XmlIgnore]
         private string _FolderPath;
 
         [XmlIgnore, Column(Order = 4)]
@@ -121,6 +124,9 @@ namespace MediaManager.Model
         public int EpisodeNumber { get; set; }
 
         [XmlIgnore]
+        public string FilePath { get { return _FilePath; } set { _FilePath = value; OnPropertyChanged("FilePath"); } }
+
+        [XmlIgnore]
         public DateTime? FirstAired
         {
             get { return _FirstAired != "" ? DateTime.Parse(_FirstAired) : default(DateTime?); }
@@ -136,7 +142,7 @@ namespace MediaManager.Model
         [XmlElement("seasonid")]
         public int IDSeasonTvdb { get; set; }
 
-        [XmlIgnore]
+        [XmlIgnore, Required]
         public int IDSerie { get; set; }
 
         [XmlElement("seriesid")]
@@ -155,7 +161,7 @@ namespace MediaManager.Model
         public string LastUpdated { get; set; }
 
         [XmlIgnore]
-        public string OriginalFolderPath { get; set; }
+        public string OriginalFilePath { get; set; }
 
         [XmlElement("Overview", IsNullable = true)]
         public string Overview { get; set; }
@@ -189,8 +195,8 @@ namespace MediaManager.Model
         [XmlElement("SeasonNumber"), Column(Order = 3)]
         public int SeasonNumber { get; set; }
 
-        [Column(Order = 5), ForeignKey("IDSerie"), Required]
-        public Serie Serie { get; set; }
+        [Column(Order = 5), ForeignKey("IDSerie")]
+        public virtual Serie Serie { get; set; }
 
         [XmlIgnore]
         public DateTime? ThumbAddedDate
@@ -245,6 +251,26 @@ namespace MediaManager.Model
         [XmlIgnore]
         private string _Title;
 
+        public Serie()
+        {
+        }
+
+        public Serie(PosterGrid posterGrid)
+        {
+            AliasNames = posterGrid.AliasNames;
+            ContentType = posterGrid.ContentType;
+            Estado = posterGrid.Estado;
+            FolderPath = posterGrid.FolderPath;
+            IDApi = posterGrid.IDApi;
+            IDBanco = posterGrid.IDBanco;
+            ImgFanart = posterGrid.ImgFanart;
+            ImgPoster = posterGrid.ImgPoster;
+            Language = posterGrid.Language;
+            LastUpdated = posterGrid.LastUpdated;
+            Overview = posterGrid.Overview;
+            Title = posterGrid.Title;
+        }
+
         [XmlElement("Actors", IsNullable = true)]
         public string Actors { get; set; }
 
@@ -255,7 +281,7 @@ namespace MediaManager.Model
         public string Airs_Time { get; set; }
 
         [XmlElement("AliasNames")]
-        public string AliasNames { get; set; }
+        public override string AliasNames { get; set; }
 
         [XmlElement("ContentRating", IsNullable = true)]
         public string ContentRating { get; set; }
@@ -397,6 +423,8 @@ namespace MediaManager.Model
             Runtime = serie.Runtime;
             Status = serie.Status;
             Title = serie.Title;
+            Estado = serie.Estado;
+            Episodes = serie.Episodes;
         }
 
         public void SetDefaultFolderPath()

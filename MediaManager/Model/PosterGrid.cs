@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using MediaManager.Properties;
 
@@ -36,12 +35,13 @@ namespace MediaManager.Model
             posterGrid.IDApi = v.IDApi;
             posterGrid.IDBanco = v.IDBanco;
             posterGrid.ImgFanart = Path.Combine(v.FolderMetadata, "fanart.jpg");
-            posterGrid.ImgPoster = Path.Combine(v.FolderMetadata, "poster.jpg"); ;
+            posterGrid.ImgPoster = Path.Combine(v.FolderMetadata, "poster.jpg");
             posterGrid.Language = v.Language;
             posterGrid.LastUpdated = v.LastUpdated;
             posterGrid.Overview = v.Overview;
             posterGrid.Title = v.Title;
             posterGrid.ContentType = v.ContentType;
+            posterGrid.Estado = v.Estado;
 
             return posterGrid;
         }
@@ -60,6 +60,7 @@ namespace MediaManager.Model
             LastUpdated = poster.LastUpdated;
             Overview = poster.Overview;
             Title = poster.Title;
+            Estado = poster.Estado;
         }
     }
 }

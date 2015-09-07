@@ -20,6 +20,7 @@ namespace MediaManager.Migrations
                         AirsBeforeEpisode = c.Int(),
                         AirsBeforeSeason = c.Int(),
                         Artwork = c.String(),
+                        FilePath = c.String(),
                         FirstAired = c.DateTime(),
                         FolderPath = c.String(),
                         IDSeasonTvdb = c.Int(nullable: false),
@@ -29,16 +30,11 @@ namespace MediaManager.Migrations
                         IsRenamed = c.Boolean(nullable: false),
                         Language = c.String(),
                         LastUpdated = c.String(),
-                        OriginalFolderPath = c.String(),
+                        OriginalFilePath = c.String(),
                         Overview = c.String(),
                         Rating = c.Double(),
                         RatingCount = c.Int(),
                         ThumbAddedDate = c.DateTime(),
-                        ContentType = c.Int(),
-                        Filename = c.String(),
-                        FilenameRenamed = c.String(),
-                        ParentTitle = c.String(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Series", t => t.IDSerie, cascadeDelete: true)
@@ -54,6 +50,7 @@ namespace MediaManager.Migrations
                         Actors = c.String(),
                         Airs_DayOfWeek = c.String(),
                         Airs_Time = c.String(),
+                        AliasNames = c.String(),
                         ContentRating = c.String(),
                         FirstAired = c.DateTime(),
                         Genre = c.String(),
@@ -68,7 +65,6 @@ namespace MediaManager.Migrations
                         RatingCount = c.Int(),
                         Runtime = c.Int(),
                         Status = c.String(),
-                        AliasNames = c.String(),
                         FolderPath = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
@@ -138,7 +134,7 @@ namespace MediaManager.Migrations
                 .Index(t => t.Filme_IDBanco);
             
             CreateTable(
-                "dbo.Serie_Alias",
+                "dbo.SerieAlias",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
@@ -155,15 +151,15 @@ namespace MediaManager.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Serie_Alias", "IDSerie", "dbo.Series");
+            DropForeignKey("dbo.SerieAlias", "IDSerie", "dbo.Series");
             DropForeignKey("dbo.Images", "Filme_IDBanco", "dbo.Filmes");
             DropForeignKey("dbo.Ids", "Filme_IDBanco", "dbo.Filmes");
             DropForeignKey("dbo.Episodes", "IDSerie", "dbo.Series");
-            DropIndex("dbo.Serie_Alias", new[] { "IDSerie" });
+            DropIndex("dbo.SerieAlias", new[] { "IDSerie" });
             DropIndex("dbo.Images", new[] { "Filme_IDBanco" });
             DropIndex("dbo.Ids", new[] { "Filme_IDBanco" });
             DropIndex("dbo.Episodes", new[] { "IDSerie" });
-            DropTable("dbo.Serie_Alias");
+            DropTable("dbo.SerieAlias");
             DropTable("dbo.Images");
             DropTable("dbo.Ids");
             DropTable("dbo.Filmes");
