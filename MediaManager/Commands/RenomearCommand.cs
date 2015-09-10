@@ -34,7 +34,7 @@ namespace MediaManager.Commands
                 {
                     if (!Directory.Exists(item.Serie.FolderPath))
                         Directory.CreateDirectory(item.Serie.FolderPath);
-                    else if (File.Exists(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)))
+                    if (File.Exists(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)))
                     {
                         if (MessageBox.Show("O episódio " + item.FilenameRenamed + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + Path.Combine(item.FolderPath, item.Filename) + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
@@ -48,7 +48,6 @@ namespace MediaManager.Commands
                             }
                             else // TODO Excluir
                             {
-
                             }
                         }
                     }
@@ -63,12 +62,12 @@ namespace MediaManager.Commands
                         }
                         else // TODO Excluir
                         {
-
                         }
                     }
                 }
             }
-            renomearVM.CloseAction();
+            if (renomearVM.CloseAction != null)
+                renomearVM.CloseAction();
         }
     }
 

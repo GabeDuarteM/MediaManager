@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowRenamer", "..\..\..\Visual Studio 2013\Projects\ShowRenamer\ShowRenamer\ShowRenamer\ShowRenamer.csproj", "{637759FA-88F9-4129-BDAA-5ECE21319109}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MediaManagerSetup", "MediaManagerSetup\MediaManagerSetup.vdproj", "{C6783471-A7B7-4E73-A80A-25CD7555ABE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,8 @@ Global
 		{637759FA-88F9-4129-BDAA-5ECE21319109}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{637759FA-88F9-4129-BDAA-5ECE21319109}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{637759FA-88F9-4129-BDAA-5ECE21319109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6783471-A7B7-4E73-A80A-25CD7555ABE7}.Debug|Any CPU.ActiveCfg = Debug
+		{C6783471-A7B7-4E73-A80A-25CD7555ABE7}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

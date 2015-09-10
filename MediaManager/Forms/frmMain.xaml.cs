@@ -1,8 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MediaManager.Helpers;
+using MediaManager.Model;
 using MediaManager.Properties;
 using MediaManager.ViewModel;
 
@@ -19,6 +21,48 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
+            Dictionary<string, string> args = new Dictionary<string, string>();
+
+            string[] argsString = Environment.GetCommandLineArgs();
+
+            bool fecharPrograma = false;
+
+            for (int i = 1; i < argsString.Length; i++)
+            {
+                if (argsString[i].StartsWith("-"))
+                {
+                    string arg = argsString[i].Replace("-", "");
+                    if (argsString.Length > i + 1 && !argsString[i + 1].StartsWith("-"))
+                    {
+                        try { args.Add(arg, argsString[i + 1]); }
+                        catch (Exception e)
+                        {
+                            System.Windows.MessageBox.Show("Os parâmetros informados estão incorretos, favor verifica-los.\r\nParâmetro: "
+                                + arg + "\r\nErro: " + e.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        };
+                        i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
+                    }
+                    else
+                    {
+                        try { args.Add(arg, null); }
+                        catch (Exception e)
+                        {
+                            System.Windows.MessageBox.Show("Os parâmetros informados estão incorretos, favor verifica-los.\r\nParâmetro: "
+                                + arg + "\r\nErro: " + e.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        };
+                    }
+                }
+                else
+                {
+                    RenomearEpisodiosDosArgumentos(argsString[i]);
+                    fecharPrograma = true;
+                }
+            }
+            if (fecharPrograma)
+                Environment.Exit(0);
+
             InitializeComponent();
 
             MainVM = new MainViewModel();
@@ -35,6 +79,28 @@ namespace MediaManager.Forms
             //Teste();
         }
 
+        private void RenomearEpisodiosDosArgumentos(string arg)
+        {
+            if (Directory.Exists(arg))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(arg);
+                RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
+                if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                {
+                    renomearVM.RenomearCommand.Execute(renomearVM);
+                }
+            }
+            else if (File.Exists(arg))
+            {
+                IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
+                RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
+                if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                {
+                    renomearVM.RenomearCommand.Execute(renomearVM);
+                }
+            }
+        }
+
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
         {
             API_Requests.GetAtualizacoes();
@@ -44,7 +110,7 @@ namespace MediaManager.Forms
         {
             ///* Pra criar cenarios de teste
             var arquivosPath = "D:\\Videos\\Downloads\\Completos";
-            var arquivos = new System.IO.DirectoryInfo(arquivosPath).EnumerateFiles("*.*", System.IO.SearchOption.AllDirectories);
+            var arquivos = new System.IO.DirectoryInfo(arquivosPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
             foreach (var item in arquivos)
             {
                 var pathDownloadsFake = "D:\\Videos Testes Fake\\[[ Downloads ]]";
