@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Forms;
@@ -7,20 +8,20 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class PosterViewModel
+    public class PosterViewModel : INotifyPropertyChanged
     {
         private PosterGrid _poster;
 
         public ICommand AbrirEdicaoCommand { get; private set; }
 
-        public PosterGrid Poster { get { return _poster; } set { _poster = value; } }
+        public PosterGrid Poster { get { return _poster; } set { _poster = value; OnPropertyChanged("Poster"); } }
 
         public PosterViewModel()
         {
             AbrirEdicaoCommand = new EdicaoPosterCommand(this);
         }
 
-        internal void Editar()
+        public void Editar()
         {
             switch (Poster.ContentType)
             {
@@ -67,7 +68,10 @@ namespace MediaManager.ViewModel
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                            if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                                Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                            else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
+                                Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
                             //Poster.IDBanco = anime.IDBanco;
                             //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
@@ -79,5 +83,21 @@ namespace MediaManager.ViewModel
                     break;
             }
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion INotifyPropertyChanged Members
     }
 }

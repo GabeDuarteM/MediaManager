@@ -407,7 +407,7 @@ namespace MediaManager.Model
             ContentRating = serie.ContentRating;
             ContentType = serie.ContentType;
             FirstAired = serie.FirstAired;
-            FolderPath = FolderPath;
+            FolderPath = serie.FolderPath;
             Genre = serie.Genre;
             IDApi = serie.IDApi;
             IDBanco = serie.IDBanco;

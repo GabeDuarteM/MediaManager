@@ -76,16 +76,21 @@ namespace MediaManager.Helpers
 
             foreach (XmlNode item in nodesEpisodios)
             {
-                if (listaEpisodiosIDApi.Contains(item.InnerText))
+                int IDApi = -1;
+                int.TryParse(item.InnerText, out IDApi);
+                Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                if (listaSeriesAnimesIDApi.Contains(episodio.IDSeriesTvdb + ""))
                 {
-                    int IDApi = 0;
-                    int.TryParse(item.InnerText, out IDApi);
-                    Episode episode = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
-
-                    Episode episodeDB = DatabaseHelper.GetEpisode(episode.IDTvdb);
-                    episode.IDBanco = episodeDB.IDBanco;
-
-                    DatabaseHelper.UpdateEpisodio(episode);
+                    if (listaEpisodiosIDApi.Contains(item.InnerText))
+                    {
+                        Episode episodioDB = DatabaseHelper.GetEpisode(episodio.IDTvdb);
+                        episodio.IDBanco = episodioDB.IDBanco;
+                        DatabaseHelper.UpdateEpisodio(episodio);
+                    }
+                    else
+                    {
+                        DatabaseHelper.AddEpisodio(episodio);
+                    }
                 }
             }
             Settings.Default.API_UltimaDataAtualizacaoTVDB = int.Parse(nodesHoraServidorTVDB[0].InnerText);

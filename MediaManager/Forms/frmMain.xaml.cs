@@ -32,7 +32,7 @@ namespace MediaManager.Forms
 
             API_Requests.GetAtualizacoes();
 
-            Teste();
+            //Teste();
         }
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)

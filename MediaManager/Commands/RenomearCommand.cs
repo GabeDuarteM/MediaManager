@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using MediaManager.Helpers;
 using MediaManager.ViewModel;
@@ -31,12 +32,39 @@ namespace MediaManager.Commands
             {
                 if (item.IsSelected)
                 {
-                    if (Helper.CreateSymbolicLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                            Path.Combine(item.FolderPath, item.Filename), Helper.Enums.SymbolicLink.File))
+                    if (!Directory.Exists(item.Serie.FolderPath))
+                        Directory.CreateDirectory(item.Serie.FolderPath);
+                    else if (File.Exists(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)))
                     {
-                        item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
-                        item.IsRenamed = true;
-                        DatabaseHelper.UpdateEpisodioRenomeado(item);
+                        if (MessageBox.Show("O episódio " + item.FilenameRenamed + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + Path.Combine(item.FolderPath, item.Filename) + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            File.Delete(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
+                            if (Helper.CreateSymbolicLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
+                                    Path.Combine(item.FolderPath, item.Filename), Helper.Enums.SymbolicLink.File))
+                            {
+                                item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
+                                item.IsRenamed = true;
+                                DatabaseHelper.UpdateEpisodioRenomeado(item);
+                            }
+                            else // TODO Excluir
+                            {
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Helper.CreateSymbolicLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
+                                Path.Combine(item.FolderPath, item.Filename), Helper.Enums.SymbolicLink.File))
+                        {
+                            item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
+                            item.IsRenamed = true;
+                            DatabaseHelper.UpdateEpisodioRenomeado(item);
+                        }
+                        else // TODO Excluir
+                        {
+
+                        }
                     }
                 }
             }

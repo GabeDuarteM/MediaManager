@@ -9,7 +9,7 @@ namespace MediaManager.Model
         private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private byte[] _ImgPosterCache = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
 
-        public new string ImgPoster
+        public override string ImgPoster
         {
             get { return _ImgPoster; }
             set
@@ -27,21 +27,22 @@ namespace MediaManager.Model
 
         public byte[] ImgPosterCache { get { return _ImgPosterCache; } }
 
-        public static implicit operator PosterGrid(Serie v)
+        public static implicit operator PosterGrid(Serie serie)
         {
             PosterGrid posterGrid = new PosterGrid();
 
-            posterGrid.FolderPath = v.FolderPath;
-            posterGrid.IDApi = v.IDApi;
-            posterGrid.IDBanco = v.IDBanco;
-            posterGrid.ImgFanart = Path.Combine(v.FolderMetadata, "fanart.jpg");
-            posterGrid.ImgPoster = Path.Combine(v.FolderMetadata, "poster.jpg");
-            posterGrid.Language = v.Language;
-            posterGrid.LastUpdated = v.LastUpdated;
-            posterGrid.Overview = v.Overview;
-            posterGrid.Title = v.Title;
-            posterGrid.ContentType = v.ContentType;
-            posterGrid.Estado = v.Estado;
+            posterGrid.FolderPath = serie.FolderPath;
+            posterGrid.IDApi = serie.IDApi;
+            posterGrid.IDBanco = serie.IDBanco;
+            posterGrid.ImgFanart = Path.Combine(serie.FolderMetadata, "fanart.jpg");
+            posterGrid.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
+            posterGrid.Language = serie.Language;
+            posterGrid.LastUpdated = serie.LastUpdated;
+            posterGrid.Overview = serie.Overview;
+            posterGrid.Title = serie.Title;
+            posterGrid.ContentType = serie.ContentType;
+            posterGrid.Estado = serie.Estado;
+            posterGrid.AliasNames = serie.AliasNames;
 
             return posterGrid;
         }
@@ -61,6 +62,7 @@ namespace MediaManager.Model
             Overview = poster.Overview;
             Title = poster.Title;
             Estado = poster.Estado;
+            AliasNames = poster.AliasNames;
         }
     }
 }

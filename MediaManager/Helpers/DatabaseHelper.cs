@@ -97,6 +97,20 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static bool AddEpisodio(Episode episode)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    db.Episode.Add(episode);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+        }
+
         /// <summary>
         /// Pesquisa por séries ou animes que contenham a string informada
         /// </summary>
@@ -247,6 +261,32 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static bool AddSerieAlias(Video video)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    foreach (var item in video.AliasNames.Split('|'))
+                    {
+                        SerieAlias alias = new SerieAlias();
+                        alias.AliasName = item;
+                        alias.Episodio = 1;
+                        alias.Temporada = 1;
+                        alias.IDSerie = video.IDBanco;
+                        db.SerieAlias.Add(alias);
+                    }
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                return false;
+            }
+        }
+
         public static bool RemoveSerieAlias(SerieAlias alias)
         {
             try
@@ -317,19 +357,13 @@ namespace MediaManager.Helpers
                         db.Episode.Add(item);
                     }
 
+                    db.SaveChanges();
+
                     if (serie.AliasNames != null)
                     {
-                        foreach (var item in serie.AliasNames.Split('|'))
-                        {
-                            SerieAlias alias = new SerieAlias();
-                            alias.AliasName = item;
-                            alias.Episodio = 1;
-                            alias.Temporada = 1;
-                            alias.Serie = serie;
-                            db.SerieAlias.Add(alias);
-                        }
+                        AddSerieAlias(serie);
                     }
-                    db.SaveChanges();
+
                     retorno = true;
                 }
                 return retorno;
@@ -708,7 +742,7 @@ namespace MediaManager.Helpers
             }
             catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
 
-            if (isDiferente || oldMetadata != atualizado.FolderMetadata)
+            if (isDiferente || oldMetadata != atualizado.FolderMetadata) // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
             {
                 if (Directory.Exists(oldMetadata))
                 {
@@ -734,13 +768,15 @@ namespace MediaManager.Helpers
                 using (Context db = new Context())
                 {
                     db.Episode.RemoveRange(db.Episode.Where(x => x.IDSeriesTvdb == oldIDApi));
-                    var serieDoEpisodio = db.Serie.Find(original.IDBanco);
                     foreach (var item in atualizado.Episodes)
                     {
-                        item.Serie = serieDoEpisodio;
+                        item.IDSerie = atualizado.IDBanco;
                         db.Episode.Add(item);
                     }
+                    db.SerieAlias.RemoveRange(db.SerieAlias.Where(x => x.IDSerie == atualizado.IDBanco));
                     db.SaveChanges();
+                    if (!string.IsNullOrWhiteSpace(atualizado.AliasNames))
+                        AddSerieAlias(atualizado);
                 }
             }
             return retorno;
