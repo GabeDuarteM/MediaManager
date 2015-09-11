@@ -38,14 +38,14 @@ namespace MediaManager.Forms
                     {
                         case Helper.Enums.ContentType.show:
                             {
-                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
+                                SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie serie = data.Series[0];
                                 serie.Episodes = data.Episodes;
                                 serie.FolderPath = item.FolderPath;
-                                serie.AliasNames = item.AliasNames;
+                                serie.AliasNamesStr = item.AliasNamesStr;
                                 serie.Title = item.Title;
 
-                                await DatabaseHelper.AddSerieAsync(serie);
+                                await DBHelper.AddSerieAsync(serie);
                                 break;
                             }
                         case Helper.Enums.ContentType.anime:
@@ -56,15 +56,15 @@ namespace MediaManager.Forms
                                 //anime.FolderPath = item.FolderPath;
                                 //anime.IsAnime = true;
 
-                                SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
+                                SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie anime = data.Series[0];
                                 anime.Episodes = data.Episodes;
                                 anime.IsAnime = true;
                                 anime.FolderPath = item.FolderPath;
-                                anime.AliasNames = item.AliasNames;
+                                anime.AliasNamesStr = item.AliasNamesStr;
                                 anime.Title = item.Title;
 
-                                await DatabaseHelper.AddSerieAsync(anime);
+                                await DBHelper.AddSerieAsync(anime);
                                 break;
                             }
                         case Helper.Enums.ContentType.movie:

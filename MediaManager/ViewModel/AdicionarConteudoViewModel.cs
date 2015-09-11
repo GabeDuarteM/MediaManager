@@ -21,7 +21,7 @@ namespace MediaManager.ViewModel
         private int IDBanco;
         private Video videoBuscaPersonalizada;
         private Video videoCarregando;
-        private List<Video> listaVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
+        public List<Video> listaVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
 
         public List<Video> ResultPesquisa { get { return _ResultPesquisa; } set { _ResultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
 
@@ -52,7 +52,7 @@ namespace MediaManager.ViewModel
 
             if (TipoConteudo == Helper.Enums.ContentType.show || TipoConteudo == Helper.Enums.ContentType.anime)
             {
-                SeriesData data = await API_Requests.GetSeriesAsync(title, false);
+                SeriesData data = await APIRequests.GetSeriesAsync(title, false);
 
                 if (data.Series == null) // Verificar a primeira vez se é null para não exibir a mensagem quando não encontra resultados na tela de procurar conteúdo.
                 {
@@ -61,7 +61,7 @@ namespace MediaManager.ViewModel
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
                     }
                 }
 
@@ -74,7 +74,7 @@ namespace MediaManager.ViewModel
                         InputMessageBox.ShowDialog();
                         if (InputMessageBox.DialogResult == true)
                         {
-                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                            data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
                         }
                     }
                     else
@@ -138,7 +138,7 @@ namespace MediaManager.ViewModel
             {
                 SeriesData data = new SeriesData();
                 if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
-                    data = await API_Requests.GetSeriesAsync(video.Title, false);
+                    data = await APIRequests.GetSeriesAsync(video.Title, false);
 
                 if (video is ConteudoGrid && (video as ConteudoGrid).IsNotFound)
                 {
@@ -147,7 +147,7 @@ namespace MediaManager.ViewModel
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
                     }
                 }
 
@@ -160,7 +160,7 @@ namespace MediaManager.ViewModel
                         InputMessageBox.ShowDialog();
                         if (InputMessageBox.DialogResult == true)
                         {
-                            data = await API_Requests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                            data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
                         }
                     }
                     else
@@ -238,7 +238,7 @@ namespace MediaManager.ViewModel
                     }
                 }
             }
-            SeriesData data = await API_Requests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
+            SeriesData data = await APIRequests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
             data.Series[0].Title = SelectedVideo.Title;
             data.Series[0].Episodes = data.Episodes;
             if (SelectedVideo.FolderPath != null)
@@ -250,7 +250,7 @@ namespace MediaManager.ViewModel
             data.Series[0].ContentType = TipoConteudo;
             if (data.Series[0].ContentType == Helper.Enums.ContentType.anime)
                 data.Series[0].IsAnime = true;
-            data.Series[0].AliasNames = SelectedVideo.AliasNames;
+            data.Series[0].AliasNamesStr = SelectedVideo.AliasNamesStr;
             data.Series[0].IDBanco = IDBanco > 0 ? IDBanco : data.Series[0].IDBanco;
             foreach (var item in ResultPesquisa)
             {

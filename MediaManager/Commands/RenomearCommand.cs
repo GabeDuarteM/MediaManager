@@ -44,7 +44,7 @@ namespace MediaManager.Commands
                             {
                                 item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                                 item.IsRenamed = true;
-                                DatabaseHelper.UpdateEpisodioRenomeado(item);
+                                DBHelper.UpdateEpisodioRenomeado(item);
                             }
                             else // TODO Excluir
                             {
@@ -58,7 +58,7 @@ namespace MediaManager.Commands
                         {
                             item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                             item.IsRenamed = true;
-                            DatabaseHelper.UpdateEpisodioRenomeado(item);
+                            DBHelper.UpdateEpisodioRenomeado(item);
                         }
                         else // TODO Excluir
                         {

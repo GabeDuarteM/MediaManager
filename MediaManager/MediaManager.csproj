@@ -83,6 +83,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>C:\Users\Gabriel\Desktop\Ookii.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf">
+      <HintPath>C:\Users\Gabriel\Desktop\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -135,14 +141,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
+    <Compile Include="Commands\CommandsPreferencias.cs" />
     <Compile Include="Commands\RenomearCommand.cs" />
     <Compile Include="Forms\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\API_Requests.cs" />
-    <Compile Include="Helpers\DatabaseHelper.cs" />
-    <Compile Include="Helpers\FileSearch.cs" />
-    <Compile Include="Helpers\Masking.cs" />
+    <Compile Include="Helpers\APIRequests.cs" />
+    <Compile Include="Helpers\DBHelper.cs" />
     <Compile Include="Migrations\201509060940244_Init.cs" />
     <Compile Include="Migrations\201509060940244_Init.Designer.cs">
       <DependentUpon>201509060940244_Init.cs</DependentUpon>
@@ -171,6 +176,7 @@
     <Compile Include="ViewModel\ConfigurarConteudoViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PosterViewModel.cs" />
+    <Compile Include="ViewModel\PreferenciasViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="ViewModel\RenomearViewModel.cs" />
     <Compile Include="View\ControlPoster.xaml.cs">

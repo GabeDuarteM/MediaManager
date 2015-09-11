@@ -15,8 +15,11 @@ namespace MediaManager.Forms
         public frmRenomear()
         {
             InitializeComponent();
+
             RenomearVM = new RenomearViewModel();
+
             DataContext = RenomearVM;
+
             RenomearVM.CloseAction = new System.Action(() => Close()); // Para poder fechar depois no RenomearCommand
         }
     }

@@ -19,7 +19,8 @@ namespace MediaManager.ViewModel
         private int _Temporada;
         private int _Episodio;
         private SerieAlias _SelectedAlias;
-        private ObservableCollection<SerieAlias> _SerieAliases;
+
+        //private ObservableCollection<SerieAlias> _SerieAliases;
         private Video _Video;
 
         public string AliasName { get { return _AliasName; } set { _AliasName = value; OnPropertyChanged("AliasName"); } }
@@ -28,21 +29,41 @@ namespace MediaManager.ViewModel
         public string EpisodioStr { get { return Episodio > 0 ? "E" + _Episodio.ToString("00") : "E"; } set { _Episodio = ValidarPossivelTexto(value, _Episodio); OnPropertyChanged("Episodio"); } }
         public int Episodio { get { return _Episodio; } set { _Episodio = value; OnPropertyChanged("Episodio"); } }
         public SerieAlias SelectedAlias { get { return _SelectedAlias; } set { _SelectedAlias = value; OnPropertyChanged("SelectedAlias"); } }
-        public ObservableCollection<SerieAlias> SerieAliases { get { return _SerieAliases; } set { _SerieAliases = value; OnPropertyChanged("SerieAliases"); } }
+
+        //public ObservableCollection<SerieAlias> SerieAliases { get { return _SerieAliases; } set { _SerieAliases = value; OnPropertyChanged("SerieAliases"); } }
         public Video Video { get { return _Video; } set { _Video = value; OnPropertyChanged("Video"); } }
+
+        public Action ActionDialogResult { get; set; }
+
+        public Action ActionClose { get; set; }
+
         public ICommand DoubleClickCommand { get; set; }
         public ICommand AddAlias { get; set; }
         public ICommand RemoveAlias { get; set; }
+        public ICommand CommandSalvar { get; set; }
 
         public ConfigurarConteudoViewModel(Video video)
         {
             Video = video;
             _Temporada = 1;
             _Episodio = 1;
-            SerieAliases = new ObservableCollection<SerieAlias>(DatabaseHelper.GetSerieAliases(video));
+            if (video.IDBanco == 0 && (video.AliasNames == null || video.AliasNames.Count == 0))
+            {
+                Video.AliasNames = new ObservableCollection<SerieAlias>();
+                if (!string.IsNullOrWhiteSpace(video.AliasNamesStr))
+                {
+                    foreach (var item in video.AliasNamesStr.Split('|'))
+                    {
+                        SerieAlias alias = new SerieAlias(item);
+                        Video.AliasNames.Add(alias);
+                    }
+                }
+            }
+
             DoubleClickCommand = new ConfigurarConteudoCommands.DoubleClickNoGridAliasCommand();
             AddAlias = new ConfigurarConteudoCommands.AddAlias();
             RemoveAlias = new ConfigurarConteudoCommands.RemoveAlias();
+            CommandSalvar = new ConfigurarConteudoCommands.CommandSalvar();
         }
 
         private int ValidarPossivelTexto(string valor, int valorAntigo)

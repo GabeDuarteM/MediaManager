@@ -10,7 +10,7 @@ using MediaManager.Model;
 
 namespace MediaManager.Helpers
 {
-    public class DatabaseHelper
+    public class DBHelper
     {
         public static Serie GetAnimePorIDApi(int IDApi)
         {
@@ -267,10 +267,9 @@ namespace MediaManager.Helpers
             {
                 using (Context db = new Context())
                 {
-                    foreach (var item in video.AliasNames.Split('|'))
+                    foreach (var item in video.AliasNamesStr.Split('|'))
                     {
-                        SerieAlias alias = new SerieAlias();
-                        alias.AliasName = item;
+                        SerieAlias alias = new SerieAlias(item);
                         alias.Episodio = 1;
                         alias.Temporada = 1;
                         alias.IDSerie = video.IDBanco;
@@ -299,7 +298,7 @@ namespace MediaManager.Helpers
                     return true;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -359,10 +358,8 @@ namespace MediaManager.Helpers
 
                     db.SaveChanges();
 
-                    if (serie.AliasNames != null)
-                    {
+                    if (serie.AliasNamesStr != null)
                         AddSerieAlias(serie);
-                    }
 
                     retorno = true;
                 }
@@ -775,7 +772,7 @@ namespace MediaManager.Helpers
                     }
                     db.SerieAlias.RemoveRange(db.SerieAlias.Where(x => x.IDSerie == atualizado.IDBanco));
                     db.SaveChanges();
-                    if (!string.IsNullOrWhiteSpace(atualizado.AliasNames))
+                    if (!string.IsNullOrWhiteSpace(atualizado.AliasNamesStr))
                         AddSerieAlias(atualizado);
                 }
             }

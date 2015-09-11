@@ -1,4 +1,9 @@
-﻿namespace MediaManager.Model
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Xml.Serialization;
+
+namespace MediaManager.Model
 {
     /// <summary>
     /// NOVO = Recém criado (new Video()), Simples = Video com as informações basicas vindas da API, Completo = Video com as informações completas vindas da API.
@@ -11,7 +16,7 @@
         COMPLETO_SEM_EPISODIO
     }
 
-    [System.Diagnostics.DebuggerDisplay("{IDApi} - {Title} - {Language}")]
+    [DebuggerDisplay("{IDApi} - {Title} - {Language}")]
     public abstract class Video : System.ComponentModel.INotifyPropertyChanged
     {
         private Helpers.Helper.Enums.ContentType _ContentType;
@@ -20,20 +25,47 @@
         private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private string _Overview;
         private string _Title;
+        private string _AliasNamesStr;
+        private ObservableCollection<SerieAlias> _AliasNames;
 
-        [System.Xml.Serialization.XmlIgnore]
-        public virtual string AliasNames { get; set; }
+        [XmlIgnore, NotMapped]
+        public virtual string AliasNamesStr
+        {
+            get { return _AliasNamesStr; }
+            set
+            {
+                _AliasNamesStr = value;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    foreach (var item in value.Split('|'))
+                    {
+                        SerieAlias alias = new SerieAlias(item);
+                        if (AliasNames != null)
+                            AliasNames.Add(alias);
+                        else
+                        {
+                            AliasNames = new ObservableCollection<SerieAlias>();
+                            AliasNames.Add(alias);
+                        }
+                    }
+                }
+                OnPropertyChanged("AliasNamesStr");
+            }
+        }
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
+        public ObservableCollection<SerieAlias> AliasNames { get { return _AliasNames; } set { _AliasNames = value; OnPropertyChanged("AliasNames"); } }
+
+        [NotMapped, XmlIgnore]
         public virtual Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
+        [NotMapped, XmlIgnore]
         public virtual string ContentTypeString { get { return Helpers.Helper.Enums.ToString(ContentType); } }
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped, System.Xml.Serialization.XmlIgnore]
+        [NotMapped, XmlIgnore]
         public Estado Estado { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string FolderMetadata
         {
             get
@@ -58,16 +90,16 @@
             }
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string FolderPath { get { return _FolderPath; } set { _FolderPath = value; OnPropertyChanged("FolderPath"); } }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual int IDApi { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual int IDBanco { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string ImgFanart
         {
             get { return _ImgFanart; }
@@ -80,7 +112,7 @@
             }
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string ImgPoster
         {
             get { return _ImgPoster; }
@@ -93,16 +125,16 @@
             }
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string Language { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string LastUpdated { get; set; }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string Overview { get { return _Overview; } set { _Overview = value; OnPropertyChanged("Overview"); } }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public virtual string Title { get { return _Title; } set { _Title = value; OnPropertyChanged("Title"); } }
 
         #region INotifyPropertyChanged Members

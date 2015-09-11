@@ -197,8 +197,12 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosAnimes()
         {
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
-            return dir.GetDirectories();
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaAnimes))
+            {
+                DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
+                return dir.GetDirectories();
+            }
+            else return null;
         }
 
         /// <summary>
@@ -207,8 +211,12 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosFilmes()
         {
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
-            return dir.GetDirectories();
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaFilmes))
+            {
+                DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
+                return dir.GetDirectories();
+            }
+            else return null;
         }
 
         /// <summary>
@@ -217,9 +225,12 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosSeries()
         {
-            // TODO Validação para quando não tem pasta nas preferências.
-            DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
-            return dir.GetDirectories();
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaSeries))
+            {
+                DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
+                return dir.GetDirectories();
+            }
+            else return null;
         }
 
         /// <summary>
@@ -610,7 +621,6 @@ namespace MediaManager.Helpers
 
         //public static Serie API_GetSerieSinopse(string slugTrakt)
         //{
-        //    // TODO Fazer funcionar com o idioma definido nas configurações.
         //    try
         //    {
         //        var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;
@@ -670,7 +680,6 @@ namespace MediaManager.Helpers
 
         //public static Filme API_GetFilmeSinopse(string slugTrakt)
         //{
-        //    // TODO Fazer funcionar com o idioma definido nas configurações.
         //    try
         //    {
         //        var request = WebRequest.Create(settings.APIBaseUrl + "/movies/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;

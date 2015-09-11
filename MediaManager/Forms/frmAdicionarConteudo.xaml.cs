@@ -53,7 +53,23 @@ namespace MediaManager.Forms
             frmConfigConteudo.ShowDialog();
             if (frmConfigConteudo.DialogResult == true)
             {
-                // TODO Salvar configuração do conteúdo
+                foreach (var item in AdicionarConteudoViewModel.ResultPesquisa)
+                {
+                    if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
+                    {
+                        item.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
+                        //AdicionarConteudoViewModel.SelectedVideo.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
+                        break;
+                    }
+                }
+                //foreach (var item in AdicionarConteudoViewModel.listaVideosQuaseCompletos)
+                //{
+                //    if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
+                //    {
+                //        item.AliasNames = AdicionarConteudoViewModel.SelectedVideo.AliasNames;
+                //        break;
+                //    }
+                //}
             }
         }
 
@@ -114,13 +130,13 @@ namespace MediaManager.Forms
                                 serie = (Serie)AdicionarConteudoViewModel.SelectedVideo;
                             else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
                             {
-                                serie = DatabaseHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                                serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
                                 serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
                             }
 
                             if (IsEdicao)
                             {
-                                try { await DatabaseHelper.UpdateSerieAsync(serie); }
+                                try { await DBHelper.UpdateSerieAsync(serie); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
@@ -129,7 +145,7 @@ namespace MediaManager.Forms
                             }
                             else
                             {
-                                try { await DatabaseHelper.AddSerieAsync(serie); }
+                                try { await DBHelper.AddSerieAsync(serie); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
@@ -146,13 +162,13 @@ namespace MediaManager.Forms
                                 anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
                             else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
                             {
-                                anime = DatabaseHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                                anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
                                 anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
                             }
 
                             if (IsEdicao)
                             {
-                                try { await DatabaseHelper.UpdateSerieAsync(anime); }
+                                try { await DBHelper.UpdateSerieAsync(anime); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
@@ -161,7 +177,7 @@ namespace MediaManager.Forms
                             }
                             else
                             {
-                                try { await DatabaseHelper.AddSerieAsync(anime); }
+                                try { await DBHelper.AddSerieAsync(anime); }
                                 catch (Exception ex)
                                 {
                                     Console.Write(ex.Message + " Detalhes: " + ex.InnerException);

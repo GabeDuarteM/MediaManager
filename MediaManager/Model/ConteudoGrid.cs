@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
@@ -12,21 +14,30 @@ namespace MediaManager.Model
         public bool IsSelected { get { return _IsSelected; } set { _IsSelected = value; OnPropertyChanged("IsSelected"); } }
         public Video Video { get; set; }
 
-        public static implicit operator ConteudoGrid(Serie v)
+        public ConteudoGrid()
+        {
+            if (IDBanco > 0)
+            {
+                AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(this));
+            }
+        }
+
+        public static implicit operator ConteudoGrid(Serie serie)
         {
             ConteudoGrid conteudoGrid = new ConteudoGrid();
 
-            conteudoGrid.FolderPath = v.FolderPath;
-            conteudoGrid.IDBanco = v.IDBanco;
-            conteudoGrid.IDApi = v.IDApi;
-            conteudoGrid.ImgFanart = v.ImgFanart;
-            conteudoGrid.ImgPoster = v.ImgPoster;
-            conteudoGrid.Language = v.Language;
-            conteudoGrid.LastUpdated = v.LastUpdated;
-            conteudoGrid.Overview = v.Overview;
-            conteudoGrid.Title = v.Title;
-            conteudoGrid.ContentType = v.ContentType;
-            conteudoGrid.AliasNames = v.AliasNames;
+            conteudoGrid.FolderPath = serie.FolderPath;
+            conteudoGrid.IDBanco = serie.IDBanco;
+            conteudoGrid.IDApi = serie.IDApi;
+            conteudoGrid.ImgFanart = serie.ImgFanart;
+            conteudoGrid.ImgPoster = serie.ImgPoster;
+            conteudoGrid.Language = serie.Language;
+            conteudoGrid.LastUpdated = serie.LastUpdated;
+            conteudoGrid.Overview = serie.Overview;
+            conteudoGrid.Title = serie.Title;
+            conteudoGrid.ContentType = serie.ContentType;
+            conteudoGrid.AliasNamesStr = serie.AliasNamesStr;
+            conteudoGrid.AliasNames = serie.AliasNames;
 
             return conteudoGrid;
         }
@@ -49,6 +60,7 @@ namespace MediaManager.Model
             Overview = conteudo.Overview;
             Title = conteudo.Title;
             AliasNames = conteudo.AliasNames;
+            AliasNamesStr = conteudo.AliasNamesStr;
         }
     }
 }

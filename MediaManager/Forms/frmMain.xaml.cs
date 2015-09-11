@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MediaManager.Helpers;
-using MediaManager.Model;
 using MediaManager.Properties;
 using MediaManager.ViewModel;
 
@@ -15,7 +14,7 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmMain : Window
     {
-        public MainViewModel MainVM { get; private set; }
+        public static MainViewModel MainVM { get; private set; }
 
         private Timer timerAtualizarConteudo;
 
@@ -74,7 +73,7 @@ namespace MediaManager.Forms
             timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // in miliseconds
             timerAtualizarConteudo.Start();
 
-            API_Requests.GetAtualizacoes();
+            APIRequests.GetAtualizacoes();
 
             //Teste();
         }
@@ -103,7 +102,7 @@ namespace MediaManager.Forms
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
         {
-            API_Requests.GetAtualizacoes();
+            APIRequests.GetAtualizacoes();
         }
 
         private /*async*/ void Teste() // TODO Apagar método.

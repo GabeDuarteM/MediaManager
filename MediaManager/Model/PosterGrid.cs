@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
+using MediaManager.Helpers;
 using MediaManager.Properties;
 
 namespace MediaManager.Model
@@ -27,6 +29,14 @@ namespace MediaManager.Model
 
         public byte[] ImgPosterCache { get { return _ImgPosterCache; } }
 
+        public PosterGrid()
+        {
+            if (IDBanco > 0)
+            {
+                AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(this));
+            }
+        }
+
         public static implicit operator PosterGrid(Serie serie)
         {
             PosterGrid posterGrid = new PosterGrid();
@@ -43,6 +53,7 @@ namespace MediaManager.Model
             posterGrid.ContentType = serie.ContentType;
             posterGrid.Estado = serie.Estado;
             posterGrid.AliasNames = serie.AliasNames;
+            posterGrid.AliasNamesStr = serie.AliasNamesStr;
 
             return posterGrid;
         }
@@ -63,6 +74,7 @@ namespace MediaManager.Model
             Title = poster.Title;
             Estado = poster.Estado;
             AliasNames = poster.AliasNames;
+            AliasNamesStr = poster.AliasNamesStr;
         }
     }
 }

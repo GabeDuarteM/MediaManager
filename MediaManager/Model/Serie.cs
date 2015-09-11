@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Xml.Serialization;
+using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
@@ -257,7 +259,7 @@ namespace MediaManager.Model
 
         public Serie(PosterGrid posterGrid)
         {
-            AliasNames = posterGrid.AliasNames;
+            AliasNamesStr = posterGrid.AliasNamesStr;
             ContentType = posterGrid.ContentType;
             Estado = posterGrid.Estado;
             FolderPath = posterGrid.FolderPath;
@@ -269,6 +271,7 @@ namespace MediaManager.Model
             LastUpdated = posterGrid.LastUpdated;
             Overview = posterGrid.Overview;
             Title = posterGrid.Title;
+            AliasNames = posterGrid.AliasNames;
         }
 
         [XmlElement("Actors", IsNullable = true)]
@@ -281,7 +284,7 @@ namespace MediaManager.Model
         public string Airs_Time { get; set; }
 
         [XmlElement("AliasNames")]
-        public override string AliasNames { get; set; }
+        public override string AliasNamesStr { get; set; }
 
         [XmlElement("ContentRating", IsNullable = true)]
         public string ContentRating { get; set; }
@@ -301,8 +304,10 @@ namespace MediaManager.Model
         [XmlElement("id"), Column(Order = 2)]
         public override int IDApi { get; set; }
 
+        private int _IDBanco;
+
         [XmlIgnore, Key, Column("ID", Order = 0)]
-        public override int IDBanco { get; set; }
+        public override int IDBanco { get { return _IDBanco; } set { _IDBanco = value; if (value > 0) AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(this)); } }
 
         [XmlElement("fanart", IsNullable = true)]
         public override string ImgFanart
@@ -403,7 +408,7 @@ namespace MediaManager.Model
             Actors = serie.Actors;
             Airs_DayOfWeek = serie.Airs_DayOfWeek;
             Airs_Time = serie.Airs_Time;
-            AliasNames = serie.AliasNames;
+            AliasNamesStr = serie.AliasNamesStr;
             ContentRating = serie.ContentRating;
             ContentType = serie.ContentType;
             FirstAired = serie.FirstAired;
@@ -425,6 +430,7 @@ namespace MediaManager.Model
             Title = serie.Title;
             Estado = serie.Estado;
             Episodes = serie.Episodes;
+            AliasNames = serie.AliasNames;
         }
 
         public void SetDefaultFolderPath()
