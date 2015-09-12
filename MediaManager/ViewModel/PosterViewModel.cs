@@ -52,7 +52,10 @@ namespace MediaManager.ViewModel
 
                         if (frmAdicionarConteudo.DialogResult == true)
                         {
-                            Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                            if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                                Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                            else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
+                                Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
                             //Poster.IDBanco = serie.IDBanco;
                             //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");

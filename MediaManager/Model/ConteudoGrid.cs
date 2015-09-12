@@ -16,10 +16,6 @@ namespace MediaManager.Model
 
         public ConteudoGrid()
         {
-            if (IDBanco > 0)
-            {
-                AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(this));
-            }
         }
 
         public static implicit operator ConteudoGrid(Serie serie)
@@ -36,8 +32,8 @@ namespace MediaManager.Model
             conteudoGrid.Overview = serie.Overview;
             conteudoGrid.Title = serie.Title;
             conteudoGrid.ContentType = serie.ContentType;
-            conteudoGrid.AliasNamesStr = serie.AliasNamesStr;
-            conteudoGrid.AliasNames = serie.AliasNames;
+            conteudoGrid.SerieAliasStr = serie.SerieAliasStr;
+            conteudoGrid.SerieAlias = serie.SerieAlias;
 
             return conteudoGrid;
         }
@@ -59,8 +55,8 @@ namespace MediaManager.Model
             LastUpdated = conteudo.LastUpdated;
             Overview = conteudo.Overview;
             Title = conteudo.Title;
-            AliasNames = conteudo.AliasNames;
-            AliasNamesStr = conteudo.AliasNamesStr;
+            SerieAlias = conteudo.SerieAlias;
+            SerieAliasStr = conteudo.SerieAliasStr;
         }
     }
 }

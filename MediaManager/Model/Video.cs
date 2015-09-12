@@ -10,10 +10,10 @@ namespace MediaManager.Model
     /// </summary>
     public enum Estado
     {
-        NOVO,
-        SIMPLES,
-        COMPLETO,
-        COMPLETO_SEM_EPISODIO
+        Novo,
+        Simples,
+        Completo,
+        CompletoSemForeignKeys
     }
 
     [DebuggerDisplay("{IDApi} - {Title} - {Language}")]
@@ -25,36 +25,36 @@ namespace MediaManager.Model
         private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         private string _Overview;
         private string _Title;
-        private string _AliasNamesStr;
-        private ObservableCollection<SerieAlias> _AliasNames;
+        private string _SerieAliasStr;
+        private ObservableCollection<SerieAlias> _SerieAlias;
 
         [XmlIgnore, NotMapped]
-        public virtual string AliasNamesStr
+        public virtual string SerieAliasStr
         {
-            get { return _AliasNamesStr; }
+            get { return _SerieAliasStr; }
             set
             {
-                _AliasNamesStr = value;
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    foreach (var item in value.Split('|'))
-                    {
-                        SerieAlias alias = new SerieAlias(item);
-                        if (AliasNames != null)
-                            AliasNames.Add(alias);
-                        else
-                        {
-                            AliasNames = new ObservableCollection<SerieAlias>();
-                            AliasNames.Add(alias);
-                        }
-                    }
-                }
-                OnPropertyChanged("AliasNamesStr");
+                _SerieAliasStr = value;
+                //if (!string.IsNullOrWhiteSpace(value))
+                //{
+                //    foreach (var item in value.Split('|'))
+                //    {
+                //        SerieAlias alias = new SerieAlias(item);
+                //        if (SerieAlias != null)
+                //            SerieAlias.Add(alias);
+                //        else
+                //        {
+                //            SerieAlias = new ObservableCollection<SerieAlias>();
+                //            SerieAlias.Add(alias);
+                //        }
+                //    }
+                //}
+                OnPropertyChanged("SerieAliasStr");
             }
         }
 
         [XmlIgnore]
-        public ObservableCollection<SerieAlias> AliasNames { get { return _AliasNames; } set { _AliasNames = value; OnPropertyChanged("AliasNames"); } }
+        public ObservableCollection<SerieAlias> SerieAlias { get { return _SerieAlias; } set { _SerieAlias = value; OnPropertyChanged("SerieAlias"); } }
 
         [NotMapped, XmlIgnore]
         public virtual Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }

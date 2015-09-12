@@ -50,7 +50,7 @@ namespace MediaManager.ViewModel
                 case Helper.Enums.ContentType.show:
                     {
                         Series = new ObservableCollection<PosterViewModel>();
-                        List<Serie> series = DBHelper.GetSeries();
+                        List<Serie> series = DBHelper.GetSeriesComForeignKeys();
 
                         foreach (var item in series)
                         {
@@ -69,7 +69,7 @@ namespace MediaManager.ViewModel
                 case Helper.Enums.ContentType.anime:
                     {
                         Animes = new ObservableCollection<PosterViewModel>();
-                        List<Serie> animes = DBHelper.GetAnimes();
+                        List<Serie> animes = DBHelper.GetAnimesComForeignKeys();
 
                         foreach (var item in animes)
                         {
@@ -91,8 +91,8 @@ namespace MediaManager.ViewModel
                         Animes = new ObservableCollection<PosterViewModel>();
                         Filmes = new ObservableCollection<PosterViewModel>();
 
-                        List<Serie> series = DBHelper.GetSeries();
-                        List<Serie> animes = DBHelper.GetAnimes();
+                        List<Serie> series = DBHelper.GetSeriesComForeignKeys();
+                        List<Serie> animes = DBHelper.GetAnimesComForeignKeys();
                         //List<Filme> filmesDB = DatabaseHelper.GetFilmes();
 
                         foreach (var item in series)

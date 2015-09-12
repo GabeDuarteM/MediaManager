@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -231,6 +232,23 @@ namespace MediaManager.Helpers
                 return dir.GetDirectories();
             }
             else return null;
+        }
+
+        public static ObservableCollection<SerieAlias> PopularCampoSerieAlias(Video video)
+        {
+            if (/*video.IDBanco == 0 && */(video.SerieAlias == null || video.SerieAlias.Count == 0))
+            {
+                video.SerieAlias = new ObservableCollection<SerieAlias>();
+                if (!string.IsNullOrWhiteSpace(video.SerieAliasStr))
+                {
+                    foreach (var item in video.SerieAliasStr.Split('|'))
+                    {
+                        SerieAlias alias = new SerieAlias(item);
+                        video.SerieAlias.Add(alias);
+                    }
+                }
+            }
+            return video.SerieAlias;
         }
 
         /// <summary>

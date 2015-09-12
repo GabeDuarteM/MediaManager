@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,9 +41,10 @@ namespace MediaManager.Forms
                             {
                                 SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie serie = data.Series[0];
-                                serie.Episodes = data.Episodes;
+                                serie.Episodes = new List<Episode>(data.Episodes);
                                 serie.FolderPath = item.FolderPath;
-                                serie.AliasNamesStr = item.AliasNamesStr;
+                                serie.SerieAliasStr = item.SerieAliasStr;
+                                serie.SerieAlias = item.SerieAlias;
                                 serie.Title = item.Title;
 
                                 await DBHelper.AddSerieAsync(serie);
@@ -58,10 +60,11 @@ namespace MediaManager.Forms
 
                                 SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie anime = data.Series[0];
-                                anime.Episodes = data.Episodes;
+                                anime.Episodes = new List<Episode>(data.Episodes);
                                 anime.IsAnime = true;
                                 anime.FolderPath = item.FolderPath;
-                                anime.AliasNamesStr = item.AliasNamesStr;
+                                anime.SerieAliasStr = item.SerieAliasStr;
+                                anime.SerieAlias = item.SerieAlias;
                                 anime.Title = item.Title;
 
                                 await DBHelper.AddSerieAsync(anime);

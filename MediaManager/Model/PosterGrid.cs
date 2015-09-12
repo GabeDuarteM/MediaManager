@@ -31,10 +31,6 @@ namespace MediaManager.Model
 
         public PosterGrid()
         {
-            if (IDBanco > 0)
-            {
-                AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(this));
-            }
         }
 
         public static implicit operator PosterGrid(Serie serie)
@@ -52,8 +48,8 @@ namespace MediaManager.Model
             posterGrid.Title = serie.Title;
             posterGrid.ContentType = serie.ContentType;
             posterGrid.Estado = serie.Estado;
-            posterGrid.AliasNames = serie.AliasNames;
-            posterGrid.AliasNamesStr = serie.AliasNamesStr;
+            posterGrid.SerieAlias = serie.SerieAlias;
+            posterGrid.SerieAliasStr = serie.SerieAliasStr;
 
             return posterGrid;
         }
@@ -73,8 +69,8 @@ namespace MediaManager.Model
             Overview = poster.Overview;
             Title = poster.Title;
             Estado = poster.Estado;
-            AliasNames = poster.AliasNames;
-            AliasNamesStr = poster.AliasNamesStr;
+            SerieAlias = poster.SerieAlias;
+            SerieAliasStr = poster.SerieAliasStr;
         }
     }
 }

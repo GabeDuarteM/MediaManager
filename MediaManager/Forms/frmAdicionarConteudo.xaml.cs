@@ -51,33 +51,26 @@ namespace MediaManager.Forms
             Video serie = AdicionarConteudoViewModel.SelectedVideo;
             frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoViewModel.SelectedVideo);
             frmConfigConteudo.ShowDialog();
+            foreach (var item in AdicionarConteudoViewModel.ResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
+            {
+                if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
+                {
+                    item.SerieAlias = frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias;
+                    //AdicionarConteudoViewModel.SelectedVideo.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
+                    break;
+                }
+            }
             if (frmConfigConteudo.DialogResult == true)
             {
-                foreach (var item in AdicionarConteudoViewModel.ResultPesquisa)
-                {
-                    if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
-                    {
-                        item.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
-                        //AdicionarConteudoViewModel.SelectedVideo.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
-                        break;
-                    }
-                }
-                //foreach (var item in AdicionarConteudoViewModel.listaVideosQuaseCompletos)
-                //{
-                //    if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
-                //    {
-                //        item.AliasNames = AdicionarConteudoViewModel.SelectedVideo.AliasNames;
-                //        break;
-                //    }
-                //}
             }
         }
 
         private void btnPasta_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            dialog.SelectedPath = tbxPasta.Text;
+
+            if ((bool)dialog.ShowDialog())
             {
                 tbxPasta.Text = dialog.SelectedPath;
             }
@@ -133,6 +126,8 @@ namespace MediaManager.Forms
                                 serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
                                 serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
                             }
+
+                                serie.SerieAlias = Helper.PopularCampoSerieAlias(serie);
 
                             if (IsEdicao)
                             {

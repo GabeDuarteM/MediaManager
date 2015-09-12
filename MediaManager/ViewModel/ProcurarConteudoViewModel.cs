@@ -62,6 +62,22 @@ namespace MediaManager.ViewModel
                                     conteudo.Video = data.Series[0];
                                     conteudo.Video.ContentType = Helper.Enums.ContentType.show;
                                     conteudo.Video.FolderPath = dir.FullName;
+
+                                    if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
+                                    {
+                                        foreach (var item in conteudo.SerieAliasStr.Split('|'))
+                                        {
+                                            SerieAlias alias = new SerieAlias(item);
+                                            if (conteudo.SerieAlias == null)
+                                            {
+                                                conteudo.SerieAlias = new ObservableCollection<SerieAlias>();
+                                                conteudo.Video.SerieAlias = new ObservableCollection<SerieAlias>();
+                                            }
+                                            conteudo.SerieAlias.Add(alias);
+                                            conteudo.Video.SerieAlias.Add(alias);
+                                        }
+                                    }
+
                                     conteudos.Add(conteudo);
                                 }
                             }
@@ -93,6 +109,22 @@ namespace MediaManager.ViewModel
                                     conteudo.Video.ContentType = Helper.Enums.ContentType.anime;
                                     conteudo.Video.FolderPath = dir.FullName;
                                     (conteudo.Video as Serie).IsAnime = true;
+
+                                    if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
+                                    {
+                                        foreach (var item in conteudo.SerieAliasStr.Split('|'))
+                                        {
+                                            SerieAlias alias = new SerieAlias(item);
+                                            if (conteudo.SerieAlias == null)
+                                            {
+                                                conteudo.SerieAlias = new ObservableCollection<SerieAlias>();
+                                                conteudo.Video.SerieAlias = new ObservableCollection<SerieAlias>();
+                                            }
+                                            conteudo.SerieAlias.Add(alias);
+                                            conteudo.Video.SerieAlias.Add(alias);
+                                        }
+                                    }
+
                                     conteudos.Add(conteudo);
                                 }
                             }

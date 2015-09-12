@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
 using MediaManager.Forms;
 using MediaManager.Helpers;
@@ -61,15 +62,17 @@ namespace MediaManager.Commands
                 SerieAlias alias = new SerieAlias(frmConfigConteudo.ConfigurarConteudoVM.AliasName);
                 alias.Temporada = frmConfigConteudo.ConfigurarConteudoVM.Temporada;
                 alias.Episodio = frmConfigConteudo.ConfigurarConteudoVM.Episodio;
-                if (frmConfigConteudo.ConfigurarConteudoVM.Video.IDBanco > 0)
+                if (frmConfigConteudo.ConfigurarConteudoVM.Video.IDBanco > 0 && Directory.Exists(frmConfigConteudo.ConfigurarConteudoVM.Video.FolderMetadata)) // Verifica se existe a pasta para quando é edição de uma série não cair no if.
                 {
                     alias.IDSerie = frmConfigConteudo.ConfigurarConteudoVM.Video.IDBanco;
                     DBHelper.AddSerieAlias(alias);
-                    frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.Video));
+                    frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.Video));
                 }
                 else
                 {
-                    frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames.Add(alias);
+                    if (frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias == null)
+                        frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias = new ObservableCollection<SerieAlias>();
+                    frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias.Add(alias);
                 }
             }
 
@@ -99,11 +102,11 @@ namespace MediaManager.Commands
                 if (frmConfigConteudo.ConfigurarConteudoVM.Video.IDBanco > 0)
                 {
                     DBHelper.RemoveSerieAlias(frmConfigConteudo.ConfigurarConteudoVM.SelectedAlias);
-                    frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.Video));
+                    frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.Video));
                 }
                 else
                 {
-                    frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames.Remove(frmConfigConteudo.ConfigurarConteudoVM.SelectedAlias);
+                    frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias.Remove(frmConfigConteudo.ConfigurarConteudoVM.SelectedAlias);
                 }
             }
 

@@ -47,18 +47,7 @@ namespace MediaManager.ViewModel
             Video = video;
             _Temporada = 1;
             _Episodio = 1;
-            if (video.IDBanco == 0 && (video.AliasNames == null || video.AliasNames.Count == 0))
-            {
-                Video.AliasNames = new ObservableCollection<SerieAlias>();
-                if (!string.IsNullOrWhiteSpace(video.AliasNamesStr))
-                {
-                    foreach (var item in video.AliasNamesStr.Split('|'))
-                    {
-                        SerieAlias alias = new SerieAlias(item);
-                        Video.AliasNames.Add(alias);
-                    }
-                }
-            }
+            Video.SerieAlias = Helper.PopularCampoSerieAlias(Video);
 
             DoubleClickCommand = new ConfigurarConteudoCommands.DoubleClickNoGridAliasCommand();
             AddAlias = new ConfigurarConteudoCommands.AddAlias();

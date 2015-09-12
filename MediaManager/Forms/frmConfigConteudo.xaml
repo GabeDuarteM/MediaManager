@@ -20,7 +20,7 @@
                 <xctk:WatermarkTextBox MaxLength="4" Text="{Binding EpisodioStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
                 <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" />
                 <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" />
-                <DataGrid SelectedItem="{Binding SelectedAlias}" ItemsSource="{Binding Video.AliasNames, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
+                <DataGrid SelectedItem="{Binding SelectedAlias}" ItemsSource="{Binding Video.SerieAlias, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
                     </DataGrid.InputBindings>
