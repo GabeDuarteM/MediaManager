@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MediaManager.Forms;
 using MediaManager.Model;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Helpers
 {
@@ -27,8 +28,8 @@ namespace MediaManager.Helpers
                 List<Serie> animes = animesDB.ToList();
                 foreach (var item in animes)
                 {
-                    item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
-                        : Helper.Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
                     item.Estado = Estado.CompletoSemForeignKeys;
                 }
                 return animes;
@@ -46,8 +47,8 @@ namespace MediaManager.Helpers
                 List<Serie> animes = animesDB.ToList();
                 foreach (var item in animes)
                 {
-                    item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
-                        : Helper.Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
                     item.Estado = Estado.Completo;
                 }
                 return animes;
@@ -81,8 +82,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
-                        : Helper.Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
                     item.Estado = Estado.CompletoSemForeignKeys;
                 }
                 return series;
@@ -100,8 +101,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Helper.Enums.ContentType.anime
-                        : Helper.Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
                     item.Estado = Estado.Completo;
                 }
                 return series;
@@ -123,6 +124,42 @@ namespace MediaManager.Helpers
                 Serie serie = seriesDB.First();
                 serie.Estado = Estado.CompletoSemForeignKeys;
                 return serie;
+            }
+        }
+
+        public static List<Serie> GetSeriesEAnimes()
+        {
+            using (Context db = new Context())
+            {
+                var seriesDB = (from serieDB in db.Serie
+                                orderby serieDB.Title
+                                select serieDB);
+                List<Serie> series = seriesDB.ToList();
+                foreach (var item in series)
+                {
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
+                    item.Estado = Estado.CompletoSemForeignKeys;
+                }
+                return series;
+            }
+        }
+
+        public static List<Serie> GetSeriesEAnimesComForeignKeys()
+        {
+            using (Context db = new Context())
+            {
+                var seriesDB = (from serieDB in db.Serie.Include("Episodes").Include("SerieAlias")
+                                orderby serieDB.Title
+                                select serieDB);
+                List<Serie> series = seriesDB.ToList();
+                foreach (var item in series)
+                {
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
+                        : Enums.ContentType.show;
+                    item.Estado = Estado.Completo;
+                }
+                return series;
             }
         }
 
@@ -276,6 +313,19 @@ namespace MediaManager.Helpers
                 using (Context db = new Context())
                 {
                     db.Serie.Add(serie);
+                    if (Directory.Exists(serie.FolderPath))
+                    {
+                        var arquivos = new DirectoryInfo(serie.FolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
+                        Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
+                        foreach (var item in arquivos)
+                        {
+                            if (regexes.regex_0x00.IsMatch(item.Name))
+                            {
+                                var match = regexes.regex_0x00.Match(item.Name);
+                                string ParentTitle = match.Groups["name"].Value;
+                            }
+                        }
+                    }
                     db.SaveChanges();
                 }
                 return true;
@@ -303,7 +353,14 @@ namespace MediaManager.Helpers
             {
                 using (Context db = new Context())
                 {
-                    db.Episode.Add(episode);
+                    if (episode.IDBanco > 0)
+                        db.Episode.Add(episode);
+                    else
+                    {
+                        Serie serie = GetSerieOuAnimePorIDApi(episode.IDSeriesTvdb);
+                        episode.IDSerie = serie.IDBanco;
+                        db.Episode.Add(episode);
+                    }
                     db.SaveChanges();
                     return true;
                 }
@@ -381,7 +438,11 @@ namespace MediaManager.Helpers
                     }
                 }
             }
-            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ocorreu um erro ao tentar atualizar a série no banco de dados.\r\nErro:" + e.Message, Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
 
             if (isDiferente || serieOld.FolderMetadata != atualizado.FolderMetadata) // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
             {

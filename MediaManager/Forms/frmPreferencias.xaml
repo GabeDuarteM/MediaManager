@@ -28,8 +28,8 @@
                             <Button Content="..." ToolTip="Selecionar..." Margin="508,76,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" />
                             <Button Content="..." ToolTip="Selecionar..." Margin="508,107,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" />
                             <Label Content="Procurar por novos conteúdos a cada" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,134,10,0" />
-                            <xctk:IntegerUpDown Text="{Binding IntervaloDeProcuraConteudoNovo}" Margin="10,137,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="1" RenderTransformOrigin="0.5,0.5" />
-                            <Label Content="minutos." HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,197,0" />
+                            <xctk:IntegerUpDown Text="{Binding IntervaloDeProcuraConteudoNovo}" Margin="10,137,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="10" Maximum="99999" RenderTransformOrigin="0.5,0.5" />
+                            <Label Content="minutos. (min. 10)" HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,155,0" />
                         </Grid>
                     </GroupBox>
                     <Label Content="Idioma de pesquisa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,204,0,0" d:LayoutOverrides="HorizontalAlignment" />

@@ -14,8 +14,8 @@ namespace MediaManager.Model
         private string _FilenameRenamed;
         private bool _IsSelected = true;
 
-        public Helper.Enums.ContentType ContentType { get; set; }
-        public string ContentTypeString { get { return Helper.Enums.ToString(ContentType); } }
+        public Enums.ContentType ContentType { get; set; }
+        public string ContentTypeString { get { return Enums.ToString(ContentType); } }
         public string[] EpisodeArray { get; set; } // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
         public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged("Filename"); } }
         public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged("FilenameRenamed"); } }
@@ -94,21 +94,11 @@ namespace MediaManager.Model
 
         public async Task<bool> GetEpisodeAsync()
         {
-            // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04
-            Regex regex_S00E00 = new Regex(@"^(?i)(?<name>.*)[._\s-]S(?<season>\d{1,2})e(?<episodes>\d{1,3}(?:(?<separador>[e-])\d{1,3})*)");
+            Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
-            // nome.da.serie.000
-            Regex regex_000 = new Regex(@"^(?i)(?<name>.*)[._\s](?<episodes>\d{3,4}(?:(?<separador>[-])\d{1,3})*)");
-
-            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000
-            Regex regex_Fansub0000 = new Regex(@"^(?i)(?:\[\S*\])(?<name>.*?)(?:(?:_-_)|(?: - )|(?:_))(?<episodes>\d{1,4}(?:(?<separador>[e_-])\d{1,3})*)");
-
-            // Nome da Série - 0x00 - Nome do episódio
-            Regex regex_0x00 = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
-
-            if (regex_S00E00.IsMatch(Filename))
+            if (regexes.regex_S00E00.IsMatch(Filename))
             {
-                var match = regex_S00E00.Match(Filename);
+                var match = regexes.regex_S00E00.Match(Filename);
                 ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                 SeriesData data = new SeriesData();
                 List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
@@ -190,14 +180,14 @@ namespace MediaManager.Model
                     return true;
                 }
             }
-            else if (regex_0x00.IsMatch(Filename))
+            else if (regexes.regex_0x00.IsMatch(Filename))
             {
-                SeriesData data = await APIRequests.GetSeriesAsync(regex_S00E00.Match(Filename).Groups["name"].Value, false);
+                SeriesData data = await APIRequests.GetSeriesAsync(regexes.regex_S00E00.Match(Filename).Groups["name"].Value, false);
                 foreach (var item in data.Series)
                 {
                     if (DBHelper.VerificaSeExiste(item.IDApi))
                     {
-                        var match = regex_0x00.Match(Filename);
+                        var match = regexes.regex_0x00.Match(Filename);
                         char separador = match.Groups["separador"].Value.ToCharArray()[0];
                         Serie = DBHelper.GetSerieOuAnimePorIDApi(item.IDApi);
                         SeasonNumber = int.Parse(match.Groups["season"].Value);
@@ -211,9 +201,9 @@ namespace MediaManager.Model
                 }
                 return true;
             }
-            else if (regex_Fansub0000.IsMatch(Filename))
+            else if (regexes.regex_Fansub0000.IsMatch(Filename))
             {
-                var match = regex_Fansub0000.Match(Filename);
+                var match = regexes.regex_Fansub0000.Match(Filename);
                 ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                 SeriesData data = new SeriesData();
                 List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);

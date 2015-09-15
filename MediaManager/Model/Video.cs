@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
@@ -19,7 +20,7 @@ namespace MediaManager.Model
     [DebuggerDisplay("{IDApi} - {Title} - {Language}")]
     public abstract class Video : System.ComponentModel.INotifyPropertyChanged
     {
-        private Helpers.Helper.Enums.ContentType _ContentType;
+        private Enums.ContentType _ContentType;
         private string _FolderPath;
         private string _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
         private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
@@ -57,10 +58,10 @@ namespace MediaManager.Model
         public ObservableCollection<SerieAlias> SerieAlias { get { return _SerieAlias; } set { _SerieAlias = value; OnPropertyChanged("SerieAlias"); } }
 
         [NotMapped, XmlIgnore]
-        public virtual Helpers.Helper.Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }
+        public virtual Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); } }
 
         [NotMapped, XmlIgnore]
-        public virtual string ContentTypeString { get { return Helpers.Helper.Enums.ToString(ContentType); } }
+        public virtual string ContentTypeString { get { return Enums.ToString(ContentType); } }
 
         [NotMapped, XmlIgnore]
         public Estado Estado { get; set; }
@@ -72,15 +73,15 @@ namespace MediaManager.Model
             {
                 switch (ContentType)
                 {
-                    case Helpers.Helper.Enums.ContentType.movie:
+                    case Enums.ContentType.movie:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
-                    case Helpers.Helper.Enums.ContentType.show:
+                    case Enums.ContentType.show:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Séries", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
-                    case Helpers.Helper.Enums.ContentType.anime:
+                    case Enums.ContentType.anime:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Animes", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
@@ -159,17 +160,17 @@ namespace MediaManager.Model
         {
             switch (ContentType)
             {
-                case Helpers.Helper.Enums.ContentType.movie:
+                case Enums.ContentType.movie:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaFilmes))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaFilmes, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
-                case Helpers.Helper.Enums.ContentType.show:
+                case Enums.ContentType.show:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaSeries))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
-                case Helpers.Helper.Enums.ContentType.anime:
+                case Enums.ContentType.anime:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaAnimes))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;

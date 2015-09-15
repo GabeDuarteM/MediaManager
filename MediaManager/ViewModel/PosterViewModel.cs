@@ -25,7 +25,7 @@ namespace MediaManager.ViewModel
         {
             switch (Poster.ContentType)
             {
-                case Helper.Enums.ContentType.movie:
+                case Enums.ContentType.movie:
                     {
                         //Video filme = new Filme();
                         //filme = DatabaseHelper.GetFilmePorId(Poster.ID);
@@ -40,11 +40,11 @@ namespace MediaManager.ViewModel
 
                         //    Poster.ID = filme.ID;
                         //    Poster.ImgPoster = Path.Combine(filme.FolderMetadata, "poster.jpg");
-                        //    Poster.Type = Helper.Enums.TipoConteudo.movie;
+                        //    Poster.Type = Enums.TipoConteudo.movie;
                         //}
                         break;
                     }
-                case Helper.Enums.ContentType.show:
+                case Enums.ContentType.show:
                     {
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
@@ -59,11 +59,11 @@ namespace MediaManager.ViewModel
 
                             //Poster.IDBanco = serie.IDBanco;
                             //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
-                            //Poster.ContentType = Helper.Enums.ContentType.show;
+                            //Poster.ContentType = Enums.ContentType.show;
                         }
                         break;
                     }
-                case Helper.Enums.ContentType.anime:
+                case Enums.ContentType.anime:
                     {
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
@@ -78,7 +78,7 @@ namespace MediaManager.ViewModel
 
                             //Poster.IDBanco = anime.IDBanco;
                             //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
-                            //Poster.ContentType = Helper.Enums.ContentType.anime;
+                            //Poster.ContentType = Enums.ContentType.anime;
                         }
                         break;
                     }

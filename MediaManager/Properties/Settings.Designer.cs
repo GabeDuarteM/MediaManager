@@ -248,10 +248,9 @@ namespace MediaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1440855070")]
-        public int API_UltimaDataAtualizacaoTVDB {
+        public global::System.DateTime API_UltimaDataAtualizacaoTVDB {
             get {
-                return ((int)(this["API_UltimaDataAtualizacaoTVDB"]));
+                return ((global::System.DateTime)(this["API_UltimaDataAtualizacaoTVDB"]));
             }
             set {
                 this["API_UltimaDataAtualizacaoTVDB"] = value;

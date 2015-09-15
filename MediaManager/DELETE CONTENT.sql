@@ -1,4 +1,5 @@
-﻿USE [MediaManager.Model.Context];
+﻿
+USE [MediaManager.Model.Context];
 
 /*Disable Constraints & Triggers*/
 exec sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'

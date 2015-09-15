@@ -55,8 +55,8 @@ namespace MediaManager.Forms
                 }
                 else
                 {
-                    RenomearEpisodiosDosArgumentos(argsString[i]);
-                    fecharPrograma = true;
+                    if (RenomearEpisodiosDosArgumentos(argsString[i]))
+                        fecharPrograma = true;
                 }
             }
             if (fecharPrograma)
@@ -78,7 +78,7 @@ namespace MediaManager.Forms
             //Teste();
         }
 
-        private void RenomearEpisodiosDosArgumentos(string arg)
+        private bool RenomearEpisodiosDosArgumentos(string arg)
         {
             if (Directory.Exists(arg))
             {
@@ -87,6 +87,7 @@ namespace MediaManager.Forms
                 if (renomearVM.RenomearCommand.CanExecute(renomearVM))
                 {
                     renomearVM.RenomearCommand.Execute(renomearVM);
+                    return true;
                 }
             }
             else if (File.Exists(arg))
@@ -96,8 +97,10 @@ namespace MediaManager.Forms
                 if (renomearVM.RenomearCommand.CanExecute(renomearVM))
                 {
                     renomearVM.RenomearCommand.Execute(renomearVM);
+                    return true;
                 }
             }
+            return false;
         }
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
@@ -172,26 +175,26 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.ContentType.anime);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.anime);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Helper.Enums.ContentType.anime);
+                MainVM.AtualizarConteudo(Enums.ContentType.anime);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.ContentType.movie);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.movie);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Helper.Enums.ContentType.movie);
+                MainVM.AtualizarConteudo(Enums.ContentType.movie);
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Helper.Enums.ContentType.show);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.show);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Helper.Enums.ContentType.show);
+                MainVM.AtualizarConteudo(Enums.ContentType.show);
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
@@ -202,10 +205,10 @@ namespace MediaManager.Forms
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Helper.Enums.ContentType.movieShowAnime);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.movieShowAnime);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Helper.Enums.ContentType.movieShowAnime);
+                MainVM.AtualizarConteudo(Enums.ContentType.movieShowAnime);
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)

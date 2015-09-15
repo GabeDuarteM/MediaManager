@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -10,7 +11,6 @@ using System.Xml.Serialization;
 using Ionic.Zip;
 using MediaManager.Model;
 using MediaManager.Properties;
-using Newtonsoft.Json.Linq;
 
 namespace MediaManager.Helpers
 {
@@ -18,32 +18,84 @@ namespace MediaManager.Helpers
     {
         public async static Task<bool> GetAtualizacoes()
         {
-            string responseData = null;
-
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            if (Settings.Default.API_UltimaDataAtualizacaoTVDB == default(DateTime))
             {
-                using (var response = await httpClient.GetAsync("/api/Updates.php?type=all&time=" + Settings.Default.API_UltimaDataAtualizacaoTVDB))
+                Settings.Default.API_UltimaDataAtualizacaoTVDB = DateTime.Now.AddDays(-5);
+                Settings.Default.Save();
+            }
+
+            DateTime dataAtualizacao = DateTime.Now;
+            int dias = (Settings.Default.API_UltimaDataAtualizacaoTVDB - dataAtualizacao).Days;
+            string url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
+            string nomeArquivo = "updates_";
+            string xmlString = null;
+            var randomNum = new Random().Next(1, 55555);
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
+
+            if (dias == 0)
+            {
+                nomeArquivo += "day";
+            }
+            else if (dias < 0 && dias > -7)
+            {
+                nomeArquivo += "week";
+            }
+            else if (dias <= -7 && dias > -30)
+            {
+                nomeArquivo += "month";
+            }
+            else
+            {
+                nomeArquivo += "all";
+            }
+            url += nomeArquivo + ".zip";
+
+            try
+            {
+                if (File.Exists(path))
                 {
-                    responseData = await response.Content.ReadAsStringAsync();
+                    File.Delete(path);
                 }
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
+                using (WebClient wc = new WebClient())
+                {
+                    await wc.DownloadFileTaskAsync(new Uri(url), path);
+                }
+
+                using (ZipFile zip = ZipFile.Read(path))
+                {
+                    ZipEntry xmlFileEntry = zip[nomeArquivo + ".xml"];
+                    using (var ms = new MemoryStream())
+                    {
+                        xmlFileEntry.Extract(ms);
+                        var sr = new StreamReader(ms);
+                        ms.Position = 0;
+                        xmlString = sr.ReadToEnd();
+                    }
+                }
+            }
+            finally
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+                if (Directory.Exists(Path.GetDirectoryName(path)))
+                    Directory.Delete(Path.GetDirectoryName(path));
             }
             XmlDocument xml = new XmlDocument();
 
-            xml.LoadXml(responseData);
+            xml.LoadXml(xmlString);
 
-            XmlNodeList nodesSeries = xml.SelectNodes("/Items/Series");
-            XmlNodeList nodesEpisodios = xml.SelectNodes("/Items/Episode");
-            XmlNodeList nodesHoraServidorTVDB = xml.SelectNodes("/Items/Time");
+            XmlNodeList nodesSeries = xml.SelectNodes("/Data/Series");
+            XmlNodeList nodesEpisodios = xml.SelectNodes("/Data/Episode");
+            XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
-            List<Serie> listaSeriesAnimes = DBHelper.GetSeries();
-            List<Serie> tempListaAnimes = DBHelper.GetAnimes();
+            List<Serie> listaSeriesAnimes = DBHelper.GetSeriesEAnimes();
             List<Episode> listaEpisodios = DBHelper.GetEpisodes();
             List<string> listaSeriesAnimesIDApi = new List<string>();
             List<string> listaEpisodiosIDApi = new List<string>();
-            foreach (var item in tempListaAnimes)
-            {
-                listaSeriesAnimes.Add(item);
-            }
             foreach (var item in listaSeriesAnimes)
             {
                 listaSeriesAnimesIDApi.Add(item.IDApi + "");
@@ -55,118 +107,99 @@ namespace MediaManager.Helpers
 
             foreach (XmlNode item in nodesSeries)
             {
-                if (listaSeriesAnimesIDApi.Contains(item.InnerText))
+                if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("id").InnerText))
                 {
                     int IDApi = 0;
-                    int.TryParse(item.InnerText, out IDApi);
-                    SeriesData data = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
-                    data.Series[0].Episodes = new List<Episode>(data.Episodes);
+                    int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
 
                     Serie serieDB = DBHelper.GetSerieOuAnimePorIDApi(IDApi);
-                    data.Series[0].IDBanco = serieDB.IDBanco;
-                    data.Series[0].FolderPath = serieDB.FolderPath;
-                    data.Series[0].IsAnime = serieDB.IsAnime;
-                    data.Series[0].ContentType = serieDB.ContentType;
-                    data.Series[0].Title = serieDB.Title;
-                    data.Series[0].SerieAliasStr = serieDB.SerieAliasStr;
 
-                    await DBHelper.UpdateSerieAsync(data.Series[0]);
+                    //data.Series[0].Episodes = new List<Episode>(data.Episodes);
+
+                    if (int.Parse(serieDB.LastUpdated) < int.Parse(item.SelectSingleNode("time").InnerText))
+                    {
+                        SeriesData data = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+
+                        data.Series[0].IDBanco = serieDB.IDBanco;
+                        data.Series[0].FolderPath = serieDB.FolderPath;
+                        data.Series[0].IsAnime = serieDB.IsAnime;
+                        data.Series[0].ContentType = serieDB.ContentType;
+                        data.Series[0].Title = serieDB.Title;
+                        data.Series[0].SerieAliasStr = serieDB.SerieAliasStr;
+
+                        await DBHelper.UpdateSerieAsync(data.Series[0]);
+                    }
                 }
             }
 
             foreach (XmlNode item in nodesEpisodios)
             {
-                int IDApi = -1;
-                int.TryParse(item.InnerText, out IDApi);
-                Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
-                if (listaSeriesAnimesIDApi.Contains(episodio.IDSeriesTvdb + ""))
+                int IDApi = 0;
+                int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
+                if (listaEpisodiosIDApi.Contains(IDApi + ""))
                 {
-                    if (listaEpisodiosIDApi.Contains(item.InnerText))
+                    Episode episodioDB = DBHelper.GetEpisode(IDApi);
+
+                    if (int.Parse(episodioDB.LastUpdated) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
-                        Episode episodioDB = DBHelper.GetEpisode(episodio.IDTvdb);
+                        Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
                         episodio.IDBanco = episodioDB.IDBanco;
                         DBHelper.UpdateEpisodio(episodio);
                     }
-                    else
-                    {
-                        DBHelper.AddEpisodio(episodio);
-                    }
+                }
+                else if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
+                {
+                    Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                    DBHelper.AddEpisodio(episodio);
                 }
             }
-            Settings.Default.API_UltimaDataAtualizacaoTVDB = int.Parse(nodesHoraServidorTVDB[0].InnerText);
-            return true;
-        }
 
-        /// <summary>
-        /// Retorna um Tuple, onde o primeiro valor é a fanart e o segundo é o poster.
-        /// </summary>
-        /// <param name="idApi"></param>
-        /// <param name="contentType"></param>
-        /// <returns></returns>
-        public async static Task<Tuple<string, string>> GetImagesAsync(int idApi, Helper.Enums.ContentType contentType)
-        {
-            if (idApi == 0)
-                throw new ArgumentException("Não foi possível baixar as imagens pois o id fornecido é inválido.");
-
-            string responseData = "";
-            Tuple<string, string> urlImages;
-
-            if (contentType == Helper.Enums.ContentType.anime || contentType == Helper.Enums.ContentType.show)
+            foreach (XmlNode item in nodesBanners)
             {
-                using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlFanartTv) })
+                if ((item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Fanart.ToString().ToLower() || item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Poster.ToString().ToLower()))
                 {
-                    using (var response = await httpClient.GetAsync("v3/tv/" + idApi + "?api_key=" + Settings.Default.API_KeyFanartTv))
+                    if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
                     {
-                        responseData = await response.Content.ReadAsStringAsync();
+                        var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
+                        var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" + item.SelectSingleNode("path").InnerText;
+                        var tipo = item.SelectSingleNode("type").InnerText;
+                        if (tipo == Enums.TipoImagem.Fanart.ToString().ToLower())
+                        {
+                            using (Context db = new Context())
+                            {
+                                var serie = (from series in db.Serie
+                                             where series.IDApi == IDApi
+                                             select series).First();
+                                if (urlImagem != serie.ImgFanart)
+                                {
+                                    serie.ImgFanart = urlImagem;
+                                    db.SaveChanges();
+                                    await Helper.DownloadImages(serie, Enums.TipoImagem.Fanart);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            using (Context db = new Context())
+                            {
+                                var serie = (from series in db.Serie
+                                             where series.IDApi == IDApi
+                                             select series).First();
+                                if (urlImagem != serie.ImgPoster)
+                                {
+                                    serie.ImgPoster = urlImagem;
+                                    db.SaveChanges();
+                                    await Helper.DownloadImages(serie, Enums.TipoImagem.Poster);
+                                }
+                            }
+                        }
                     }
                 }
-
-                JObject jsonObject = JObject.Parse(responseData);
-                if (jsonObject.First.Path != "status" && (string)jsonObject["status"] != "error")
-                {
-                    var imgFanart = (string)jsonObject["showbackground"][0]["url"];
-                    var imgPoster = (string)jsonObject["tvposter"][0]["url"];
-                    urlImages = new Tuple<string, string>(imgFanart, imgPoster);
-                }
-                else
-                {
-                    urlImages = new Tuple<string, string>(null, null);
-                }
-
-                return urlImages;
             }
-            throw new ArgumentException("Não foi possível efetuar a operação, pois o tipo do parâmetro informado é inválido.");
-            //string
 
-            //if (filme.AvailableTranslations.Contains(settings.pref_IdiomaPesquisa))
-            //{
-            //    string responseDataSinopse = "";
-
-            //    List<Filme> traducoes = new List<Filme>();
-
-            //    using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
-            //    {
-            //        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-version", "2");
-
-            //        httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", "");
-
-            //        using (var response = await httpClient.GetAsync("movies/" + slugTrakt + "/translations/" + settings.pref_IdiomaPesquisa))
-            //        {
-            //            responseDataSinopse = await response.Content.ReadAsStringAsync();
-            //        }
-            //    }
-            //    traducoes = JsonConvert.DeserializeObject<List<Filme>>(responseDataSinopse);
-
-            //    var sinopseTraduzida = traducoes.Count > 0 ? traducoes.First().Overview : null;
-            //    if (!string.IsNullOrWhiteSpace(sinopseTraduzida))
-            //        filme.Overview = sinopseTraduzida;
-            //}
-
-            //filme.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            //    Settings.Default.AppName, "Metadata", "Filmes", RetirarCaracteresInvalidos(filme.Title));
-            //if (settings.pref_PastaFilmes != "")
-            //    filme.FolderPath = Path.Combine(settings.pref_PastaFilmes, RetirarCaracteresInvalidos(filme.Title));
-            //return filme;
+            Settings.Default.API_UltimaDataAtualizacaoTVDB = dataAtualizacao;
+            Settings.Default.Save();
+            return true;
         }
 
         public async static Task<SeriesData> GetSerieInfoAsync(int IDTvdb, string lang)

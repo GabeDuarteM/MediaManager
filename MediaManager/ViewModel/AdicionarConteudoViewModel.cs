@@ -12,7 +12,7 @@ namespace MediaManager.ViewModel
     public class AdicionarConteudoViewModel : INotifyPropertyChanged
     {
         private List<Video> _ResultPesquisa;
-        private Helper.Enums.ContentType _TipoConteudo;
+        private Enums.ContentType _TipoConteudo;
         private Video _SelectedVideo;
 
         //private SeriesData _Data;
@@ -25,7 +25,7 @@ namespace MediaManager.ViewModel
 
         public List<Video> ResultPesquisa { get { return _ResultPesquisa; } set { _ResultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
 
-        public Helper.Enums.ContentType TipoConteudo { get { return _TipoConteudo; } set { _TipoConteudo = value; } }
+        public Enums.ContentType TipoConteudo { get { return _TipoConteudo; } set { _TipoConteudo = value; } }
 
         public Video SelectedVideo { get { return _SelectedVideo; } set { _SelectedVideo = value; OnPropertyChanged("SelectedVideo"); AlterarVideoAsync(); } }
 
@@ -33,7 +33,7 @@ namespace MediaManager.ViewModel
 
         //public Video Video { get { return _Data.Series[0]; } set { Data.Series[0] = (Serie)value; } }
 
-        public AdicionarConteudoViewModel(Video video, Helper.Enums.ContentType tipoConteudo)
+        public AdicionarConteudoViewModel(Video video, Enums.ContentType tipoConteudo)
         {
             TipoConteudo = tipoConteudo;
             //Data = new SeriesData();
@@ -63,7 +63,7 @@ namespace MediaManager.ViewModel
                 //data.Series = new Serie[1] { (PosterGrid)video };
                 listaVideosQuaseCompletos.Add(video);
             }
-            if (video.ContentType == Helper.Enums.ContentType.show || video.ContentType == Helper.Enums.ContentType.anime)
+            if (video.ContentType == Enums.ContentType.show || video.ContentType == Enums.ContentType.anime)
             {
                 SeriesData data = new SeriesData();
                 if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
@@ -112,7 +112,7 @@ namespace MediaManager.ViewModel
                     }
                     if (!jaAdicionado)
                     {
-                        if (video.ContentType == Helper.Enums.ContentType.anime)
+                        if (video.ContentType == Enums.ContentType.anime)
                             item.IsAnime = true;
                         //if (!string.IsNullOrWhiteSpace(video.FolderPath))
                         //    item.FolderPath = video.FolderPath;
@@ -147,7 +147,7 @@ namespace MediaManager.ViewModel
             SelectedVideo = videoCarregando;
             List<Video> resultPesquisaTemp = new List<Video>();
 
-            if (TipoConteudo == Helper.Enums.ContentType.show || TipoConteudo == Helper.Enums.ContentType.anime)
+            if (TipoConteudo == Enums.ContentType.show || TipoConteudo == Enums.ContentType.anime)
             {
                 SeriesData data = await APIRequests.GetSeriesAsync(title, false);
 
@@ -182,7 +182,7 @@ namespace MediaManager.ViewModel
 
                 foreach (var item in data.Series)
                 {
-                    if (TipoConteudo == Helper.Enums.ContentType.anime)
+                    if (TipoConteudo == Enums.ContentType.anime)
                         item.IsAnime = true;
 
                     if (!string.IsNullOrWhiteSpace(folderPathEditar)) // Verifica se é edição para setar o folderpath igual.
@@ -241,14 +241,14 @@ namespace MediaManager.ViewModel
             SeriesData data = await APIRequests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
             data.Series[0].Title = SelectedVideo.Title;
             data.Series[0].Episodes = new List<Episode>(data.Episodes);
+            data.Series[0].ContentType = TipoConteudo;
             if (SelectedVideo.FolderPath != null)
                 data.Series[0].FolderPath = SelectedVideo.FolderPath;
             else if (folderPathEditar != null)
                 data.Series[0].FolderPath = folderPathEditar;
             else
                 data.Series[0].SetDefaultFolderPath();
-            data.Series[0].ContentType = TipoConteudo;
-            if (data.Series[0].ContentType == Helper.Enums.ContentType.anime)
+            if (data.Series[0].ContentType == Enums.ContentType.anime)
                 data.Series[0].IsAnime = true;
             data.Series[0].SerieAliasStr = SelectedVideo.SerieAliasStr;
             data.Series[0].IDBanco = IDBanco > 0 ? IDBanco : data.Series[0].IDBanco;

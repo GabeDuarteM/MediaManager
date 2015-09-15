@@ -4,16 +4,16 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear - {0}'}"
-        Height="400" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Height="400" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
         <DataGrid ItemsSource="{Binding Episodes, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ParentTitle, Mode=OneWay}" Header="Título" Width="5*" />
-                <DataGridTextColumn Binding="{Binding Filename, Mode=OneWay}" Header="Nome do arquivo" Width="5*" />
-                <DataGridTextColumn Binding="{Binding FilenameRenamed, Mode=OneWay}" Header="Nome renomeado" Width="5*" />
+                <DataGridTextColumn Binding="{Binding ParentTitle, Mode=OneWay}" Header="Título" Width="2.5*" />
+                <DataGridTextColumn Binding="{Binding OriginalFilePath, Mode=OneWay}" Header="Arquivo" Width="5*" />
+                <DataGridTextColumn Binding="{Binding FilenameRenamed, Mode=OneWay}" SortDirection="Ascending" Header="Nome renomeado" Width="5*" />
                 <DataGridTextColumn Binding="{Binding ContentTypeString, Mode=OneWay}" Header="Tipo" Width="1*" />
                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>

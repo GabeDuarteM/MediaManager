@@ -103,7 +103,7 @@ namespace MediaManager.Model
         public string Tagline { get; set; }
 
         [NotMapped]
-        public string TipoString { get { return Helper.Enums.ToString(Type); } }
+        public string TipoString { get { return Enums.ToString(Type); } }
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -114,7 +114,7 @@ namespace MediaManager.Model
         public object Trailer { get; set; }
 
         [NotMapped]
-        public Helper.Enums.ContentType Type { get { return Helper.Enums.ContentType.movie; } set { throw new NotSupportedException(); } }
+        public Enums.ContentType Type { get { return Enums.ContentType.movie; } set { throw new NotSupportedException(); } }
 
         public string TypeString
         {

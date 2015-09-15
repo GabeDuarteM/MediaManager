@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="Helpers\APIRequests.cs" />
     <Compile Include="Helpers\DBHelper.cs" />
+    <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Migrations\201509060940244_Init.cs" />
     <Compile Include="Migrations\201509060940244_Init.Designer.cs">
       <DependentUpon>201509060940244_Init.cs</DependentUpon>
@@ -266,10 +267,10 @@
     <None Include="app.manifest" />
     <None Include="MediaManager_TemporaryKey.pfx" />
     <None Include="packages.config" />
-    <Resource Include="Properties\Settings.settings">
+    <EmbeddedResource Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </Resource>
+    </EmbeddedResource>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

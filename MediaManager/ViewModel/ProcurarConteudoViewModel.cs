@@ -11,29 +11,29 @@ namespace MediaManager.ViewModel
         private ObservableCollection<ConteudoGrid> _Conteudos = new ObservableCollection<ConteudoGrid>();
         public ObservableCollection<ConteudoGrid> Conteudos { get { return _Conteudos; } set { _Conteudos = value; OnPropertyChanged("Conteudos"); } }
 
-        public ProcurarConteudoViewModel(Helper.Enums.ContentType contentType)
+        public ProcurarConteudoViewModel(Enums.ContentType contentType)
         {
             Conteudos.Add(new ConteudoGrid { Title = "Carregando...", FolderPath = "Carregando...", IsSelected = false });
 
             LoadConteudos(contentType);
         }
 
-        public async void LoadConteudos(Helper.Enums.ContentType contentType)
+        public async void LoadConteudos(Enums.ContentType contentType)
         {
             ObservableCollection<ConteudoGrid> conteudos = new ObservableCollection<ConteudoGrid>();
 
             switch (contentType)
             {
-                case Helper.Enums.ContentType.movie:
+                case Enums.ContentType.movie:
                     break;
 
-                case Helper.Enums.ContentType.show:
+                case Enums.ContentType.show:
                     break;
 
-                case Helper.Enums.ContentType.anime:
+                case Enums.ContentType.anime:
                     break;
 
-                case Helper.Enums.ContentType.movieShowAnime:
+                case Enums.ContentType.movieShowAnime:
                     DirectoryInfo[] dirSeries = Helper.retornarDiretoriosSeries();
                     DirectoryInfo[] dirAnimes = Helper.retornarDiretoriosAnimes();
                     DirectoryInfo[] dirFilmes = Helper.retornarDiretoriosFilmes();
@@ -48,7 +48,7 @@ namespace MediaManager.ViewModel
                                 if (data.Series.Length == 0)
                                 {
                                     ConteudoGrid conteudo = new ConteudoGrid();
-                                    conteudo.ContentType = Helper.Enums.ContentType.show;
+                                    conteudo.ContentType = Enums.ContentType.show;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
@@ -56,11 +56,11 @@ namespace MediaManager.ViewModel
                                 else if (data.Series.Length > 0 && !DBHelper.VerificaSeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
-                                    conteudo.ContentType = Helper.Enums.ContentType.show;
+                                    conteudo.ContentType = Enums.ContentType.show;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsSelected = true;
                                     conteudo.Video = data.Series[0];
-                                    conteudo.Video.ContentType = Helper.Enums.ContentType.show;
+                                    conteudo.Video.ContentType = Enums.ContentType.show;
                                     conteudo.Video.FolderPath = dir.FullName;
 
                                     if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
@@ -94,7 +94,7 @@ namespace MediaManager.ViewModel
                                 if (data.Series == null || data.Series.Length == 0)
                                 {
                                     ConteudoGrid conteudo = new ConteudoGrid();
-                                    conteudo.ContentType = Helper.Enums.ContentType.anime;
+                                    conteudo.ContentType = Enums.ContentType.anime;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
@@ -102,11 +102,11 @@ namespace MediaManager.ViewModel
                                 else if (data.Series.Length > 0 && !DBHelper.VerificaSeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
-                                    conteudo.ContentType = Helper.Enums.ContentType.anime;
+                                    conteudo.ContentType = Enums.ContentType.anime;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsSelected = true;
                                     conteudo.Video = data.Series[0];
-                                    conteudo.Video.ContentType = Helper.Enums.ContentType.anime;
+                                    conteudo.Video.ContentType = Enums.ContentType.anime;
                                     conteudo.Video.FolderPath = dir.FullName;
                                     (conteudo.Video as Serie).IsAnime = true;
 
@@ -136,9 +136,9 @@ namespace MediaManager.ViewModel
                     //{
                     //        if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
                     //        {
-                    //            filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Helper.Enums.TipoConteudo.movie.ToString(), false);
+                    //            filmes = await Helper.API_PesquisarConteudoAsync(dir.Name, Enums.TipoConteudo.movie.ToString(), false);
                     //            if (filmes.Count != 0 && !DatabaseHelper.VerificaSeExiste(filmes[0].Video.ids.trakt))
-                    //                conteudos.Add(new ConteudoGrid { Nome = filmes[0].Video.title, Pasta = dir.FullName, TipoConteudo = Helper.Enums.TipoConteudo.movie, TraktSlug = filmes[0].Video.ids.slug, IsSelected = true });
+                    //                conteudos.Add(new ConteudoGrid { Nome = filmes[0].Video.title, Pasta = dir.FullName, TipoConteudo = Enums.TipoConteudo.movie, TraktSlug = filmes[0].Video.ids.slug, IsSelected = true });
                     //        }
                     //    }
                     //}

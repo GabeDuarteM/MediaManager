@@ -18,7 +18,7 @@ namespace MediaManager.Forms
 
         public bool IsProcurarConteudo { get; set; }
 
-        public frmAdicionarConteudo(Helper.Enums.ContentType tipoConteudo)
+        public frmAdicionarConteudo(Enums.ContentType tipoConteudo)
         {
             InitializeComponent();
 
@@ -37,7 +37,7 @@ namespace MediaManager.Forms
             DataContext = AdicionarConteudoViewModel;
         }
 
-        public frmAdicionarConteudo(Helper.Enums.ContentType tipoConteudo, Video video)
+        public frmAdicionarConteudo(Enums.ContentType tipoConteudo, Video video)
         {
             InitializeComponent();
 
@@ -91,7 +91,7 @@ namespace MediaManager.Forms
             {
                 switch (AdicionarConteudoViewModel.TipoConteudo)
                 {
-                    case Helper.Enums.ContentType.movie:
+                    case Enums.ContentType.movie:
                         //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
                         //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
 
@@ -116,7 +116,7 @@ namespace MediaManager.Forms
                         //}
                         break;
 
-                    case Helper.Enums.ContentType.show:
+                    case Enums.ContentType.show:
                         {
                             Serie serie = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)
@@ -127,7 +127,7 @@ namespace MediaManager.Forms
                                 serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
                             }
 
-                                serie.SerieAlias = Helper.PopularCampoSerieAlias(serie);
+                            serie.SerieAlias = Helper.PopularCampoSerieAlias(serie);
 
                             if (IsEdicao)
                             {
@@ -150,7 +150,7 @@ namespace MediaManager.Forms
                             break;
                         }
 
-                    case Helper.Enums.ContentType.anime:
+                    case Enums.ContentType.anime:
                         {
                             Serie anime = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)
@@ -193,7 +193,7 @@ namespace MediaManager.Forms
 
         //private async void AtualizarInformacoesAsync(string slugTrakt)
         //{
-        //    if (TipoConteudo == Helper.Enums.TipoConteudo.show || TipoConteudo == Helper.Enums.TipoConteudo.anime)
+        //    if (TipoConteudo == Enums.TipoConteudo.show || TipoConteudo == Enums.TipoConteudo.anime)
         //    {
         //        int idSerieTemp = Serie.IDSerie;
         //        Serie = await Helper.API_GetSerieInfoAsync(slugTrakt, TipoConteudo);
@@ -274,7 +274,7 @@ namespace MediaManager.Forms
         //            tbxSinopse.Text = "Sinopse não encontrada.";
         //        }
         //    }
-        //    else if (TipoConteudo == Helper.Enums.TipoConteudo.movie)
+        //    else if (TipoConteudo == Enums.TipoConteudo.movie)
         //    {
         //        int idFilmeTemp = Filme.IDFilme;
         //        Filme = await Helper.API_GetFilmeInfoAsync(slugTrakt);
@@ -518,7 +518,7 @@ namespace MediaManager.Forms
 
         //private void cboListaConteudo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
-        //    if (TipoConteudo == Helper.Enums.TipoConteudo.show || TipoConteudo == Helper.Enums.TipoConteudo.anime)
+        //    if (TipoConteudo == Enums.TipoConteudo.show || TipoConteudo == Enums.TipoConteudo.anime)
         //    {
         //        if ((sender as ComboBox).SelectedItem.ToString() == "Busca personalizada...")
         //        {
@@ -547,7 +547,7 @@ namespace MediaManager.Forms
         //            AtualizarInformacoesAsync(ResultPesquisa[cboListaConteudo.SelectedIndex - 1].show.ids.slug);
         //        }
         //    }
-        //    else if (TipoConteudo == Helper.Enums.TipoConteudo.movie)
+        //    else if (TipoConteudo == Enums.TipoConteudo.movie)
         //    {
         //        if ((sender as ComboBox).SelectedItem.ToString() == "Busca personalizada...")
         //        {
@@ -582,7 +582,7 @@ namespace MediaManager.Forms
         //{
         //    switch (TipoConteudo)
         //    {
-        //        case Helper.Enums.TipoConteudo.movie:
+        //        case Enums.TipoConteudo.movie:
         //            ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Filme.FolderPath), TipoConteudo.ToString());
         //            if (ResultPesquisa.Count > 0)
         //            {
@@ -610,7 +610,7 @@ namespace MediaManager.Forms
         //            }
         //            break;
 
-        //        case Helper.Enums.TipoConteudo.show:
+        //        case Enums.TipoConteudo.show:
         //            ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.FolderPath), TipoConteudo.ToString());
         //            if (ResultPesquisa.Count > 0)
         //            {
@@ -638,7 +638,7 @@ namespace MediaManager.Forms
         //            }
         //            break;
 
-        //        case Helper.Enums.TipoConteudo.anime:
+        //        case Enums.TipoConteudo.anime:
         //            ResultPesquisa = await Helper.API_PesquisarConteudoAsync(Path.GetFileName(Serie.FolderPath), TipoConteudo.ToString());
         //            if (ResultPesquisa.Count > 0)
         //            {

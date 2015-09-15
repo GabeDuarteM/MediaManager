@@ -40,7 +40,7 @@ namespace MediaManager.Commands
                         {
                             File.Delete(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
                             if (Helper.CreateSymbolicLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                                    Path.Combine(item.FolderPath, item.Filename), Helper.Enums.SymbolicLink.File))
+                                    Path.Combine(item.FolderPath, item.Filename), Enums.SymbolicLink.File))
                             {
                                 item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                                 item.IsRenamed = true;
@@ -54,7 +54,7 @@ namespace MediaManager.Commands
                     else
                     {
                         if (Helper.CreateSymbolicLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                                Path.Combine(item.FolderPath, item.Filename), Helper.Enums.SymbolicLink.File))
+                                Path.Combine(item.FolderPath, item.Filename), Enums.SymbolicLink.File))
                         {
                             item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                             item.IsRenamed = true;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MediaManager.Model;
@@ -23,71 +24,32 @@ namespace MediaManager.Helpers
         public static extern bool CreateSymbolicLink(
                         string lpSymlinkFileName, string lpTargetFileName, Enums.SymbolicLink dwFlags);
 
-        /// <summary>
-        /// Faz o download do poster e da fanart disponiveis, na ordem thumb, medium e full para o diretório metadata informado no video
-        /// </summary>
-        public static async Task<bool> DownloadImages(Video video)
+        public static async Task<bool> DownloadImages(Video video, Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
         {
             try
             {
-                if (video.ImgPoster != new Serie().ImgPoster)
+                if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Poster)
                 {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    if (video.ImgPoster != new Serie().ImgPoster)
                     {
-                        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.ImgPoster), path);
+                        using (System.Net.WebClient wc = new System.Net.WebClient())
+                        {
+                            var path = Path.Combine(video.FolderMetadata, "poster.jpg");
+                            await wc.DownloadFileTaskAsync(new Uri(video.ImgPoster), path);
+                        }
                     }
                 }
-                if (video.ImgFanart != new Serie().ImgFanart)
+                if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Fanart)
                 {
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
+                    if (video.ImgFanart != new Serie().ImgFanart)
                     {
-                        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                        await wc.DownloadFileTaskAsync(new Uri(video.ImgFanart), path);
+                        using (System.Net.WebClient wc = new System.Net.WebClient())
+                        {
+                            var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
+                            await wc.DownloadFileTaskAsync(new Uri(video.ImgFanart), path);
+                        }
                     }
                 }
-
-                //else if (video.Images.poster.medium != null)
-                //{
-                //    using (System.Net.WebClient wc = new System.Net.WebClient())
-                //    {
-                //        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
-                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.medium), path);
-                //    }
-                //}
-                //else if (video.Images.poster.full != null)
-                //{
-                //    using (System.Net.WebClient wc = new System.Net.WebClient())
-                //    {
-                //        var path = Path.Combine(video.FolderMetadata, "poster.jpg");
-                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.poster.full), path);
-                //    }
-                //}
-
-                //if (video.Images.fanart.thumb != null)
-                //{
-                //    using (System.Net.WebClient wc = new System.Net.WebClient())
-                //    {
-                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.thumb), path);
-                //    }
-                //}
-                //else if (video.Images.fanart.medium != null)
-                //{
-                //    using (System.Net.WebClient wc = new System.Net.WebClient())
-                //    {
-                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.medium), path);
-                //    }
-                //}
-                //else if (video.Images.fanart.full != null)
-                //{
-                //    using (System.Net.WebClient wc = new System.Net.WebClient())
-                //    {
-                //        var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                //        await wc.DownloadFileTaskAsync(new Uri(video.Images.fanart.full), path);
-                //    }
-                //}
                 return true;
             }
             catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
@@ -251,120 +213,19 @@ namespace MediaManager.Helpers
             return video.SerieAlias;
         }
 
-        /// <summary>
-        /// Classe contendo todos os enums utilizados.
-        /// </summary>
-        public class Enums
+        public class RegexEpisodio
         {
-            /// <summary>
-            /// Define o tipo de conteúdo a ser usado.
-            /// </summary>
-            public enum ContentType
-            {
-                unknown = 0,
-                movie = 1,
-                show = 2,
-                anime = 3,
-                season = 4,
-                episode = 5,
-                person = 6,
-                movieShowAnime = 7
-            }
+            // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04
+            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*)[._\s-]S(?<season>\d{1,2})e(?<episodes>\d{1,3}(?:(?<separador>[e-])\d{1,3})*)");
 
-            public enum SymbolicLink
-            {
-                File = 0,
-                Directory = 1
-            }
+            // nome.da.serie.000
+            public Regex regex_000 { get; set; } = new Regex(@"^(?i)(?<name>.*)[._\s](?<episodes>\d{3,4}(?:(?<separador>[-])\d{1,3})*)");
 
-            /// <summary>
-            /// Transforma a string em um enum
-            /// </summary>
-            /// <param name="str">String a ser transformada</param>
-            /// <param name="enumType">Tipo do enum destino</param>
-            /// <returns>Enum do tipo destino escolhido</returns>
-            public static object ToEnum(string str, Type enumType)
-            {
-                if (enumType == typeof(ContentType))
-                {
-                    switch (str)
-                    {
-                        case "":
-                            return ContentType.unknown;
+            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000
+            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*)\])?(?<name>.*?)(?:(?:_-_)|(?: - )|(?:_))(?<episodes>(?:\d{1,4})?(?:(?<separador>[e_-])\d{1,3})*)");
 
-                        case "Filme":
-                            return ContentType.movie;
-
-                        case "Série":
-                            return ContentType.show;
-
-                        case "Anime":
-                            return ContentType.anime;
-
-                        case "Temporada":
-                            return ContentType.season;
-
-                        case "Episódio":
-                            return ContentType.episode;
-
-                        case "Pessoa":
-                            return ContentType.person;
-
-                        case "Filme, Serie e Anime":
-                            return ContentType.movieShowAnime;
-
-                        default:
-                            return null;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Parâmetro inválido", "enumType");
-                }
-            }
-
-            /// <summary>
-            /// Transforma o enum numa string "enfeitada".
-            /// </summary>
-            public static string ToString(object enumItem)
-            {
-                if (enumItem.GetType() == typeof(ContentType))
-                {
-                    switch ((ContentType)enumItem)
-                    {
-                        case ContentType.unknown:
-                            return "";
-
-                        case ContentType.movie:
-                            return "Filme";
-
-                        case ContentType.show:
-                            return "Série";
-
-                        case ContentType.anime:
-                            return "Anime";
-
-                        case ContentType.season:
-                            return "Temporada";
-
-                        case ContentType.episode:
-                            return "Episódio";
-
-                        case ContentType.person:
-                            return "Pessoa";
-
-                        case ContentType.movieShowAnime:
-                            return "Filme, Serie e Anime";
-
-                        default:
-                            return null;
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException("Parâmetro inválido", "enumItem");
-                }
-            }
+            // Nome da Série - 0x00 - Nome do episódio
+            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
         }
 
         #region [ APIs trakt ]

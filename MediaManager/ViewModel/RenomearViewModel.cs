@@ -30,6 +30,9 @@ namespace MediaManager.ViewModel
 
         private async void Carregar(IEnumerable<FileInfo> arquivos)
         {
+            Episodes = new ObservableCollection<EpisodeToRename>();
+            Episodes.Add(new EpisodeToRename() { ParentTitle = "Carregando...", OriginalFilePath = "Carregando...", FilenameRenamed = "Carregando...", IsSelected = false });
+
             string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
             List<EpisodeToRename> listaEpisodios = new List<EpisodeToRename>();
             List<EpisodeToRename> listaEpisodiosNotFound = new List<EpisodeToRename>();

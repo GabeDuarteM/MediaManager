@@ -77,7 +77,7 @@ namespace MediaManager.Model
         public string Status { get; set; }
 
         [NotMapped]
-        public string TipoString { get { return Helper.Enums.ToString(Type); } }
+        public string TipoString { get { return Enums.ToString(Type); } }
 
         public string Traducoes { get; private set; }
 
@@ -85,7 +85,7 @@ namespace MediaManager.Model
         public object Trailer { get; set; }
 
         [NotMapped]
-        public Helper.Enums.ContentType Type { get { return Helper.Enums.ContentType.show; } set { throw new NotSupportedException(); } }
+        public Enums.ContentType Type { get { return Enums.ContentType.show; } set { throw new NotSupportedException(); } }
 
         [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
         public int Votes { get; set; }

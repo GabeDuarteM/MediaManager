@@ -14,10 +14,10 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmProcurarConteudo : Window
     {
-        public Helper.Enums.ContentType ContentType;
+        public Enums.ContentType ContentType;
         public ProcurarConteudoViewModel contViewModel;
 
-        public frmProcurarConteudo(Helper.Enums.ContentType contentType)
+        public frmProcurarConteudo(Enums.ContentType contentType)
         {
             InitializeComponent();
             ContentType = contentType;
@@ -37,7 +37,7 @@ namespace MediaManager.Forms
                 {
                     switch (item.ContentType)
                     {
-                        case Helper.Enums.ContentType.show:
+                        case Enums.ContentType.show:
                             {
                                 SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie serie = data.Series[0];
@@ -50,7 +50,7 @@ namespace MediaManager.Forms
                                 await DBHelper.AddSerieAsync(serie);
                                 break;
                             }
-                        case Helper.Enums.ContentType.anime:
+                        case Enums.ContentType.anime:
                             {
                                 //SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
                                 //Serie anime = data.Series[0];
@@ -70,7 +70,7 @@ namespace MediaManager.Forms
                                 await DBHelper.AddSerieAsync(anime);
                                 break;
                             }
-                        case Helper.Enums.ContentType.movie:
+                        case Enums.ContentType.movie:
                             // TODO Fazer funfar
                             //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
                             //filme.FolderPath = item.Pasta;

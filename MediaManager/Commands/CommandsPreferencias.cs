@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using MediaManager.Forms;
+using MediaManager.Helpers;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -43,7 +44,7 @@ exec sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER ALL'
 /*Reset Identity on tables with identity column*/
 exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1 BEGIN DBCC CHECKIDENT (''?'',RESEED,0) END'");
                     }
-                    frmMain.MainVM.AtualizarConteudo(Helpers.Helper.Enums.ContentType.movieShowAnime);
+                    frmMain.MainVM.AtualizarConteudo(Enums.ContentType.movieShowAnime);
                 }
             }
 
