@@ -15,6 +15,8 @@ namespace MediaManager.ViewModel
     {
         private ObservableCollection<EpisodeToRename> _Episodes;
 
+        public bool IsSilencioso { get; set; }
+
         public Action CloseAction { get; set; } // Para poder fechar depois no RenomearCommand
 
         public ObservableCollection<EpisodeToRename> Episodes { get { return _Episodes; } set { _Episodes = value; OnPropertyChanged("Episodes"); } }

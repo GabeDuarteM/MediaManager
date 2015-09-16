@@ -22,17 +22,18 @@ namespace MediaManager.Helpers
             movieShowAnime = 7
         }
 
-        public enum SymbolicLink
-        {
-            File = 0,
-            Directory = 1
-        }
-
         public enum TipoImagem
         {
             Todos = 0,
             Fanart = 1,
             Poster = 2
+        }
+
+        [Serializable]
+        public enum MetodoDeProcessamento
+        {
+            HardLink = 0,
+            Copiar = 1
         }
 
         /// <summary>

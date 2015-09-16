@@ -16,50 +16,15 @@ namespace MediaManager.Forms
     {
         public static MainViewModel MainVM { get; private set; }
 
+        public static Dictionary<string, string> Argumentos { get; private set; }
+
         private Timer timerAtualizarConteudo;
 
         public frmMain()
         {
-            Dictionary<string, string> args = new Dictionary<string, string>();
+            Argumentos = new Dictionary<string, string>();
 
-            string[] argsString = Environment.GetCommandLineArgs();
-
-            bool fecharPrograma = false;
-
-            for (int i = 1; i < argsString.Length; i++)
-            {
-                if (argsString[i].StartsWith("-"))
-                {
-                    string arg = argsString[i].Replace("-", "");
-                    if (argsString.Length > i + 1 && !argsString[i + 1].StartsWith("-"))
-                    {
-                        try { args.Add(arg, argsString[i + 1]); }
-                        catch (Exception e)
-                        {
-                            System.Windows.MessageBox.Show("Os parâmetros informados estão incorretos, favor verifica-los.\r\nParâmetro: "
-                                + arg + "\r\nErro: " + e.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        };
-                        i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
-                    }
-                    else
-                    {
-                        try { args.Add(arg, null); }
-                        catch (Exception e)
-                        {
-                            System.Windows.MessageBox.Show("Os parâmetros informados estão incorretos, favor verifica-los.\r\nParâmetro: "
-                                + arg + "\r\nErro: " + e.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        };
-                    }
-                }
-                else
-                {
-                    if (RenomearEpisodiosDosArgumentos(argsString[i]))
-                        fecharPrograma = true;
-                }
-            }
-            if (fecharPrograma)
+            if (TratarArgumentos())
                 Environment.Exit(0);
 
             InitializeComponent();
@@ -78,12 +43,57 @@ namespace MediaManager.Forms
             //Teste();
         }
 
+        /// <summary>
+        /// Retorna true caso haja arquivos a serem renomeados, para que o resto da aplicação não seja carregada.
+        /// </summary>
+        /// <returns></returns>
+        private bool TratarArgumentos()
+        {
+            string[] argsString = Environment.GetCommandLineArgs();
+
+            bool sucesso = false;
+
+            for (int i = 1; i < argsString.Length; i++)
+            {
+                if (argsString[i].StartsWith("-"))
+                {
+                    string arg = argsString[i].Replace("-", "");
+                    if (argsString.Length > i + 1 && !argsString[i + 1].StartsWith("-"))
+                    {
+                        try { Argumentos.Add(arg, argsString[i + 1]); }
+                        catch (Exception e)
+                        {
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg + "\r\nDetalhes: ");
+                            return true;
+                        }
+                        i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
+                    }
+                    else
+                    {
+                        try { Argumentos.Add(arg, null); }
+                        catch (Exception e)
+                        {
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg + "\r\nDetalhes: ");
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (RenomearEpisodiosDosArgumentos(argsString[i]))
+                        sucesso = true;
+                }
+            }
+            return sucesso;
+        }
+
         private bool RenomearEpisodiosDosArgumentos(string arg)
         {
             if (Directory.Exists(arg))
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(arg);
                 RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
+                renomearVM.IsSilencioso = true;
                 if (renomearVM.RenomearCommand.CanExecute(renomearVM))
                 {
                     renomearVM.RenomearCommand.Execute(renomearVM);
@@ -94,6 +104,7 @@ namespace MediaManager.Forms
             {
                 IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
                 RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
+                renomearVM.IsSilencioso = true;
                 if (renomearVM.RenomearCommand.CanExecute(renomearVM))
                 {
                     renomearVM.RenomearCommand.Execute(renomearVM);

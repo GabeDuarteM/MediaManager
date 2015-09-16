@@ -256,5 +256,17 @@ namespace MediaManager.Properties {
                 this["API_UltimaDataAtualizacaoTVDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int pref_MetodoDeProcessamento {
+            get {
+                return ((int)(this["pref_MetodoDeProcessamento"]));
+            }
+            set {
+                this["pref_MetodoDeProcessamento"] = value;
+            }
+        }
     }
 }

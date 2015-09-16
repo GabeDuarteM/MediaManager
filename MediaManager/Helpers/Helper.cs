@@ -8,10 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using MediaManager.Model;
 using MediaManager.Properties;
-using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 
 namespace MediaManager.Helpers
@@ -20,9 +19,15 @@ namespace MediaManager.Helpers
     {
         private static Settings settings = Settings.Default;
 
-        [DllImport("kernel32.dll")]
-        public static extern bool CreateSymbolicLink(
-                        string lpSymlinkFileName, string lpTargetFileName, Enums.SymbolicLink dwFlags);
+        //[DllImport("kernel32.dll")]
+        //public static extern bool CreateSymbolicLink(
+        //                string lpSymlinkFileName, string lpTargetFileName, Enums.SymbolicLink dwFlags);
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
+        public static extern bool CreateHardLink(
+          string lpFileName,
+          string lpExistingFileName,
+          IntPtr lpSecurityAttributes
+            );
 
         public static async Task<bool> DownloadImages(Video video, Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
         {
@@ -52,7 +57,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens.\r\nDetalhes: "); return false; }
         }
 
         public static string ListToString(IList<string> lista)
@@ -75,70 +80,51 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.\r\nDetalhes: ", bool IsSilencioso = false)
+        {
+            if (IsSilencioso)
+                LogMessage(mensagem + exception.Message);
+            else
+                MessageBox.Show(mensagem + exception.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         /// <summary>
         /// Adiciona mensagem no log.
         /// </summary>
         /// <param name="message">Mensagem a ser adicionada</param>
         /// <returns>Retorna false se ocorrer um erro</returns>
-        public static bool LogMessageToFile(string message)
+        public static bool LogMessage(string message)
         {
-            bool sucesso;
-            StreamWriter sw = File.AppendText(Environment.CurrentDirectory + "//" + settings.AppName + ".log");
-            try
-            {
-                string logLine = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message;
-                sw.WriteLine(logLine);
-                sucesso = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                sucesso = false;
-                Environment.Exit(0);
-            }
-            finally
-            {
-                sw.Close();
-            }
-            return sucesso;
-        }
+            string logPath = Path.Combine(Environment.CurrentDirectory, settings.AppName + ".log");
+            string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
+            string logLine = null;
+            message = message.Trim();
+            if (message.LastOrDefault() != '.')
+                message += ".";
 
-        public static bool LogMessageToFile(string message, bool start)
-        {
-            bool sucesso = false;
-            string logPath = Environment.CurrentDirectory + "//" + settings.AppName + ".log";
-            StringBuilder logLine;
-            if (File.Exists(logPath))
-                logLine = new StringBuilder("\n");
+            if (!File.Exists(logPath))
+                logLine = "####################################################################################################\r\n" +
+                          "########################################### " + settings.AppName + " ##########################################\r\n" +
+                          "####################################################################################################\r\n\r\n" +
+                          data + message;
             else
-                logLine = new StringBuilder("");
-            StreamWriter sw = File.AppendText(logPath);
+                logLine = data + message;
+
             try
             {
-                logLine.Append("####################################################################################################\n");
-                logLine.Append("############################################ " + settings.AppName + " ###########################################\n");
-                logLine.Append("####################################################################################################\n");
-                logLine.Append("\n");
-                logLine.Append("## " + System.DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## " + message);
-                sw.WriteLine(logLine);
-                sucesso = true;
+                using (StreamWriter sw = new StreamWriter(new FileStream(logPath, FileMode.Append, FileAccess.Write), Encoding.UTF8))
+                {
+                    sw.WriteLine(logLine);
+                }
+                return true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possivel registrar a mensagem no log.\n" + ex.Message, settings.AppName + " - Erro ao registrar log", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                sucesso = false;
-            }
-            finally
-            {
-                sw.Close();
-            }
-            return sucesso;
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.\r\nDetalhes: "); return false; }
         }
 
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
         {
             if (extensao == null)
-                throw new ArgumentNullException("extensions");
+                throw new ArgumentNullException("extensao");
             IEnumerable<FileInfo> files = dir.EnumerateFiles();
             return files.Where(f => extensao.Contains(f.Extension));
         }
