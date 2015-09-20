@@ -313,24 +313,59 @@ namespace MediaManager.Helpers
                 using (Context db = new Context())
                 {
                     db.Serie.Add(serie);
-                    if (Directory.Exists(serie.FolderPath))
+                    db.SaveChanges();
+                }
+                await VerificaEpisodiosNoDiretorioAsync(serie);
+                return true;
+            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o conteúdo.", true); return false; }
+        }
+
+        private static async Task<bool> VerificaEpisodiosNoDiretorioAsync(Serie serie)
+        {
+            try
+            {
+                if (Directory.Exists(serie.FolderPath))
+                {
+                    var arquivos = new DirectoryInfo(serie.FolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
+                    string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
+
+                    foreach (var item in arquivos)
                     {
-                        var arquivos = new DirectoryInfo(serie.FolderPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
-                        Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
-                        foreach (var item in arquivos)
+                        if (extensoesPermitidas.Contains(item.Extension))
                         {
-                            if (regexes.regex_0x00.IsMatch(item.Name))
+                            EpisodeToRename episode = new EpisodeToRename();
+                            episode.Filename = item.Name;
+                            episode.FolderPath = item.DirectoryName;
+                            episode.Serie = serie;
+
+                            if (await episode.GetEpisodeAsync())
                             {
-                                var match = regexes.regex_0x00.Match(item.Name);
-                                string ParentTitle = match.Groups["name"].Value;
+                                episode.OriginalFilePath = item.FullName;
+                                episode.FilenameRenamed = episode.Serie.IsAnime
+                                    ? episode.ParentTitle + " - " + string.Format("{0:00}", episode.AbsoluteNumber) + " - " + episode.EpisodeName + item.Extension
+                                    : episode.ParentTitle + " - " + episode.SeasonNumber + "x" + string.Format("{0:00}", episode.EpisodeNumber) + " - " + episode.EpisodeName + item.Extension;
+                                episode.FilenameRenamed = Helper.RetirarCaracteresInvalidos(episode.FilenameRenamed);
+                                if (episode.Filename == episode.FilenameRenamed)
+                                    episode.IsRenamed = true;
+
+                                using (Context db = new Context())
+                                {
+                                    Episode episodeDB = GetEpisode(serie.IDBanco, episode.SeasonNumber, episode.EpisodeNumber);
+                                    episodeDB = db.Episode.Find(episodeDB.IDBanco);
+                                    episodeDB.FilePath = item.FullName;
+                                    episodeDB.FolderPath = episode.FolderPath;
+                                    episodeDB.IsRenamed = episode.IsRenamed;
+                                    episodeDB.OriginalFilePath = episode.OriginalFilePath;
+                                    db.SaveChanges();
+                                }
                             }
                         }
                     }
-                    db.SaveChanges();
                 }
-                return true;
             }
-            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao verificar os episódios no diretório."); return false; }
+            return true;
         }
 
         private static bool AddEpisodios(Serie atualizado)

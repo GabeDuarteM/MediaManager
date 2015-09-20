@@ -49,21 +49,33 @@ namespace MediaManager.Forms
         /// <returns></returns>
         private bool TratarArgumentos()
         {
-            string[] argsString = Environment.GetCommandLineArgs();
-
+            string[] argsArray = Environment.GetCommandLineArgs();
             bool sucesso = false;
+            string argsString = null;
 
-            for (int i = 1; i < argsString.Length; i++)
+            foreach (var item in argsArray)
             {
-                if (argsString[i].StartsWith("-"))
+                if (item == argsArray[0])
+                    continue;
+                else if (argsString == null)
+                    argsString += item;
+                else
+                    argsString += ", " + item;
+            }
+            if (argsString != null)
+                Helper.LogMessage("Aplicação iniciada com os seguintes argumentos: " + argsString);
+
+            for (int i = 1; i < argsArray.Length; i++)
+            {
+                if (argsArray[i].StartsWith("-"))
                 {
-                    string arg = argsString[i].Replace("-", "");
-                    if (argsString.Length > i + 1 && !argsString[i + 1].StartsWith("-"))
+                    string arg = argsArray[i].Replace("-", "");
+                    if (argsArray.Length > i + 1 && !argsArray[i + 1].StartsWith("-"))
                     {
-                        try { Argumentos.Add(arg, argsString[i + 1]); }
+                        try { Argumentos.Add(arg, argsArray[i + 1]); }
                         catch (Exception e)
                         {
-                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg + "\r\nDetalhes: ");
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
                             return true;
                         }
                         i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
@@ -73,14 +85,14 @@ namespace MediaManager.Forms
                         try { Argumentos.Add(arg, null); }
                         catch (Exception e)
                         {
-                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg + "\r\nDetalhes: ");
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
                             return true;
                         }
                     }
                 }
                 else
                 {
-                    if (RenomearEpisodiosDosArgumentos(argsString[i]))
+                    if (RenomearEpisodiosDosArgumentos(argsArray[i]))
                         sucesso = true;
                 }
             }

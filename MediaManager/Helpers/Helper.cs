@@ -57,7 +57,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens.\r\nDetalhes: "); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens.", true); return false; }
         }
 
         public static string ListToString(IList<string> lista)
@@ -80,8 +80,9 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.\r\nDetalhes: ", bool IsSilencioso = false)
+        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
         {
+            mensagem += "\r\nDetalhes: ";
             if (IsSilencioso)
                 LogMessage(mensagem + exception.Message);
             else
@@ -95,7 +96,7 @@ namespace MediaManager.Helpers
         /// <returns>Retorna false se ocorrer um erro</returns>
         public static bool LogMessage(string message)
         {
-            string logPath = Path.Combine(Environment.CurrentDirectory, settings.AppName + ".log");
+            string logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), settings.AppName + ".log");
             string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
             string logLine = null;
             message = message.Trim();
@@ -118,7 +119,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.\r\nDetalhes: "); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.", true); return false; }
         }
 
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
@@ -202,10 +203,7 @@ namespace MediaManager.Helpers
         public class RegexEpisodio
         {
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04
-            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*)[._\s-]S(?<season>\d{1,2})e(?<episodes>\d{1,3}(?:(?<separador>[e-])\d{1,3})*)");
-
-            // nome.da.serie.000
-            public Regex regex_000 { get; set; } = new Regex(@"^(?i)(?<name>.*)[._\s](?<episodes>\d{3,4}(?:(?<separador>[-])\d{1,3})*)");
+            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*)(?:(?:_-_)|(?: - )|(?:_)|[._-])S(?<season>\d{1,2})e(?<episodes>\d{1,3}(?:(?<separador>[e-])\d{1,3})*)");
 
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000
             public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*)\])?(?<name>.*?)(?:(?:_-_)|(?: - )|(?:_))(?<episodes>(?:\d{1,4})?(?:(?<separador>[e_-])\d{1,3})*)");

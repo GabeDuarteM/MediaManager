@@ -25,60 +25,6 @@ namespace MediaManager.Forms
             DataContext = preferenciasVM;
 
             preferenciasVM.CloseAction = new Action(() => Close());
-
-            //tbxPastaAnimes.Text = settings.pref_PastaAnimes;
-            //tbxPastaFilmes.Text = settings.pref_PastaFilmes;
-            //tbxPastaSeries.Text = settings.pref_PastaSeries;
-            //tbxPastaDownloads.Text = settings.pref_PastaDownloads;
-            //numTempoProcuraConteudo.Value = settings.pref_IntervaloDeProcuraConteudoNovo;
-            //tbxFormatoSeries.Text = settings.pref_FormatoSeries;
-            //tbxFormatoFilmes.Text = settings.pref_FormatoFilmes;
-            //tbxFormatoAnimes.Text = settings.pref_FormatoAnimes;
-            //if (settings.user_accessToken != "")
-            //{
-            //    lblUsuarioTrakt.Content = settings.user_username;
-            //    btnLoginTrakt.Content = "Sair";
-            //}
-        }
-
-        private void btnSelectSerie_Click(object sender, RoutedEventArgs e)
-        {
-            //var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            //System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //if (result == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    tbxPastaSeries.Text = dialog.SelectedPath;
-            //}
-        }
-
-        private void btnSelectFilme_Click(object sender, RoutedEventArgs e)
-        {
-            //var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            //System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //if (result == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    tbxPastaFilmes.Text = dialog.SelectedPath;
-            //}
-        }
-
-        private void btnSelectAnime_Click(object sender, RoutedEventArgs e)
-        {
-            //var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            //System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //if (result == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    tbxPastaAnimes.Text = dialog.SelectedPath;
-            //}
-        }
-
-        private void btnSelectDownloads_Click(object sender, RoutedEventArgs e)
-        {
-            //var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            //System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //if (result == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    tbxPastaDownloads.Text = dialog.SelectedPath;
-            //}
         }
 
         //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
@@ -114,25 +60,5 @@ namespace MediaManager.Forms
         //        lblUsuarioTrakt.Content = "Deslogado";
         //    }
         //}
-
-        private void btnSalvar_Click(object sender, RoutedEventArgs e)
-        {
-            //settings.pref_PastaSeries = tbxPastaSeries.Text;
-            //settings.pref_PastaFilmes = tbxPastaFilmes.Text;
-            //settings.pref_PastaAnimes = tbxPastaAnimes.Text;
-            //settings.pref_PastaDownloads = tbxPastaDownloads.Text;
-            //try { settings.pref_IntervaloDeProcuraConteudoNovo = Convert.ToInt32(numTempoProcuraConteudo.Value); }
-            //catch { MessageBox.Show("O tempo informado para a procura de conteúdo é invalido. O valor anterior será mantido."); }
-            //// TODO Salvar idioma.
-            //settings.pref_FormatoSeries = tbxFormatoSeries.Text;
-            //settings.pref_FormatoFilmes = tbxFormatoFilmes.Text;
-            //settings.pref_FormatoAnimes = tbxFormatoAnimes.Text;
-            //Properties.Settings.Default.Save();
-            //Close();
-        }
-
-        private void LimparBancoDeDados_Click(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }
