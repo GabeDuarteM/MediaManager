@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmPreferencias"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Preferências - \{0\}}"
         Height="383" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
@@ -11,15 +11,26 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="263*"/>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="64*"/>
-        </Grid.RowDefinitions>
-        <TabControl Margin="10,10,10,-19" Grid.RowSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+        <TabControl Margin="10,10,10,45" d:LayoutOverrides="LeftMargin, RightMargin">
             <TabItem Header="Geral">
                 <Grid Background="#FFE5E5E5">
-                    <GroupBox Header="Pastas" Margin="10,10,10,0" VerticalAlignment="Top" Height="186">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*" />
+                        <ColumnDefinition Width="159*" />
+                        <ColumnDefinition Width="194*" />
+                        <ColumnDefinition Width="72*" />
+                        <ColumnDefinition Width="143*" />
+                        <ColumnDefinition Width="10*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Pastas" Margin="-2,10,10,0" Grid.Column="1" Grid.ColumnSpan="5" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                         <Grid>
                             <Label Content="Séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" />
                             <Label Content="Filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,10,10" />
@@ -38,11 +49,11 @@
                             <Label Content="minutos. (min. 10)" HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,155,0" />
                         </Grid>
                     </GroupBox>
-                    <Label Content="Idioma de pesquisa:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,204,0,0" d:LayoutOverrides="HorizontalAlignment" />
-                    <ComboBox DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ListaIdiomaPesquisa}" SelectedValue="{Binding IdiomaSelecionado, Mode=TwoWay}" Margin="175,10,210,40" VerticalAlignment="Bottom" SelectedIndex="0" d:LayoutOverrides="HorizontalAlignment" />
-                    <Label Content="Método de processamento:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,230.96,0,0" d:LayoutOverrides="HorizontalAlignment" />
-                    <ComboBox Grid.Row="3" DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ListaMetodosPesquisa}" SelectedValue="{Binding MetodoPesquisaSelecionado, Mode=TwoWay}" Margin="175,10,210,10" VerticalAlignment="Bottom" SelectedIndex="0" d:LayoutOverrides="HorizontalAlignment" />
-                    <Button Content="Limpar banco de dados" HorizontalAlignment="Right" d:Margin="0,0,10,5055.08" Margin="0,0,10,18.12" VerticalAlignment="Bottom" Width="150" Command="{Binding CommandLimparBancoDeDados}" />
+                    <Label Content="Idioma de pesquisa:" Grid.Column="1" Grid.Row="2" />
+                    <Label Content="Método de processamento:" Grid.Column="1" Grid.Row="4" />
+                    <ComboBox DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ListaIdiomaPesquisa}" SelectedValue="{Binding IdiomaSelecionado, Mode=TwoWay}" Grid.Column="2" Height="23" Grid.Row="2" />
+                    <ComboBox ItemsSource="{Binding EnumMetodosDeProcessamento}" SelectedValue="{Binding MetodoDeProcessamentoSelecionado}" Grid.Column="2" Height="23" Grid.Row="4" />
+                    <Button Command="{Binding CommandLimparBancoDeDados}" Content="Limpar banco de dados" Grid.Column="4" Height="22" Grid.Row="4" />
                 </Grid>
             </TabItem>
             <TabItem Header="Renomear">
@@ -60,7 +71,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="Salvar" Margin="0,0,90,10" Width="75" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsDefault="True" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Grid.Row="2" Height="19.96" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" />
-        <Button Content="Cancelar" Margin="0,0,10,10" Width="75" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" Grid.Row="2" Height="19.96" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" />
+        <Button Content="Salvar" Margin="0,0,90,10" Width="75" HorizontalAlignment="Right" IsDefault="True" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
+        <Button Content="Cancelar" Margin="0,0,10,10" Width="75" HorizontalAlignment="Right" IsCancel="True" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

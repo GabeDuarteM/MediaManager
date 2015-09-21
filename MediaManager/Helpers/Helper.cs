@@ -19,9 +19,6 @@ namespace MediaManager.Helpers
     {
         private static Settings settings = Settings.Default;
 
-        //[DllImport("kernel32.dll")]
-        //public static extern bool CreateSymbolicLink(
-        //                string lpSymlinkFileName, string lpTargetFileName, Enums.SymbolicLink dwFlags);
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern bool CreateHardLink(
           string lpFileName,
@@ -80,6 +77,31 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static bool RealizarPosProcessamento(EpisodeToRename item)
+        {
+            switch ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento)
+            {
+                case Enums.MetodoDeProcessamento.HardLink:
+                    {
+                        if (CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed), Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                            return true;
+                        else { TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
+                    }
+                case Enums.MetodoDeProcessamento.Copiar:
+                    {
+                        try
+                        {
+                            File.Copy(Path.Combine(item.FolderPath, item.Filename), Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
+                            return true;
+                        }
+                        catch (Exception e) { TratarException(e, "Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
+                    }
+                default:
+                    TratarException(new ArgumentException("Método de processamento não reconhecido ou inválido."), "Ocorreu um erro ao realizar o pós processamento.", true);
+                    return false;
+            }
+        }
+
         public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
         {
             mensagem += "\r\nDetalhes: ";
@@ -119,7 +141,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.", true); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.", false); return false; }
         }
 
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
@@ -137,7 +159,7 @@ namespace MediaManager.Helpers
         /// <returns>Nome sem os caracteres não permitidos.</returns>
         public static string RetirarCaracteresInvalidos(string nome)
         {
-            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
+            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "").Trim();
             return nomeNormalizado;
         }
 
@@ -203,10 +225,10 @@ namespace MediaManager.Helpers
         public class RegexEpisodio
         {
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04
-            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*)(?:(?:_-_)|(?: - )|(?:_)|[._-])S(?<season>\d{1,2})e(?<episodes>\d{1,3}(?:(?<separador>[e-])\d{1,3})*)");
+            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000
-            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*)\])?(?<name>.*?)(?:(?:_-_)|(?: - )|(?:_))(?<episodes>(?:\d{1,4})?(?:(?<separador>[e_-])\d{1,3})*)");
+            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\])?(?<name>.*?)(?: - )?(?<episodes>(?:\d{2,4})(?:(?<separador>[-\s])\d{1,3})*)");
 
             // Nome da Série - 0x00 - Nome do episódio
             public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");

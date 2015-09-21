@@ -174,6 +174,7 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                     Properties.Settings.Default.pref_PastaDownloads = preferenciasVM.PastaDownloads;
                     Properties.Settings.Default.pref_PastaFilmes = preferenciasVM.PastaFilmes;
                     Properties.Settings.Default.pref_PastaSeries = preferenciasVM.PastaSeries;
+                    Properties.Settings.Default.pref_MetodoDeProcessamento = (int)preferenciasVM.MetodoDeProcessamentoSelecionado;
                     Properties.Settings.Default.Save();
 
                     if (preferenciasVM.CloseAction != null)

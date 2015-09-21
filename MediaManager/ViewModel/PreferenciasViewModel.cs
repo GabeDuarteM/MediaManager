@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using MediaManager.Commands;
+using MediaManager.Helpers;
 
 namespace MediaManager.ViewModel
 {
@@ -36,13 +37,21 @@ namespace MediaManager.ViewModel
 
         public int IntervaloDeProcuraConteudoNovo { get { return _IntervaloDeProcuraConteudoNovo; } set { _IntervaloDeProcuraConteudoNovo = value; OnPropertyChanged("IntervaloDeProcuraConteudoNovo"); } }
 
-        private Dictionary<string, string> _IdiomaPesquisa;
+        private Dictionary<string, string> _ListaIdiomaPesquisa;
 
-        public Dictionary<string, string> ListaIdiomaPesquisa { get { return _IdiomaPesquisa; } set { _IdiomaPesquisa = value; OnPropertyChanged("IdiomaPesquisa"); } }
+        public Dictionary<string, string> ListaIdiomaPesquisa { get { return _ListaIdiomaPesquisa; } set { _ListaIdiomaPesquisa = value; OnPropertyChanged("ListaIdiomaPesquisa"); } }
 
         private string _IdiomaSelecionado;
 
         public string IdiomaSelecionado { get { return _IdiomaSelecionado; } set { _IdiomaSelecionado = value; OnPropertyChanged("IdiomaSelecionado"); } }
+
+        private Array _EnumMetodosDeProcessamento;
+
+        public Array EnumMetodosDeProcessamento { get { return _EnumMetodosDeProcessamento; } set { _EnumMetodosDeProcessamento = value; OnPropertyChanged("EnumMetodosDeProcessamento"); } }
+
+        private Enums.MetodoDeProcessamento _MetodoDeProcessamentoSelecionado;
+
+        public Enums.MetodoDeProcessamento MetodoDeProcessamentoSelecionado { get { return _MetodoDeProcessamentoSelecionado; } set { _MetodoDeProcessamentoSelecionado = value; OnPropertyChanged("MetodoDeProcessamentoSelecionado"); } }
 
         public ICommand CommandLimparBancoDeDados { get; set; }
 
@@ -81,6 +90,8 @@ namespace MediaManager.ViewModel
             FormatoParaSeries = Properties.Settings.Default.pref_FormatoSeries;
             ListaIdiomaPesquisa = SetarIdiomas();
             IdiomaSelecionado = Properties.Settings.Default.pref_IdiomaPesquisa;
+            EnumMetodosDeProcessamento = Enum.GetValues(typeof(Enums.MetodoDeProcessamento));
+            MetodoDeProcessamentoSelecionado = (Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento;
             IntervaloDeProcuraConteudoNovo = Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo;
             PastaAnimes = Properties.Settings.Default.pref_PastaAnimes;
             PastaDownloads = Properties.Settings.Default.pref_PastaDownloads;

@@ -49,17 +49,23 @@ namespace MediaManager.Commands
                             if (MessageBox.Show("O episódio " + item.FilenameRenamed + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + Path.Combine(item.FolderPath, item.Filename) + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                             {
                                 File.Delete(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
-                                if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                                        Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                                if (Helper.RealizarPosProcessamento(item))
                                 {
                                     item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                                     item.IsRenamed = true;
                                     DBHelper.UpdateEpisodioRenomeado(item);
                                 }
-                                else
-                                {
-                                    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
-                                }
+                                //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
+                                //        Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                                //{
+                                //    item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
+                                //    item.IsRenamed = true;
+                                //    DBHelper.UpdateEpisodioRenomeado(item);
+                                //}
+                                //else
+                                //{
+                                //    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
+                                //}
                             }
                         }
                         else
@@ -69,18 +75,24 @@ namespace MediaManager.Commands
                     }
                     else
                     {
-                        if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                                Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                        if (Helper.RealizarPosProcessamento(item))
                         {
-                            Helper.LogMessage("O arquivo " + Path.Combine(item.Serie.FolderPath, item.FilenameRenamed) + " foi renomeado com sucesso.");
                             item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                             item.IsRenamed = true;
                             DBHelper.UpdateEpisodioRenomeado(item);
                         }
-                        else
-                        {
-                            Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
-                        }
+                        //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
+                        //        Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                        //{
+                        //    Helper.LogMessage("O arquivo " + Path.Combine(item.Serie.FolderPath, item.FilenameRenamed) + " foi renomeado com sucesso.");
+                        //    item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
+                        //    item.IsRenamed = true;
+                        //    DBHelper.UpdateEpisodioRenomeado(item);
+                        //}
+                        //else
+                        //{
+                        //    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
+                        //}
                     }
                 }
             }

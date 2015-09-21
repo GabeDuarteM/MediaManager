@@ -96,11 +96,13 @@ namespace MediaManager.Model
         {
             Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
+            var FilenameTratado = System.IO.Path.GetFileNameWithoutExtension(Filename).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+
             try
             {
-                if (regexes.regex_S00E00.IsMatch(Filename))
+                if (regexes.regex_S00E00.IsMatch(FilenameTratado))
                 {
-                    var match = regexes.regex_S00E00.Match(Filename);
+                    var match = regexes.regex_S00E00.Match(FilenameTratado);
                     ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     SeriesData data = new SeriesData();
                     List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
@@ -147,7 +149,7 @@ namespace MediaManager.Model
                             : match.Groups["separador"].Value.ToCharArray()[0];
                         EpisodeToRename episodeToClone = null;
                         if (Serie == null)
-                            Serie = DBHelper.GetSerieOuAnimePorIDApi(data.Series[0].IDApi);
+                            Serie = data.Series[0];
 
                         SeasonNumber = int.Parse(match.Groups["season"].Value);
                         EpisodeArray = match.Groups["episodes"].Value.Split(separador);
@@ -162,12 +164,22 @@ namespace MediaManager.Model
                                     episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, item.SeasonNumber, item.EpisodeNumber));
                                     if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
                                         return false;
-                                    //episodeToClone.EpisodeArray = EpisodeArray;
+                                    episodeToClone.EpisodeArray = EpisodeArray;
                                     episodeToClone.Serie = Serie;
                                     episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                                     episodeToClone.Filename = Filename;
                                     episodeToClone.FolderPath = FolderPath;
                                     episodeToClone.ParentTitle = episodeToClone.Serie.Title;
+                                    for (int i = 0; i < episodeToClone.EpisodeArray.Length; i++)
+                                    {
+                                        episodeToClone.EpisodeArray[i] = alias.Episodio + EpisodeNumber - 1 + "";
+
+                                        if (i == 0)
+                                            continue;
+
+                                        var episodeTemp = new EpisodeToRename(episodios.Find(x => x.SeasonNumber == alias.Temporada + SeasonNumber - 1 && x.EpisodeNumber == alias.Episodio + EpisodeNumber - 1));
+                                        episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
+                                    }
                                     Clone(episodeToClone);
                                 }
                             }
@@ -183,14 +195,22 @@ namespace MediaManager.Model
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
+                            foreach (var item in EpisodeArray)
+                            {
+                                if (item == EpisodeArray[0])
+                                    continue;
+
+                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(item)));
+                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
+                            }
                             Clone(episodeToClone);
                         }
                         return true;
                     }
                 }
-                else if (regexes.regex_0x00.IsMatch(Filename)) // TODO Fazer funcionar com alias
+                else if (regexes.regex_0x00.IsMatch(FilenameTratado)) // TODO Fazer funcionar com alias
                 {
-                    var match = regexes.regex_0x00.Match(Filename);
+                    var match = regexes.regex_0x00.Match(FilenameTratado);
                     SeriesData data = null;
                     if (Serie == null)
                         data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
@@ -217,6 +237,14 @@ namespace MediaManager.Model
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
+                            foreach (var itemArray in EpisodeArray)
+                            {
+                                if (itemArray == EpisodeArray[0])
+                                    continue;
+
+                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(itemArray)));
+                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
+                            }
                             Clone(episodeToClone);
                             //EpisodeArray = match.Groups["episodes"].Value.Split(separador);
                             break;
@@ -224,10 +252,10 @@ namespace MediaManager.Model
                     }
                     return true;
                 }
-                else if (regexes.regex_Fansub0000.IsMatch(Filename))
+                else if (regexes.regex_Fansub0000.IsMatch(FilenameTratado))
                 {
-                    var match = regexes.regex_Fansub0000.Match(Filename);
-                    ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    var match = regexes.regex_Fansub0000.Match(FilenameTratado);
+                    ParentTitle = match.Groups["name"].Value.Trim();
                     SeriesData data = new SeriesData();
                     SerieAlias alias = null;
                     List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
@@ -291,14 +319,24 @@ namespace MediaManager.Model
                                     var episodeToClone = new EpisodeToRename(item);
                                     if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
                                         return false;
-                                    //episodeToClone.EpisodeArray = EpisodeArray;
+                                    episodeToClone.EpisodeArray = EpisodeArray;
                                     //episodeToClone.AbsoluteNumber = AbsoluteNumber;
                                     episodeToClone.Serie = Serie;
                                     episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                                     episodeToClone.Filename = Filename;
                                     episodeToClone.FolderPath = FolderPath;
                                     episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-
+                                    for (int i = 0; i < episodeToClone.EpisodeArray.Length; i++)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
+                                            continue;
+                                        }
+                                        episodeToClone.EpisodeArray[i] = (int)primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";
+                                        var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.EpisodeArray[i])).IDTvdb));
+                                        episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
+                                    }
                                     Clone(episodeToClone);
                                     return true;
                                 }
@@ -317,7 +355,14 @@ namespace MediaManager.Model
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
+                            foreach (var itemArray in EpisodeArray)
+                            {
+                                if (itemArray == EpisodeArray[0])
+                                    continue;
 
+                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(itemArray)));
+                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
+                            }
                             Clone(episodeToClone);
                             return true;
                         }

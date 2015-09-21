@@ -51,9 +51,23 @@ namespace MediaManager.ViewModel
                     if (await episode.GetEpisodeAsync())
                     {
                         episode.OriginalFilePath = item.FullName;
-                        episode.FilenameRenamed = episode.Serie.IsAnime
-                            ? episode.ParentTitle + " - " + string.Format("{0:00}", episode.AbsoluteNumber) + " - " + episode.EpisodeName + item.Extension
-                            : episode.ParentTitle + " - " + episode.SeasonNumber + "x" + string.Format("{0:00}", episode.EpisodeNumber) + " - " + episode.EpisodeName + item.Extension;
+                        string numeroEpisodio = episode.Serie.IsAnime ? null : episode.SeasonNumber + "x";
+                        foreach (var arrayItem in episode.EpisodeArray)
+                        {
+                            if (episode.Serie.IsAnime)
+                            {
+                                if (arrayItem != episode.EpisodeArray[0])
+                                    numeroEpisodio += " & ";
+                                numeroEpisodio += int.Parse(arrayItem).ToString("00");
+                            }
+                            else
+                            {
+                                if (arrayItem != episode.EpisodeArray[0])
+                                    numeroEpisodio += "x";
+                                numeroEpisodio += int.Parse(arrayItem).ToString("00");
+                            }
+                        }
+                        episode.FilenameRenamed = episode.ParentTitle + " - " + numeroEpisodio + " - " + episode.EpisodeName + item.Extension;
                         episode.FilenameRenamed = Helper.RetirarCaracteresInvalidos(episode.FilenameRenamed);
                         episode.IsRenamed = true;
                         listaEpisodios.Add(episode);
