@@ -43,39 +43,40 @@ namespace MediaManager.ViewModel
             {
                 if (extensoesPermitidas.Contains(item.Extension))
                 {
-                    EpisodeToRename episode = new EpisodeToRename();
-                    episode.Filename = item.Name;
-                    episode.FolderPath = item.DirectoryName;
+                    EpisodeToRename episodio = new EpisodeToRename();
+                    episodio.Filename = item.Name;
+                    episodio.FolderPath = item.DirectoryName;
                     if (DBHelper.VerificarSeEpisodioJaFoiRenomeado(item.FullName))
                         continue;
-                    if (await episode.GetEpisodeAsync())
+                    if (await episodio.GetEpisodeAsync())
                     {
-                        episode.OriginalFilePath = item.FullName;
-                        string numeroEpisodio = episode.Serie.IsAnime ? null : episode.SeasonNumber + "x";
-                        foreach (var arrayItem in episode.EpisodeArray)
-                        {
-                            if (episode.Serie.IsAnime)
-                            {
-                                if (arrayItem != episode.EpisodeArray[0])
-                                    numeroEpisodio += " & ";
-                                numeroEpisodio += int.Parse(arrayItem).ToString("00");
-                            }
-                            else
-                            {
-                                if (arrayItem != episode.EpisodeArray[0])
-                                    numeroEpisodio += "x";
-                                numeroEpisodio += int.Parse(arrayItem).ToString("00");
-                            }
-                        }
-                        episode.FilenameRenamed = episode.ParentTitle + " - " + numeroEpisodio + " - " + episode.EpisodeName + item.Extension;
-                        episode.FilenameRenamed = Helper.RetirarCaracteresInvalidos(episode.FilenameRenamed);
-                        episode.IsRenamed = true;
-                        listaEpisodios.Add(episode);
+                        episodio.OriginalFilePath = item.FullName;
+                        //string numeroEpisodio = episodio.Serie.IsAnime ? null : episodio.SeasonNumber + "x";
+                        //foreach (var arrayItem in episodio.EpisodeArray)
+                        //{
+                        //    if (episodio.Serie.IsAnime)
+                        //    {
+                        //        if (arrayItem != episodio.EpisodeArray[0])
+                        //            numeroEpisodio += " & ";
+                        //        numeroEpisodio += int.Parse(arrayItem).ToString("00");
+                        //    }
+                        //    else
+                        //    {
+                        //        if (arrayItem != episodio.EpisodeArray[0])
+                        //            numeroEpisodio += "x";
+                        //        numeroEpisodio += int.Parse(arrayItem).ToString("00");
+                        //    }
+                        //}
+                        //episodio.FilenameRenamed = episodio.ParentTitle + " - " + numeroEpisodio + " - " + episodio.EpisodeName + item.Extension;
+                        //episodio.FilenameRenamed = Helper.RetirarCaracteresInvalidos(episodio.FilenameRenamed);
+                        episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + item.Extension;
+                        episodio.IsRenamed = true;
+                        listaEpisodios.Add(episodio);
                     }
                     else
                     {
-                        episode.FilenameRenamed = episode.Filename;
-                        listaEpisodiosNotFound.Add(episode);
+                        episodio.FilenameRenamed = episodio.Filename;
+                        listaEpisodiosNotFound.Add(episodio);
                     }
                 }
             }

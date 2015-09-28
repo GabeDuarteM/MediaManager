@@ -102,6 +102,105 @@ namespace MediaManager.Helpers
             }
         }
 
+        public static string RenomearConformePreferencias(EpisodeToRename episodio)
+        {
+            string formato = null;
+            switch (episodio.ContentType)
+            {
+                case Enums.ContentType.movie: // TODO Funcionar com filmes
+                    break;
+
+                case Enums.ContentType.show:
+                    formato = settings.pref_FormatoSeries;
+                    break;
+
+                case Enums.ContentType.anime:
+                    formato = settings.pref_FormatoAnimes;
+                    break;
+
+                default:
+                    TratarException(new ArgumentException("Episodio informado é de um tipo inválido."), IsSilencioso: true);
+                    return null;
+            }
+
+            Regex regex = new Regex("(?:{(?<tag>.*?)})");
+
+            foreach (Match tag in regex.Matches(formato))
+            {
+                switch (tag.Value)
+                {
+                    case "{Titulo}":
+                        formato = formato.Replace(tag.Value, episodio.ParentTitle);
+                        break;
+
+                    case "{TituloEpisodio}":
+                        formato = formato.Replace(tag.Value, episodio.EpisodeName);
+                        break;
+
+                    case "{Temporada}":
+                        formato = formato.Replace(tag.Value, episodio.SeasonNumber.ToString("00") + "");
+                        break;
+
+                    case "{Episodio}":
+                        {
+                            string ep = "";
+                            foreach (var item in episodio.EpisodeArray)
+                            {
+                                if (ep == "")
+                                    ep = string.Format("{0:00}", item);
+                                else
+                                    ep += " & " + string.Format("{0:00}", item);
+                            }
+                            formato = formato.Replace(tag.Value, ep);
+                            break;
+                        }
+                    case "{Absoluto}":
+                        {
+                            string ep = "";
+                            foreach (var item in episodio.EpisodeArray)
+                            {
+                                if (ep == "")
+                                    ep = string.Format("{0:00}", item);
+                                else
+                                    ep += " & " + string.Format("{0:00}", item);
+                            }
+                            formato = formato.Replace(tag.Value, ep);
+                            break;
+                        }
+                    case "{SxEE}":
+                        {
+                            string ep = "";
+                            foreach (var item in episodio.EpisodeArray)
+                            {
+                                if (ep == "")
+                                    ep = string.Format("{0:00}", item);
+                                else
+                                    ep += "x" + string.Format("{0:00}", item);
+                            }
+                            formato = formato.Replace(tag.Value, episodio.SeasonNumber + "x" + ep);
+                            break;
+                        }
+                    case "{S00E00}":
+                        {
+                            string ep = "";
+                            foreach (var item in episodio.EpisodeArray)
+                            {
+                                if (ep == "")
+                                    ep = string.Format("{0:00}", item);
+                                else
+                                    ep += "E" + string.Format("{0:00}", item);
+                            }
+                            formato = formato.Replace(tag.Value, "S" + episodio.SeasonNumber.ToString("00") + "E" + ep);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+            return RetirarCaracteresInvalidos(formato, false); // TODO Corrigir quando é anime o SxEE e o S00E00 para retornar o n do ep normal e não o absoluto.
+        }
+
         public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
         {
             mensagem += "\r\nDetalhes: ";
@@ -157,10 +256,12 @@ namespace MediaManager.Helpers
         /// </summary>
         /// <param name="nome">Nome do arquivo a ser normalizado.</param>
         /// <returns>Nome sem os caracteres não permitidos.</returns>
-        public static string RetirarCaracteresInvalidos(string nome)
+        public static string RetirarCaracteresInvalidos(string nome, bool retirarContraBarras = true)
         {
-            string nomeNormalizado = nome.Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "").Trim();
-            return nomeNormalizado;
+            string nomeNormalizado = nome.Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
+            if (retirarContraBarras)
+                nomeNormalizado = nomeNormalizado.Replace("\\", "");
+            return nomeNormalizado.Trim();
         }
 
         /// <summary>
@@ -224,13 +325,13 @@ namespace MediaManager.Helpers
 
         public class RegexEpisodio
         {
-            // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04
+            // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
             public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
-            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000
-            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\])?(?<name>.*?)(?: - )?(?<episodes>(?:\d{2,4})(?:(?<separador>[-\s])\d{1,3})*)");
+            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/2
+            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:ep(?:\s{0,})?)?(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
 
-            // Nome da Série - 0x00 - Nome do episódio
+            // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/1
             public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
         }
 

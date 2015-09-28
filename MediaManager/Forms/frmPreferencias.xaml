@@ -58,9 +58,9 @@
             </TabItem>
             <TabItem Header="Renomear">
                 <Grid Background="#FFE5E5E5">
-                    <xctk:WatermarkTextBox Text="{Binding FormatoParaSeries}" Watermark="{}{Nome} - {S00E00} - {Titulo}" VerticalAlignment="Top" Height="23" Margin="170,10,10,10" TextWrapping="NoWrap" />
-                    <xctk:WatermarkTextBox Text="{Binding FormatoParaFilmes}" Watermark="{}{Nome} ({Ano})" VerticalAlignment="Top" Height="23" Margin="170,38,10,10" TextWrapping="NoWrap" />
-                    <xctk:WatermarkTextBox Text="{Binding FormatoParaAnimes}" Watermark="{}{Nome} - {Absoluto} - {Titulo}" VerticalAlignment="Top" Height="23" Margin="170,66,10,10" TextWrapping="NoWrap" />
+                    <xctk:WatermarkTextBox Text="{Binding FormatoParaSeries}" Watermark="{}{Titulo} - {SxEE} - {TituloEpisodio}" VerticalAlignment="Top" Height="23" Margin="170,10,10,10" TextWrapping="NoWrap" />
+                    <xctk:WatermarkTextBox Text="{Binding FormatoParaFilmes}" Watermark="{}{Titulo} ({Ano})" VerticalAlignment="Top" Height="23" Margin="170,38,10,10" TextWrapping="NoWrap" />
+                    <xctk:WatermarkTextBox Text="{Binding FormatoParaAnimes}" Watermark="{}{Titulo} - {Absoluto} - {TituloEpisodio}" VerticalAlignment="Top" Height="23" Margin="170,66,10,10" TextWrapping="NoWrap" />
                     <Label Content="Formato para séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,10,10" />
                     <Label Content="Formato para filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,10,10" />
                     <Label Content="Formato para animes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10" />

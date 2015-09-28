@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MediaManager.Helpers;
 
@@ -11,13 +11,21 @@ namespace MediaManager.Model
     public class EpisodeToRename : Episode, INotifyPropertyChanged
     {
         private string _Filename;
+
         private string _FilenameRenamed;
+
         private bool _IsSelected = true;
 
         public Enums.ContentType ContentType { get; set; }
+
         public string ContentTypeString { get { return Enums.ToString(ContentType); } }
-        public string[] EpisodeArray { get; set; } // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
+
+        public List<string> EpisodeArray { get; set; } = new List<string>(); // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
+
+        public List<string> AbsoluteArray { get; set; } = new List<string>();// Para quando tiver mais de um episódio absoluto
+
         public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged("Filename"); } }
+
         public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged("FilenameRenamed"); } }
 
         [NotMapped]
@@ -68,6 +76,7 @@ namespace MediaManager.Model
             Artwork = episode.Artwork;
             ContentType = episode.ContentType;
             EpisodeArray = episode.EpisodeArray;
+            AbsoluteArray = episode.AbsoluteArray;
             EpisodeName = episode.EpisodeName;
             EpisodeNumber = episode.EpisodeNumber;
             Filename = episode.Filename;
@@ -152,7 +161,7 @@ namespace MediaManager.Model
                             Serie = data.Series[0];
 
                         SeasonNumber = int.Parse(match.Groups["season"].Value);
-                        EpisodeArray = match.Groups["episodes"].Value.Split(separador);
+                        EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(separador));
                         EpisodeNumber = int.Parse(EpisodeArray[0]);
                         if (alias != null)
                         {
@@ -165,12 +174,13 @@ namespace MediaManager.Model
                                     if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
                                         return false;
                                     episodeToClone.EpisodeArray = EpisodeArray;
+                                    episodeToClone.AbsoluteArray = AbsoluteArray;
                                     episodeToClone.Serie = Serie;
                                     episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                                     episodeToClone.Filename = Filename;
                                     episodeToClone.FolderPath = FolderPath;
                                     episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                                    for (int i = 0; i < episodeToClone.EpisodeArray.Length; i++)
+                                    for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
                                     {
                                         episodeToClone.EpisodeArray[i] = alias.Episodio + EpisodeNumber - 1 + "";
 
@@ -226,7 +236,7 @@ namespace MediaManager.Model
                             : match.Groups["separador"].Value.ToCharArray()[0];
                             Serie = DBHelper.GetSerieOuAnimePorIDApi(item.IDApi);
                             SeasonNumber = int.Parse(match.Groups["season"].Value);
-                            EpisodeArray = match.Groups["episodes"].Value.Split(separador);
+                            EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(separador));
                             EpisodeNumber = int.Parse(EpisodeArray[0]);
                             EpisodeToRename episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, EpisodeNumber));
                             if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
@@ -301,12 +311,12 @@ namespace MediaManager.Model
 
                     if (data.Series != null && DBHelper.VerificaSeExiste(data.Series[0].IDApi))
                     {
-                        char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) // Para quando se tem multi-episódios
-                            ? default(char)
-                            : match.Groups["separador"].Value.ToCharArray()[0];
+                        string separador = string.IsNullOrEmpty(match.Groups["separador"].Value) // Para quando se tem multi-episódios
+                            ? default(string)
+                            : match.Groups["separador"].Value;
                         if (Serie == null)
                             Serie = DBHelper.GetSerieOuAnimePorIDApi(data.Series[0].IDApi);
-                        EpisodeArray = match.Groups["episodes"].Value.Split(separador);
+                        EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(new[] { separador }, StringSplitOptions.None));
                         AbsoluteNumber = int.Parse(EpisodeArray[0]);
                         if (alias != null) // Entra se estiver utilizando alias para identificar a serie
                         {
@@ -326,11 +336,12 @@ namespace MediaManager.Model
                                     episodeToClone.Filename = Filename;
                                     episodeToClone.FolderPath = FolderPath;
                                     episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                                    for (int i = 0; i < episodeToClone.EpisodeArray.Length; i++)
+                                    for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
                                     {
                                         if (i == 0)
                                         {
-                                            episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
+                                            //episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
+                                            episodeToClone.AbsoluteArray.Add(item.AbsoluteNumber+"");
                                             continue;
                                         }
                                         episodeToClone.EpisodeArray[i] = (int)primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";
@@ -349,6 +360,7 @@ namespace MediaManager.Model
                             if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
                                 return false;
                             episodeToClone.EpisodeArray = EpisodeArray;
+                            episodeToClone.AbsoluteArray = new List<string>();
                             episodeToClone.AbsoluteNumber = AbsoluteNumber;
                             episodeToClone.Serie = Serie;
                             episodeToClone.ContentType = episodeToClone.Serie.ContentType;
@@ -357,10 +369,11 @@ namespace MediaManager.Model
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
                             foreach (var itemArray in EpisodeArray)
                             {
+                                episodeToClone.AbsoluteArray.Add(itemArray);
                                 if (itemArray == EpisodeArray[0])
                                     continue;
 
-                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(itemArray)));
+                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, episodeToClone.SeasonNumber, int.Parse(itemArray)));
                                 episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
                             }
                             Clone(episodeToClone);
@@ -369,7 +382,7 @@ namespace MediaManager.Model
                     }
                 }
             }
-            catch (System.Exception e) { Helper.TratarException(e, "Ocorreu um erro ao reconhecer o episódio " + Filename, true); } // TODO Retirar o System e botar using
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao reconhecer o episódio " + Filename, true); }
             return false;
         }
 
