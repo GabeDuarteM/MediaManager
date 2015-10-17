@@ -60,8 +60,9 @@ namespace MediaManager.Forms
                     break;
                 }
             }
-            if (frmConfigConteudo.DialogResult == true)
+            if (frmConfigConteudo.ConfigurarConteudoVM.IsAcaoRemover)
             {
+                Close();
             }
         }
 

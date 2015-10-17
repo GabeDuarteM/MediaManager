@@ -294,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DELETE CONTENT.sql" />
+    <Resource Include="Resources\ICONE_Lixeira.png" />
     <Resource Include="Resources\IMG_FanartDefault.png" />
     <Resource Include="Resources\IMG_BannerDefault.png" />
     <Resource Include="Resources\IMG_PosterDefault.png" />

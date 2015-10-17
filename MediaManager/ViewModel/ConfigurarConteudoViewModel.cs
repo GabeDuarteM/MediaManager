@@ -20,17 +20,22 @@ namespace MediaManager.ViewModel
         private int _Episodio;
         private SerieAlias _SelectedAlias;
 
-        //private ObservableCollection<SerieAlias> _SerieAliases;
         private Video _Video;
 
         public string AliasName { get { return _AliasName; } set { _AliasName = value; OnPropertyChanged("AliasName"); } }
+
         public string TemporadaStr { get { return Temporada > 0 ? "S" + _Temporada.ToString("00") : "S"; } set { _Temporada = ValidarPossivelTexto(value, _Temporada); OnPropertyChanged("Temporada"); } }
+
         public int Temporada { get { return _Temporada; } set { _Temporada = value; OnPropertyChanged("Temporada"); } }
+
         public string EpisodioStr { get { return Episodio > 0 ? "E" + _Episodio.ToString("00") : "E"; } set { _Episodio = ValidarPossivelTexto(value, _Episodio); OnPropertyChanged("Episodio"); } }
+
         public int Episodio { get { return _Episodio; } set { _Episodio = value; OnPropertyChanged("Episodio"); } }
+
+        public bool IsAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
+
         public SerieAlias SelectedAlias { get { return _SelectedAlias; } set { _SelectedAlias = value; OnPropertyChanged("SelectedAlias"); } }
 
-        //public ObservableCollection<SerieAlias> SerieAliases { get { return _SerieAliases; } set { _SerieAliases = value; OnPropertyChanged("SerieAliases"); } }
         public Video Video { get { return _Video; } set { _Video = value; OnPropertyChanged("Video"); } }
 
         public Action ActionDialogResult { get; set; }
@@ -38,9 +43,14 @@ namespace MediaManager.ViewModel
         public Action ActionClose { get; set; }
 
         public ICommand DoubleClickCommand { get; set; }
+
         public ICommand AddAlias { get; set; }
+
         public ICommand RemoveAlias { get; set; }
+
         public ICommand CommandSalvar { get; set; }
+
+        public ICommand CommandRemoverSerie { get; set; }
 
         public ConfigurarConteudoViewModel(Video video)
         {
@@ -53,6 +63,7 @@ namespace MediaManager.ViewModel
             AddAlias = new ConfigurarConteudoCommands.AddAlias();
             RemoveAlias = new ConfigurarConteudoCommands.RemoveAlias();
             CommandSalvar = new ConfigurarConteudoCommands.CommandSalvar();
+            CommandRemoverSerie = new ConfigurarConteudoCommands.CommandRemoverSerie();
         }
 
         private int ValidarPossivelTexto(string valor, int valorAntigo)

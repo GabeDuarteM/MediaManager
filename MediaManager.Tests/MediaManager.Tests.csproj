@@ -55,7 +55,6 @@
     <Compile Include="Helper.cs" />
     <Compile Include="TestesReconhecimentoDaSerie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestesNaoAutomatizados.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaManager\MediaManager.csproj">

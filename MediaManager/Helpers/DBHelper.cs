@@ -321,6 +321,36 @@ namespace MediaManager.Helpers
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar a série \"" + serie.Title + "\" ao banco.", true); return false; }
         }
 
+        // Efeito cascata se encarrega de remover tudo relacionado a ela nas outras tabelas.
+        public static bool RemoverSerieOuAnime(Serie serie)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    db.Serie.Remove(serie);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime \"" + serie.Title + "\"."); return false; }
+        }
+
+        // Efeito cascata se encarrega de remover tudo relacionado a ela nas outras tabelas.
+        public static bool RemoverSerieOuAnimePorID(int ID)
+        {
+            try
+            {
+                using (Context db = new Context())
+                {
+                    db.Serie.Remove(db.Serie.Find(ID));
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime com ID " + ID + "."); return false; }
+        }
+
         private static bool VerificaEpisodiosNoDiretorio(Serie serie)
         {
             try
@@ -423,38 +453,70 @@ namespace MediaManager.Helpers
             int levenshtein = int.MaxValue;
             using (Context db = new Context())
             {
-                foreach (var item in titulo.Replace(".", " ").Replace("_", " ").Split(' '))
+                try
                 {
-                    if (item.Length <= 3)
+                    // Verifica se existe série com nome igual, se tiver seta como melhor correspondencia e a retorna direto.
+                    var series = from serieDB in db.Serie
+                                 where serieDB.Title == titulo
+                                 select serieDB;
+                    if (series.Count() > 0)
                     {
-                        continue;
+                        levenshtein = 0;
+                        melhorCorrespondencia = series.First();
+                        return melhorCorrespondencia;
                     }
 
-                    try
+                    // Verifica se existem séries que contenham o título citado e calcula o levenshtein.
+                    series = from serieDB in db.Serie
+                             where serieDB.Title.Contains(titulo)
+                             select serieDB;
+
+                    foreach (var serie in series)
                     {
-                        var series = from seriesDB in db.Serie where seriesDB.Title.Contains(item) select seriesDB;
-                        foreach (var serie in series)
+                        int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.Title);
+                        if (levensTemp < levenshtein)
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.Title);
-                            if (levensTemp < levenshtein)
-                            {
-                                levenshtein = levensTemp;
-                                melhorCorrespondencia = serie;
-                            }
+                            levenshtein = levensTemp;
+                            melhorCorrespondencia = serie;
                         }
-                        var aliases = from aliasDB in db.SerieAlias where aliasDB.AliasName.Contains(item) select aliasDB;
-                        foreach (var alias in aliases)
+                    }
+
+                    // Caso a série possua mais de uma palavra, realiza uma pesquisa no banco por cada palavra que tenha mais de 3 letras
+                    // (para evitar falsos positivos com palavras tipo "The") e calcula o levenshtein
+                    if (titulo.Replace(".", " ").Replace("_", " ").Split(' ').Count() > 1)
+                    {
+                        foreach (var item in titulo.Replace(".", " ").Replace("_", " ").Split(' '))
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, alias.AliasName);
-                            if (levensTemp < levenshtein)
+                            if (item.Length <= 3)
                             {
-                                levenshtein = levensTemp;
-                                melhorCorrespondencia = GetSeriePorID(alias.IDSerie);
+                                continue;
+                            }
+
+                            series = from serieDB in db.Serie where serieDB.Title.Contains(item) select serieDB;
+                            foreach (var serie in series)
+                            {
+                                int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.Title);
+                                if (levensTemp < levenshtein)
+                                {
+                                    levenshtein = levensTemp;
+                                    melhorCorrespondencia = serie;
+                                }
+                            }
+
+                            var aliases = from aliasDB in db.SerieAlias where aliasDB.AliasName.Contains(item) select aliasDB;
+                            foreach (var alias in aliases)
+                            {
+                                int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, alias.AliasName);
+                                if (levensTemp < levenshtein)
+                                {
+                                    levenshtein = levensTemp;
+                                    melhorCorrespondencia = GetSeriePorID(alias.IDSerie);
+                                }
                             }
                         }
                     }
-                    catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
                 }
+                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
                 return melhorCorrespondencia;
             }
         }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Properties;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -129,6 +131,30 @@ namespace MediaManager.Commands
                     ConfigurarConteudoViewModel configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                     configurarConteudoVM.ActionDialogResult();
                     configurarConteudoVM.ActionClose();
+                }
+            }
+        }
+
+        public class CommandRemoverSerie : ICommand
+        {
+            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).Video.IDBanco > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+
+            public void Execute(object parameter)
+            {
+                if (MessageBox.Show("Você realmente deseja remover " + ((parameter as ConfigurarConteudoViewModel).Video.ContentType == Enums.ContentType.show ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    DBHelper.RemoverSerieOuAnimePorID((parameter as ConfigurarConteudoViewModel).Video.IDBanco);
+                    (parameter as ConfigurarConteudoViewModel).IsAcaoRemover = true;
+                    (parameter as ConfigurarConteudoViewModel).ActionClose();
                 }
             }
         }

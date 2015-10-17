@@ -12,8 +12,19 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <xctk:WatermarkTextBox Watermark="Formato de renomeio customizado...(Ainda não funfa :))" ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="10,10,10,0" />
-        <GroupBox Header="Alias" Margin="10,36.96,10,34.96">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="234*"/>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="286*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <xctk:WatermarkTextBox Watermark="Formato de renomeio customizado...(Ainda não funfa :))" ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,0,0" Grid.Column="1" Grid.ColumnSpan="2" />
+        <GroupBox Header="Alias" Margin="1,36.96,0,-0.315" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid Margin="0,1.12,1,0.667">
                 <xctk:WatermarkTextBox Text="{Binding AliasName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..." ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="0,0,115.667,0" />
                 <xctk:WatermarkTextBox MaxLength="4" Text="{Binding TemporadaStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
@@ -32,7 +43,10 @@
                 </DataGrid>
             </Grid>
         </GroupBox>
-        <Button Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" IsCancel="True" />
-        <Button Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,10,90,10" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" />
+        <Button Content="Cancelar" HorizontalAlignment="Right" Margin="0,5.315,0,3.725" Width="75" IsCancel="True" Grid.Row="1" d:LayoutOverrides="Height" Grid.Column="2" />
+        <Button Content="Salvar" HorizontalAlignment="Left" Margin="1,5.315,0,3.725" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Grid.Row="1" d:LayoutOverrides="Height" Grid.Column="2" />
+        <Button Grid.Column="1" HorizontalAlignment="Left" Margin="5,5.315,0,4.685" Grid.Row="1" Width="26" Command="{Binding CommandRemoverSerie}" CommandParameter="{Binding}" ToolTip="Remover série">
+            <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png"/>
+        </Button>
     </Grid>
 </Window>

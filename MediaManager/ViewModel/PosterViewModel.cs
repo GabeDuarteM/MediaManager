@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -42,7 +43,7 @@ namespace MediaManager.ViewModel
                         //    Poster.ImgPoster = Path.Combine(filme.FolderMetadata, "poster.jpg");
                         //    Poster.Type = Enums.TipoConteudo.movie;
                         //}
-                        break;
+                        throw new NotImplementedException();
                     }
                 case Enums.ContentType.show:
                     {
@@ -50,17 +51,21 @@ namespace MediaManager.ViewModel
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
-                        if (frmAdicionarConteudo.DialogResult == true)
-                        {
-                            if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                                Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-                            else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
-                                Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                        //if (frmAdicionarConteudo.DialogResult == true)
+                        //{
+                        //    if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                        //        Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                        //    else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
+                        //        Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
-                            //Poster.IDBanco = serie.IDBanco;
-                            //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
-                            //Poster.ContentType = Enums.ContentType.show;
-                        }
+                        //    //Poster.IDBanco = serie.IDBanco;
+                        //    //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
+                        //    //Poster.ContentType = Enums.ContentType.show;
+                        //}
+                        //
+                        /// Parte acima substituída pela linha abaixo :)
+
+                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.show);
                         break;
                     }
                 case Enums.ContentType.anime:
@@ -69,17 +74,21 @@ namespace MediaManager.ViewModel
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
-                        if (frmAdicionarConteudo.DialogResult == true)
-                        {
-                            if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                                Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-                            else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
-                                Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                        //if (frmAdicionarConteudo.DialogResult == true)
+                        //{
+                        //    if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                        //        Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
+                        //    else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
+                        //        Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
 
-                            //Poster.IDBanco = anime.IDBanco;
-                            //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
-                            //Poster.ContentType = Enums.ContentType.anime;
-                        }
+                        //    //Poster.IDBanco = anime.IDBanco;
+                        //    //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
+                        //    //Poster.ContentType = Enums.ContentType.anime;
+                        //}
+                        //
+                        /// Parte acima substituída pela linha abaixo :)
+
+                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.anime);
                         break;
                     }
                 default:
