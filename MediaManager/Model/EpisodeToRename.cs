@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Threading.Tasks;
 using MediaManager.Helpers;
 
@@ -101,7 +102,7 @@ namespace MediaManager.Model
             ThumbAddedDate = episode.ThumbAddedDate;
         }
 
-        public async Task<bool> GetEpisodeAsync()
+        public bool GetEpisode()
         {
             Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
@@ -115,40 +116,56 @@ namespace MediaManager.Model
                     ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     SeriesData data = new SeriesData();
                     List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    SerieAlias alias = null;
-                    foreach (var item in listaAlias)
+
+                    SerieAlias alias = listaAlias.Where(x => x.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle).FirstOrDefault();
+                    if (Serie == null && alias != null)
                     {
-                        if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                        {
-                            if (Serie == null)
-                                data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
-                            alias = item;
-                            break;
-                        }
+                        data.Series = new Serie[1] { DBHelper.GetSeriePorID(alias.IDSerie) };
                     }
+
+                    //foreach (var item in listaAlias)
+                    //{
+                    //    if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
+                    //    {
+                    //        if (Serie == null)
+                    //            data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
+                    //        alias = item;
+                    //        break;
+                    //    }
+                    //}
                     if (Serie != null)
                         data = new SeriesData() { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
                     else
                     {
-                        List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
-                        if (listaSeriesBanco.Count > 0)
+                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(ParentTitle);
+                        if (serieTemp != null)
                         {
-                            foreach (var item in listaSeriesBanco)
-                            {
-                                if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                                {
-                                    data.Series = new Serie[1] { item };
-                                    break;
-                                }
-                            }
-                            if (data.Series == null)
-                                data.Series = new Serie[1] { listaSeriesBanco[0] };
+                            Serie = serieTemp;
+                            data.Series = new Serie[1] { serieTemp };
                         }
-                        if (data.Series == null)
-                            data = await APIRequests.GetSeriesAsync(ParentTitle, false);
 
-                        if (data.Series == null)
-                            data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
+                        //List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
+                        //if (listaSeriesBanco.Count > 0)
+                        //{
+                        //    foreach (var item in listaSeriesBanco)
+                        //    {
+                        //        if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
+                        //        {
+                        //            data.Series = new Serie[1] { item };
+                        //            break;
+                        //        }
+                        //    }
+                        //    if (data.Series == null)
+                        //        data.Series = new Serie[1] { listaSeriesBanco[0] };
+                        //}
+                        //if (data.Series == null)
+                        //{
+                        //    data = await APIRequests.GetSeriesAsync(ParentTitle, false);
+
+                        //}
+
+                        //if (data.Series == null)
+                        //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
                     }
 
                     if (data.Series != null && DBHelper.VerificaSeExiste(data.Series[0].IDApi))
@@ -223,9 +240,19 @@ namespace MediaManager.Model
                     var match = regexes.regex_0x00.Match(FilenameTratado);
                     SeriesData data = null;
                     if (Serie == null)
-                        data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
+                    {
+                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(match.Groups["name"].Value);
+                        if (serieTemp != null)
+                        {
+                            data = new SeriesData() { Series = new Serie[1] { serieTemp } };
+                            Serie = serieTemp;
+                        }
+                    }
+                    //data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
                     else
+                    {
                         data = new SeriesData() { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
+                    }
 
                     foreach (var item in data.Series)
                     {
@@ -267,46 +294,57 @@ namespace MediaManager.Model
                     var match = regexes.regex_Fansub0000.Match(FilenameTratado);
                     ParentTitle = match.Groups["name"].Value.Trim();
                     SeriesData data = new SeriesData();
-                    SerieAlias alias = null;
                     List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    foreach (var item in listaAlias)
+                    SerieAlias alias = listaAlias.Where(x => x.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle).FirstOrDefault();
+                    if (Serie == null && alias != null)
                     {
-                        if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                        {
-                            if (Serie == null)
-                                data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
-                            alias = item;
-                            break;
-                        }
+                        data.Series = new Serie[1] { DBHelper.GetSeriePorID(alias.IDSerie) };
                     }
+                    //foreach (var item in listaAlias)
+                    //{
+                    //    if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
+                    //    {
+                    //        if (Serie == null)
+                    //            data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
+                    //        alias = item;
+                    //        break;
+                    //    }
+                    //}
                     if (Serie != null)
                         data = new SeriesData { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
                     else
                     {
-                        List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
-                        if (listaSeriesBanco.Count > 0)
+                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(ParentTitle);
+                        if (serieTemp != null)
                         {
-                            foreach (var item in listaSeriesBanco)
-                            {
-                                if (item.Title.Replace(".", " ").Replace("_", " ") == ParentTitle)
-                                {
-                                    data.Series = new Serie[1] { item };
-                                    break;
-                                }
-                                else if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "") == ParentTitle.Replace("'", ""))
-                                {
-                                    data.Series = new Serie[1] { item };
-                                    break;
-                                }
-                            }
-                            if (data.Series == null)
-                                data.Series = new Serie[1] { listaSeriesBanco[0] };
+                            Serie = serieTemp;
+                            data.Series = new Serie[1] { serieTemp };
                         }
-                        if (data.Series == null)
-                            data = await APIRequests.GetSeriesAsync(ParentTitle, false);
 
-                        if (data.Series == null)
-                            data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
+                        //List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
+                        //if (listaSeriesBanco.Count > 0)
+                        //{
+                        //    foreach (var item in listaSeriesBanco)
+                        //    {
+                        //        if (item.Title.Replace(".", " ").Replace("_", " ") == ParentTitle)
+                        //        {
+                        //            data.Series = new Serie[1] { item };
+                        //            break;
+                        //        }
+                        //        else if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "") == ParentTitle.Replace("'", ""))
+                        //        {
+                        //            data.Series = new Serie[1] { item };
+                        //            break;
+                        //        }
+                        //    }
+                        //    if (data.Series == null)
+                        //        data.Series = new Serie[1] { listaSeriesBanco[0] };
+                        //}
+                        //if (data.Series == null)
+                        //    data = await APIRequests.GetSeriesAsync(ParentTitle, false);
+
+                        //if (data.Series == null)
+                        //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
                     }
 
                     if (data.Series != null && DBHelper.VerificaSeExiste(data.Series[0].IDApi))
@@ -341,7 +379,7 @@ namespace MediaManager.Model
                                         if (i == 0)
                                         {
                                             //episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
-                                            episodeToClone.AbsoluteArray.Add(item.AbsoluteNumber+"");
+                                            episodeToClone.AbsoluteArray.Add(item.AbsoluteNumber + "");
                                             continue;
                                         }
                                         episodeToClone.EpisodeArray[i] = (int)primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";

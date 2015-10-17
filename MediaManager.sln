@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowRenamer", "..\..\..\Vis
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupProjectWix", "SetupProjectWix\SetupProjectWix.wixproj", "{11A87047-1CD7-4777-A403-CBEC67CF6340}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaManager.Tests", "MediaManager.Tests\MediaManager.Tests.csproj", "{7AE73210-8295-4652-87B8-916F779F0A48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,14 @@ Global
 		{11A87047-1CD7-4777-A403-CBEC67CF6340}.Release|Any CPU.ActiveCfg = Release|x86
 		{11A87047-1CD7-4777-A403-CBEC67CF6340}.Release|x86.ActiveCfg = Release|x86
 		{11A87047-1CD7-4777-A403-CBEC67CF6340}.Release|x86.Build.0 = Release|x86
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Debug|x86.Build.0 = Debug|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Release|x86.ActiveCfg = Release|Any CPU
+		{7AE73210-8295-4652-87B8-916F779F0A48}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -315,13 +315,13 @@ namespace MediaManager.Helpers
                     db.Serie.Add(serie);
                     db.SaveChanges();
                 }
-                await VerificaEpisodiosNoDiretorioAsync(serie);
+                VerificaEpisodiosNoDiretorio(serie);
                 return true;
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o conteúdo.", true); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar a série \"" + serie.Title + "\" ao banco.", true); return false; }
         }
 
-        private static async Task<bool> VerificaEpisodiosNoDiretorioAsync(Serie serie)
+        private static bool VerificaEpisodiosNoDiretorio(Serie serie)
         {
             try
             {
@@ -339,7 +339,7 @@ namespace MediaManager.Helpers
                             episode.FolderPath = item.DirectoryName;
                             episode.Serie = serie;
 
-                            if (await episode.GetEpisodeAsync())
+                            if (episode.GetEpisode())
                             {
                                 episode.OriginalFilePath = item.FullName;
                                 episode.FilenameRenamed = episode.Serie.IsAnime
@@ -364,7 +364,7 @@ namespace MediaManager.Helpers
                     }
                 }
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao verificar os episódios no diretório."); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.Title + "\".", true); return false; }
             return true;
         }
 
@@ -400,7 +400,7 @@ namespace MediaManager.Helpers
                     return true;
                 }
             }
-            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o episódio com o ID " + episode.IDTvdb + " ao banco.", true); return false; }
         }
 
         public static bool AddSerieAlias(SerieAlias alias)
@@ -414,9 +414,48 @@ namespace MediaManager.Helpers
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias \"" + alias.AliasName + "\" ao banco.", true); return false; }
+        }
+
+        public static Serie GetSerieOuAnimePorLevenshtein(string titulo)
+        {
+            Serie melhorCorrespondencia = null;
+            int levenshtein = int.MaxValue;
+            using (Context db = new Context())
             {
-                return false;
+                foreach (var item in titulo.Replace(".", " ").Replace("_", " ").Split(' '))
+                {
+                    if (item.Length <= 3)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        var series = from seriesDB in db.Serie where seriesDB.Title.Contains(item) select seriesDB;
+                        foreach (var serie in series)
+                        {
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.Title);
+                            if (levensTemp < levenshtein)
+                            {
+                                levenshtein = levensTemp;
+                                melhorCorrespondencia = serie;
+                            }
+                        }
+                        var aliases = from aliasDB in db.SerieAlias where aliasDB.AliasName.Contains(item) select aliasDB;
+                        foreach (var alias in aliases)
+                        {
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, alias.AliasName);
+                            if (levensTemp < levenshtein)
+                            {
+                                levenshtein = levensTemp;
+                                melhorCorrespondencia = GetSeriePorID(alias.IDSerie);
+                            }
+                        }
+                    }
+                    catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
+                }
+                return melhorCorrespondencia;
             }
         }
 
@@ -438,11 +477,7 @@ namespace MediaManager.Helpers
                     return true;
                 }
             }
-            catch (Exception e)
-            {
-                Console.Write(e.Message);
-                return false;
-            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias padrão do video \"" + video.Title + "\" ao banco.", true); return false; }
         }
 
         public async static Task<bool> UpdateSerieAsync(Serie atualizado)
@@ -473,11 +508,7 @@ namespace MediaManager.Helpers
                     }
                 }
             }
-            catch (Exception e)
-            {
-                MessageBox.Show("Ocorreu um erro ao tentar atualizar a série no banco de dados.\r\nErro:" + e.Message, Properties.Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar a série \"" + atualizado.Title + "\" no banco.", true); return false; }
 
             if (isDiferente || serieOld.FolderMetadata != atualizado.FolderMetadata) // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
             {
@@ -541,7 +572,7 @@ namespace MediaManager.Helpers
                     else return false;
                 }
             }
-            catch (Exception e) { Console.WriteLine(e.InnerException); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar o episódio de ID " + atualizado.IDTvdb + " no banco.", true); return false; }
         }
 
         public static bool UpdateEpisodioRenomeado(Episode atualizado)
@@ -575,10 +606,7 @@ namespace MediaManager.Helpers
                     return true;
                 }
             }
-            catch
-            {
-                return false;
-            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover o alias \"" + alias.AliasName + "\" do banco.", true); return false; }
         }
 
         public static bool VerificarSeEpisodioJaFoiRenomeado(string filePath)

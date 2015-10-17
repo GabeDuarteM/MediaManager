@@ -203,11 +203,60 @@ namespace MediaManager.Helpers
 
         public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
         {
+            if (exception.TargetSite != null && !string.IsNullOrWhiteSpace(exception.TargetSite.Name))
+            {
+                mensagem += "\r\nMethod Name: " + exception.TargetSite.Name;
+            }
+
             mensagem += "\r\nDetalhes: ";
             if (IsSilencioso)
+            {
                 LogMessage(mensagem + exception.Message);
+            }
             else
+            {
                 MessageBox.Show(mensagem + exception.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public static int CalcularAlgoritimoLevenshtein(string origem, string destino)
+        {
+            if (string.IsNullOrEmpty(origem))
+            {
+                if (string.IsNullOrEmpty(destino)) return 0;
+                return destino.Length;
+            }
+            if (string.IsNullOrEmpty(destino)) return origem.Length;
+
+            if (origem.Length > destino.Length)
+            {
+                var temp = destino;
+                destino = origem;
+                origem = temp;
+            }
+
+            var m = destino.Length;
+            var n = origem.Length;
+            var distance = new int[2, m + 1];
+            // Initialize the distance 'matrix'
+            for (var j = 1; j <= m; j++) distance[0, j] = j;
+
+            var currentRow = 0;
+            for (var i = 1; i <= n; ++i)
+            {
+                currentRow = i & 1;
+                distance[currentRow, 0] = i;
+                var previousRow = currentRow ^ 1;
+                for (var j = 1; j <= m; j++)
+                {
+                    var cost = (destino[j - 1] == origem[i - 1] ? 0 : 1);
+                    distance[currentRow, j] = Math.Min(Math.Min(
+                                distance[previousRow, j] + 1,
+                                distance[currentRow, j - 1] + 1),
+                                distance[previousRow, j - 1] + cost);
+                }
+            }
+            return distance[currentRow, m];
         }
 
         /// <summary>
@@ -217,7 +266,16 @@ namespace MediaManager.Helpers
         /// <returns>Retorna false se ocorrer um erro</returns>
         public static bool LogMessage(string message)
         {
-            string logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), settings.AppName + ".log");
+            string logPath = null;
+            // O Try abaixo é só para evitar erros ao rodar os testes unitários.
+            try
+            {
+                logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), settings.AppName + ".log");
+            }
+            catch
+            {
+                return false;
+            }
             string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
             string logLine = null;
             message = message.Trim();
@@ -328,8 +386,8 @@ namespace MediaManager.Helpers
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
             public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
-            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/2
-            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:ep(?:\s{0,})?)?(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
+            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/4
+            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:(?:ep|Episode)(?:\s{0,})?)?(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
 
             // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/1
             public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");

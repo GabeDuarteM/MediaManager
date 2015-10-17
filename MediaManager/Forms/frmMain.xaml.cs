@@ -22,6 +22,8 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
+            //Teste();
+
             Argumentos = new Dictionary<string, string>();
 
             if (TratarArgumentos())
@@ -39,8 +41,6 @@ namespace MediaManager.Forms
             timerAtualizarConteudo.Start();
 
             APIRequests.GetAtualizacoes();
-
-            //Teste();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace MediaManager.Forms
                 if (item == argsArray[0])
                     continue;
                 else if (argsString == null)
-                    argsString += item;
+                    argsString += "\"" + item + "\"";
                 else
                     argsString += ", " + item;
             }
@@ -133,24 +133,28 @@ namespace MediaManager.Forms
 
         private /*async*/ void Teste() // TODO Apagar método.
         {
-            ///* Pra criar cenarios de teste
+            Dictionary<string, string> a = new Dictionary<string, string>();
+            //* Pra criar cenarios de teste
             var arquivosPath = "D:\\Videos\\Downloads\\Completos";
             var arquivos = new System.IO.DirectoryInfo(arquivosPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
             foreach (var item in arquivos)
             {
-                var pathDownloadsFake = "D:\\Videos Testes Fake\\[[ Downloads ]]";
-                var filename = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""), item.Name);
-                var filepath = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""));
-                if (!System.IO.File.Exists(filename))
-                {
-                    if (!System.IO.File.Exists(filepath))
-                    {
-                        System.IO.Directory.CreateDirectory(filepath);
-                    }
-                    using (System.IO.File.Create(filename)) { }
-                }
-            }
+                var aaa = DBHelper.GetSerieOuAnimePorLevenshtein(item.Name);
+                a.Add((a.ContainsKey(item.Name)) ? item.Name + new Random().Next(50000) : item.Name, (aaa != null) ? aaa.Title : "");
 
+                //var pathDownloadsFake = "D:\\Videos Testes Fake\\[[ Downloads ]]";
+                //var filename = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""), item.Name);
+                //var filepath = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""));
+                //if (!System.IO.File.Exists(filename))
+                //{
+                //    if (!System.IO.File.Exists(filepath))
+                //    {
+                //        System.IO.Directory.CreateDirectory(filepath);
+                //    }
+                //    using (System.IO.File.Create(filename)) { }
+                //}
+            }
+            /*
             var seriesPath = "D:\\Videos\\Series";
             var series = new System.IO.DirectoryInfo(seriesPath).EnumerateFiles("*.*", System.IO.SearchOption.AllDirectories);
 
@@ -191,7 +195,7 @@ namespace MediaManager.Forms
                 System.IO.Directory.CreateDirectory("D:\\Videos Testes Fake\\Filmes");
             }
 
-            //Pra criar cenarios de teste  */
+            Pra criar cenarios de teste  */
         }
 
         #region [ MenuItems ]

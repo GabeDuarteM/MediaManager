@@ -30,7 +30,7 @@ namespace MediaManager.ViewModel
             Carregar(arquivos);
         }
 
-        private async void Carregar(IEnumerable<FileInfo> arquivos)
+        private void Carregar(IEnumerable<FileInfo> arquivos)
         {
             Episodes = new ObservableCollection<EpisodeToRename>();
             Episodes.Add(new EpisodeToRename() { ParentTitle = "Carregando...", OriginalFilePath = "Carregando...", FilenameRenamed = "Carregando...", IsSelected = false });
@@ -48,7 +48,7 @@ namespace MediaManager.ViewModel
                     episodio.FolderPath = item.DirectoryName;
                     if (DBHelper.VerificarSeEpisodioJaFoiRenomeado(item.FullName))
                         continue;
-                    if (await episodio.GetEpisodeAsync())
+                    if (episodio.GetEpisode())
                     {
                         episodio.OriginalFilePath = item.FullName;
                         //string numeroEpisodio = episodio.Serie.IsAnime ? null : episodio.SeasonNumber + "x";
