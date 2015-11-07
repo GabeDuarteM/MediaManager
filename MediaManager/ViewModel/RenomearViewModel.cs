@@ -51,24 +51,6 @@ namespace MediaManager.ViewModel
                     if (episodio.GetEpisode())
                     {
                         episodio.OriginalFilePath = item.FullName;
-                        //string numeroEpisodio = episodio.Serie.IsAnime ? null : episodio.SeasonNumber + "x";
-                        //foreach (var arrayItem in episodio.EpisodeArray)
-                        //{
-                        //    if (episodio.Serie.IsAnime)
-                        //    {
-                        //        if (arrayItem != episodio.EpisodeArray[0])
-                        //            numeroEpisodio += " & ";
-                        //        numeroEpisodio += int.Parse(arrayItem).ToString("00");
-                        //    }
-                        //    else
-                        //    {
-                        //        if (arrayItem != episodio.EpisodeArray[0])
-                        //            numeroEpisodio += "x";
-                        //        numeroEpisodio += int.Parse(arrayItem).ToString("00");
-                        //    }
-                        //}
-                        //episodio.FilenameRenamed = episodio.ParentTitle + " - " + numeroEpisodio + " - " + episodio.EpisodeName + item.Extension;
-                        //episodio.FilenameRenamed = Helper.RetirarCaracteresInvalidos(episodio.FilenameRenamed);
                         episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + item.Extension;
                         episodio.IsRenamed = true;
                         listaEpisodios.Add(episodio);

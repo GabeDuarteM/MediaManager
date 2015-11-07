@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MediaManager.Helpers;
 
@@ -21,16 +22,16 @@ namespace MediaManager.Model
 
         public string ContentTypeString { get { return Enums.ToString(ContentType); } }
 
-        public List<string> EpisodeArray { get; set; } = new List<string>(); // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
+        public List<string> EpisodeList { get; set; } = new List<string>();  // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
 
-        public List<string> AbsoluteArray { get; set; } = new List<string>();// Para quando tiver mais de um episódio absoluto
+        public List<string> AbsoluteList { get; set; } = new List<string>(); // Para quando tiver mais de um episódio absoluto
 
-        public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged("Filename"); } }
+        public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged(); } }
 
-        public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged("FilenameRenamed"); } }
+        public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged(); } }
 
         [NotMapped]
-        public bool IsSelected { get { return _IsSelected; } set { _IsSelected = value; OnPropertyChanged("IsSelected"); } }
+        public bool IsSelected { get { return _IsSelected; } set { _IsSelected = value; OnPropertyChanged(); } }
 
         public string ParentTitle { get; set; }
 
@@ -76,8 +77,8 @@ namespace MediaManager.Model
             AirsBeforeSeason = episode.AirsBeforeSeason;
             Artwork = episode.Artwork;
             ContentType = episode.ContentType;
-            EpisodeArray = episode.EpisodeArray;
-            AbsoluteArray = episode.AbsoluteArray;
+            EpisodeList = episode.EpisodeList;
+            AbsoluteList = episode.AbsoluteList;
             EpisodeName = episode.EpisodeName;
             EpisodeNumber = episode.EpisodeNumber;
             Filename = episode.Filename;
@@ -168,7 +169,7 @@ namespace MediaManager.Model
                         //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
                     }
 
-                    if (data.Series != null && DBHelper.VerificaSeExiste(data.Series[0].IDApi))
+                    if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                     {
                         char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) // Para quando se tem multi-episódios
                             ? default(char)
@@ -178,8 +179,8 @@ namespace MediaManager.Model
                             Serie = data.Series[0];
 
                         SeasonNumber = int.Parse(match.Groups["season"].Value);
-                        EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                        EpisodeNumber = int.Parse(EpisodeArray[0]);
+                        EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(separador));
+                        EpisodeNumber = int.Parse(EpisodeList[0]);
                         if (alias != null)
                         {
                             var episodios = DBHelper.GetEpisodes(Serie);
@@ -190,16 +191,16 @@ namespace MediaManager.Model
                                     episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, item.SeasonNumber, item.EpisodeNumber));
                                     if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
                                         return false;
-                                    episodeToClone.EpisodeArray = EpisodeArray;
-                                    episodeToClone.AbsoluteArray = AbsoluteArray;
+                                    episodeToClone.EpisodeList = EpisodeList;
+                                    episodeToClone.AbsoluteList = AbsoluteList;
                                     episodeToClone.Serie = Serie;
                                     episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                                     episodeToClone.Filename = Filename;
                                     episodeToClone.FolderPath = FolderPath;
                                     episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                                    for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
+                                    for (int i = 0; i < episodeToClone.EpisodeList.Count; i++)
                                     {
-                                        episodeToClone.EpisodeArray[i] = alias.Episodio + EpisodeNumber - 1 + "";
+                                        episodeToClone.EpisodeList[i] = alias.Episodio + EpisodeNumber - 1 + "";
 
                                         if (i == 0)
                                             continue;
@@ -216,15 +217,15 @@ namespace MediaManager.Model
                             episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, EpisodeNumber));
                             if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
                                 return false;
-                            episodeToClone.EpisodeArray = EpisodeArray;
+                            episodeToClone.EpisodeList = EpisodeList;
                             episodeToClone.Serie = Serie;
                             episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var item in EpisodeArray)
+                            foreach (var item in EpisodeList)
                             {
-                                if (item == EpisodeArray[0])
+                                if (item == EpisodeList[0])
                                     continue;
 
                                 var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(item)));
@@ -256,27 +257,27 @@ namespace MediaManager.Model
 
                     foreach (var item in data.Series)
                     {
-                        if (data.Series != null && DBHelper.VerificaSeExiste(item.IDApi))
+                        if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(item.IDApi))
                         {
                             char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) // Para quando se tem multi-episódios
                             ? default(char)
                             : match.Groups["separador"].Value.ToCharArray()[0];
                             Serie = DBHelper.GetSerieOuAnimePorIDApi(item.IDApi);
                             SeasonNumber = int.Parse(match.Groups["season"].Value);
-                            EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                            EpisodeNumber = int.Parse(EpisodeArray[0]);
+                            EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(separador));
+                            EpisodeNumber = int.Parse(EpisodeList[0]);
                             EpisodeToRename episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, EpisodeNumber));
                             if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
                                 return false;
-                            //episodeToClone.EpisodeArray = EpisodeArray;
+                            episodeToClone.EpisodeList = EpisodeList;
                             episodeToClone.Serie = Serie;
                             episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var itemArray in EpisodeArray)
+                            foreach (var itemArray in EpisodeList)
                             {
-                                if (itemArray == EpisodeArray[0])
+                                if (itemArray == EpisodeList[0])
                                     continue;
 
                                 var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(itemArray)));
@@ -347,15 +348,15 @@ namespace MediaManager.Model
                         //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
                     }
 
-                    if (data.Series != null && DBHelper.VerificaSeExiste(data.Series[0].IDApi))
+                    if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                     {
                         string separador = string.IsNullOrEmpty(match.Groups["separador"].Value) // Para quando se tem multi-episódios
                             ? default(string)
                             : match.Groups["separador"].Value;
                         if (Serie == null)
                             Serie = DBHelper.GetSerieOuAnimePorIDApi(data.Series[0].IDApi);
-                        EpisodeArray = new List<string>(match.Groups["episodes"].Value.Split(new[] { separador }, StringSplitOptions.None));
-                        AbsoluteNumber = int.Parse(EpisodeArray[0]);
+                        EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(new[] { separador }, StringSplitOptions.None));
+                        AbsoluteNumber = int.Parse(EpisodeList[0]);
                         if (alias != null) // Entra se estiver utilizando alias para identificar a serie
                         {
                             var episodios = DBHelper.GetEpisodes(Serie);
@@ -364,19 +365,19 @@ namespace MediaManager.Model
                             var episodeToClone = new EpisodeToRename(episodio);
                             if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
                                 return false;
-                            episodeToClone.EpisodeArray = EpisodeArray;
+                            episodeToClone.EpisodeList = EpisodeList;
                             //episodeToClone.AbsoluteNumber = AbsoluteNumber;
                             episodeToClone.Serie = Serie;
                             episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
+                            for (int i = 0; i < episodeToClone.EpisodeList.Count; i++)
                             {
-                                episodeToClone.AbsoluteArray.Add(primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "");
-                                if (episodeToClone.AbsoluteArray.Count > 1)
+                                episodeToClone.AbsoluteList.Add(primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeList[i]) - 1 + "");
+                                if (episodeToClone.AbsoluteList.Count > 1)
                                 {
-                                    var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.AbsoluteArray[i])).IDTvdb));
+                                    var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.AbsoluteList[i])).IDTvdb));
                                     episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
                                 }
                                 //if (i == 0)
@@ -398,18 +399,18 @@ namespace MediaManager.Model
                             var episodeToClone = new EpisodeToRename(episodeDB);
                             if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
                                 return false;
-                            episodeToClone.EpisodeArray = EpisodeArray;
-                            episodeToClone.AbsoluteArray = new List<string>();
+                            episodeToClone.EpisodeList = EpisodeList;
+                            episodeToClone.AbsoluteList = new List<string>();
                             episodeToClone.AbsoluteNumber = AbsoluteNumber;
                             episodeToClone.Serie = Serie;
                             episodeToClone.ContentType = episodeToClone.Serie.ContentType;
                             episodeToClone.Filename = Filename;
                             episodeToClone.FolderPath = FolderPath;
                             episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var itemArray in EpisodeArray)
+                            foreach (var itemArray in EpisodeList)
                             {
-                                episodeToClone.AbsoluteArray.Add(itemArray);
-                                if (itemArray == EpisodeArray[0])
+                                episodeToClone.AbsoluteList.Add(itemArray);
+                                if (itemArray == EpisodeList[0])
                                     continue;
 
                                 var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, episodeToClone.SeasonNumber, int.Parse(itemArray)));
@@ -429,7 +430,7 @@ namespace MediaManager.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

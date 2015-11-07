@@ -102,25 +102,27 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static string RenomearConformePreferencias(EpisodeToRename episodio)
+        public static string RenomearConformePreferencias(EpisodeToRename episodio, string formato = null)
         {
-            string formato = null;
-            switch (episodio.ContentType)
+            if (formato == null)
             {
-                case Enums.ContentType.movie: // TODO Funcionar com filmes
-                    break;
+                switch (episodio.ContentType)
+                {
+                    case Enums.ContentType.movie: // TODO Funcionar com filmes
+                        break;
 
-                case Enums.ContentType.show:
-                    formato = settings.pref_FormatoSeries;
-                    break;
+                    case Enums.ContentType.show:
+                        formato = settings.pref_FormatoSeries;
+                        break;
 
-                case Enums.ContentType.anime:
-                    formato = settings.pref_FormatoAnimes;
-                    break;
+                    case Enums.ContentType.anime:
+                        formato = settings.pref_FormatoAnimes;
+                        break;
 
-                default:
-                    TratarException(new ArgumentException("Episodio informado é de um tipo inválido."), IsSilencioso: true);
-                    return null;
+                    default:
+                        TratarException(new ArgumentException("Episodio informado é de um tipo inválido."), IsSilencioso: true);
+                        return null;
+                }
             }
 
             Regex regex = new Regex("(?:{(?<tag>.*?)})");
@@ -144,7 +146,7 @@ namespace MediaManager.Helpers
                     case "{Episodio}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeArray)
+                            foreach (var item in episodio.EpisodeList)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -159,14 +161,14 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.AbsoluteArray)
+                            foreach (var item in episodio.AbsoluteList)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
                                 if (ep == "")
-                                        ep = nItem.ToString("00");
-                                    else
-                                        ep += " & " + nItem.ToString("00");
+                                    ep = nItem.ToString("00");
+                                else
+                                    ep += " & " + nItem.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, ep);
                             break;
@@ -174,7 +176,7 @@ namespace MediaManager.Helpers
                     case "{SxEE}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeArray)
+                            foreach (var item in episodio.EpisodeList)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -189,7 +191,7 @@ namespace MediaManager.Helpers
                     case "{S00E00}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeArray)
+                            foreach (var item in episodio.EpisodeList)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -343,7 +345,7 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosAnimes()
         {
-            if (!string.IsNullOrWhiteSpace(settings.pref_PastaAnimes))
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaAnimes) && Directory.Exists(settings.pref_PastaAnimes))
             {
                 DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaAnimes);
                 return dir.GetDirectories();
@@ -357,7 +359,7 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosFilmes()
         {
-            if (!string.IsNullOrWhiteSpace(settings.pref_PastaFilmes))
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaFilmes) && Directory.Exists(settings.pref_PastaFilmes))
             {
                 DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaFilmes);
                 return dir.GetDirectories();
@@ -371,7 +373,7 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosSeries()
         {
-            if (!string.IsNullOrWhiteSpace(settings.pref_PastaSeries))
+            if (!string.IsNullOrWhiteSpace(settings.pref_PastaSeries) && Directory.Exists(settings.pref_PastaSeries))
             {
                 DirectoryInfo dir = new DirectoryInfo(settings.pref_PastaSeries);
                 return dir.GetDirectories();

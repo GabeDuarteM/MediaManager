@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using MediaManager.Helpers;
+using MediaManager.Model;
 using MediaManager.Properties;
 using MediaManager.ViewModel;
 
@@ -23,6 +24,7 @@ namespace MediaManager.Forms
         public frmMain()
         {
             //Teste();
+            TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
 
@@ -40,7 +42,9 @@ namespace MediaManager.Forms
             timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // in miliseconds
             timerAtualizarConteudo.Start();
 
-            APIRequests.GetAtualizacoes();
+            TimerAtualizarConteudo_Tick(null, null);
+
+            //APIRequests.GetAtualizacoes();
         }
 
         /// <summary>
@@ -134,6 +138,33 @@ namespace MediaManager.Forms
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
         {
+            var series = DBHelper.GetSeriesEAnimesComForeignKeys();
+
+            foreach (var serie in series)
+            {
+                var pasta = new DirectoryInfo(serie.FolderPath);
+                var arquivos = pasta.EnumerateFiles("*", SearchOption.AllDirectories);
+                foreach (var arquivo in arquivos)
+                {
+                    if (Settings.Default.ExtensoesRenomeioPermitidas.Contains(arquivo.Extension))
+                    {
+                        if (!DBHelper.VerificarSeEpisodioJaFoiRenomeado(arquivo.FullName))
+                        {
+                            EpisodeToRename episodio = new EpisodeToRename();
+                            episodio.Filename = arquivo.Name;
+                            episodio.FolderPath = arquivo.DirectoryName;
+                            if (episodio.GetEpisode())
+                            {
+                                episodio.FilePath = arquivo.FullName;
+                                episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + arquivo.Extension;
+                                episodio.IsRenamed = Path.Combine(serie.FolderPath, episodio.FilenameRenamed) == arquivo.FullName;
+                                DBHelper.UpdateEpisodioRenomeado(episodio);
+                            }
+                        }
+                    }
+                }
+            }
+
             APIRequests.GetAtualizacoes();
         }
 
@@ -202,6 +233,26 @@ namespace MediaManager.Forms
             }
 
             Pra criar cenarios de teste  */
+        }
+
+        private void TESTCopiarEstruturaDePastas()
+        {
+            var pasta = "D:\\Videos";
+            var pastaDestino = "D:\\Videos Dummy";
+
+            DirectoryInfo a = new DirectoryInfo(pasta);
+            foreach (var item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
+            {
+                var pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pasta.Length + 1));
+                if (!Directory.Exists(pastaTemp))
+                    Directory.CreateDirectory(pastaTemp);
+            }
+            foreach (var item in a.EnumerateFiles("*", SearchOption.AllDirectories))
+            {
+                var arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pasta.Length + 1));
+                if (!File.Exists(arquivoTemp))
+                    File.Create(arquivoTemp);
+            }
         }
 
         #region [ MenuItems ]

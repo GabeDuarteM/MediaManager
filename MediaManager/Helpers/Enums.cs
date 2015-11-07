@@ -38,7 +38,7 @@ namespace MediaManager.Helpers
 
         public enum EstadoEpisodio
         {
-            Default = 0,
+            Selecione = 0,
             Arquivado = 1,
             Baixado = 2,
             Baixando = 3,

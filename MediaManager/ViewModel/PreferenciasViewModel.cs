@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
+using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
@@ -11,73 +13,73 @@ namespace MediaManager.ViewModel
     {
         private string _PastaSeries;
 
-        public string PastaSeries { get { return _PastaSeries; } set { _PastaSeries = value; OnPropertyChanged("PastaSeries"); } }
+        public string PastaSeries { get { return _PastaSeries; } set { _PastaSeries = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaSeries { get; set; }
 
         private string _PastaFilmes;
 
-        public string PastaFilmes { get { return _PastaFilmes; } set { _PastaFilmes = value; OnPropertyChanged("PastaFilmes"); } }
+        public string PastaFilmes { get { return _PastaFilmes; } set { _PastaFilmes = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaFilmes { get; set; }
 
         private string _PastaAnimes;
 
-        public string PastaAnimes { get { return _PastaAnimes; } set { _PastaAnimes = value; OnPropertyChanged("PastaAnimes"); } }
+        public string PastaAnimes { get { return _PastaAnimes; } set { _PastaAnimes = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaAnimes { get; set; }
 
         private string _PastaDownloads;
 
-        public string PastaDownloads { get { return _PastaDownloads; } set { _PastaDownloads = value; OnPropertyChanged("PastaDownloads"); } }
+        public string PastaDownloads { get { return _PastaDownloads; } set { _PastaDownloads = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaDownloads { get; set; }
 
         private int _IntervaloDeProcuraConteudoNovo;
 
-        public int IntervaloDeProcuraConteudoNovo { get { return _IntervaloDeProcuraConteudoNovo; } set { _IntervaloDeProcuraConteudoNovo = value; OnPropertyChanged("IntervaloDeProcuraConteudoNovo"); } }
+        public int IntervaloDeProcuraConteudoNovo { get { return _IntervaloDeProcuraConteudoNovo; } set { _IntervaloDeProcuraConteudoNovo = value; OnPropertyChanged(); } }
 
         private Dictionary<string, string> _ListaIdiomaPesquisa;
 
-        public Dictionary<string, string> ListaIdiomaPesquisa { get { return _ListaIdiomaPesquisa; } set { _ListaIdiomaPesquisa = value; OnPropertyChanged("ListaIdiomaPesquisa"); } }
+        public Dictionary<string, string> ListaIdiomaPesquisa { get { return _ListaIdiomaPesquisa; } set { _ListaIdiomaPesquisa = value; OnPropertyChanged(); } }
 
         private string _IdiomaSelecionado;
 
-        public string IdiomaSelecionado { get { return _IdiomaSelecionado; } set { _IdiomaSelecionado = value; OnPropertyChanged("IdiomaSelecionado"); } }
+        public string IdiomaSelecionado { get { return _IdiomaSelecionado; } set { _IdiomaSelecionado = value; OnPropertyChanged(); } }
 
         private Array _EnumMetodosDeProcessamento;
 
-        public Array EnumMetodosDeProcessamento { get { return _EnumMetodosDeProcessamento; } set { _EnumMetodosDeProcessamento = value; OnPropertyChanged("EnumMetodosDeProcessamento"); } }
+        public Array EnumMetodosDeProcessamento { get { return _EnumMetodosDeProcessamento; } set { _EnumMetodosDeProcessamento = value; OnPropertyChanged(); } }
 
         private Enums.MetodoDeProcessamento _MetodoDeProcessamentoSelecionado;
 
-        public Enums.MetodoDeProcessamento MetodoDeProcessamentoSelecionado { get { return _MetodoDeProcessamentoSelecionado; } set { _MetodoDeProcessamentoSelecionado = value; OnPropertyChanged("MetodoDeProcessamentoSelecionado"); } }
+        public Enums.MetodoDeProcessamento MetodoDeProcessamentoSelecionado { get { return _MetodoDeProcessamentoSelecionado; } set { _MetodoDeProcessamentoSelecionado = value; OnPropertyChanged(); } }
 
         public ICommand CommandLimparBancoDeDados { get; set; }
 
         private string _FormatoParaSeries;
 
-        public string FormatoParaSeries { get { return _FormatoParaSeries; } set { _FormatoParaSeries = value; OnPropertyChanged("FormatoParaSeries"); } }
+        public string FormatoParaSeries { get { return _FormatoParaSeries; } set { _FormatoParaSeries = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.show); } }
 
         private string _FormatoParaFilmes;
 
-        public string FormatoParaFilmes { get { return _FormatoParaFilmes; } set { _FormatoParaFilmes = value; OnPropertyChanged("FormatoParaFilmes"); } }
+        public string FormatoParaFilmes { get { return _FormatoParaFilmes; } set { _FormatoParaFilmes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.movie); } }
 
         private string _FormatoParaAnimes;
 
-        public string FormatoParaAnimes { get { return _FormatoParaAnimes; } set { _FormatoParaAnimes = value; OnPropertyChanged("FormatoParaAnimes"); } }
+        public string FormatoParaAnimes { get { return _FormatoParaAnimes; } set { _FormatoParaAnimes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.anime); } }
 
         private string _VisualizacaoFormatoParaSeries;
 
-        public string VisualizacaoFormatoParaSeries { get { return _VisualizacaoFormatoParaSeries; } set { _VisualizacaoFormatoParaSeries = value; OnPropertyChanged("VisualizacaoFormatoParaSeries"); } }
+        public string VisualizacaoFormatoParaSeries { get { return _VisualizacaoFormatoParaSeries; } set { _VisualizacaoFormatoParaSeries = value; OnPropertyChanged(); } }
 
         private string _VisualizacaoFormatoParaFilmes;
 
-        public string VisualizacaoFormatoParaFilmes { get { return _VisualizacaoFormatoParaFilmes; } set { _VisualizacaoFormatoParaFilmes = value; OnPropertyChanged("VisualizacaoFormatoParaFilmes"); } }
+        public string VisualizacaoFormatoParaFilmes { get { return _VisualizacaoFormatoParaFilmes; } set { _VisualizacaoFormatoParaFilmes = value; OnPropertyChanged(); } }
 
         private string _VisualizacaoFormatoParaAnimes;
 
-        public string VisualizacaoFormatoParaAnimes { get { return _VisualizacaoFormatoParaAnimes; } set { _VisualizacaoFormatoParaAnimes = value; OnPropertyChanged("VisualizacaoFormatoParaAnimes"); } }
+        public string VisualizacaoFormatoParaAnimes { get { return _VisualizacaoFormatoParaAnimes; } set { _VisualizacaoFormatoParaAnimes = value; OnPropertyChanged(); } }
 
         public ICommand CommandSalvar { get; set; }
 
@@ -97,16 +99,42 @@ namespace MediaManager.ViewModel
             PastaDownloads = Properties.Settings.Default.pref_PastaDownloads;
             PastaFilmes = Properties.Settings.Default.pref_PastaFilmes;
             PastaSeries = Properties.Settings.Default.pref_PastaSeries;
-            VisualizacaoFormatoParaAnimes = "O Nome do Anime - 000 - Título do episódio"; // TODO Visualizacao Animes
-            VisualizacaoFormatoParaFilmes = "Nome do filme, O (2015)"; // TODO Visualizacao Filmes
-            VisualizacaoFormatoParaSeries = "O Nome da Série - S01E01 - Título da série"; // TODO Visualizacao Series
-
             CommandEscolherPastaAnimes = new CommandsPreferencias.CommandEscolherPastaAnimes();
             CommandEscolherPastaDownloads = new CommandsPreferencias.CommandEscolherPastaDownloads();
             CommandEscolherPastaFilmes = new CommandsPreferencias.CommandEscolherPastaFilmes();
             CommandEscolherPastaSeries = new CommandsPreferencias.CommandEscolherPastaSeries();
             CommandLimparBancoDeDados = new CommandsPreferencias.CommandLimparBancoDeDados();
             CommandSalvar = new CommandsPreferencias.CommandSalvar();
+        }
+
+        private void AlterarVisualizacaoFormato(string formato, Enums.ContentType tipoConteudo)
+        {
+            EpisodeToRename episodioVisualizacao = new EpisodeToRename()
+            {
+                ParentTitle = "Exemplo de título",
+                EpisodeName = "Título do episódio",
+                SeasonNumber = 3,
+                EpisodeList = new List<string>() { "5" },
+                AbsoluteList = new List<string>() { "25" }
+            };
+
+            switch (tipoConteudo)
+            {
+                case Enums.ContentType.movie:
+                    VisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)"; // TODO Visualizacao Filmes
+                    break;
+
+                case Enums.ContentType.show:
+                    VisualizacaoFormatoParaSeries = Helper.RenomearConformePreferencias(episodioVisualizacao, formato);
+                    break;
+
+                case Enums.ContentType.anime:
+                    VisualizacaoFormatoParaAnimes = Helper.RenomearConformePreferencias(episodioVisualizacao, formato);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -148,7 +176,7 @@ namespace MediaManager.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

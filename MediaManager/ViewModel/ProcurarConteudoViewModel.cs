@@ -42,7 +42,7 @@ namespace MediaManager.ViewModel
                     {
                         foreach (var dir in dirSeries)
                         {
-                            if (!DBHelper.VerificaSeExiste(dir.FullName))
+                            if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
                             {
                                 SeriesData data = await APIRequests.GetSeriesAsync(dir.Name, false);
                                 if (data.Series.Length == 0)
@@ -53,7 +53,7 @@ namespace MediaManager.ViewModel
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
                                 }
-                                else if (data.Series.Length > 0 && !DBHelper.VerificaSeExiste(data.Series[0].IDApi))
+                                else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
                                     conteudo.ContentType = Enums.ContentType.show;
@@ -88,7 +88,7 @@ namespace MediaManager.ViewModel
                     {
                         foreach (var dir in dirAnimes)
                         {
-                            if (!DBHelper.VerificaSeExiste(dir.FullName))
+                            if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
                             {
                                 SeriesData data = await APIRequests.GetSeriesAsync(dir.Name, false);
                                 if (data.Series == null || data.Series.Length == 0)
@@ -99,7 +99,7 @@ namespace MediaManager.ViewModel
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
                                 }
-                                else if (data.Series.Length > 0 && !DBHelper.VerificaSeExiste(data.Series[0].IDApi))
+                                else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
                                     conteudo.ContentType = Enums.ContentType.anime;

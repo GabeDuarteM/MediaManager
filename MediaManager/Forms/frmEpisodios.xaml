@@ -15,8 +15,19 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <DataGrid ItemsSource="{Binding EpisodiosView, Mode=TwoWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-			IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*" />
+            <ColumnDefinition Width="603*" />
+            <ColumnDefinition Width="155*" />
+            <ColumnDefinition Width="11*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="379*" />
+            <RowDefinition Height="45*" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding EpisodiosView, Mode=TwoWay}" Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+			IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0" />
@@ -51,25 +62,42 @@
                             </Setter>
                         </Style>
                     </GroupStyle.ContainerStyle>
+                    <GroupStyle.Panel>
+                        <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid. -->
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
                 </GroupStyle>
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Episodio" Binding="{Binding EpisodeNumber}" Width="Auto" />
-                <DataGridTextColumn Header="Título" Binding="{Binding EpisodeName}" Width="Auto" />
-                <DataGridTextColumn Header="Pasta" Binding="{Binding FilePath}" Width="Auto" />
+                <DataGridTextColumn Header="Episodio" Binding="{Binding EpisodeNumber}" Width="*" />
+                <DataGridTextColumn Header="Título" Binding="{Binding EpisodeName}" Width="3*" />
+                <DataGridTextColumn Header="Pasta" Binding="{Binding FilePath}" Width="7*" />
+                <DataGridTextColumn Header="Status" Binding="{Binding EstadoEpisodio}" Width="1*" />
                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding SelecionarTodos}" Command="{Binding SelecionarTodosCommand}" CommandParameter="{Binding}" />
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
+                                      IsChecked="{Binding DataContext.SelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Command="{Binding DataContext.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Command="{Binding DataContext.CommandIsSelected, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Label Grid.Row="2" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Marcar itens como:" Height="26" Width="111" d:IsLocked="True" />
+        <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Height="23" Width="150" ItemsSource="{Binding EstadoEpisodio}" SelectedItem="{Binding EstadoEpisodioSelecionado}" d:IsLocked="True" />
+        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Salvar" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
+        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Content="Fechar" Width="75" Command="{Binding CommandFechar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
     </Grid>
 </Window>

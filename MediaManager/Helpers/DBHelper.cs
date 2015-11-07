@@ -542,6 +542,20 @@ namespace MediaManager.Helpers
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias padrão do video \"" + video.Title + "\" ao banco.", true); return false; }
         }
 
+        public static void UpdateListaEpisodios(List<Episode> listaEpisodiosModificados)
+        {
+            using (Context db = new Context())
+            {
+                foreach (var item in listaEpisodiosModificados)
+                {
+                    db.Episode.Attach(item);
+                    var entry = db.Entry(item);
+                    entry.State = System.Data.Entity.EntityState.Modified;
+                }
+                db.SaveChanges();
+            }
+        }
+
         public async static Task<bool> UpdateSerieAsync(Serie atualizado)
         {
             bool isDiferente = false;
@@ -639,21 +653,25 @@ namespace MediaManager.Helpers
 
         public static bool UpdateEpisodioRenomeado(Episode atualizado)
         {
-            Episode original;
-            using (Context db = new Context())
+            try
             {
-                original = db.Episode.Find(atualizado.IDBanco);
-                if (original != null)
+                Episode original;
+                using (Context db = new Context())
                 {
-                    original.FolderPath = atualizado.Serie.FolderPath;
-                    original.OriginalFilePath = atualizado.OriginalFilePath;
-                    original.FilePath = atualizado.FilePath;
-                    original.IsRenamed = atualizado.IsRenamed;
-                    db.SaveChanges();
-                    return true;
+                    original = db.Episode.Find(atualizado.IDBanco);
+                    if (original != null)
+                    {
+                        original.FolderPath = atualizado.Serie.FolderPath;
+                        original.OriginalFilePath = atualizado.OriginalFilePath;
+                        original.FilePath = atualizado.FilePath;
+                        original.IsRenamed = atualizado.IsRenamed;
+                        db.SaveChanges();
+                        return true;
+                    }
+                    else return false;
                 }
-                else return false;
             }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar o episódio de ID " + atualizado.IDTvdb + " no banco.", true); return false; }
         }
 
         public static bool RemoveSerieAlias(SerieAlias alias)
@@ -682,7 +700,7 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static bool VerificaSeExiste(int IDApi)
+        public static bool VerificaSeSerieOuAnimeExiste(int IDApi)
         {
             using (Context db = new Context())
             {
@@ -691,7 +709,7 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static bool VerificaSeExiste(string folderPath)
+        public static bool VerificaSeSerieOuAnimeExiste(string folderPath)
         {
             using (Context db = new Context())
             {

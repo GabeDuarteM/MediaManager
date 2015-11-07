@@ -218,6 +218,11 @@ namespace MediaManager.Model
             set { _ThumbAddedDate = value.ToString(); }
         }
 
+        public Episode()
+        {
+            EstadoEpisodio = Enums.EstadoEpisodio.Ignorado;
+        }
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Forms;
@@ -15,7 +16,7 @@ namespace MediaManager.ViewModel
 
         public ICommand AbrirEdicaoCommand { get; private set; }
 
-        public PosterGrid Poster { get { return _poster; } set { _poster = value; OnPropertyChanged("Poster"); } }
+        public PosterGrid Poster { get { return _poster; } set { _poster = value; OnPropertyChanged(); } }
 
         public PosterViewModel()
         {
@@ -43,7 +44,7 @@ namespace MediaManager.ViewModel
                         //    Poster.ImgPoster = Path.Combine(filme.FolderMetadata, "poster.jpg");
                         //    Poster.Type = Enums.TipoConteudo.movie;
                         //}
-                        throw new NotImplementedException();
+                        throw new NotImplementedException(); // TODO Fazer funfar com filme;
                     }
                 case Enums.ContentType.show:
                     {
@@ -100,7 +101,7 @@ namespace MediaManager.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 
