@@ -46,6 +46,12 @@ namespace MediaManager.Model
         [XmlIgnore]
         private string _FolderPath;
 
+        [XmlIgnore, NotMapped]
+        private bool _isSelected;
+
+        [XmlIgnore, NotMapped]
+        public bool IsSelected { get { return _isSelected; } set { _isSelected = value; OnPropertyChanged("IsSelected"); } }
+
         [XmlIgnore, Column(Order = 4)]
         public int? AbsoluteNumber
         {
@@ -125,6 +131,10 @@ namespace MediaManager.Model
 
         [XmlElement("EpisodeNumber"), Column(Order = 2)]
         public int EpisodeNumber { get; set; }
+
+        private Enums.EstadoEpisodio _EstadoEpisodio;
+
+        public Enums.EstadoEpisodio EstadoEpisodio { get { return _EstadoEpisodio; } set { _EstadoEpisodio = value; OnPropertyChanged("EstadoEpisodio"); } }
 
         [XmlIgnore]
         public string FilePath { get { return _FilePath; } set { _FilePath = value; OnPropertyChanged("FilePath"); } }

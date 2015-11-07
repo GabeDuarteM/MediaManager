@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MediaManager.View
+namespace MediaManager.UserControls
 {
     /// <summary>
     /// Interaction logic for Poster.xaml

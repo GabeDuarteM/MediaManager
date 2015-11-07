@@ -360,36 +360,37 @@ namespace MediaManager.Model
                         {
                             var episodios = DBHelper.GetEpisodes(Serie);
                             var primeiroEpisodioAlias = DBHelper.GetEpisode(Serie.IDBanco, alias.Temporada, alias.Episodio);
-                            foreach (var item in episodios)
+                            Episode episodio = episodios.Where(x => x.AbsoluteNumber == primeiroEpisodioAlias.AbsoluteNumber + AbsoluteNumber - 1).First();
+                            var episodeToClone = new EpisodeToRename(episodio);
+                            if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
+                                return false;
+                            episodeToClone.EpisodeArray = EpisodeArray;
+                            //episodeToClone.AbsoluteNumber = AbsoluteNumber;
+                            episodeToClone.Serie = Serie;
+                            episodeToClone.ContentType = episodeToClone.Serie.ContentType;
+                            episodeToClone.Filename = Filename;
+                            episodeToClone.FolderPath = FolderPath;
+                            episodeToClone.ParentTitle = episodeToClone.Serie.Title;
+                            for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
                             {
-                                if (item.AbsoluteNumber == primeiroEpisodioAlias.AbsoluteNumber + AbsoluteNumber - 1)
+                                episodeToClone.AbsoluteArray.Add(primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "");
+                                if (episodeToClone.AbsoluteArray.Count > 1)
                                 {
-                                    var episodeToClone = new EpisodeToRename(item);
-                                    if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
-                                        return false;
-                                    episodeToClone.EpisodeArray = EpisodeArray;
-                                    //episodeToClone.AbsoluteNumber = AbsoluteNumber;
-                                    episodeToClone.Serie = Serie;
-                                    episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                                    episodeToClone.Filename = Filename;
-                                    episodeToClone.FolderPath = FolderPath;
-                                    episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                                    for (int i = 0; i < episodeToClone.EpisodeArray.Count; i++)
-                                    {
-                                        if (i == 0)
-                                        {
-                                            //episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
-                                            episodeToClone.AbsoluteArray.Add(item.AbsoluteNumber + "");
-                                            continue;
-                                        }
-                                        episodeToClone.EpisodeArray[i] = (int)primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";
-                                        var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.EpisodeArray[i])).IDTvdb));
-                                        episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                                    }
-                                    Clone(episodeToClone);
-                                    return true;
+                                    var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.AbsoluteArray[i])).IDTvdb));
+                                    episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
                                 }
+                                //if (i == 0)
+                                //{
+                                //    //episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
+                                //    episodeToClone.AbsoluteArray.Add(episodio.AbsoluteNumber + "");
+                                //    continue;
+                                //}
+                                //episodeToClone.EpisodeArray[i] = primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";
+                                //var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.EpisodeArray[i])).IDTvdb));
+                                //episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
                             }
+                            Clone(episodeToClone);
+                            return true;
                         }
                         else
                         {

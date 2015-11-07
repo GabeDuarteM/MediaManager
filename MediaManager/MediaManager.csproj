@@ -138,18 +138,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AdicionarConteudoCommands.cs" />
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
     <Compile Include="Commands\CommandsPreferencias.cs" />
+    <Compile Include="Commands\EpisodiosCommand.cs" />
     <Compile Include="Commands\RenomearCommand.cs" />
+    <Compile Include="Forms\frmEpisodios.xaml.cs">
+      <DependentUpon>frmEpisodios.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\APIRequests.cs" />
     <Compile Include="Helpers\DBHelper.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Migrations\201509060940244_Init.cs" />
-    <Compile Include="Migrations\201509060940244_Init.Designer.cs">
-      <DependentUpon>201509060940244_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201511070405167_Init.cs" />
+    <Compile Include="Migrations\201511070405167_Init.Designer.cs">
+      <DependentUpon>201511070405167_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ConteudoGrid.cs" />
@@ -173,12 +178,13 @@
     <Compile Include="Commands\EdicaoPosterCommand.cs" />
     <Compile Include="ViewModel\AdicionarConteudoViewModel.cs" />
     <Compile Include="ViewModel\ConfigurarConteudoViewModel.cs" />
+    <Compile Include="ViewModel\EpisodiosViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PosterViewModel.cs" />
     <Compile Include="ViewModel\PreferenciasViewModel.cs" />
     <Compile Include="ViewModel\ProcurarConteudoViewModel.cs" />
     <Compile Include="ViewModel\RenomearViewModel.cs" />
-    <Compile Include="View\ControlPoster.xaml.cs">
+    <Compile Include="UserControls\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmPopupPesquisa.xaml.cs">
@@ -191,11 +197,15 @@
       <DependentUpon>frmRenomear.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Page Include="Forms\frmEpisodios.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\InputMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ControlPoster.xaml">
+    <Page Include="UserControls\ControlPoster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,8 +265,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201509060940244_Init.resx">
-      <DependentUpon>201509060940244_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511070405167_Init.resx">
+      <DependentUpon>201511070405167_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -294,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DELETE CONTENT.sql" />
+    <Resource Include="Resources\ICONE_TV.png" />
     <Resource Include="Resources\ICONE_Lixeira.png" />
     <Resource Include="Resources\IMG_FanartDefault.png" />
     <Resource Include="Resources\IMG_BannerDefault.png" />

@@ -146,10 +146,12 @@ namespace MediaManager.Helpers
                             string ep = "";
                             foreach (var item in episodio.EpisodeArray)
                             {
+                                int nItem;
+                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = string.Format("{0:00}", item);
+                                    ep = nItem.ToString("00");
                                 else
-                                    ep += " & " + string.Format("{0:00}", item);
+                                    ep += " & " + nItem.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, ep);
                             break;
@@ -157,12 +159,14 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeArray)
+                            foreach (var item in episodio.AbsoluteArray)
                             {
+                                int nItem;
+                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = string.Format("{0:00}", item);
-                                else
-                                    ep += " & " + string.Format("{0:00}", item);
+                                        ep = nItem.ToString("00");
+                                    else
+                                        ep += " & " + nItem.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, ep);
                             break;
@@ -172,10 +176,12 @@ namespace MediaManager.Helpers
                             string ep = "";
                             foreach (var item in episodio.EpisodeArray)
                             {
+                                int nItem;
+                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = string.Format("{0:00}", item);
+                                    ep = nItem.ToString("00");
                                 else
-                                    ep += "x" + string.Format("{0:00}", item);
+                                    ep += "x" + nItem.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, episodio.SeasonNumber + "x" + ep);
                             break;
@@ -185,10 +191,12 @@ namespace MediaManager.Helpers
                             string ep = "";
                             foreach (var item in episodio.EpisodeArray)
                             {
+                                int nItem;
+                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = string.Format("{0:00}", item);
+                                    ep = nItem.ToString("00");
                                 else
-                                    ep += "E" + string.Format("{0:00}", item);
+                                    ep += "E" + nItem.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, "S" + episodio.SeasonNumber.ToString("00") + "E" + ep);
                             break;
@@ -203,19 +211,26 @@ namespace MediaManager.Helpers
 
         public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
         {
-            if (exception.TargetSite != null && !string.IsNullOrWhiteSpace(exception.TargetSite.Name))
+            if (mensagem.Last() != '.')
             {
-                mensagem += "\r\nMethod Name: " + exception.TargetSite.Name;
+                mensagem += ".";
+            }
+            if (!string.IsNullOrWhiteSpace(exception.Message))
+            {
+                mensagem += "\r\nDetalhes: " + exception.Message;
+            }
+            if (exception.StackTrace != null)
+            {
+                mensagem += "\r\nStackTrace: " + exception.StackTrace;
             }
 
-            mensagem += "\r\nDetalhes: ";
             if (IsSilencioso)
             {
-                LogMessage(mensagem + exception.Message);
+                LogMessage(mensagem);
             }
             else
             {
-                MessageBox.Show(mensagem + exception.Message, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(mensagem, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

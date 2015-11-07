@@ -166,8 +166,8 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                     Properties.Settings.Default.pref_FormatoAnimes = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaAnimes) ? preferenciasVM.FormatoParaAnimes : "{Titulo} - {Absoluto} - {TituloEpisodio}";
-                    Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaFilmes) ? preferenciasVM.FormatoParaAnimes : "{Titulo} ({Ano})";
-                    Properties.Settings.Default.pref_FormatoSeries = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaSeries) ? preferenciasVM.FormatoParaAnimes : "{Titulo} - {SxEE} - {TituloEpisodio}";
+                    Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaFilmes) ? preferenciasVM.FormatoParaFilmes : "{Titulo} ({Ano})";
+                    Properties.Settings.Default.pref_FormatoSeries = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaSeries) ? preferenciasVM.FormatoParaSeries : "{Titulo} - {SxEE} - {TituloEpisodio}";
                     Properties.Settings.Default.pref_IdiomaPesquisa = preferenciasVM.IdiomaSelecionado;
                     Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo = preferenciasVM.IntervaloDeProcuraConteudoNovo;
                     Properties.Settings.Default.pref_PastaAnimes = preferenciasVM.PastaAnimes;

@@ -13,21 +13,38 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <Image Source="{Binding SelectedVideo.ImgFanart, Mode=OneWay}" HorizontalAlignment="Center" Height="270" Width="790" Margin="10" VerticalAlignment="Top" Stretch="UniformToFill">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*" />
+            <ColumnDefinition Width="803*" />
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="286*" />
+            <RowDefinition Height="26*" />
+            <RowDefinition Height="131*" />
+            <RowDefinition Height="35*" />
+        </Grid.RowDefinitions>
+
+        <Image Source="{Binding SelectedVideo.ImgFanart, Mode=OneWay}" HorizontalAlignment="Center" Height="260" Margin="0,10,0,10" VerticalAlignment="Top" Stretch="UniformToFill" Grid.Row="0" Grid.Column="1">
         </Image>
-        <Image Source="{Binding SelectedVideo.ImgPoster, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="30,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill">
+        <Image Source="{Binding SelectedVideo.ImgPoster, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="20,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill" Grid.Row="0" Grid.Column="1">
             <Image.Effect>
                 <DropShadowEffect />
             </Image.Effect>
         </Image>
-        <ComboBox ItemsSource="{Binding ResultPesquisa, Mode=OneWay}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedVideo, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,289,0,0" Width="240" />
-        <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="254,289,0,0" Height="22" Width="25" Click="btnConfig_Click">
-            <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
-        </Button>
-        <xctk:WatermarkTextBox Name="tbxPasta" Text="{Binding SelectedVideo.FolderPath, Mode=TwoWay}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Width="494" Margin="284,289,0,0" />
-        <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="777,289,0,0" Height="22" Width="25" Click="btnPasta_Click" />
-        <TextBox Text="{Binding SelectedVideo.Overview, Mode=TwoWay}" Margin="10,316,10,40" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
-        <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Width="75" IsCancel="True" />
-        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="90,10" Width="75" Click="btnSalvar_Click" IsDefault="True" />
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <ComboBox ItemsSource="{Binding ResultPesquisa, Mode=OneWay}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedVideo, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
+            <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Click="btnConfig_Click">
+                <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Command="{Binding CommandAbrirEpisodios}" CommandParameter="{Binding}">
+                <Image Height="15" Width="15" Source="/MediaManager;component/Resources/ICONE_TV.png" Margin="0,0,0,1" />
+            </Button>
+            <xctk:WatermarkTextBox Name="tbxPasta" Text="{Binding SelectedVideo.FolderPath, Mode=TwoWay}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" Height="22" Width="463" />
+            <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="25" Click="btnPasta_Click" Margin="-1,0,0,0" />
+        </DockPanel>
+        <TextBox Text="{Binding SelectedVideo.Overview, Mode=TwoWay}" Margin="0,4,0,5" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" />
+        <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="75" IsCancel="True" Grid.Row="3" Grid.Column="1" />
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,80,10" Width="75" Click="btnSalvar_Click" IsDefault="True" Grid.Row="3" Grid.Column="1" />
     </Grid>
 </Window>

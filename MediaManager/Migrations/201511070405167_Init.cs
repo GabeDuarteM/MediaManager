@@ -20,6 +20,7 @@ namespace MediaManager.Migrations
                         AirsBeforeEpisode = c.Int(),
                         AirsBeforeSeason = c.Int(),
                         Artwork = c.String(),
+                        EstadoEpisodio = c.Int(nullable: false),
                         FilePath = c.String(),
                         FirstAired = c.DateTime(),
                         FolderPath = c.String(),
@@ -50,7 +51,6 @@ namespace MediaManager.Migrations
                         Actors = c.String(),
                         Airs_DayOfWeek = c.String(),
                         Airs_Time = c.String(),
-                        AliasNames = c.String(),
                         ContentRating = c.String(),
                         FirstAired = c.DateTime(),
                         Genre = c.String(),
@@ -68,6 +68,20 @@ namespace MediaManager.Migrations
                         FolderPath = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.SerieAlias",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        AliasName = c.String(),
+                        Episodio = c.Int(nullable: false),
+                        IDSerie = c.Int(nullable: false),
+                        Temporada = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Series", t => t.IDSerie, cascadeDelete: true)
+                .Index(t => t.IDSerie);
             
             CreateTable(
                 "dbo.Filmes",
@@ -133,36 +147,22 @@ namespace MediaManager.Migrations
                 .ForeignKey("dbo.Filmes", t => t.Filme_IDBanco)
                 .Index(t => t.Filme_IDBanco);
             
-            CreateTable(
-                "dbo.SerieAlias",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        AliasName = c.String(),
-                        Episodio = c.Int(nullable: false),
-                        IDSerie = c.Int(nullable: false),
-                        Temporada = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Series", t => t.IDSerie, cascadeDelete: true)
-                .Index(t => t.IDSerie);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.SerieAlias", "IDSerie", "dbo.Series");
             DropForeignKey("dbo.Images", "Filme_IDBanco", "dbo.Filmes");
             DropForeignKey("dbo.Ids", "Filme_IDBanco", "dbo.Filmes");
+            DropForeignKey("dbo.SerieAlias", "IDSerie", "dbo.Series");
             DropForeignKey("dbo.Episodes", "IDSerie", "dbo.Series");
-            DropIndex("dbo.SerieAlias", new[] { "IDSerie" });
             DropIndex("dbo.Images", new[] { "Filme_IDBanco" });
             DropIndex("dbo.Ids", new[] { "Filme_IDBanco" });
+            DropIndex("dbo.SerieAlias", new[] { "IDSerie" });
             DropIndex("dbo.Episodes", new[] { "IDSerie" });
-            DropTable("dbo.SerieAlias");
             DropTable("dbo.Images");
             DropTable("dbo.Ids");
             DropTable("dbo.Filmes");
+            DropTable("dbo.SerieAlias");
             DropTable("dbo.Series");
             DropTable("dbo.Episodes");
         }

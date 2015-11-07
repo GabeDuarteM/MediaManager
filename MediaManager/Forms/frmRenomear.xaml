@@ -9,7 +9,13 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <DataGrid ItemsSource="{Binding Episodes, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
+        <DataGrid ItemsSource="{Binding Episodes, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0" />
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ParentTitle, Mode=OneWay}" Header="Título" Width="2.5*" />
                 <DataGridTextColumn Binding="{Binding OriginalFilePath, Mode=OneWay}" Header="Arquivo" Width="5*" />

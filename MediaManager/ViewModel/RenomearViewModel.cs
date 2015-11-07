@@ -46,8 +46,8 @@ namespace MediaManager.ViewModel
                     EpisodeToRename episodio = new EpisodeToRename();
                     episodio.Filename = item.Name;
                     episodio.FolderPath = item.DirectoryName;
-                    if (DBHelper.VerificarSeEpisodioJaFoiRenomeado(item.FullName))
-                        continue;
+                    //if (DBHelper.VerificarSeEpisodioJaFoiRenomeado(item.FullName))
+                    //    continue;
                     if (episodio.GetEpisode())
                     {
                         episodio.OriginalFilePath = item.FullName;

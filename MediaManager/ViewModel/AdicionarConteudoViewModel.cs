@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using ConfigurableInputMessageBox;
+using MediaManager.Commands;
 using MediaManager.Helpers;
 using MediaManager.Model;
 
@@ -28,6 +30,8 @@ namespace MediaManager.ViewModel
         public Enums.ContentType TipoConteudo { get { return _TipoConteudo; } set { _TipoConteudo = value; } }
 
         public Video SelectedVideo { get { return _SelectedVideo; } set { _SelectedVideo = value; OnPropertyChanged("SelectedVideo"); AlterarVideoAsync(); } }
+
+        public ICommand CommandAbrirEpisodios { get; set; } = new AdicionarConteudoCommands.CommandAbrirEpisodios();
 
         //public SeriesData Data { get { return _Data; } set { _Data = value; OnPropertyChanged("Data"); } }
 

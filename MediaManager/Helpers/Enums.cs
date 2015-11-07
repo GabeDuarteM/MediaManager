@@ -36,6 +36,16 @@ namespace MediaManager.Helpers
             Copiar = 1
         }
 
+        public enum EstadoEpisodio
+        {
+            Default = 0,
+            Arquivado = 1,
+            Baixado = 2,
+            Baixando = 3,
+            Desejado = 4,
+            Ignorado = 5
+        }
+
         /// <summary>
         /// Transforma a string em um enum
         /// </summary>

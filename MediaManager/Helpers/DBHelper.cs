@@ -217,7 +217,7 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static List<Episode> GetEpisodes(Serie serie)
+        public static List<Episode> GetEpisodes(Video serie)
         {
             using (Context db = new Context())
             {

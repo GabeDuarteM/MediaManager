@@ -55,7 +55,7 @@ namespace MediaManager.Forms
 
             foreach (var item in argsArray)
             {
-                if (item == argsArray[0])
+                if (item == argsArray[0]) // Ignora o primeiro item, pois sempre vai ser o nome da aplicação.
                     continue;
                 else if (argsString == null)
                     argsString += "\"" + item + "\"";
@@ -101,29 +101,35 @@ namespace MediaManager.Forms
 
         private bool RenomearEpisodiosDosArgumentos(string arg)
         {
-            if (Directory.Exists(arg))
+            try
             {
-                DirectoryInfo dirInfo = new DirectoryInfo(arg);
-                RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
-                renomearVM.IsSilencioso = true;
-                if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                if (Directory.Exists(arg))
                 {
-                    renomearVM.RenomearCommand.Execute(renomearVM);
-                    return true;
+                    DirectoryInfo dirInfo = new DirectoryInfo(arg);
+                    RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
+                    renomearVM.IsSilencioso = true;
+                    if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                    {
+                        renomearVM.RenomearCommand.Execute(renomearVM);
+                    }
                 }
+                else if (File.Exists(arg))
+                {
+                    IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
+                    RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
+                    renomearVM.IsSilencioso = true;
+                    if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                    {
+                        renomearVM.RenomearCommand.Execute(renomearVM);
+                    }
+                }
+                return true;
             }
-            else if (File.Exists(arg))
+            catch (Exception e)
             {
-                IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
-                RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
-                renomearVM.IsSilencioso = true;
-                if (renomearVM.RenomearCommand.CanExecute(renomearVM))
-                {
-                    renomearVM.RenomearCommand.Execute(renomearVM);
-                    return true;
-                }
+                Helper.TratarException(e, "Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " + arg);
+                return true; // Retorna true para não continuar a executar a aplicação.
             }
-            return false;
         }
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)

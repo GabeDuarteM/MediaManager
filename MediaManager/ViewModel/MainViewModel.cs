@@ -93,7 +93,7 @@ namespace MediaManager.ViewModel
 
                         List<Serie> series = DBHelper.GetSeriesComForeignKeys();
                         List<Serie> animes = DBHelper.GetAnimesComForeignKeys();
-                        //List<Filme> filmesDB = DatabaseHelper.GetFilmes();
+                        //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
                         foreach (var item in series)
                         {
@@ -117,7 +117,7 @@ namespace MediaManager.ViewModel
                             _animes.Add(posterVM);
                         }
 
-                        //foreach (var item in filmesDB)
+                        //foreach (var item in filmes)
                         //{
                         //    var path = Path.Combine(item.FolderMetadata, "poster.jpg");
                         //    PosterGrid pg = new PosterGrid() { IDBanco = item.IDBanco, ImgPoster = File.Exists(path) ? path : null, Type = Enums.TipoConteudo.movie };
