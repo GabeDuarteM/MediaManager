@@ -54,6 +54,7 @@ namespace MediaManager.Commands
                                 item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                                 item.FilenameRenamed = Path.GetFileName(item.FilePath);
                                 item.IsRenamed = true;
+                                item.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
                                 DBHelper.UpdateEpisodioRenomeado(item);
                             }
                             //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
@@ -83,6 +84,7 @@ namespace MediaManager.Commands
                             item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
                             item.FilenameRenamed = Path.GetFileName(item.FilePath);
                             item.IsRenamed = true;
+                            item.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
                             DBHelper.UpdateEpisodioRenomeado(item);
                         }
                         //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),

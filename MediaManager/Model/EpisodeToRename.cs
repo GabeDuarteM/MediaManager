@@ -101,6 +101,7 @@ namespace MediaManager.Model
             SeasonNumber = episode.SeasonNumber;
             Serie = episode.Serie;
             ThumbAddedDate = episode.ThumbAddedDate;
+            EstadoEpisodio = episode.EstadoEpisodio;
         }
 
         public bool GetEpisode()

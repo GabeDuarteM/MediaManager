@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using MediaManager.Helpers;
@@ -23,7 +24,7 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
-            //Teste();
+            Teste();
             TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
@@ -39,12 +40,12 @@ namespace MediaManager.Forms
 
             timerAtualizarConteudo = new Timer();
             timerAtualizarConteudo.Tick += TimerAtualizarConteudo_Tick;
-            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // in miliseconds
+            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // em milisegundos
             timerAtualizarConteudo.Start();
 
             TimerAtualizarConteudo_Tick(null, null);
 
-            //APIRequests.GetAtualizacoes();
+            APIRequests.GetAtualizacoes();
         }
 
         /// <summary>
@@ -158,6 +159,7 @@ namespace MediaManager.Forms
                                 episodio.FilePath = arquivo.FullName;
                                 episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + arquivo.Extension;
                                 episodio.IsRenamed = Path.Combine(serie.FolderPath, episodio.FilenameRenamed) == arquivo.FullName;
+                                episodio.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
                                 DBHelper.UpdateEpisodioRenomeado(episodio);
                             }
                         }
@@ -170,69 +172,30 @@ namespace MediaManager.Forms
 
         private /*async*/ void Teste() // TODO Apagar método.
         {
-            Dictionary<string, string> a = new Dictionary<string, string>();
-            //* Pra criar cenarios de teste
-            var arquivosPath = "D:\\Videos\\Downloads\\Completos";
-            var arquivos = new System.IO.DirectoryInfo(arquivosPath).EnumerateFiles("*.*", SearchOption.AllDirectories);
-            foreach (var item in arquivos)
-            {
-                var aaa = DBHelper.GetSerieOuAnimePorLevenshtein(item.Name);
-                a.Add((a.ContainsKey(item.Name)) ? item.Name + new Random().Next(50000) : item.Name, (aaa != null) ? aaa.Title : "");
+            string url = @"http://www.nyaa.se/?page=rss&cats=1_37";
+            string nomeProcurado = "One Punch Man";
 
-                //var pathDownloadsFake = "D:\\Videos Testes Fake\\[[ Downloads ]]";
-                //var filename = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""), item.Name);
-                //var filepath = System.IO.Path.Combine(pathDownloadsFake, item.Directory.FullName.Replace(arquivosPath + "\\", "").Replace(arquivosPath, ""));
-                //if (!System.IO.File.Exists(filename))
-                //{
-                //    if (!System.IO.File.Exists(filepath))
-                //    {
-                //        System.IO.Directory.CreateDirectory(filepath);
-                //    }
-                //    using (System.IO.File.Create(filename)) { }
-                //}
-            }
-            /*
-            var seriesPath = "D:\\Videos\\Series";
-            var series = new System.IO.DirectoryInfo(seriesPath).EnumerateFiles("*.*", System.IO.SearchOption.AllDirectories);
-
-            foreach (var item in series)
+            System.Xml.XmlReader reader = System.Xml.XmlReader.Create(url);
+            System.ServiceModel.Syndication.SyndicationFeed feed = System.ServiceModel.Syndication.SyndicationFeed.Load(reader);
+            reader.Close();
+            List<System.ServiceModel.Syndication.SyndicationItem> encontrados = new List<System.ServiceModel.Syndication.SyndicationItem>();
+            foreach (System.ServiceModel.Syndication.SyndicationItem item in feed.Items)
             {
-                var pathSeriesFake = "D:\\Videos Testes Fake\\Séries";
-                var filename = System.IO.Path.Combine(pathSeriesFake, item.Directory.FullName.Replace(seriesPath + "\\", "").Replace(seriesPath, ""), item.Name);
-                var filepath = System.IO.Path.Combine(pathSeriesFake, item.Directory.FullName.Replace(seriesPath + "\\", "").Replace(seriesPath, ""));
-                if (!System.IO.File.Exists(filename))
+                Helper.RegexEpisodio a = new Helper.RegexEpisodio();
+
+                System.Text.RegularExpressions.Match b = a.regex_Fansub0000.Match(item.Title.Text);
+                var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                if (Helper.CalcularAlgoritimoLevenshtein(nomeProcurado, titulo) <= 5)
                 {
-                    if (!System.IO.File.Exists(filepath))
-                    {
-                        System.IO.Directory.CreateDirectory(filepath);
-                    }
-                    using (System.IO.File.Create(filename)) { }
+                    encontrados.Add(item);
                 }
+
+                //string subject = item.Title.Text;
+                //string summary = item.Summary.Text;
             }
 
-            var animesPath = "D:\\Videos\\Animes";
-            var animes = new System.IO.DirectoryInfo(animesPath).EnumerateFiles("*.*", System.IO.SearchOption.AllDirectories);
-
-            foreach (var item in animes)
-            {
-                var pathAnimesFake = "D:\\Videos Testes Fake\\Animes";
-                var filename = System.IO.Path.Combine(pathAnimesFake, item.Directory.FullName.Replace(animesPath + "\\", "").Replace(animesPath, ""), item.Name);
-                var filepath = System.IO.Path.Combine(pathAnimesFake, item.Directory.FullName.Replace(animesPath + "\\", "").Replace(animesPath, ""));
-                if (!System.IO.File.Exists(filename))
-                {
-                    if (!System.IO.File.Exists(filepath))
-                    {
-                        System.IO.Directory.CreateDirectory(filepath);
-                    }
-                    using (System.IO.File.Create(filename)) { }
-                }
-            }
-            if (!System.IO.File.Exists("D:\\Videos Testes Fake\\Filmes"))
-            {
-                System.IO.Directory.CreateDirectory("D:\\Videos Testes Fake\\Filmes");
-            }
-
-            Pra criar cenarios de teste  */
+            Dictionary<string, int> resultadosOrdenadosPorLevenshtein = Helper.OrdenarListaUsandoLevenshtein(nomeProcurado, encontrados.Select(x => x.Title.Text).ToList());
+            System.ServiceModel.Syndication.SyndicationItem melhorResultado = feed.Items.Where(x => x.Title.Text == resultadosOrdenadosPorLevenshtein.First().Key).FirstOrDefault();
         }
 
         private void TESTCopiarEstruturaDePastas()

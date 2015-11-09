@@ -73,6 +73,36 @@ namespace MediaManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ICONE_Mais {
+            get {
+                object obj = ResourceManager.GetObject("ICONE_Mais", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ICONE_Seta_Baixo {
+            get {
+                object obj = ResourceManager.GetObject("ICONE_Seta_Baixo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ICONE_Seta_Cima {
+            get {
+                object obj = ResourceManager.GetObject("ICONE_Seta_Cima", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ICONE_TV {
             get {
                 object obj = ResourceManager.GetObject("ICONE_TV", resourceCulture);

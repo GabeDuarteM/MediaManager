@@ -276,6 +276,24 @@ namespace MediaManager.Helpers
             return distance[currentRow, m];
         }
 
+        public static Dictionary<string, int> OrdenarListaUsandoLevenshtein(string origem, IList<string> listaDestinos)
+        {
+            try
+            {
+                Dictionary<string, int> retorno = new Dictionary<string, int>();
+                foreach (var destino in listaDestinos)
+                {
+                    retorno.Add(destino, CalcularAlgoritimoLevenshtein(origem, destino));
+                }
+                return retorno.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            }
+            catch (Exception e)
+            {
+                TratarException(e, "Ocorreu um erro ao ordenar a lista utilizando o algorítimo levenshtein.", true);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Adiciona mensagem no log.
         /// </summary>

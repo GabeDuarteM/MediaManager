@@ -70,6 +70,97 @@
                     <Label Content="{Binding VisualizacaoFormatoParaAnimes}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,146,10,10" />
                 </Grid>
             </TabItem>
+            <TabItem Header="Feeds">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="252*" />
+                        <RowDefinition Height="19*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding EpisodiosView, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+			IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.Row="0">
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Path=Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander>
+                                                        <Expander.Header>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Temporada " />
+                                                                <TextBlock Text="{Binding Path=Name}" />
+                                                                <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
+                                                            </StackPanel>
+                                                        </Expander.Header>
+                                                        <ItemsPresenter />
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                                <GroupStyle.Panel>
+                                    <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid, pois da erro quando tem GroupStyle. -->
+                                    <ItemsPanelTemplate>
+                                        <DataGridRowsPresenter />
+                                    </ItemsPanelTemplate>
+                                </GroupStyle.Panel>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nome" Width="3*" Binding="{Binding sNmFeed}" />
+                            <DataGridTextColumn Header="URL" Width="5*" Binding="{Binding sDsUrl}" />
+                            <DataGridTextColumn Header="Tipo" Width="2*" Binding="{Binding sDsTipoConteudo}" />
+                            <DataGridTextColumn Header="Priorid." Width="*" Binding="{Binding nNrPrioridade}" />
+                            <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
+                                      IsChecked="{Binding DataContext.SelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Command="{Binding DataContext.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Command="{Binding DataContext.CommandIsSelected, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                      CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,-1,0,0" Grid.Row="1">
+                        <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,-1,0" Command="{Binding CommandAdicionarFeed}">
+                            <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
+                        </Button>
+                        <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,-1,0" Command="{Binding CommandAumentarPrioridadeFeed}">
+                            <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
+                        </Button>
+                        <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,-1,0" Command="{Binding CommandDiminuirPrioridadeFeed}">
+                            <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
+                        </Button>
+                        <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding CommandRemoverFeed}">
+                            <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
         <Button Content="Salvar" Margin="0,0,90,10" Width="75" HorizontalAlignment="Right" IsDefault="True" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
         <Button Content="Cancelar" Margin="0,0,10,10" Width="75" HorizontalAlignment="Right" IsCancel="True" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />

@@ -63,7 +63,7 @@
                         </Style>
                     </GroupStyle.ContainerStyle>
                     <GroupStyle.Panel>
-                        <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid. -->
+                        <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid, pois da erro quando tem GroupStyle. -->
                         <ItemsPanelTemplate>
                             <DataGridRowsPresenter />
                         </ItemsPanelTemplate>
