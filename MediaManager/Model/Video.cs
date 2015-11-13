@@ -73,15 +73,15 @@ namespace MediaManager.Model
             {
                 switch (ContentType)
                 {
-                    case Enums.ContentType.movie:
+                    case Enums.ContentType.Filme:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Filmes", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
-                    case Enums.ContentType.show:
+                    case Enums.ContentType.Série:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Séries", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
-                    case Enums.ContentType.anime:
+                    case Enums.ContentType.Anime:
                         return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Animes", Helpers.Helper.RetirarCaracteresInvalidos(Title));
 
@@ -160,17 +160,17 @@ namespace MediaManager.Model
         {
             switch (ContentType)
             {
-                case Enums.ContentType.movie:
+                case Enums.ContentType.Filme:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaFilmes))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaFilmes, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
-                case Enums.ContentType.show:
+                case Enums.ContentType.Série:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaSeries))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
-                case Enums.ContentType.anime:
+                case Enums.ContentType.Anime:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaAnimes))
                         FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helpers.Helper.RetirarCaracteresInvalidos(Title));
                     break;

@@ -67,7 +67,7 @@ namespace MediaManager.ViewModel
                 //data.Series = new Serie[1] { (PosterGrid)video };
                 listaVideosQuaseCompletos.Add(video);
             }
-            if (video.ContentType == Enums.ContentType.show || video.ContentType == Enums.ContentType.anime)
+            if (video.ContentType == Enums.ContentType.Série || video.ContentType == Enums.ContentType.Anime)
             {
                 SeriesData data = new SeriesData();
                 if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
@@ -116,7 +116,7 @@ namespace MediaManager.ViewModel
                     }
                     if (!jaAdicionado)
                     {
-                        if (video.ContentType == Enums.ContentType.anime)
+                        if (video.ContentType == Enums.ContentType.Anime)
                             item.IsAnime = true;
                         //if (!string.IsNullOrWhiteSpace(video.FolderPath))
                         //    item.FolderPath = video.FolderPath;
@@ -151,7 +151,7 @@ namespace MediaManager.ViewModel
             SelectedVideo = videoCarregando;
             List<Video> resultPesquisaTemp = new List<Video>();
 
-            if (TipoConteudo == Enums.ContentType.show || TipoConteudo == Enums.ContentType.anime)
+            if (TipoConteudo == Enums.ContentType.Série || TipoConteudo == Enums.ContentType.Anime)
             {
                 SeriesData data = await APIRequests.GetSeriesAsync(title, false);
 
@@ -186,7 +186,7 @@ namespace MediaManager.ViewModel
 
                 foreach (var item in data.Series)
                 {
-                    if (TipoConteudo == Enums.ContentType.anime)
+                    if (TipoConteudo == Enums.ContentType.Anime)
                         item.IsAnime = true;
 
                     if (!string.IsNullOrWhiteSpace(folderPathEditar)) // Verifica se é edição para setar o folderpath igual.
@@ -252,7 +252,7 @@ namespace MediaManager.ViewModel
                 data.Series[0].FolderPath = folderPathEditar;
             else
                 data.Series[0].SetDefaultFolderPath();
-            if (data.Series[0].ContentType == Enums.ContentType.anime)
+            if (data.Series[0].ContentType == Enums.ContentType.Anime)
                 data.Series[0].IsAnime = true;
             data.Series[0].SerieAliasStr = SelectedVideo.SerieAliasStr;
             data.Series[0].IDBanco = IDBanco > 0 ? IDBanco : data.Series[0].IDBanco;

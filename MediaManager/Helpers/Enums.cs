@@ -12,14 +12,12 @@ namespace MediaManager.Helpers
         /// </summary>
         public enum ContentType
         {
-            unknown = 0,
-            movie = 1,
-            show = 2,
-            anime = 3,
-            season = 4,
-            episode = 5,
-            person = 6,
-            movieShowAnime = 7
+            Selecione = 0,
+            Filme = 1,
+            Série = 2,
+            Anime = 3,
+            Episódio = 4,
+            AnimeFilmeSérie = 7
         }
 
         public enum TipoImagem
@@ -59,28 +57,22 @@ namespace MediaManager.Helpers
                 switch (str)
                 {
                     case "":
-                        return ContentType.unknown;
+                        return ContentType.Selecione;
 
                     case "Filme":
-                        return ContentType.movie;
+                        return ContentType.Filme;
 
                     case "Série":
-                        return ContentType.show;
+                        return ContentType.Série;
 
                     case "Anime":
-                        return ContentType.anime;
-
-                    case "Temporada":
-                        return ContentType.season;
+                        return ContentType.Anime;
 
                     case "Episódio":
-                        return ContentType.episode;
-
-                    case "Pessoa":
-                        return ContentType.person;
+                        return ContentType.Episódio;
 
                     case "Filme, Serie e Anime":
-                        return ContentType.movieShowAnime;
+                        return ContentType.AnimeFilmeSérie;
 
                     default:
                         return null;
@@ -101,28 +93,22 @@ namespace MediaManager.Helpers
             {
                 switch ((ContentType)enumItem)
                 {
-                    case ContentType.unknown:
+                    case ContentType.Selecione:
                         return "";
 
-                    case ContentType.movie:
+                    case ContentType.Filme:
                         return "Filme";
 
-                    case ContentType.show:
+                    case ContentType.Série:
                         return "Série";
 
-                    case ContentType.anime:
+                    case ContentType.Anime:
                         return "Anime";
 
-                    case ContentType.season:
-                        return "Temporada";
-
-                    case ContentType.episode:
+                    case ContentType.Episódio:
                         return "Episódio";
 
-                    case ContentType.person:
-                        return "Pessoa";
-
-                    case ContentType.movieShowAnime:
+                    case ContentType.AnimeFilmeSérie:
                         return "Filme, Serie e Anime";
 
                     default:

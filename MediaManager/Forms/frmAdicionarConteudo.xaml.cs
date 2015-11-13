@@ -92,7 +92,7 @@ namespace MediaManager.Forms
             {
                 switch (AdicionarConteudoViewModel.TipoConteudo)
                 {
-                    case Enums.ContentType.movie:
+                    case Enums.ContentType.Filme:
                         //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
                         //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
 
@@ -117,7 +117,7 @@ namespace MediaManager.Forms
                         //}
                         break;
 
-                    case Enums.ContentType.show:
+                    case Enums.ContentType.Série:
                         {
                             Serie serie = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)
@@ -151,7 +151,7 @@ namespace MediaManager.Forms
                             break;
                         }
 
-                    case Enums.ContentType.anime:
+                    case Enums.ContentType.Anime:
                         {
                             Serie anime = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)

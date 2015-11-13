@@ -129,8 +129,8 @@ namespace MediaManager.Helpers
                 List<Serie> animes = animesDB.ToList();
                 foreach (var item in animes)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.CompletoSemForeignKeys;
                 }
                 return animes;
@@ -148,8 +148,8 @@ namespace MediaManager.Helpers
                 List<Serie> animes = animesDB.ToList();
                 foreach (var item in animes)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.Completo;
                 }
                 return animes;
@@ -400,8 +400,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.CompletoSemForeignKeys;
                 }
                 return series;
@@ -419,8 +419,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.Completo;
                 }
                 return series;
@@ -437,8 +437,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.CompletoSemForeignKeys;
                 }
                 return series;
@@ -455,8 +455,8 @@ namespace MediaManager.Helpers
                 List<Serie> series = seriesDB.ToList();
                 foreach (var item in series)
                 {
-                    item.ContentType = item.IsAnime == true ? Enums.ContentType.anime
-                        : Enums.ContentType.show;
+                    item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
+                        : Enums.ContentType.Série;
                     item.Estado = Estado.Completo;
                 }
                 return series;
@@ -726,22 +726,28 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static bool UpdateFeed(Feed atualizado)
+        public static bool UpdateFeed(params Feed[] atualizado)
         {
+            Feed feed = null; // Para mostrar no catch.
+
             try
             {
                 using (Context db = new Context())
                 {
-                    db.Feed.Attach(atualizado);
-                    var entry = db.Entry(atualizado);
-                    entry.State = System.Data.Entity.EntityState.Modified;
+                    foreach (var item in atualizado)
+                    {
+                        feed = item;
+                        db.Feed.Attach(item);
+                        var entry = db.Entry(item);
+                        entry.State = System.Data.Entity.EntityState.Modified;
+                    }
                     db.SaveChanges();
                     return true;
                 }
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao atualizar o feed " + atualizado.sNmFeed, true);
+                Helper.TratarException(e, "Ocorreu um erro ao atualizar o feed " + feed.sNmFeed, true);
                 return false;
             }
         }

@@ -24,16 +24,16 @@ namespace MediaManager.ViewModel
 
             switch (contentType)
             {
-                case Enums.ContentType.movie:
+                case Enums.ContentType.Filme:
                     break;
 
-                case Enums.ContentType.show:
+                case Enums.ContentType.Série:
                     break;
 
-                case Enums.ContentType.anime:
+                case Enums.ContentType.Anime:
                     break;
 
-                case Enums.ContentType.movieShowAnime:
+                case Enums.ContentType.AnimeFilmeSérie:
                     DirectoryInfo[] dirSeries = Helper.retornarDiretoriosSeries();
                     DirectoryInfo[] dirAnimes = Helper.retornarDiretoriosAnimes();
                     DirectoryInfo[] dirFilmes = Helper.retornarDiretoriosFilmes();
@@ -48,7 +48,7 @@ namespace MediaManager.ViewModel
                                 if (data.Series.Length == 0)
                                 {
                                     ConteudoGrid conteudo = new ConteudoGrid();
-                                    conteudo.ContentType = Enums.ContentType.show;
+                                    conteudo.ContentType = Enums.ContentType.Série;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
@@ -56,11 +56,11 @@ namespace MediaManager.ViewModel
                                 else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
-                                    conteudo.ContentType = Enums.ContentType.show;
+                                    conteudo.ContentType = Enums.ContentType.Série;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsSelected = true;
                                     conteudo.Video = data.Series[0];
-                                    conteudo.Video.ContentType = Enums.ContentType.show;
+                                    conteudo.Video.ContentType = Enums.ContentType.Série;
                                     conteudo.Video.FolderPath = dir.FullName;
 
                                     if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
@@ -94,7 +94,7 @@ namespace MediaManager.ViewModel
                                 if (data.Series == null || data.Series.Length == 0)
                                 {
                                     ConteudoGrid conteudo = new ConteudoGrid();
-                                    conteudo.ContentType = Enums.ContentType.anime;
+                                    conteudo.ContentType = Enums.ContentType.Anime;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsNotFound = true;
                                     conteudos.Add(conteudo);
@@ -102,11 +102,11 @@ namespace MediaManager.ViewModel
                                 else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
                                 {
                                     ConteudoGrid conteudo = data.Series[0];
-                                    conteudo.ContentType = Enums.ContentType.anime;
+                                    conteudo.ContentType = Enums.ContentType.Anime;
                                     conteudo.FolderPath = dir.FullName;
                                     conteudo.IsSelected = true;
                                     conteudo.Video = data.Series[0];
-                                    conteudo.Video.ContentType = Enums.ContentType.anime;
+                                    conteudo.Video.ContentType = Enums.ContentType.Anime;
                                     conteudo.Video.FolderPath = dir.FullName;
                                     (conteudo.Video as Serie).IsAnime = true;
 

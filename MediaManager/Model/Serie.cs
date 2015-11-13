@@ -255,7 +255,7 @@ namespace MediaManager.Model
         public string _Runtime;
 
         [XmlIgnore]
-        private Enums.ContentType _ContentType = Enums.ContentType.show;
+        private Enums.ContentType _ContentType = Enums.ContentType.Série;
 
         private string _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
         private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
@@ -285,7 +285,7 @@ namespace MediaManager.Model
         public string ContentRating { get; set; }
 
         [NotMapped]
-        public override Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); _IsAnime = value == Enums.ContentType.anime ? true : false; } }
+        public override Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); _IsAnime = value == Enums.ContentType.Anime ? true : false; } }
 
         [XmlIgnore]
         public List<Episode> Episodes { get; set; }
@@ -341,7 +341,7 @@ namespace MediaManager.Model
         }
 
         [XmlIgnore]
-        public bool IsAnime { get { return _IsAnime; } set { _IsAnime = value; _ContentType = (value == true) ? Enums.ContentType.anime : ContentType; } }
+        public bool IsAnime { get { return _IsAnime; } set { _IsAnime = value; _ContentType = (value == true) ? Enums.ContentType.Anime : ContentType; } }
 
         [XmlElement("Language")]
         public override string Language { get; set; }
@@ -451,7 +451,7 @@ namespace MediaManager.Model
 
         public void SetDefaultFolderPath()
         {
-            FolderPath = (ContentType == Enums.ContentType.anime) ?
+            FolderPath = (ContentType == Enums.ContentType.Anime) ?
                 System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title))
                 : System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
         }

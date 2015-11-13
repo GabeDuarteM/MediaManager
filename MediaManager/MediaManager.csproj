@@ -68,6 +68,18 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Argotic.Common, Version=2008.0.2.0, Culture=neutral, PublicKeyToken=84b2ce808fb02469, processorArchitecture=MSIL">
+      <HintPath>..\packages\Argotic.Common.2008.0.2.0\lib\Net35\Argotic.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Argotic.Core, Version=2008.0.2.0, Culture=neutral, PublicKeyToken=84b2ce808fb02469, processorArchitecture=MSIL">
+      <HintPath>..\packages\Argotic.Core.2008.0.2.0\lib\Net35\Argotic.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Argotic.Extensions, Version=2008.0.2.0, Culture=neutral, PublicKeyToken=84b2ce808fb02469, processorArchitecture=MSIL">
+      <HintPath>..\packages\Argotic.Extensions.2008.0.2.0\lib\Net35\Argotic.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -102,6 +114,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -139,6 +152,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\PersistenciaGroupExpandedBehavior.cs" />
     <Compile Include="Commands\AdicionarConteudoCommands.cs" />
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
     <Compile Include="Commands\CommandsPreferencias.cs" />
@@ -165,6 +179,10 @@
     <Compile Include="Migrations\201511081834563_Feed-Required.cs" />
     <Compile Include="Migrations\201511081834563_Feed-Required.Designer.cs">
       <DependentUpon>201511081834563_Feed-Required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.cs" />
+    <Compile Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.Designer.cs">
+      <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ConteudoGrid.cs" />
@@ -285,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511081834563_Feed-Required.resx">
       <DependentUpon>201511081834563_Feed-Required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.resx">
+      <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

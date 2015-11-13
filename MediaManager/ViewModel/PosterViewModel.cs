@@ -27,7 +27,7 @@ namespace MediaManager.ViewModel
         {
             switch (Poster.ContentType)
             {
-                case Enums.ContentType.movie:
+                case Enums.ContentType.Filme:
                     {
                         //Video filme = new Filme();
                         //filme = DatabaseHelper.GetFilmePorId(Poster.ID);
@@ -46,7 +46,7 @@ namespace MediaManager.ViewModel
                         //}
                         throw new NotImplementedException(); // TODO Fazer funfar com filme;
                     }
-                case Enums.ContentType.show:
+                case Enums.ContentType.Série:
                     {
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
@@ -66,10 +66,10 @@ namespace MediaManager.ViewModel
                         //
                         /// Parte acima substituída pela linha abaixo :)
 
-                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.show);
+                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Série);
                         break;
                     }
-                case Enums.ContentType.anime:
+                case Enums.ContentType.Anime:
                     {
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
@@ -89,7 +89,7 @@ namespace MediaManager.ViewModel
                         //
                         /// Parte acima substituída pela linha abaixo :)
 
-                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.anime);
+                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Anime);
                         break;
                     }
                 default:

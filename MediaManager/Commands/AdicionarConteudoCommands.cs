@@ -19,8 +19,8 @@ namespace MediaManager.Commands
             public bool CanExecute(object parameter)
             {
                 if (parameter is AdicionarConteudoViewModel &&
-                    ((parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.anime
-                    || (parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.show))
+                    ((parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.Anime
+                    || (parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.Série))
                 {
                     return true;
                 }

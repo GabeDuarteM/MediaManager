@@ -12,6 +12,10 @@ namespace MediaManager.ViewModel
 {
     public class PreferenciasViewModel : INotifyPropertyChanged
     {
+        private FeedsViewModel _FeedsViewModel;
+
+        public FeedsViewModel FeedsViewModel { get { return _FeedsViewModel; } set { _FeedsViewModel = value; OnPropertyChanged(); } }
+
         private string _PastaSeries;
 
         public string PastaSeries { get { return _PastaSeries; } set { _PastaSeries = value; OnPropertyChanged(); } }
@@ -60,15 +64,15 @@ namespace MediaManager.ViewModel
 
         private string _FormatoParaSeries;
 
-        public string FormatoParaSeries { get { return _FormatoParaSeries; } set { _FormatoParaSeries = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.show); } }
+        public string FormatoParaSeries { get { return _FormatoParaSeries; } set { _FormatoParaSeries = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.Série); } }
 
         private string _FormatoParaFilmes;
 
-        public string FormatoParaFilmes { get { return _FormatoParaFilmes; } set { _FormatoParaFilmes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.movie); } }
+        public string FormatoParaFilmes { get { return _FormatoParaFilmes; } set { _FormatoParaFilmes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.Filme); } }
 
         private string _FormatoParaAnimes;
 
-        public string FormatoParaAnimes { get { return _FormatoParaAnimes; } set { _FormatoParaAnimes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.anime); } }
+        public string FormatoParaAnimes { get { return _FormatoParaAnimes; } set { _FormatoParaAnimes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.ContentType.Anime); } }
 
         private string _VisualizacaoFormatoParaSeries;
 
@@ -88,6 +92,7 @@ namespace MediaManager.ViewModel
 
         public PreferenciasViewModel()
         {
+            FeedsViewModel = new FeedsViewModel();
             FormatoParaAnimes = Properties.Settings.Default.pref_FormatoAnimes;
             FormatoParaFilmes = Properties.Settings.Default.pref_FormatoFilmes;
             FormatoParaSeries = Properties.Settings.Default.pref_FormatoSeries;
@@ -121,15 +126,15 @@ namespace MediaManager.ViewModel
 
             switch (tipoConteudo)
             {
-                case Enums.ContentType.movie:
+                case Enums.ContentType.Filme:
                     VisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)"; // TODO Visualizacao Filmes
                     break;
 
-                case Enums.ContentType.show:
+                case Enums.ContentType.Série:
                     VisualizacaoFormatoParaSeries = Helper.RenomearConformePreferencias(episodioVisualizacao, formato);
                     break;
 
-                case Enums.ContentType.anime:
+                case Enums.ContentType.Anime:
                     VisualizacaoFormatoParaAnimes = Helper.RenomearConformePreferencias(episodioVisualizacao, formato);
                     break;
 

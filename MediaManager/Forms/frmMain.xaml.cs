@@ -172,30 +172,33 @@ namespace MediaManager.Forms
 
         private /*async*/ void Teste() // TODO Apagar método.
         {
-            string url = @"http://www.nyaa.se/?page=rss&cats=1_37";
-            string nomeProcurado = "One Punch Man";
+            string nomeProcurado = "The Big Bang Theory";
 
-            System.Xml.XmlReader reader = System.Xml.XmlReader.Create(url);
-            System.ServiceModel.Syndication.SyndicationFeed feed = System.ServiceModel.Syndication.SyndicationFeed.Load(reader);
-            reader.Close();
-            List<System.ServiceModel.Syndication.SyndicationItem> encontrados = new List<System.ServiceModel.Syndication.SyndicationItem>();
-            foreach (System.ServiceModel.Syndication.SyndicationItem item in feed.Items)
+            foreach (var item in DBHelper.GetFeeds())
             {
-                Helper.RegexEpisodio a = new Helper.RegexEpisodio();
+                var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sNmUrl));
+                List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
 
-                System.Text.RegularExpressions.Match b = a.regex_Fansub0000.Match(item.Title.Text);
-                var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                if (Helper.CalcularAlgoritimoLevenshtein(nomeProcurado, titulo) <= 5)
+                foreach (var itemArgotic in argotic.Channel.Items)
                 {
-                    encontrados.Add(item);
+                    Helper.RegexEpisodio a = new Helper.RegexEpisodio();
+                    System.Text.RegularExpressions.Match b = null;
+                    if (item.nIdTipoConteudo == Enums.ContentType.Série)
+                        b = a.regex_S00E00.Match(itemArgotic.Title);
+                    else
+                        b = a.regex_Fansub0000.Match(itemArgotic.Title);
+                    var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    if (b.Success == true)
+                    {
+                        if (Helper.CalcularAlgoritimoLevenshtein(nomeProcurado, titulo) <= Math.Min((nomeProcurado.Length / 2 + titulo.Length / 2) / 2, 10))
+                        {
+                            encontradosArgotic.Add(itemArgotic);
+                        }
+                    }
                 }
 
-                //string subject = item.Title.Text;
-                //string summary = item.Summary.Text;
+                var c = encontradosArgotic.Count;
             }
-
-            Dictionary<string, int> resultadosOrdenadosPorLevenshtein = Helper.OrdenarListaUsandoLevenshtein(nomeProcurado, encontrados.Select(x => x.Title.Text).ToList());
-            System.ServiceModel.Syndication.SyndicationItem melhorResultado = feed.Items.Where(x => x.Title.Text == resultadosOrdenadosPorLevenshtein.First().Key).FirstOrDefault();
         }
 
         private void TESTCopiarEstruturaDePastas()
@@ -222,26 +225,26 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.anime);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Anime);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.anime);
+                MainVM.AtualizarConteudo(Enums.ContentType.Anime);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.movie);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Filme);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.movie);
+                MainVM.AtualizarConteudo(Enums.ContentType.Filme);
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.show);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Série);
             frmAdicionarConteudo.ShowDialog();
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.show);
+                MainVM.AtualizarConteudo(Enums.ContentType.Série);
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
@@ -252,10 +255,10 @@ namespace MediaManager.Forms
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.movieShowAnime);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.AnimeFilmeSérie);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.movieShowAnime);
+                MainVM.AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)

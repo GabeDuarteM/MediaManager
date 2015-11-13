@@ -85,7 +85,7 @@ namespace MediaManager.Model
         public object Trailer { get; set; }
 
         [NotMapped]
-        public Enums.ContentType Type { get { return Enums.ContentType.show; } set { throw new NotSupportedException(); } }
+        public Enums.ContentType Type { get { return Enums.ContentType.Série; } set { throw new NotSupportedException(); } }
 
         [JsonProperty("votes", NullValueHandling = NullValueHandling.Ignore)]
         public int Votes { get; set; }

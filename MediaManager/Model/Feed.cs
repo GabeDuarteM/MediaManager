@@ -6,6 +6,7 @@ using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
+    [System.Diagnostics.DebuggerDisplay("{sNmFeed} - {sDsTipoConteudo}")]
     public class Feed : INotifyPropertyChanged
     {
         private int _nCdFeed;
@@ -33,7 +34,7 @@ namespace MediaManager.Model
         public int nNrPrioridade { get { return _nNrPrioridade; } set { _nNrPrioridade = value; OnPropertyChanged(); } }
 
         [NotMapped]
-        public string sDsTipoConteudo { get { return Enums.ToString(nIdTipoConteudo); } }
+        public string sDsTipoConteudo { get { return nIdTipoConteudo.ToString(); } }
 
         private bool _bFlSelecionado;
 

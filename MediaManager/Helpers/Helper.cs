@@ -108,14 +108,14 @@ namespace MediaManager.Helpers
             {
                 switch (episodio.ContentType)
                 {
-                    case Enums.ContentType.movie: // TODO Funcionar com filmes
+                    case Enums.ContentType.Filme: // TODO Funcionar com filmes
                         break;
 
-                    case Enums.ContentType.show:
+                    case Enums.ContentType.Série:
                         formato = settings.pref_FormatoSeries;
                         break;
 
-                    case Enums.ContentType.anime:
+                    case Enums.ContentType.Anime:
                         formato = settings.pref_FormatoAnimes;
                         break;
 
@@ -292,6 +292,16 @@ namespace MediaManager.Helpers
                 TratarException(e, "Ocorreu um erro ao ordenar a lista utilizando o algorítimo levenshtein.", true);
                 return null;
             }
+        }
+
+        public static MessageBoxResult MostrarMensagem(string mensagem, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Error, string titulo = "")
+        {
+            if (string.IsNullOrWhiteSpace(titulo))
+            {
+                titulo = Settings.Default.AppName;
+            }
+
+            return MessageBox.Show(mensagem, titulo, messageBoxButton, messageBoxImage);
         }
 
         /// <summary>
@@ -550,7 +560,7 @@ namespace MediaManager.Helpers
                     serie.Overview = sinopseTraduzida;
             }
 
-            if (tipoConteudo == Enums.ContentType.anime)
+            if (tipoConteudo == Enums.ContentType.Anime)
             {
                 serie.IsAnime = true;
                 serie.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -558,7 +568,7 @@ namespace MediaManager.Helpers
                 if (settings.pref_PastaAnimes != "")
                     serie.FolderPath = Path.Combine(settings.pref_PastaAnimes, RetirarCaracteresInvalidos(serie.Title));
             }
-            else if (tipoConteudo == Enums.ContentType.show)
+            else if (tipoConteudo == Enums.ContentType.Série)
             {
                 serie.FolderMetadata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     Settings.Default.AppName, "Metadata", "Séries", RetirarCaracteresInvalidos(serie.Title));
@@ -597,8 +607,8 @@ namespace MediaManager.Helpers
             string responseData = "";
             List<Search> responseList = null;
 
-            if (type == Enums.ContentType.anime.ToString())
-                type = Enums.ContentType.show.ToString();
+            if (type == Enums.ContentType.Anime.ToString())
+                type = Enums.ContentType.Série.ToString();
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(settings.APIBaseUrl) })
             {

@@ -114,7 +114,7 @@ namespace MediaManager.Model
         public object Trailer { get; set; }
 
         [NotMapped]
-        public Enums.ContentType Type { get { return Enums.ContentType.movie; } set { throw new NotSupportedException(); } }
+        public Enums.ContentType Type { get { return Enums.ContentType.Filme; } set { throw new NotSupportedException(); } }
 
         public string TypeString
         {

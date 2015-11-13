@@ -37,7 +37,7 @@ namespace MediaManager.Forms
                 {
                     switch (item.ContentType)
                     {
-                        case Enums.ContentType.show:
+                        case Enums.ContentType.Série:
                             {
                                 SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
                                 Serie serie = data.Series[0];
@@ -50,7 +50,7 @@ namespace MediaManager.Forms
                                 await DBHelper.AddSerieAsync(serie);
                                 break;
                             }
-                        case Enums.ContentType.anime:
+                        case Enums.ContentType.Anime:
                             {
                                 //SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
                                 //Serie anime = data.Series[0];
@@ -70,7 +70,7 @@ namespace MediaManager.Forms
                                 await DBHelper.AddSerieAsync(anime);
                                 break;
                             }
-                        case Enums.ContentType.movie:
+                        case Enums.ContentType.Filme:
                             // TODO Fazer funfar
                             //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
                             //filme.FolderPath = item.Pasta;

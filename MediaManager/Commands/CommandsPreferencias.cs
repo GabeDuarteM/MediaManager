@@ -44,7 +44,7 @@ exec sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER ALL'
 /*Reset Identity on tables with identity column*/
 exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1 BEGIN DBCC CHECKIDENT (''?'',RESEED,0) END'");
                     }
-                    frmMain.MainVM.AtualizarConteudo(Enums.ContentType.movieShowAnime);
+                    frmMain.MainVM.AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
                 }
             }
 

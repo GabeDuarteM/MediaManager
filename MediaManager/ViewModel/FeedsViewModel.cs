@@ -19,29 +19,23 @@ namespace MediaManager.ViewModel
 
         public List<Feed> Feeds { get { return _Feeds; } set { _Feeds = value; OnPropertyChanged(); } }
 
-        private ICollectionView _FeedsView;
+        private CollectionViewSource _FeedsView;
 
-        public ICollectionView FeedsView { get { return _FeedsView; } set { _FeedsView = value; OnPropertyChanged(); } }
+        public CollectionViewSource FeedsView { get { return _FeedsView; } set { _FeedsView = value; OnPropertyChanged(); } }
 
         private bool? _bFlSelecionarTodosFeeds;
 
         public bool? bFlSelecionarTodosFeeds { get { return _bFlSelecionarTodosFeeds; } set { _bFlSelecionarTodosFeeds = value; OnPropertyChanged(); } }
 
-        private ICommand _CommandAdicionarFeed;
+        public ICommand CommandAdicionarFeed { get; set; }
 
-        public ICommand CommandAdicionarFeed { get { return _CommandAdicionarFeed; } set { _CommandAdicionarFeed = value; OnPropertyChanged(); } }
+        public ICommand CommandAumentarPrioridadeFeed { get; set; }
 
-        private ICommand _CommandAumentarPrioridadeFeed;
+        public ICommand CommandDiminuirPrioridadeFeed { get; set; }
 
-        public ICommand CommandAumentarPrioridadeFeed { get { return _CommandAumentarPrioridadeFeed; } set { _CommandAumentarPrioridadeFeed = value; OnPropertyChanged(); } }
+        public ICommand CommandRemoverFeed { get; set; }
 
-        private ICommand _CommandDiminuirPrioridadeFeed;
-
-        public ICommand CommandDiminuirPrioridadeFeed { get { return _CommandDiminuirPrioridadeFeed; } set { _CommandDiminuirPrioridadeFeed = value; OnPropertyChanged(); } }
-
-        private ICommand _CommandRemoverFeed;
-
-        public ICommand CommandRemoverFeed { get { return _CommandRemoverFeed; } set { _CommandRemoverFeed = value; OnPropertyChanged(); } }
+        public ICommand CommandSelecionar { get; set; }
 
         public FeedsViewModel(List<Feed> feeds = null /* Teste unitário ¬¬ */)
         {
@@ -49,12 +43,16 @@ namespace MediaManager.ViewModel
                 Feeds = DBHelper.GetFeeds();
             else
                 Feeds = feeds;
-            FeedsView = new ListCollectionView(Feeds);
+            FeedsView = new CollectionViewSource();
+            FeedsView.Source = Feeds;
+            FeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
+            FeedsView.IsLiveSortingRequested = true;
             FeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
             CommandAdicionarFeed = new FeedsCommands.CommandAdicionarFeed();
             CommandAumentarPrioridadeFeed = new FeedsCommands.CommandAumentarPrioridadeFeed();
             CommandDiminuirPrioridadeFeed = new FeedsCommands.CommandDiminuirPrioridadeFeed();
             CommandRemoverFeed = new FeedsCommands.CommandRemoverFeed();
+            CommandSelecionar = new FeedsCommands.CommandSelecionar();
         }
 
         #region INotifyPropertyChanged Members
