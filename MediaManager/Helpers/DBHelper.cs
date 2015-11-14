@@ -131,7 +131,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.CompletoSemForeignKeys;
+                    item.Estado = Enums.Estado.CompletoSemForeignKeys;
                 }
                 return animes;
             }
@@ -150,7 +150,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.Completo;
+                    item.Estado = Enums.Estado.Completo;
                 }
                 return animes;
             }
@@ -380,7 +380,7 @@ namespace MediaManager.Helpers
                                 where serieDB.IDBanco == IDBanco
                                 select serieDB);
                 Serie serie = seriesDB.First();
-                serie.Estado = Estado.CompletoSemForeignKeys;
+                serie.Estado = Enums.Estado.CompletoSemForeignKeys;
                 return serie;
             }
         }
@@ -402,7 +402,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.CompletoSemForeignKeys;
+                    item.Estado = Enums.Estado.CompletoSemForeignKeys;
                 }
                 return series;
             }
@@ -421,7 +421,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.Completo;
+                    item.Estado = Enums.Estado.Completo;
                 }
                 return series;
             }
@@ -439,7 +439,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.CompletoSemForeignKeys;
+                    item.Estado = Enums.Estado.CompletoSemForeignKeys;
                 }
                 return series;
             }
@@ -457,7 +457,7 @@ namespace MediaManager.Helpers
                 {
                     item.ContentType = item.IsAnime == true ? Enums.ContentType.Anime
                         : Enums.ContentType.Série;
-                    item.Estado = Estado.Completo;
+                    item.Estado = Enums.Estado.Completo;
                 }
                 return series;
             }

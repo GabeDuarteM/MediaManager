@@ -8,6 +8,17 @@ namespace MediaManager.Helpers
     public class Enums
     {
         /// <summary>
+        /// NOVO = Recém criado (new Video()), Simples = Video com as informações basicas vindas da API, Completo = Video com as informações completas vindas da API.
+        /// </summary>
+        public enum Estado
+        {
+            Novo,
+            Simples,
+            Completo,
+            CompletoSemForeignKeys
+        }
+
+        /// <summary>
         /// Define o tipo de conteúdo a ser usado.
         /// </summary>
         public enum ContentType

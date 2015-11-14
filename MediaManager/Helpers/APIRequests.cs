@@ -253,7 +253,7 @@ namespace MediaManager.Helpers
 
             foreach (var item in data.Series)
             {
-                item.Estado = Estado.Completo;
+                item.Estado = Enums.Estado.Completo;
             }
 
             return data;
@@ -309,7 +309,7 @@ namespace MediaManager.Helpers
                         foreach (var item in data.Series)
                         {
                             var isExistente = false;
-                            item.Estado = Estado.Simples;
+                            item.Estado = Enums.Estado.Simples;
                             foreach (var itemListaSeries in series)
                             {
                                 if (item.IDApi == itemListaSeries.IDApi)

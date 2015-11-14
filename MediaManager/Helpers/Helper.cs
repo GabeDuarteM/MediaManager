@@ -434,8 +434,8 @@ namespace MediaManager.Helpers
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/4
             public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:(?:ep|Episode)(?:\s{0,})?)?(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
 
-            // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/1
-            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*) - (?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
+            // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/2
+            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)(?: - )?(?:\s{0,})(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
         }
 
         #region [ APIs trakt ]

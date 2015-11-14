@@ -139,42 +139,54 @@ namespace MediaManager.Forms
 
         private void TimerAtualizarConteudo_Tick(object sender, EventArgs e)
         {
-            var series = DBHelper.GetSeriesEAnimesComForeignKeys();
+            ProcurarNovosEpisodiosBaixados();
 
-            foreach (var serie in series)
-            {
-                var pasta = new DirectoryInfo(serie.FolderPath);
-                var arquivos = pasta.EnumerateFiles("*", SearchOption.AllDirectories);
-                foreach (var arquivo in arquivos)
-                {
-                    if (Settings.Default.ExtensoesRenomeioPermitidas.Contains(arquivo.Extension))
-                    {
-                        if (!DBHelper.VerificarSeEpisodioJaFoiRenomeado(arquivo.FullName))
-                        {
-                            EpisodeToRename episodio = new EpisodeToRename();
-                            episodio.Filename = arquivo.Name;
-                            episodio.FolderPath = arquivo.DirectoryName;
-                            if (episodio.GetEpisode())
-                            {
-                                episodio.FilePath = arquivo.FullName;
-                                episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + arquivo.Extension;
-                                episodio.IsRenamed = Path.Combine(serie.FolderPath, episodio.FilenameRenamed) == arquivo.FullName;
-                                episodio.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                                DBHelper.UpdateEpisodioRenomeado(episodio);
-                            }
-                        }
-                    }
-                }
-            }
+            ProcurarEpisodiosParaBaixar();
 
             APIRequests.GetAtualizacoes();
         }
 
+        private void ProcurarEpisodiosParaBaixar()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ProcurarNovosEpisodiosBaixados()
+        {
+            var series = MainVM.AnimesESeries.ToList();
+
+            //foreach (var serie in series)
+            //{
+            //    var pasta = new DirectoryInfo(serie.FolderPath);
+            //    var arquivos = pasta.EnumerateFiles("*", SearchOption.AllDirectories);
+            //    foreach (var arquivo in arquivos)
+            //    {
+            //        if (Settings.Default.ExtensoesRenomeioPermitidas.Contains(arquivo.Extension))
+            //        {
+            //            if (!DBHelper.VerificarSeEpisodioJaFoiRenomeado(arquivo.FullName))
+            //            {
+            //                EpisodeToRename episodio = new EpisodeToRename();
+            //                episodio.Filename = arquivo.Name;
+            //                episodio.FolderPath = arquivo.DirectoryName;
+            //                if (episodio.GetEpisode())
+            //                {
+            //                    episodio.FilePath = arquivo.FullName;
+            //                    episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + arquivo.Extension;
+            //                    episodio.IsRenamed = Path.Combine(serie.FolderPath, episodio.FilenameRenamed) == arquivo.FullName;
+            //                    episodio.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
+            //                    DBHelper.UpdateEpisodioRenomeado(episodio);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
         private /*async*/ void Teste() // TODO Apagar método.
         {
-            string nomeProcurado = "The Big Bang Theory";
+            string nomeProcurado = "Arrow";
 
-            foreach (var item in DBHelper.GetFeeds())
+            foreach (var item in DBHelper.GetFeeds().OrderBy(x => x.nNrPrioridade))
             {
                 var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sNmUrl));
                 List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
@@ -184,7 +196,7 @@ namespace MediaManager.Forms
                     Helper.RegexEpisodio a = new Helper.RegexEpisodio();
                     System.Text.RegularExpressions.Match b = null;
                     if (item.nIdTipoConteudo == Enums.ContentType.Série)
-                        b = a.regex_S00E00.Match(itemArgotic.Title);
+                        b = a.regex_0x00.Match(itemArgotic.Title);
                     else
                         b = a.regex_Fansub0000.Match(itemArgotic.Title);
                     var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();

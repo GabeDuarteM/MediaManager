@@ -356,5 +356,39 @@ namespace MediaManager.Tests
             actual = match.Groups["name"].Value.Trim() + " - " + match.Groups["episodes"].Value.Trim();
             Assert.AreEqual("Sword Art Online - 02", actual);
         }
+
+        [TestMethod]
+        public void TestarSeriesRegex0x00()
+        {
+            Helpers.Helper.RegexEpisodio regex = new Helpers.Helper.RegexEpisodio();
+
+            {
+                string filename = "The Big Bang Theory 9x08 The Mystery Date Observation 720p".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                EpisodeToRename episodio = new EpisodeToRename() { Filename = filename };
+                Assert.IsTrue(regex.regex_0x00.IsMatch(episodio.Filename));
+                Match match = regex.regex_0x00.Match(episodio.Filename);
+                string sNmSerie = match.Groups["name"].Value.Trim();
+                int nNrTemporada = int.MinValue;
+                int nNrEpisodio = int.MinValue;
+                int.TryParse(match.Groups["season"].Value.Trim(), out nNrTemporada);
+                int.TryParse(match.Groups["episodes"].Value.Trim(), out nNrEpisodio);
+                var actual = sNmSerie + " " + nNrTemporada + "x" + nNrEpisodio.ToString("00");
+                Assert.AreEqual("The Big Bang Theory 9x08", actual);
+            }
+
+            {
+                string filename = "Arrow - 4x01 - Green Arrow".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                EpisodeToRename episodio = new EpisodeToRename() { Filename = filename };
+                Assert.IsTrue(regex.regex_0x00.IsMatch(episodio.Filename));
+                Match match = regex.regex_0x00.Match(episodio.Filename);
+                string sNmSerie = match.Groups["name"].Value.Trim();
+                int nNrTemporada = int.MinValue;
+                int nNrEpisodio = int.MinValue;
+                int.TryParse(match.Groups["season"].Value.Trim(), out nNrTemporada);
+                int.TryParse(match.Groups["episodes"].Value.Trim(), out nNrEpisodio);
+                var actual = sNmSerie + " " + nNrTemporada + "x" + nNrEpisodio.ToString("00");
+                Assert.AreEqual("Arrow 4x01", actual);
+            }
+        }
     }
 }

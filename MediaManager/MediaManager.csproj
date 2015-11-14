@@ -187,6 +187,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
+    <Compile Include="Model\Episodio.cs" />
     <Compile Include="Model\Feed.cs" />
     <Compile Include="Model\Filme.cs" />
     <Compile Include="Model\Ids.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Model\SerieOld.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\SerieAlias.cs" />
+    <Compile Include="Model\SeriesData.cs" />
     <Compile Include="Model\Video.cs" />
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\EpisodeToRename.cs" />
