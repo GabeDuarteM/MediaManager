@@ -59,7 +59,7 @@ namespace MediaManager.ViewModel
             if (IDBanco == 0)
                 IDBanco = video.IDBanco; // Guarda o IDBanco para caso for realizada uma Busca personalizada.
             var resultPesquisaTemp = new List<Video>();
-            if (video.IDApi != 0 && (video.Estado == Estado.Completo || video.Estado == Estado.CompletoSemForeignKeys))
+            if (video.IDApi != 0 && (video.Estado == Enums.Estado.Completo || video.Estado == Enums.Estado.CompletoSemForeignKeys))
             {
                 //var data = new SeriesData();
                 //data.Series = new Serie[1] { (Serie)video };
@@ -218,7 +218,7 @@ namespace MediaManager.ViewModel
 
         private async void AlterarVideoAsync()
         {
-            if (SelectedVideo == null || SelectedVideo == videoCarregando || SelectedVideo.Estado == Estado.Completo || SelectedVideo.Estado == Estado.CompletoSemForeignKeys)
+            if (SelectedVideo == null || SelectedVideo == videoCarregando || SelectedVideo.Estado == Enums.Estado.Completo || SelectedVideo.Estado == Enums.Estado.CompletoSemForeignKeys)
                 return;
             if (ResultPesquisa.Count > 0 && SelectedVideo == videoBuscaPersonalizada)
             {
@@ -234,7 +234,7 @@ namespace MediaManager.ViewModel
             {
                 foreach (var item in listaVideosQuaseCompletos)
                 {
-                    if (item.IDApi == SelectedVideo.IDApi && (item.Estado == Estado.Completo || item.Estado == Estado.CompletoSemForeignKeys))
+                    if (item.IDApi == SelectedVideo.IDApi && (item.Estado == Enums.Estado.Completo || item.Estado == Enums.Estado.CompletoSemForeignKeys))
                     {
                         //Data = item;
                         _SelectedVideo = item; OnPropertyChanged("SelectedVideo");

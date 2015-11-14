@@ -8,26 +8,26 @@ namespace MediaManager.Model
 {
     public class PosterGrid : Video
     {
-        private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
-        private byte[] _ImgPosterCache = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
+        //private string _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
+        //private byte[] _ImgPosterCache = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
 
-        public override string ImgPoster
-        {
-            get { return _ImgPoster; }
-            set
-            {
-                _ImgPoster = string.IsNullOrWhiteSpace(value)
-                    ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
-                    : value;
-                _ImgPosterCache = _ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
-                    ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                    : File.ReadAllBytes(_ImgPoster);
-                OnPropertyChanged("ImgPoster");
-                OnPropertyChanged("ImgPosterCache");
-            }
-        }
+        //public override string ImgPoster
+        //{
+        //    get { return _ImgPoster; }
+        //    set
+        //    {
+        //        _ImgPoster = string.IsNullOrWhiteSpace(value)
+        //            ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+        //            : value;
+        //        _ImgPosterCache = _ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
+        //            ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+        //            : File.ReadAllBytes(_ImgPoster);
+        //        OnPropertyChanged("ImgPoster");
+        //        OnPropertyChanged("ImgPosterCache");
+        //    }
+        //}
 
-        public byte[] ImgPosterCache { get { return _ImgPosterCache; } }
+        //public byte[] ImgPosterCache { get { return _ImgPosterCache; } }
 
         public PosterGrid()
         {

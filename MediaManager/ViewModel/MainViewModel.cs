@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
@@ -12,20 +13,44 @@ namespace MediaManager.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<PosterViewModel> _animes;
-        private ObservableCollection<PosterViewModel> _filmes;
-        private ObservableCollection<PosterViewModel> _series;
+        //private ObservableCollection<PosterViewModel> _animes;
+        //private ObservableCollection<PosterViewModel> _filmes;
+        //private ObservableCollection<PosterViewModel> _series;
 
-        public ObservableCollection<PosterViewModel> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged("Animes"); } }
-        public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged("Filmes"); } }
-        public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged("Series"); } }
+        //public ObservableCollection<PosterViewModel> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
+        //public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
+        //public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
 
-        public MainViewModel()
+        private ObservableCollection<Serie> _animes;
+        private ObservableCollection<Video> _filmes;
+        private ObservableCollection<Serie> _series;
+
+        public ObservableCollection<Serie> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
+        public ObservableCollection<Video> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
+        public ObservableCollection<Serie> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
+
+        public ObservableCollection<PosterViewModel> AnimesESeries
         {
-            AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
+            get
+            {
+                ObservableCollection<Serie> retorno = new ObservableCollection<PosterViewModel>();
+
+                foreach (var anime in Animes)
+                    retorno.Add(anime);
+
+                foreach (var serie in Series)
+                    retorno.Add(serie);
+
+                return retorno;
+            }
         }
 
-        public void AtualizarConteudo(Enums.ContentType tipoConteudo)
+        public MainViewModel(ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
+        {
+            AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie, animes, filmes, series);
+        }
+
+        public void AtualizarConteudo(Enums.ContentType tipoConteudo, ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
         {
             switch (tipoConteudo)
             {
@@ -50,7 +75,7 @@ namespace MediaManager.ViewModel
                 case Enums.ContentType.Série:
                     {
                         Series = new ObservableCollection<PosterViewModel>();
-                        List<Serie> series = DBHelper.GetSeriesComForeignKeys();
+                        series = (series != null) ? series : DBHelper.GetSeriesComForeignKeys();
 
                         foreach (var item in series)
                         {
@@ -69,7 +94,7 @@ namespace MediaManager.ViewModel
                 case Enums.ContentType.Anime:
                     {
                         Animes = new ObservableCollection<PosterViewModel>();
-                        List<Serie> animes = DBHelper.GetAnimesComForeignKeys();
+                        animes = (animes != null) ? animes : DBHelper.GetAnimesComForeignKeys();
 
                         foreach (var item in animes)
                         {
@@ -89,10 +114,10 @@ namespace MediaManager.ViewModel
                     {
                         Series = new ObservableCollection<PosterViewModel>();
                         Animes = new ObservableCollection<PosterViewModel>();
-                        Filmes = new ObservableCollection<PosterViewModel>();
+                        //Filmes = new ObservableCollection<PosterViewModel>();
 
-                        List<Serie> series = DBHelper.GetSeriesComForeignKeys();
-                        List<Serie> animes = DBHelper.GetAnimesComForeignKeys();
+                        series = (series != null) ? series : DBHelper.GetSeriesComForeignKeys();
+                        animes = (animes != null) ? animes : DBHelper.GetAnimesComForeignKeys();
                         //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
                         foreach (var item in series)
@@ -128,7 +153,7 @@ namespace MediaManager.ViewModel
 
                         Series = _series;
                         Animes = _animes;
-                        Filmes = _filmes;
+                        //Filmes = _filmes;
                         break;
                     }
                 case Enums.ContentType.Selecione:
@@ -142,7 +167,7 @@ namespace MediaManager.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 
