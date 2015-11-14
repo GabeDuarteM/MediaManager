@@ -93,21 +93,20 @@ namespace MediaManager.Model
                 _ImgPoster = string.IsNullOrWhiteSpace(value)
                     ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                     : value;
-
-                if (File.Exists(value) || value == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
-                {
-                    ImgPosterCache = ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
-                        ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                        : File.ReadAllBytes(ImgPoster);
-                }
-
                 OnPropertyChanged();
             }
         }
 
-        private byte[] _ImgPosterCache;
-
-        public byte[] ImgPosterCache { get { return _ImgPosterCache; } private set { _ImgPosterCache = value; OnPropertyChanged(); } }
+        [XmlIgnore, NotMapped]
+        public byte[] ImgPosterCache
+        {
+            get
+            {
+                return ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
+                    ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+                    : File.ReadAllBytes(ImgPoster);
+            }
+        }
 
         [XmlIgnore]
         public virtual string Language { get; set; }
@@ -125,7 +124,6 @@ namespace MediaManager.Model
         {
             _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
             _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
-            _ImgPosterCache = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
         }
 
         public abstract void Clone(object objectToClone);

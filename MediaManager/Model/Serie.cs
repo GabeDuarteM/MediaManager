@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using System.IO;
 using System.Xml.Serialization;
 using MediaManager.Helpers;
 
@@ -88,7 +89,7 @@ namespace MediaManager.Model
                         _ImgFanart = ("pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png")
                         : _ImgFanart = Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
                 }
-                OnPropertyChanged("ImgFanart");
+                OnPropertyChanged();
             }
         }
 
@@ -99,13 +100,20 @@ namespace MediaManager.Model
             set
             {
                 if (value.StartsWith("http"))
+                {
                     _ImgPoster = value;
+                }
+                else if (File.Exists(value))
+                {
+                    _ImgPoster = value;
+                    OnPropertyChanged();
+                }
                 else
                 {
                     _ImgPoster = string.IsNullOrWhiteSpace(value) ?
-                    _ImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
-                    : Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
-                    OnPropertyChanged("ImgPoster");
+                        _ImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                        : Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
+                    OnPropertyChanged();
                 }
             }
         }

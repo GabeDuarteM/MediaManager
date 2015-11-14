@@ -21,19 +21,19 @@ namespace MediaManager.ViewModel
         //public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
         //public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<Serie> _animes;
-        private ObservableCollection<Video> _filmes;
-        private ObservableCollection<Serie> _series;
+        private ObservableCollection<PosterViewModel> _animes;
+        private ObservableCollection<PosterViewModel> _filmes;
+        private ObservableCollection<PosterViewModel> _series;
 
-        public ObservableCollection<Serie> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
-        public ObservableCollection<Video> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
-        public ObservableCollection<Serie> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
+        public ObservableCollection<PosterViewModel> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
+        public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
+        public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
 
         public ObservableCollection<PosterViewModel> AnimesESeries
         {
             get
             {
-                ObservableCollection<Serie> retorno = new ObservableCollection<PosterViewModel>();
+                ObservableCollection<PosterViewModel> retorno = new ObservableCollection<PosterViewModel>();
 
                 foreach (var anime in Animes)
                     retorno.Add(anime);
@@ -80,11 +80,9 @@ namespace MediaManager.ViewModel
                         foreach (var item in series)
                         {
                             var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            PosterGrid pg = item;
-                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                            pg.ContentType = Enums.ContentType.Série;
+                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
+                            posterVM.Poster = item;
                             _series.Add(posterVM);
                         }
 
@@ -99,11 +97,9 @@ namespace MediaManager.ViewModel
                         foreach (var item in animes)
                         {
                             var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            PosterGrid pg = item;
-                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                            pg.ContentType = Enums.ContentType.Anime;
+                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
+                            posterVM.Poster = item;
                             _animes.Add(posterVM);
                         }
 
@@ -123,22 +119,18 @@ namespace MediaManager.ViewModel
                         foreach (var item in series)
                         {
                             var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            PosterGrid pg = item;
-                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                            pg.ContentType = Enums.ContentType.Série;
+                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
+                            posterVM.Poster = item;
                             _series.Add(posterVM);
                         }
 
                         foreach (var item in animes)
                         {
                             var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            PosterGrid pg = item;
-                            pg.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                            pg.ContentType = Enums.ContentType.Anime;
+                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = pg;
+                            posterVM.Poster = item;
                             _animes.Add(posterVM);
                         }
 

@@ -12,11 +12,11 @@ namespace MediaManager.ViewModel
 {
     public class PosterViewModel : INotifyPropertyChanged
     {
-        private PosterGrid _poster;
+        private Video _poster;
 
         public ICommand AbrirEdicaoCommand { get; private set; }
 
-        public PosterGrid Poster { get { return _poster; } set { _poster = value; OnPropertyChanged(); } }
+        public Video Poster { get { return _poster; } set { _poster = value; OnPropertyChanged(); } }
 
         public PosterViewModel()
         {
@@ -52,20 +52,6 @@ namespace MediaManager.ViewModel
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
 
-                        //if (frmAdicionarConteudo.DialogResult == true)
-                        //{
-                        //    if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                        //        Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-                        //    else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
-                        //        Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-
-                        //    //Poster.IDBanco = serie.IDBanco;
-                        //    //Poster.ImgPoster = Path.Combine(serie.FolderMetadata, "poster.jpg");
-                        //    //Poster.ContentType = Enums.ContentType.show;
-                        //}
-                        //
-                        /// Parte acima substituída pela linha abaixo :)
-
                         frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Série);
                         break;
                     }
@@ -74,20 +60,6 @@ namespace MediaManager.ViewModel
                         frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
                         frmAdicionarConteudo.IsEdicao = true;
                         frmAdicionarConteudo.ShowDialog();
-
-                        //if (frmAdicionarConteudo.DialogResult == true)
-                        //{
-                        //    if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                        //        Poster = (PosterGrid)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-                        //    else if (frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo is Serie)
-                        //        Poster = (Serie)frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-
-                        //    //Poster.IDBanco = anime.IDBanco;
-                        //    //Poster.ImgPoster = Path.Combine(anime.FolderMetadata, "poster.jpg");
-                        //    //Poster.ContentType = Enums.ContentType.anime;
-                        //}
-                        //
-                        /// Parte acima substituída pela linha abaixo :)
 
                         frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Anime);
                         break;

@@ -24,8 +24,8 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
-            Teste();
-            TESTCopiarEstruturaDePastas();
+            //Teste();
+            //TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
 
@@ -43,7 +43,7 @@ namespace MediaManager.Forms
             timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // em milisegundos
             timerAtualizarConteudo.Start();
 
-            TimerAtualizarConteudo_Tick(null, null);
+            //TimerAtualizarConteudo_Tick(null, null);
 
             APIRequests.GetAtualizacoes();
         }
@@ -141,7 +141,7 @@ namespace MediaManager.Forms
         {
             ProcurarNovosEpisodiosBaixados();
 
-            ProcurarEpisodiosParaBaixar();
+            //ProcurarEpisodiosParaBaixar();
 
             APIRequests.GetAtualizacoes();
         }
