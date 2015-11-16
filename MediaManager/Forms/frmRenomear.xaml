@@ -4,7 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Renomear - {0}'}"
-        Height="400" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Height="400" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>

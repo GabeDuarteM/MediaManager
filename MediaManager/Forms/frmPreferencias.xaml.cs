@@ -27,6 +27,12 @@ namespace MediaManager.Forms
             preferenciasVM.CloseAction = new Action(() => Close());
         }
 
+        public void ShowDialog(Window owner)
+        {
+            Owner = owner;
+            ShowDialog();
+        }
+
         //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
         //{
         //    if (btnLoginTrakt.Content.Equals("Entrar"))

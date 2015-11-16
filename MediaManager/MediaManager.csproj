@@ -159,6 +159,9 @@
     <Compile Include="Commands\EpisodiosCommand.cs" />
     <Compile Include="Commands\FeedsCommands.cs" />
     <Compile Include="Commands\RenomearCommand.cs" />
+    <Compile Include="Forms\frmBarraProgresso.xaml.cs">
+      <DependentUpon>frmBarraProgresso.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmEpisodios.xaml.cs">
       <DependentUpon>frmEpisodios.xaml</DependentUpon>
     </Compile>
@@ -185,16 +188,10 @@
       <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\ConteudoGrid.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Episodio.cs" />
     <Compile Include="Model\Feed.cs" />
     <Compile Include="Model\Filme.cs" />
-    <Compile Include="Model\Ids.cs" />
-    <Compile Include="Model\Images.cs" />
-    <Compile Include="Model\PosterGrid.cs" />
-    <Compile Include="Model\Search.cs" />
-    <Compile Include="Model\SerieOld.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\SerieAlias.cs" />
     <Compile Include="Model\SeriesData.cs" />
@@ -219,9 +216,6 @@
     <Compile Include="UserControls\ControlPoster.xaml.cs">
       <DependentUpon>ControlPoster.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmPopupPesquisa.xaml.cs">
-      <DependentUpon>frmPopupPesquisa.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\frmProcurarConteudo.xaml.cs">
       <DependentUpon>frmProcurarConteudo.xaml</DependentUpon>
     </Compile>
@@ -229,6 +223,10 @@
       <DependentUpon>frmRenomear.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Page Include="Forms\frmBarraProgresso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\frmEpisodios.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -237,6 +235,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <DesignData Include="SampleData\BarraProgressoViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\ProcurarConteudoViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\InputMessageBoxViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
     <Page Include="UserControls\ControlPoster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -269,10 +279,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Forms\frmPreferencias.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\frmPopupPesquisa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

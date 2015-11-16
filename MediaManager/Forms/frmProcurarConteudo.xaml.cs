@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.ViewModel;
+using Ookii.Dialogs.Wpf;
 
 namespace MediaManager.Forms
 {
@@ -14,85 +17,114 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmProcurarConteudo : Window
     {
-        public Enums.ContentType ContentType;
-        public ProcurarConteudoViewModel contViewModel;
+        public Enums.ContentType TipoConteudo { get; set; }
 
-        public frmProcurarConteudo(Enums.ContentType contentType)
+        public ProcurarConteudoViewModel ProcurarConteudoViewModel { get; set; }
+
+        public frmProcurarConteudo(Enums.ContentType tipoConteudo, Window owner)
         {
-            InitializeComponent();
-            ContentType = contentType;
+            Owner = owner;
 
-            contViewModel = new ProcurarConteudoViewModel(ContentType);
-            DataContext = contViewModel;
+            InitializeComponent();
+
+            TipoConteudo = tipoConteudo;
+
+            ProcurarConteudoViewModel = new ProcurarConteudoViewModel(TipoConteudo, Owner);
+
+            DataContext = ProcurarConteudoViewModel;
+
             btAdicionar.IsEnabled = true;
         }
 
-        private async void btAdicionar_Click(object sender, RoutedEventArgs e)
+        private void btAdicionar_Click(object sender, RoutedEventArgs e)
         {
-            btAdicionar.IsEnabled = false;
-            int count = 0;
-            foreach (var item in contViewModel.Conteudos)
+            //btAdicionar.IsEnabled = false;
+            frmBarraProgresso frmBarraProgresso = new frmBarraProgresso();
+            frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = ProcurarConteudoViewModel.Conteudos.Count;
+            frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Salvando...";
+            frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (s, ev) =>
             {
-                if (item.IsSelected == true)
+                if (ProcurarConteudoViewModel.Conteudos.Where(x => x.bFlSelecionado).Count() == 0)
                 {
-                    switch (item.ContentType)
-                    {
-                        case Enums.ContentType.Série:
-                            {
-                                SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
-                                Serie serie = data.Series[0];
-                                serie.Episodes = new List<Episode>(data.Episodes);
-                                serie.FolderPath = item.FolderPath;
-                                serie.SerieAliasStr = item.SerieAliasStr;
-                                serie.SerieAlias = item.SerieAlias;
-                                serie.Title = item.Title;
-
-                                await DBHelper.AddSerieAsync(serie);
-                                break;
-                            }
-                        case Enums.ContentType.Anime:
-                            {
-                                //SeriesData data = await API_Requests.GetSerieInfoAsync(item.IDApi, item.Language);
-                                //Serie anime = data.Series[0];
-                                //Episode[] episodes = data.Episodes;
-                                //anime.FolderPath = item.FolderPath;
-                                //anime.IsAnime = true;
-
-                                SeriesData data = await APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
-                                Serie anime = data.Series[0];
-                                anime.Episodes = new List<Episode>(data.Episodes);
-                                anime.IsAnime = true;
-                                anime.FolderPath = item.FolderPath;
-                                anime.SerieAliasStr = item.SerieAliasStr;
-                                anime.SerieAlias = item.SerieAlias;
-                                anime.Title = item.Title;
-
-                                await DBHelper.AddSerieAsync(anime);
-                                break;
-                            }
-                        case Enums.ContentType.Filme:
-                            // TODO Fazer funfar
-                            //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                            //filme.FolderPath = item.Pasta;
-                            //await DatabaseHelper.AddFilmeAsync(filme);
-                            break;
-
-                        default:
-                            break;
-                    }
-                    count++;
+                    Helper.MostrarMensagem("Para realizar a operação, selecione ao menos um registro.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-            }
+                foreach (var item in ProcurarConteudoViewModel.Conteudos)
+                {
+                    if (item.bFlSelecionado == true)
+                    {
+                        switch (item.ContentType)
+                        {
+                            case Enums.ContentType.Série:
+                                {
+                                    if (item.Estado != Enums.Estado.Completo)
+                                    {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
+                                        SeriesData data = APIRequests.GetSerieInfo(item.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
+                                        Serie serie = data.Series[0];
+                                        serie.Episodes = new List<Episode>(data.Episodes);
+                                        serie.FolderPath = item.FolderPath;
+                                        serie.SerieAliasStr = item.SerieAliasStr;
+                                        serie.SerieAlias = item.SerieAlias;
+                                        serie.Title = item.Title;
+                                        DBHelper.AddSerie(serie);
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+                                    }
+                                    else
+                                    {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
+                                        DBHelper.AddSerie((Serie)item);
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+                                    }
+                                    break;
+                                }
+                            case Enums.ContentType.Anime:
+                                {
+                                    if (item.Estado != Enums.Estado.Completo)
+                                    {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
+                                        SeriesData data = APIRequests.GetSerieInfo(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
+                                        Serie anime = data.Series[0];
+                                        anime.ContentType = item.ContentType;
+                                        anime.FolderPath = item.FolderPath;
+                                        anime.SerieAliasStr = item.SerieAliasStr;
+                                        anime.SerieAlias = item.SerieAlias;
+                                        anime.Title = item.Title;
 
-            DialogResult = true;
+                                        DBHelper.AddSerie(anime);
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+                                    }
+                                    else
+                                    {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
+                                        DBHelper.AddSerie((Serie)item);
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+                                    }
+                                    break;
+                                }
+                            case Enums.ContentType.Filme:
+                                // TODO Fazer funfar
+                                //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
+                                //filme.FolderPath = item.Pasta;
+                                //await DatabaseHelper.AddFilmeAsync(filme);
+                                break;
 
-            if (count > 0)
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                Helper.MostrarMensagem("Séries inseridas com sucesso.", MessageBoxButton.OK, MessageBoxImage.Information);
+            };
+
+            Action actionFechar = new Action(() => { DialogResult = true; Close(); });
+
+            frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted += (s, ev) =>
             {
-                MessageBox.Show("Séries inseridas com sucesso.");
-                Close();
-            }
-            else
-                MessageBox.Show("Selecione pelo menos uma série para adicionar.");
+                actionFechar();
+            };
+            frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerAsync();
+            frmBarraProgresso.ShowDialog(this);
         }
 
         private void checkItem_Click(object sender, RoutedEventArgs e)
@@ -112,64 +144,58 @@ namespace MediaManager.Forms
         private void checkTodos_Click(object sender, RoutedEventArgs e)
         {
             if ((sender as CheckBox).IsChecked == true)
-                foreach (var item in contViewModel.Conteudos)
+                foreach (var item in ProcurarConteudoViewModel.Conteudos)
                 {
-                    item.IsSelected = true;
+                    item.bFlSelecionado = true;
                 }
             else
-                foreach (var item in contViewModel.Conteudos)
+                foreach (var item in ProcurarConteudoViewModel.Conteudos)
                 {
-                    item.IsSelected = false;
+                    item.bFlSelecionado = false;
                 }
         }
 
-        private void dgAll_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void dgAllRowClick_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (dgAll.SelectedItem != null)
             {
-                ConteudoGrid conteudo = dgAll.SelectedItem as ConteudoGrid;
-                ConteudoGrid conteudoAlterado = new ConteudoGrid(); // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
+                Serie conteudo = dgAll.SelectedItem as Serie;
+                Serie conteudoAlterado = new Serie(); // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
                 conteudoAlterado.Clone(conteudo);
-                if (conteudoAlterado.IsNotFound)
+                if (conteudoAlterado.bFlNaoEncontrado)
                     conteudoAlterado.Title = Path.GetFileName(conteudoAlterado.FolderPath);
                 frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.ContentType, conteudoAlterado);
                 frmAdicionarConteudo.IsProcurarConteudo = true;
-                frmAdicionarConteudo.ShowDialog();
+                frmAdicionarConteudo.ShowDialog(this);
                 if (frmAdicionarConteudo.DialogResult == true)
                 {
                     Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.SelectedVideo;
-                    int i;
-                    for (i = 0; i < contViewModel.Conteudos.Count; i++)
-                    {
-                        if (contViewModel.Conteudos[i] == conteudo)
-                        {
-                            break;
-                        }
-                    }
-                    if (video is Serie)
-                    {
-                        //conteudo = (Serie)video;
-                        //conteudo.Video = (Serie)video;
-                        contViewModel.Conteudos[i] = (Serie)video;
-                        contViewModel.Conteudos[i].Video = (Serie)video;
-                        contViewModel.Conteudos[i].IsSelected = true;
-                    }
-                    else if (video is ConteudoGrid)
-                    {
-                        //conteudo = (ConteudoGrid)video;
-                        //conteudo.Video = (ConteudoGrid)video;
-                        contViewModel.Conteudos[i] = (ConteudoGrid)video;
-                        contViewModel.Conteudos[i].Video = (ConteudoGrid)video;
-                        contViewModel.Conteudos[i].IsSelected = true;
-                    }
-                    else
-                        throw new System.InvalidCastException();
+                    conteudo.Clone(video);
+                    conteudo.bFlSelecionado = true;
+                    //if
+                    //int i;
+                    //for (i = 0; i < ProcurarConteudoViewModel.Conteudos.Count; i++)
+                    //{
+                    //    if (ProcurarConteudoViewModel.Conteudos[i] == conteudo)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+                    //if (video is Serie)
+                    //{
+                    //    ProcurarConteudoViewModel.Conteudos[i] = (Serie)video;
+                    //    ProcurarConteudoViewModel.Conteudos[i].bFlSelecionado = true;
+                    //}
+                    //else
+                    //    throw new InvalidCastException();
                 }
-                //else if (frmAdicionarConteudo.AdicionarConteudoViewModel.Video != null && frmAdicionarConteudo.AdicionarConteudoViewModel.Video.IDApi == 0)
-                //{
-                //    (dgAll.SelectedItem as ConteudoGrid).IsNotFound = true;
-                //}
             }
+        }
+
+        public void ShowDialog(Window owner)
+        {
+            Owner = owner;
+            ShowDialog();
         }
     }
 }

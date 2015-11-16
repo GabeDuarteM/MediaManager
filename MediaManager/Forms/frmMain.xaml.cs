@@ -24,7 +24,7 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
-            //Teste();
+            Teste();
             //TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
@@ -149,6 +149,33 @@ namespace MediaManager.Forms
         private void ProcurarEpisodiosParaBaixar()
         {
             throw new NotImplementedException();
+            string nomeProcurado = "Arrow";
+
+            foreach (var item in DBHelper.GetFeeds().OrderBy(x => x.nNrPrioridade))
+            {
+                var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sNmUrl));
+                List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
+
+                foreach (var itemArgotic in argotic.Channel.Items)
+                {
+                    Helper.RegexEpisodio a = new Helper.RegexEpisodio();
+                    System.Text.RegularExpressions.Match b = null;
+                    if (item.nIdTipoConteudo == Enums.ContentType.Série)
+                        b = a.regex_0x00.Match(itemArgotic.Title);
+                    else
+                        b = a.regex_Fansub0000.Match(itemArgotic.Title);
+                    var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    if (b.Success == true)
+                    {
+                        if (Helper.CalcularAlgoritimoLevenshtein(nomeProcurado, titulo) <= Math.Min((nomeProcurado.Length / 2 + titulo.Length / 2) / 2, 10))
+                        {
+                            encontradosArgotic.Add(itemArgotic);
+                        }
+                    }
+                }
+
+                var c = encontradosArgotic.Count;
+            }
         }
 
         private void ProcurarNovosEpisodiosBaixados()
@@ -182,35 +209,8 @@ namespace MediaManager.Forms
             //}
         }
 
-        private /*async*/ void Teste() // TODO Apagar método.
+        private void Teste() // TODO Apagar método.
         {
-            string nomeProcurado = "Arrow";
-
-            foreach (var item in DBHelper.GetFeeds().OrderBy(x => x.nNrPrioridade))
-            {
-                var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sNmUrl));
-                List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
-
-                foreach (var itemArgotic in argotic.Channel.Items)
-                {
-                    Helper.RegexEpisodio a = new Helper.RegexEpisodio();
-                    System.Text.RegularExpressions.Match b = null;
-                    if (item.nIdTipoConteudo == Enums.ContentType.Série)
-                        b = a.regex_0x00.Match(itemArgotic.Title);
-                    else
-                        b = a.regex_Fansub0000.Match(itemArgotic.Title);
-                    var titulo = b.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                    if (b.Success == true)
-                    {
-                        if (Helper.CalcularAlgoritimoLevenshtein(nomeProcurado, titulo) <= Math.Min((nomeProcurado.Length / 2 + titulo.Length / 2) / 2, 10))
-                        {
-                            encontradosArgotic.Add(itemArgotic);
-                        }
-                    }
-                }
-
-                var c = encontradosArgotic.Count;
-            }
         }
 
         private void TESTCopiarEstruturaDePastas()
@@ -238,7 +238,7 @@ namespace MediaManager.Forms
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Anime);
-            frmAdicionarConteudo.ShowDialog();
+            frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
                 MainVM.AtualizarConteudo(Enums.ContentType.Anime);
         }
@@ -246,7 +246,7 @@ namespace MediaManager.Forms
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Filme);
-            frmAdicionarConteudo.ShowDialog();
+            frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
                 MainVM.AtualizarConteudo(Enums.ContentType.Filme);
         }
@@ -254,7 +254,7 @@ namespace MediaManager.Forms
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Série);
-            frmAdicionarConteudo.ShowDialog();
+            frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
                 MainVM.AtualizarConteudo(Enums.ContentType.Série);
         }
@@ -262,12 +262,12 @@ namespace MediaManager.Forms
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
         {
             frmPreferencias frmPreferencias = new frmPreferencias();
-            frmPreferencias.ShowDialog();
+            frmPreferencias.ShowDialog(this);
         }
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.AnimeFilmeSérie);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.AnimeFilmeSérie, this);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
                 MainVM.AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
@@ -276,25 +276,25 @@ namespace MediaManager.Forms
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
             frmRenomear frmRenomear = new frmRenomear();
-            frmRenomear.ShowDialog();
+            frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
             frmRenomear frmRenomear = new frmRenomear();
-            frmRenomear.ShowDialog();
+            frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
             frmRenomear frmRenomear = new frmRenomear();
-            frmRenomear.ShowDialog();
+            frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
             frmRenomear frmRenomear = new frmRenomear();
-            frmRenomear.ShowDialog();
+            frmRenomear.ShowDialog(this);
         }
 
         private void menuItSair_Click(object sender, RoutedEventArgs e)

@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     x:Class="MediaManager.Forms.frmAdicionarConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Adicionar conteúdo - \{0\}}"
-        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -27,7 +27,7 @@
 
         <Image Source="{Binding SelectedVideo.ImgFanart, Mode=OneWay}" HorizontalAlignment="Center" Height="260" Margin="0,10,0,10" VerticalAlignment="Top" Stretch="UniformToFill" Grid.Row="0" Grid.Column="1">
         </Image>
-        <Image Source="{Binding SelectedVideo.ImgPoster, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="20,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill" Grid.Row="0" Grid.Column="1">
+        <Image Source="{Binding SelectedVideo.ImgPosterCache, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="20,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill" Grid.Row="0" Grid.Column="1">
             <Image.Effect>
                 <DropShadowEffect />
             </Image.Effect>

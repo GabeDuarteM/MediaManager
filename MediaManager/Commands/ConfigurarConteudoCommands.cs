@@ -150,11 +150,12 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                if (MessageBox.Show("Você realmente deseja remover " + ((parameter as ConfigurarConteudoViewModel).Video.ContentType == Enums.ContentType.Série ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
+                if (MessageBox.Show("Você realmente deseja remover " + (ConfigurarConteudoVM.Video.ContentType == Enums.ContentType.Série ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    DBHelper.RemoverSerieOuAnimePorID((parameter as ConfigurarConteudoViewModel).Video.IDBanco);
-                    (parameter as ConfigurarConteudoViewModel).IsAcaoRemover = true;
-                    (parameter as ConfigurarConteudoViewModel).ActionClose();
+                    DBHelper.RemoverSerieOuAnimePorID(ConfigurarConteudoVM.Video.IDBanco);
+                    ConfigurarConteudoVM.IsAcaoRemover = true;
+                    ConfigurarConteudoVM.ActionClose();
                 }
             }
         }

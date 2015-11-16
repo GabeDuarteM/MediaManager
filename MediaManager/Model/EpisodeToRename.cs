@@ -30,9 +30,6 @@ namespace MediaManager.Model
 
         public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged(); } }
 
-        [NotMapped]
-        public bool IsSelected { get { return _IsSelected; } set { _IsSelected = value; OnPropertyChanged(); } }
-
         public string ParentTitle { get; set; }
 
         public EpisodeToRename(Episode episode)

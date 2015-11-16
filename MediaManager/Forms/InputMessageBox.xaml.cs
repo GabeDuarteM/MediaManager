@@ -68,6 +68,21 @@ namespace ConfigurableInputMessageBox
 
             DataContext = InputViewModel;
         }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = InputViewModel.Properties.Width;
+            double windowHeight = InputViewModel.Properties.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CenterWindowOnScreen();
+        }
     }
 
     public class InputMessageBoxProperties : INotifyPropertyChanged, IDataErrorInfo
@@ -155,7 +170,7 @@ namespace ConfigurableInputMessageBox
 
         public InputMessageBoxProperties Properties { get { return _properties; } }
 
-        public InputMessageBoxViewModel(inputType inputType)
+        public InputMessageBoxViewModel(inputType inputType = inputType.Default)
         {
             _properties = new InputMessageBoxProperties();
 
@@ -168,10 +183,10 @@ namespace ConfigurableInputMessageBox
                         Properties.ButtonWidth = 75;
                         Properties.CancelButtonText = "Cancelar";
                         Properties.Height = 108;
+                        Properties.Width = 430;
                         Properties.Message = "Informe um valor...";
                         Properties.OkButtonText = "Ok";
                         Properties.Title = string.Format("InputMessageBox");
-                        Properties.Width = 430;
                         break;
                     }
                 case inputType.AdicionarConteudo:

@@ -81,7 +81,7 @@ namespace MediaManager.Forms
         {
             if (AdicionarConteudoViewModel.SelectedVideo == null || AdicionarConteudoViewModel.SelectedVideo.FolderPath == null)
             {
-                MessageBox.Show("Favor preencher todos os campos antes de salvar.");
+                Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
             else if (IsProcurarConteudo)
@@ -118,49 +118,58 @@ namespace MediaManager.Forms
                         break;
 
                     case Enums.ContentType.Série:
+                    case Enums.ContentType.Anime:
                         {
                             Serie serie = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)
-                                serie = (Serie)AdicionarConteudoViewModel.SelectedVideo;
-                            else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
                             {
-                                serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
-                                serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+                                serie = (Serie)AdicionarConteudoViewModel.SelectedVideo;
                             }
+                            //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                            //{
+                            //    serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                            //    serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+                            //}
 
                             serie.SerieAlias = Helper.PopularCampoSerieAlias(serie);
 
                             if (IsEdicao)
                             {
-                                try { await DBHelper.UpdateSerieAsync(serie); }
+                                try
+                                {
+                                    await DBHelper.UpdateSerieAsync(serie);
+                                }
                                 catch (Exception ex)
                                 {
-                                    Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+                                    Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.Title);
                                     DialogResult = false;
                                 }
                             }
                             else
                             {
-                                try { await DBHelper.AddSerieAsync(serie); }
+                                try
+                                {
+                                    await DBHelper.AddSerieAsync(serie);
+                                }
                                 catch (Exception ex)
                                 {
-                                    Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+                                    Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.Title);
                                     DialogResult = false;
                                 }
                             }
                             break;
                         }
 
-                    case Enums.ContentType.Anime:
+                    case Enums.ContentType.AnimeFilmeSérie:
                         {
                             Serie anime = null;
                             if (AdicionarConteudoViewModel.SelectedVideo is Serie)
                                 anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
-                            else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                            {
-                                anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
-                                anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
-                            }
+                            //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+                            //{
+                            //    anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+                            //    anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+                            //}
 
                             if (IsEdicao)
                             {
@@ -188,6 +197,12 @@ namespace MediaManager.Forms
                 DialogResult = true;
                 Close();
             }
+        }
+
+        public void ShowDialog(Window owner)
+        {
+            Owner = owner;
+            ShowDialog();
         }
 
         #region [ Métodos antigos ]

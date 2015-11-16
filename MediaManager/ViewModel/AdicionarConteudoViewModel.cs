@@ -2,43 +2,47 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using ConfigurableInputMessageBox;
 using MediaManager.Commands;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using Ookii.Dialogs;
 
 namespace MediaManager.ViewModel
 {
     public class AdicionarConteudoViewModel : INotifyPropertyChanged
     {
         private List<Video> _ResultPesquisa;
+
         private Enums.ContentType _TipoConteudo;
+
         private Video _SelectedVideo;
 
-        //private SeriesData _Data;
         private string folderPathEditar;
 
         private int IDBanco;
+
         private Video videoBuscaPersonalizada;
+
         private Video videoCarregando;
+
         public List<Video> listaVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
 
-        public List<Video> ResultPesquisa { get { return _ResultPesquisa; } set { _ResultPesquisa = value; OnPropertyChanged("ResultPesquisa"); } }
+        public List<Video> ResultPesquisa { get { return _ResultPesquisa; } set { _ResultPesquisa = value; OnPropertyChanged(); } }
 
         public Enums.ContentType TipoConteudo { get { return _TipoConteudo; } set { _TipoConteudo = value; } }
 
-        public Video SelectedVideo { get { return _SelectedVideo; } set { _SelectedVideo = value; OnPropertyChanged("SelectedVideo"); AlterarVideoAsync(); } }
+        public Video SelectedVideo { get { return _SelectedVideo; } set { _SelectedVideo = value; OnPropertyChanged(); AlterarVideoAsync(); } }
 
-        public ICommand CommandAbrirEpisodios { get; set; } = new AdicionarConteudoCommands.CommandAbrirEpisodios();
-
-        //public SeriesData Data { get { return _Data; } set { _Data = value; OnPropertyChanged("Data"); } }
-
-        //public Video Video { get { return _Data.Series[0]; } set { Data.Series[0] = (Serie)value; } }
+        public ICommand CommandAbrirEpisodios { get; set; }
 
         public AdicionarConteudoViewModel(Video video, Enums.ContentType tipoConteudo)
         {
+            CommandAbrirEpisodios = new AdicionarConteudoCommands.CommandAbrirEpisodios();
             TipoConteudo = tipoConteudo;
             //Data = new SeriesData();
             listaVideosQuaseCompletos = new List<Video>();
@@ -51,109 +55,101 @@ namespace MediaManager.ViewModel
         private async void getResultPesquisaAsync(Video video)
         {
             ResultPesquisa = new List<Video>();
-            ResultPesquisa.Add(videoCarregando);
-            SelectedVideo = videoCarregando;
-            //Data.Series = new Serie[1] { (Serie)videoCarregando };
-            if (string.IsNullOrWhiteSpace(folderPathEditar))
-                folderPathEditar = video.FolderPath;
-            if (IDBanco == 0)
-                IDBanco = video.IDBanco; // Guarda o IDBanco para caso for realizada uma Busca personalizada.
-            var resultPesquisaTemp = new List<Video>();
+
             if (video.IDApi != 0 && (video.Estado == Enums.Estado.Completo || video.Estado == Enums.Estado.CompletoSemForeignKeys))
             {
-                //var data = new SeriesData();
-                //data.Series = new Serie[1] { (Serie)video };
-                //data.Series[0].Estado = Estado.SIMPLES;
-                //data.Series = new Serie[1] { (PosterGrid)video };
                 listaVideosQuaseCompletos.Add(video);
+                ResultPesquisa.Add(video);
             }
+
+            ResultPesquisa.Add(videoCarregando);
+            SelectedVideo = (video.Estado == Enums.Estado.Completo || video.Estado == Enums.Estado.CompletoSemForeignKeys) ? video : videoCarregando;
+            var listaResultPesquisaTemp = new List<Video>();
+
+            // Guarda as informações abaixo para caso for realizada uma Busca personalizada.
+            if (string.IsNullOrWhiteSpace(folderPathEditar) || IDBanco == 0)
+            {
+                folderPathEditar = video.FolderPath;
+                IDBanco = video.IDBanco;
+            }
+
             if (video.ContentType == Enums.ContentType.Série || video.ContentType == Enums.ContentType.Anime)
             {
                 SeriesData data = new SeriesData();
-                if (((video is ConteudoGrid) && !(video as ConteudoGrid).IsNotFound) || !(video is ConteudoGrid))
-                    data = await APIRequests.GetSeriesAsync(video.Title, false);
 
-                if (video is ConteudoGrid && (video as ConteudoGrid).IsNotFound)
+                if ((video is Serie && !(video as Serie).bFlNaoEncontrado) || !(video is Serie))
+                {
+                    data = await APIRequests.GetSeriesAsync(video.Title);
+                }
+                else if (video is Serie && (video as Serie).bFlNaoEncontrado)
                 {
                     InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
                     InputMessageBox.InputViewModel.Properties.InputText = video.Title;
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                     }
-                }
 
-                while (data.Series == null)
-                {
-                    if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    while (data.Series == null)
                     {
-                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
-                        InputMessageBox.InputViewModel.Properties.InputText = video.Title;
-                        InputMessageBox.ShowDialog();
-                        if (InputMessageBox.DialogResult == true)
+                        if (Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?", MessageBoxButton.YesNo, MessageBoxImage.Question, "Nenhum resultado encontrado") == MessageBoxResult.Yes)
                         {
-                            data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                            InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                            InputMessageBox.InputViewModel.Properties.InputText = video.Title;
+                            InputMessageBox.ShowDialog();
+                            if (InputMessageBox.DialogResult == true)
+                            {
+                                data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                            }
                         }
-                    }
-                    else
-                    {
-                        return;
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
 
                 foreach (var item in data.Series)
                 {
-                    var jaAdicionado = false;
-                    foreach (var itemQuaseCompleto in listaVideosQuaseCompletos)
+                    bool bFlAdicionado = false;
+
+                    if (ResultPesquisa.Select(x => x.IDApi).Contains(item.IDApi))
                     {
-                        if (item.IDApi == itemQuaseCompleto.IDApi)
-                        {
-                            resultPesquisaTemp.Add(itemQuaseCompleto);
-                            jaAdicionado = true;
-                            break;
-                        }
+                        bFlAdicionado = true;
                     }
-                    if (!jaAdicionado)
+
+                    if (!bFlAdicionado)
                     {
-                        if (video.ContentType == Enums.ContentType.Anime)
-                            item.IsAnime = true;
-                        //if (!string.IsNullOrWhiteSpace(video.FolderPath))
-                        //    item.FolderPath = video.FolderPath;
-                        //else
-                        //    item.SetDefaultFolderPath();
-                        item.IDBanco = IDBanco == 0 ? video.IDBanco : IDBanco;
-                        item.Overview = videoCarregando.Overview;
+                        //if (video.ContentType == Enums.ContentType.Anime)
+                        //{
+                        //    item.IsAnime = true;
+                        //}
+                        item.IDBanco = (IDBanco != 0) ? IDBanco : video.IDBanco;
+                        item.Overview = videoCarregando.Overview; // Seta como default e será carregado quando e se for selecionado no combo.
                         item.FolderPath = null;
-                        //item.ContentType = video.ContentType;
 
-                        resultPesquisaTemp.Add(item);
+                        listaResultPesquisaTemp.Add(item);
                     }
                 }
             }
 
-            resultPesquisaTemp.Add(videoBuscaPersonalizada);
-            ResultPesquisa = resultPesquisaTemp;
-            foreach (var item in ResultPesquisa)
-            {
-                if (video.IDApi > 0 && item.IDApi == video.IDApi)
-                {
-                    SelectedVideo = item;
-                    return;
-                }
-            }
-            SelectedVideo = ResultPesquisa[0];
+            listaResultPesquisaTemp.Add(videoBuscaPersonalizada);
+            ResultPesquisa.Remove(videoCarregando);
+            listaResultPesquisaTemp.ForEach(x => ResultPesquisa.Add(x));
+
+            SelectedVideo = (video.IDApi != 0 && ResultPesquisa.Where(x => x.IDApi == video.IDApi).Count() > 0) ? ResultPesquisa.Where(x => x.IDApi == video.IDApi).First() : ResultPesquisa[0];
         }
 
         private async void getResultPesquisaAsync(string title)
         {
             ResultPesquisa.Add(videoCarregando);
             SelectedVideo = videoCarregando;
-            List<Video> resultPesquisaTemp = new List<Video>();
+            List<Video> listaResultPesquisaTemp = new List<Video>();
 
             if (TipoConteudo == Enums.ContentType.Série || TipoConteudo == Enums.ContentType.Anime)
             {
-                SeriesData data = await APIRequests.GetSeriesAsync(title, false);
+                SeriesData data = await APIRequests.GetSeriesAsync(title);
 
                 if (data.Series == null) // Verificar a primeira vez se é null para não exibir a mensagem quando não encontra resultados na tela de procurar conteúdo.
                 {
@@ -162,64 +158,67 @@ namespace MediaManager.ViewModel
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                     }
-                }
 
-                while (data.Series == null)
-                {
-                    if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    while (data.Series == null)
                     {
-                        InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
-                        InputMessageBox.InputViewModel.Properties.InputText = title;
-                        InputMessageBox.ShowDialog();
-                        if (InputMessageBox.DialogResult == true)
+                        if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText, false);
+                            InputMessageBox = new InputMessageBox(inputType.SemResultados);
+                            InputMessageBox.InputViewModel.Properties.InputText = title;
+                            InputMessageBox.ShowDialog();
+                            if (InputMessageBox.DialogResult == true)
+                            {
+                                data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                            }
                         }
-                    }
-                    else
-                    {
-                        return;
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
 
                 foreach (var item in data.Series)
                 {
-                    if (TipoConteudo == Enums.ContentType.Anime)
-                        item.IsAnime = true;
-
                     if (!string.IsNullOrWhiteSpace(folderPathEditar)) // Verifica se é edição para setar o folderpath igual.
+                    {
                         item.FolderPath = folderPathEditar;
+                    }
                     else
+                    {
                         item.SetDefaultFolderPath();
+                    }
 
                     item.IDBanco = IDBanco;
                     item.ContentType = TipoConteudo;
-                    bool isExistente = false;
-
-                    foreach (var itemResultPesquisa in resultPesquisaTemp)
+                    bool bFlAdicionado = false;
+                    if (listaResultPesquisaTemp.Select(x => x.IDApi).Contains(item.IDApi))
                     {
-                        if (item.IDApi == itemResultPesquisa.IDApi)
-                        {
-                            isExistente = true;
-                            break;
-                        }
+                        bFlAdicionado = true;
                     }
-                    if (!isExistente)
-                        resultPesquisaTemp.Add(item);
+
+                    if (!bFlAdicionado)
+                    {
+                        item.Overview = videoCarregando.Overview;
+                        listaResultPesquisaTemp.Add(item);
+                    }
                 }
             }
 
-            resultPesquisaTemp.Add(videoBuscaPersonalizada);
-            ResultPesquisa = resultPesquisaTemp;
+            listaResultPesquisaTemp.Add(videoBuscaPersonalizada);
+            ResultPesquisa = listaResultPesquisaTemp;
             SelectedVideo = ResultPesquisa[0];
         }
 
         private async void AlterarVideoAsync()
         {
             if (SelectedVideo == null || SelectedVideo == videoCarregando || SelectedVideo.Estado == Enums.Estado.Completo || SelectedVideo.Estado == Enums.Estado.CompletoSemForeignKeys)
+            {
                 return;
+            }
+
             if (ResultPesquisa.Count > 0 && SelectedVideo == videoBuscaPersonalizada)
             {
                 InputMessageBox inputMessageBox = new InputMessageBox(inputType.AdicionarConteudo);
@@ -232,47 +231,51 @@ namespace MediaManager.ViewModel
             }
             else if (listaVideosQuaseCompletos != null && listaVideosQuaseCompletos.Count > 0)
             {
-                foreach (var item in listaVideosQuaseCompletos)
-                {
-                    if (item.IDApi == SelectedVideo.IDApi && (item.Estado == Enums.Estado.Completo || item.Estado == Enums.Estado.CompletoSemForeignKeys))
+                listaVideosQuaseCompletos
+                    .Where(x => x.IDApi == SelectedVideo.IDApi && (x.Estado == Enums.Estado.Completo || x.Estado == Enums.Estado.CompletoSemForeignKeys)).ToList()
+                    .ForEach(x =>
                     {
-                        //Data = item;
-                        _SelectedVideo = item; OnPropertyChanged("SelectedVideo");
-                        return;
-                    }
-                }
+                        _SelectedVideo = x; OnPropertyChanged("SelectedVideo"); return;
+                    });
+                //foreach (var item in listaVideosQuaseCompletos)
+                //{
+                //    if (item.IDApi == SelectedVideo.IDApi && (item.Estado == Enums.Estado.Completo || item.Estado == Enums.Estado.CompletoSemForeignKeys))
+                //    {
+                //        //Data = item;
+                //        _SelectedVideo = item; OnPropertyChanged("SelectedVideo");
+                //        return;
+                //    }
+                //}
             }
             SeriesData data = await APIRequests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
-            data.Series[0].Title = SelectedVideo.Title;
-            data.Series[0].Episodes = new List<Episode>(data.Episodes);
+            data.Series[0].Title = SelectedVideo.Title; // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
             data.Series[0].ContentType = TipoConteudo;
+
             if (SelectedVideo.FolderPath != null)
-                data.Series[0].FolderPath = SelectedVideo.FolderPath;
-            else if (folderPathEditar != null)
-                data.Series[0].FolderPath = folderPathEditar;
-            else
-                data.Series[0].SetDefaultFolderPath();
-            if (data.Series[0].ContentType == Enums.ContentType.Anime)
-                data.Series[0].IsAnime = true;
-            data.Series[0].SerieAliasStr = SelectedVideo.SerieAliasStr;
-            data.Series[0].IDBanco = IDBanco > 0 ? IDBanco : data.Series[0].IDBanco;
-            foreach (var item in ResultPesquisa)
             {
-                if (item.IDApi == SelectedVideo.IDApi)
-                {
-                    item.Clone(data.Series[0]);
-                    break;
-                }
+                data.Series[0].FolderPath = SelectedVideo.FolderPath;
             }
-            //for (int i = 0; i < ResultPesquisa.Count; i++)
-            //{
-            //    if (ResultPesquisa[i].IDApi == SelectedVideo.IDApi)
-            //    {
-            //        ResultPesquisa[i].Clone(data.Series[0]);
-            //        break;
-            //    }
-            //}
-            //Data = data;
+            else if (folderPathEditar != null)
+            {
+                data.Series[0].FolderPath = folderPathEditar;
+            }
+            else
+            {
+                data.Series[0].SetDefaultFolderPath();
+            }
+
+            data.Series[0].SerieAliasStr = SelectedVideo.SerieAliasStr;
+
+            if (IDBanco > 0)
+            {
+                data.Series[0].IDBanco = IDBanco;
+            }
+
+            ResultPesquisa.Where(x => x.IDApi == SelectedVideo.IDApi).ToList().ForEach(x =>
+            {
+                x.Clone(data.Series[0]);
+            });
+
             listaVideosQuaseCompletos.Add(data.Series[0]);
             _SelectedVideo = data.Series[0];
             OnPropertyChanged("SelectedVideo");
@@ -282,7 +285,7 @@ namespace MediaManager.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

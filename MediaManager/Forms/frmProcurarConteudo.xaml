@@ -1,24 +1,31 @@
-﻿<Window x:Class="MediaManager.Forms.frmProcurarConteudo"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="463" Width="785" ResizeMode="NoResize"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:properties="clr-namespace:MediaManager.Properties"
-        Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Procurar conteúdos - {0}'}">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmProcurarConteudo"
+        Height="463" Width="785" ResizeMode="NoResize"
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Procurar conteúdos - \{0\}}" d:DataContext="{d:DesignData /SampleData/ProcurarConteudoViewModelSampleData.xaml}" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
-        <DataGrid Name="dgAll" ItemsSource="{Binding Path=Conteudos, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" MouseDoubleClick="dgAll_MouseDoubleClick">
+        <DataGrid x:Name="dgAll" ItemsSource="{Binding Conteudos, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+			IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="dgAllRowClick_MouseDoubleClick" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0" />
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=FolderPath, Mode=OneWay}" Header="Pasta" Width="10*" />
-                <DataGridTextColumn Binding="{Binding Path=Title, Mode=OneWay}" Header="Nome" Width="5*" />
+                <DataGridTextColumn Binding="{Binding FolderPath, Mode=OneWay}" Header="Pasta" Width="10*" />
+                <DataGridTextColumn Binding="{Binding Title, Mode=OneWay}" Header="Nome" Width="5*" />
 
-                <DataGridTextColumn Binding="{Binding Path=ContentTypeString, Mode=OneWay}" Header="Tipo" Width="1*" />
+                <DataGridTextColumn Binding="{Binding ContentType, Mode=OneWay}" Header="Tipo" Width="1*" />
                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                     <!--0.6*-->
                     <DataGridTemplateColumn.HeaderTemplate>
@@ -28,13 +35,13 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkItem_Click" />
+                            <CheckBox IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkItem_Click" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Bottom" Width="75" IsCancel="True" />
-        <Button Name="btAdicionar" Content="Adicionar" IsEnabled="False" HorizontalAlignment="Right" Margin="10,10,90,10" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="btAdicionar_Click" />
+        <Button x:Name="btCancelar" Content="Cancelar" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Bottom" Width="75" IsCancel="True" />
+        <Button x:Name="btAdicionar" Content="Adicionar" IsEnabled="False" HorizontalAlignment="Right" Margin="10,10,90,10" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="btAdicionar_Click" />
     </Grid>
 </Window>

@@ -4,10 +4,15 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using MediaManager.Helpers;
+using MediaManager.Properties;
 
 namespace MediaManager.Model
 {
@@ -56,13 +61,13 @@ namespace MediaManager.Model
         public string ContentRating { get; set; }
 
         [NotMapped]
-        public override Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged("ContentType"); _IsAnime = value == Enums.ContentType.Anime ? true : false; } }
+        public override Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged(); _IsAnime = (value == Enums.ContentType.Anime) ? true : false; } }
 
         [XmlIgnore]
         public List<Episode> Episodes { get; set; }
 
         [XmlIgnore]
-        public DateTime? FirstAired { get { return DateTime.Parse(_FirstAired); } set { _FirstAired = value.ToString(); } }
+        public DateTime? FirstAired { get { return (string.IsNullOrWhiteSpace(_FirstAired)) ? (DateTime?)null : DateTime.Parse(_FirstAired); } set { _FirstAired = value.ToString(); } }
 
         [XmlElement("Genre", IsNullable = true)]
         public string Genre { get; set; }
@@ -102,11 +107,24 @@ namespace MediaManager.Model
                 if (value.StartsWith("http"))
                 {
                     _ImgPoster = value;
+                    OnPropertyChanged();
+
+                    BitmapImage bmp = new BitmapImage(new Uri(value));
+                    BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(bmp));
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        encoder.Save(ms);
+                        ImgPosterCache = ms.ToArray();
+                    }
                 }
                 else if (File.Exists(value))
                 {
                     _ImgPoster = value;
                     OnPropertyChanged();
+                    ImgPosterCache = (ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                                            ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+                                            : File.ReadAllBytes(ImgPoster);
                 }
                 else
                 {
@@ -114,12 +132,25 @@ namespace MediaManager.Model
                         _ImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                         : Properties.Settings.Default.API_UrlTheTVDB + "/banners/" + value;
                     OnPropertyChanged();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        BitmapImage bmp = new BitmapImage();
+                        bmp.BeginInit();
+                        bmp.CacheOption = BitmapCacheOption.OnLoad;
+                        bmp.UriSource = new Uri(ImgPoster);
+                        bmp.EndInit();
+
+                        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(bmp));
+                        encoder.Save(ms);
+                        ImgPosterCache = ms.ToArray();
+                    }
                 }
             }
         }
 
         [XmlIgnore]
-        public bool IsAnime { get { return _IsAnime; } set { _IsAnime = value; _ContentType = (value == true) ? Enums.ContentType.Anime : ContentType; } }
+        public bool IsAnime { get { return _IsAnime; } set { _IsAnime = value; if (value == true) { _ContentType = Enums.ContentType.Anime; } } }
 
         [XmlElement("Language")]
         public override string Language { get; set; }
@@ -139,7 +170,7 @@ namespace MediaManager.Model
             get
             {
                 double retval;
-                return !string.IsNullOrWhiteSpace(_Rating) && double.TryParse(_Rating, NumberStyles.Number, CultureInfo.InvariantCulture, out retval) ? (double?)retval : null;
+                return !string.IsNullOrWhiteSpace(_Rating) && double.TryParse(_Rating.Replace(",", "."), NumberStyles.Number, CultureInfo.InvariantCulture, out retval) ? (double?)retval : null;
             }
             set { _Rating = value.ToString(); }
         }
@@ -174,82 +205,20 @@ namespace MediaManager.Model
         [XmlElement("SeriesName", IsNullable = true), Column(Order = 1)]
         public override string Title { get { return _Title; } set { _Title = value; OnPropertyChanged("Title"); } }
 
-        public Serie()
-        {
-        }
+        private bool _bFlEditado;
+        private bool _bFlNaoEncontrado;
 
-        public Serie(PosterGrid posterGrid)
-        {
-            SerieAliasStr = posterGrid.SerieAliasStr;
-            ContentType = posterGrid.ContentType;
-            Estado = posterGrid.Estado;
-            FolderPath = posterGrid.FolderPath;
-            IDApi = posterGrid.IDApi;
-            IDBanco = posterGrid.IDBanco;
-            ImgFanart = posterGrid.ImgFanart;
-            ImgPoster = posterGrid.ImgPoster;
-            Language = posterGrid.Language;
-            LastUpdated = posterGrid.LastUpdated;
-            Overview = posterGrid.Overview;
-            Title = posterGrid.Title;
-            SerieAlias = posterGrid.SerieAlias;
-        }
+        [XmlIgnore, NotMapped]
+        public bool bFlEditado { get { return _bFlEditado; } set { _bFlEditado = value; OnPropertyChanged(); } }
 
-        public override void Clone(object objectToClone)
-        {
-            Serie serie = objectToClone as Serie;
-
-            Actors = serie.Actors;
-            Airs_DayOfWeek = serie.Airs_DayOfWeek;
-            Airs_Time = serie.Airs_Time;
-            SerieAliasStr = serie.SerieAliasStr;
-            ContentRating = serie.ContentRating;
-            ContentType = serie.ContentType;
-            FirstAired = serie.FirstAired;
-            FolderPath = serie.FolderPath;
-            Genre = serie.Genre;
-            IDApi = serie.IDApi;
-            IDBanco = serie.IDBanco;
-            ImgFanart = serie.ImgFanart;
-            ImgPoster = serie.ImgPoster;
-            IsAnime = serie.IsAnime;
-            Language = serie.Language;
-            LastUpdated = serie.LastUpdated;
-            Network = serie.Network;
-            Overview = serie.Overview;
-            Rating = serie.Rating;
-            RatingCount = serie.RatingCount;
-            Runtime = serie.Runtime;
-            Status = serie.Status;
-            Title = serie.Title;
-            Estado = serie.Estado;
-            Episodes = serie.Episodes;
-            SerieAlias = serie.SerieAlias;
-        }
+        [XmlIgnore, NotMapped]
+        public bool bFlNaoEncontrado { get { return _bFlNaoEncontrado; } set { _bFlNaoEncontrado = value; OnPropertyChanged(); if (value == true) { Title = "Sem resultados..."; Overview = "Sem resultados..."; } } }
 
         public void SetDefaultFolderPath()
         {
             FolderPath = (ContentType == Enums.ContentType.Anime) ?
-                System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title))
-                : System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
+                Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title))
+                : Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
         }
-
-        //public Video ToVideo()
-        //{
-        //    Video video = new Serie();
-
-        //    video.FolderPath = FolderPath;
-        //    video.IDBanco = IDBanco;
-        //    video.IDApi = IDApi;
-        //    video.ImgFanart = ImgFanart;
-        //    video.ImgPoster = ImgPoster;
-        //    video.Language = Language;
-        //    video.LastUpdated = LastUpdated;
-        //    video.Overview = Overview;
-        //    video.Title = Title;
-        //    video.ContentType = ContentType;
-
-        //    return video;
-        //}
     }
 }

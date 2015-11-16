@@ -1,9 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using MediaManager.Helpers;
 using MediaManager.Properties;
@@ -45,15 +49,15 @@ namespace MediaManager.Model
                 switch (ContentType)
                 {
                     case Enums.ContentType.Filme:
-                        return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
+                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Filmes", Helper.RetirarCaracteresInvalidos(Title));
 
                     case Enums.ContentType.Série:
-                        return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
+                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Séries", Helper.RetirarCaracteresInvalidos(Title));
 
                     case Enums.ContentType.Anime:
-                        return System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
+                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
                             "Animes", Helper.RetirarCaracteresInvalidos(Title));
 
                     default:
@@ -94,19 +98,31 @@ namespace MediaManager.Model
                     ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                     : value;
                 OnPropertyChanged();
+
+                if (ImgPoster.StartsWith("http"))
+                {
+                    BitmapImage bmp = new BitmapImage(new Uri(value));
+                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(bmp));
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        encoder.Save(ms);
+                        ImgPosterCache = ms.ToArray();
+                    }
+                }
+                else
+                {
+                    ImgPosterCache = (ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                                            ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+                                            : File.ReadAllBytes(ImgPoster);
+                }
             }
         }
 
+        private byte[] _ImgPosterCache;
+
         [XmlIgnore, NotMapped]
-        public byte[] ImgPosterCache
-        {
-            get
-            {
-                return ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
-                    ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                    : File.ReadAllBytes(ImgPoster);
-            }
-        }
+        public byte[] ImgPosterCache { get { return _ImgPosterCache; } set { _ImgPosterCache = value; OnPropertyChanged(); } }
 
         [XmlIgnore]
         public virtual string Language { get; set; }
@@ -120,13 +136,34 @@ namespace MediaManager.Model
         [XmlIgnore]
         public virtual string Title { get { return _Title; } set { _Title = value; OnPropertyChanged(); } }
 
+        private bool _bFlSelecionado;
+
+        [XmlIgnore, NotMapped]
+        public bool bFlSelecionado { get { return _bFlSelecionado; } set { _bFlSelecionado = value; OnPropertyChanged(); } }
+
         public Video()
         {
             _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
             _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         }
 
-        public abstract void Clone(object objectToClone);
+        public void Clone(object objOrigem)
+        {
+            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
+            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
+
+            foreach (PropertyInfo item in variaveisObjOrigem)
+            {
+                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
+
+                if (variavelIgual != null && variavelIgual.CanWrite)
+                {
+                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
+                }
+            }
+
+            return;
+        }
 
         private void SetDefaultFolderPath()
         {
@@ -134,17 +171,17 @@ namespace MediaManager.Model
             {
                 case Enums.ContentType.Filme:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaFilmes))
-                        FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(Title));
+                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
                 case Enums.ContentType.Série:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaSeries))
-                        FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
+                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
                 case Enums.ContentType.Anime:
                     if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaAnimes))
-                        FolderPath = System.IO.Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title));
+                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title));
                     break;
 
                 default:

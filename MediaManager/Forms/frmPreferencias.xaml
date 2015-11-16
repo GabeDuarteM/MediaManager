@@ -8,7 +8,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmPreferencias"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Preferências - \{0\}}"
-        Height="383" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Height="383" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>

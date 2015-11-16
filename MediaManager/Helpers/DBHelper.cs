@@ -78,7 +78,28 @@ namespace MediaManager.Helpers
                 if (!Directory.Exists(serie.FolderMetadata))
                     Directory.CreateDirectory(serie.FolderMetadata);
 
-                if (!await Helper.DownloadImages(serie))
+                if (!await Helper.DownloadImagesAsync(serie))
+                { MessageBox.Show("Erro ao baixar as imagens."); return false; }
+
+                using (Context db = new Context())
+                {
+                    db.Serie.Add(serie);
+                    db.SaveChanges();
+                }
+                VerificaEpisodiosNoDiretorio(serie);
+                return true;
+            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar a série \"" + serie.Title + "\" ao banco.", true); return false; }
+        }
+
+        public static bool AddSerie(Serie serie)
+        {
+            try
+            {
+                if (!Directory.Exists(serie.FolderMetadata))
+                    Directory.CreateDirectory(serie.FolderMetadata);
+
+                if (!Helper.DownloadImages(serie))
                 { MessageBox.Show("Erro ao baixar as imagens."); return false; }
 
                 using (Context db = new Context())
@@ -481,16 +502,35 @@ namespace MediaManager.Helpers
         // Efeito cascata se encarrega de remover tudo relacionado a ela nas outras tabelas.
         public static bool RemoverSerieOuAnimePorID(int ID)
         {
+            string sNmSerie = null;
             try
             {
                 using (Context db = new Context())
                 {
-                    db.Serie.Remove(db.Serie.Find(ID));
+                    var serie = db.Serie.Find(ID);
+                    sNmSerie = serie.Title;
+                    db.Serie.Remove(serie);
+
+                    if (Directory.Exists(serie.FolderMetadata))
+                    {
+                        DirectoryInfo metaDir = new DirectoryInfo(serie.FolderMetadata);
+
+                        foreach (FileInfo file in metaDir.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        foreach (DirectoryInfo dir in metaDir.GetDirectories())
+                        {
+                            dir.Delete(true);
+                        }
+                        Directory.Delete(metaDir.FullName);
+                    }
+
                     db.SaveChanges();
                     return true;
                 }
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime com ID " + ID + "."); return false; }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime " + sNmSerie); return false; }
         }
 
         public static bool RemoveSerieAlias(SerieAlias alias)
@@ -635,7 +675,7 @@ namespace MediaManager.Helpers
                 if (!Directory.Exists(atualizado.FolderMetadata))
                     Directory.CreateDirectory(atualizado.FolderMetadata);
 
-                if (!await Helper.DownloadImages(atualizado))
+                if (!await Helper.DownloadImagesAsync(atualizado))
                 { MessageBox.Show("Erro ao baixar as imagens."); return false; }
             }
             return true;

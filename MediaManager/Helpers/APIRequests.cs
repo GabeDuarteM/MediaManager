@@ -174,7 +174,7 @@ namespace MediaManager.Helpers
                                 {
                                     serie.ImgFanart = urlImagem;
                                     db.SaveChanges();
-                                    await Helper.DownloadImages(serie, Enums.TipoImagem.Fanart);
+                                    await Helper.DownloadImagesAsync(serie, Enums.TipoImagem.Fanart);
                                 }
                             }
                         }
@@ -189,7 +189,7 @@ namespace MediaManager.Helpers
                                 {
                                     serie.ImgPoster = urlImagem;
                                     db.SaveChanges();
-                                    await Helper.DownloadImages(serie, Enums.TipoImagem.Poster);
+                                    await Helper.DownloadImagesAsync(serie, Enums.TipoImagem.Poster);
                                 }
                             }
                         }
@@ -254,12 +254,71 @@ namespace MediaManager.Helpers
             foreach (var item in data.Series)
             {
                 item.Estado = Enums.Estado.Completo;
+                item.Episodes = new List<Episode>(data.Episodes);
             }
 
             return data;
         }
 
-        public async static Task<SeriesData> GetSeriesAsync(string query, bool traduzir)
+        public static SeriesData GetSerieInfo(int IDApi, string lang)
+        {
+            string xmlString = null;
+            Random rnd = new Random();
+            var randomNum = rnd.Next(1, 55555);
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
+            try
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                }
+                using (WebClient wc = new WebClient())
+                {
+                    wc.DownloadFile(new Uri(Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/series/" + IDApi + "/all/" + lang + ".zip"), path);
+                }
+
+                using (ZipFile zip = ZipFile.Read(path))
+                {
+                    ZipEntry xmlFileEntry = zip[lang + ".xml"];
+                    using (var ms = new MemoryStream())
+                    {
+                        xmlFileEntry.Extract(ms);
+                        var sr = new StreamReader(ms);
+                        ms.Position = 0;
+                        xmlString = sr.ReadToEnd();
+                    }
+                }
+            }
+            finally
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+                if (Directory.Exists(Path.GetDirectoryName(path)))
+                    Directory.Delete(Path.GetDirectoryName(path));
+            }
+
+            SeriesData data = new SeriesData();
+            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+
+            using (var reader = new StringReader(xmlString))
+            {
+                data = (SeriesData)serializer.Deserialize(reader);
+            }
+
+            foreach (var item in data.Series)
+            {
+                item.Estado = Enums.Estado.Completo;
+                item.Episodes = new List<Episode>(data.Episodes);
+            }
+
+            return data;
+        }
+
+        public async static Task<SeriesData> GetSeriesAsync(string query)
         {
             string responseData = null;
 
@@ -287,41 +346,84 @@ namespace MediaManager.Helpers
             {
                 foreach (var itemData in data.Series)
                 {
-                    if (traduzir)
+                    foreach (var item in data.Series)
                     {
-                        var serieDataFull = await GetSerieInfoAsync(itemData.IDApi, /*itemData.Language*/Settings.Default.pref_IdiomaPesquisa);
-                        serieDataFull.Series[0].Episodes = new List<Episode>(serieDataFull.Episodes);
-                        if (string.IsNullOrWhiteSpace(serieDataFull.Series[0].SerieAliasStr))
+                        var isExistente = false;
+                        item.Estado = Enums.Estado.Simples;
+                        foreach (var itemListaSeries in series)
                         {
-                            foreach (var item in data.Series)
+                            if (item.IDApi == itemListaSeries.IDApi)
                             {
-                                if (item.IDApi == serieDataFull.Series[0].IDApi && !string.IsNullOrWhiteSpace(item.SerieAliasStr))
-                                {
-                                    serieDataFull.Series[0].SerieAliasStr = item.SerieAliasStr;
-                                    break;
-                                }
+                                isExistente = true;
+                                break;
                             }
                         }
-                        series.Add(serieDataFull.Series[0]);
-                    }
-                    else
-                    {
-                        foreach (var item in data.Series)
+                        if (!isExistente)
                         {
-                            var isExistente = false;
-                            item.Estado = Enums.Estado.Simples;
-                            foreach (var itemListaSeries in series)
+                            series.Add(item);
+                        }
+                    }
+                    //foreach (var item in series)
+                    //{
+                    //    if (item.IDApi == itemData.IDApi)
+                    //    {
+                    //        isExistente = true;
+                    //        break;
+                    //    }
+                    //}
+                    //if (!isExistente)
+                    //    series.Add(itemData);
+                    //break;
+                }
+                data.Series = series.ToArray();
+            }
+
+            return data;
+        }
+
+        public static SeriesData GetSeries(string query)
+        {
+            string responseData = null;
+
+            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            {
+                using (var response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query/* + "&language=" + Settings.Default.pref_IdiomaPesquisa*/).Result)
+                {
+                    responseData = response.Content.ReadAsStringAsync().Result;
+                }
+            }
+
+            // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.
+            responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)", "<Language>$1</Language>");
+
+            SeriesData data = new SeriesData();
+            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+
+            using (var reader = new StringReader(responseData))
+            {
+                data = (SeriesData)serializer.Deserialize(reader);
+            }
+
+            List<Serie> series = new List<Serie>();
+            if (data.Series != null)
+            {
+                foreach (var itemData in data.Series)
+                {
+                    foreach (var item in data.Series)
+                    {
+                        var isExistente = false;
+                        item.Estado = Enums.Estado.Simples;
+                        foreach (var itemListaSeries in series)
+                        {
+                            if (item.IDApi == itemListaSeries.IDApi)
                             {
-                                if (item.IDApi == itemListaSeries.IDApi)
-                                {
-                                    isExistente = true;
-                                    break;
-                                }
+                                isExistente = true;
+                                break;
                             }
-                            if (!isExistente)
-                            {
-                                series.Add(item);
-                            }
+                        }
+                        if (!isExistente)
+                        {
+                            series.Add(item);
                         }
                     }
                     //foreach (var item in series)
