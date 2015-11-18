@@ -59,9 +59,7 @@ namespace MediaManager.Forms
                                     if (item.Estado != Enums.Estado.Completo)
                                     {
                                         frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
-                                        SeriesData data = APIRequests.GetSerieInfo(item.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
-                                        Serie serie = data.Series[0];
-                                        serie.Episodes = new List<Episode>(data.Episodes);
+                                        Serie serie = APIRequests.GetSerieInfoAsync(item.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa).Result;
                                         serie.FolderPath = item.FolderPath;
                                         serie.SerieAliasStr = item.SerieAliasStr;
                                         serie.SerieAlias = item.SerieAlias;
@@ -82,8 +80,7 @@ namespace MediaManager.Forms
                                     if (item.Estado != Enums.Estado.Completo)
                                     {
                                         frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.Title + "...";
-                                        SeriesData data = APIRequests.GetSerieInfo(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa);
-                                        Serie anime = data.Series[0];
+                                        Serie anime = APIRequests.GetSerieInfoAsync(item.IDApi, /*item.Language*/Properties.Settings.Default.pref_IdiomaPesquisa).Result;
                                         anime.ContentType = item.ContentType;
                                         anime.FolderPath = item.FolderPath;
                                         anime.SerieAliasStr = item.SerieAliasStr;

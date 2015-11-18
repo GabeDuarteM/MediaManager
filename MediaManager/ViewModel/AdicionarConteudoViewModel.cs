@@ -75,11 +75,13 @@ namespace MediaManager.ViewModel
 
             if (video.ContentType == Enums.ContentType.Série || video.ContentType == Enums.ContentType.Anime)
             {
-                SeriesData data = new SeriesData();
+                //SeriesData data = new SeriesData();
+                List<Serie> listaSeries = new List<Serie>();
 
                 if ((video is Serie && !(video as Serie).bFlNaoEncontrado) || !(video is Serie))
                 {
-                    data = await APIRequests.GetSeriesAsync(video.Title);
+                    //data = await APIRequests.GetSeriesAsync(video.Title);
+                    listaSeries = await APIRequests.GetSeriesAsync(video.Title);
                 }
                 else if (video is Serie && (video as Serie).bFlNaoEncontrado)
                 {
@@ -88,10 +90,10 @@ namespace MediaManager.ViewModel
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                        listaSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                     }
 
-                    while (data.Series == null)
+                    while (listaSeries.Count == 0)
                     {
                         if (Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?", MessageBoxButton.YesNo, MessageBoxImage.Question, "Nenhum resultado encontrado") == MessageBoxResult.Yes)
                         {
@@ -100,24 +102,19 @@ namespace MediaManager.ViewModel
                             InputMessageBox.ShowDialog();
                             if (InputMessageBox.DialogResult == true)
                             {
-                                data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                                listaSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                             }
                         }
-                        else
+                        else // TODO Fechar tela ao entrar no else
                         {
                             return;
                         }
                     }
                 }
 
-                foreach (var item in data.Series)
+                foreach (var item in listaSeries)
                 {
-                    bool bFlAdicionado = false;
-
-                    if (ResultPesquisa.Select(x => x.IDApi).Contains(item.IDApi))
-                    {
-                        bFlAdicionado = true;
-                    }
+                    bool bFlAdicionado = ResultPesquisa.Select(x => x.IDApi).Contains(item.IDApi);
 
                     if (!bFlAdicionado)
                     {
@@ -149,19 +146,19 @@ namespace MediaManager.ViewModel
 
             if (TipoConteudo == Enums.ContentType.Série || TipoConteudo == Enums.ContentType.Anime)
             {
-                SeriesData data = await APIRequests.GetSeriesAsync(title);
+                List<Serie> listaSeries = await APIRequests.GetSeriesAsync(title);
 
-                if (data.Series == null) // Verificar a primeira vez se é null para não exibir a mensagem quando não encontra resultados na tela de procurar conteúdo.
+                if (listaSeries.Count == 0) // Verificar a primeira vez se é null para não exibir a mensagem quando não encontra resultados na tela de procurar conteúdo.
                 {
                     InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
                     InputMessageBox.InputViewModel.Properties.InputText = title;
                     InputMessageBox.ShowDialog();
                     if (InputMessageBox.DialogResult == true)
                     {
-                        data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                        listaSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                     }
 
-                    while (data.Series == null)
+                    while (listaSeries.Count == 0)
                     {
                         if (MessageBox.Show("Nenhum resultado encontrado, deseja pesquisar por outro nome?", "Nenhum resultado encontrado - " + Properties.Settings.Default.AppName, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
@@ -170,17 +167,17 @@ namespace MediaManager.ViewModel
                             InputMessageBox.ShowDialog();
                             if (InputMessageBox.DialogResult == true)
                             {
-                                data = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                                listaSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
                             }
                         }
-                        else
+                        else // TODO Fechar tela ao entrar no else
                         {
                             return;
                         }
                     }
                 }
 
-                foreach (var item in data.Series)
+                foreach (var item in listaSeries)
                 {
                     if (!string.IsNullOrWhiteSpace(folderPathEditar)) // Verifica se é edição para setar o folderpath igual.
                     {
@@ -193,11 +190,8 @@ namespace MediaManager.ViewModel
 
                     item.IDBanco = IDBanco;
                     item.ContentType = TipoConteudo;
-                    bool bFlAdicionado = false;
-                    if (listaResultPesquisaTemp.Select(x => x.IDApi).Contains(item.IDApi))
-                    {
-                        bFlAdicionado = true;
-                    }
+
+                    bool bFlAdicionado = listaResultPesquisaTemp.Select(x => x.IDApi).Contains(item.IDApi);
 
                     if (!bFlAdicionado)
                     {
@@ -247,37 +241,37 @@ namespace MediaManager.ViewModel
                 //    }
                 //}
             }
-            SeriesData data = await APIRequests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
-            data.Series[0].Title = SelectedVideo.Title; // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
-            data.Series[0].ContentType = TipoConteudo;
+            Serie serie = await APIRequests.GetSerieInfoAsync(SelectedVideo.IDApi, Properties.Settings.Default.pref_IdiomaPesquisa);
+            serie.Title = SelectedVideo.Title; // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
+            serie.ContentType = TipoConteudo;
 
             if (SelectedVideo.FolderPath != null)
             {
-                data.Series[0].FolderPath = SelectedVideo.FolderPath;
+                serie.FolderPath = SelectedVideo.FolderPath;
             }
             else if (folderPathEditar != null)
             {
-                data.Series[0].FolderPath = folderPathEditar;
+                serie.FolderPath = folderPathEditar;
             }
             else
             {
-                data.Series[0].SetDefaultFolderPath();
+                serie.SetDefaultFolderPath();
             }
 
-            data.Series[0].SerieAliasStr = SelectedVideo.SerieAliasStr;
+            serie.SerieAliasStr = SelectedVideo.SerieAliasStr;
 
             if (IDBanco > 0)
             {
-                data.Series[0].IDBanco = IDBanco;
+                serie.IDBanco = IDBanco;
             }
 
             ResultPesquisa.Where(x => x.IDApi == SelectedVideo.IDApi).ToList().ForEach(x =>
             {
-                x.Clone(data.Series[0]);
+                x.Clone(serie);
             });
 
-            listaVideosQuaseCompletos.Add(data.Series[0]);
-            _SelectedVideo = data.Series[0];
+            listaVideosQuaseCompletos.Add(serie);
+            _SelectedVideo = serie;
             OnPropertyChanged("SelectedVideo");
         }
 

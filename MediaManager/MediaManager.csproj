@@ -239,11 +239,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <DesignData Include="SampleData\ProcurarConteudoViewModelSampleData.xaml">
+    <DesignData Include="SampleData\InputMessageBoxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <DesignData Include="SampleData\InputMessageBoxViewModelSampleData.xaml">
+    <DesignData Include="SampleData\MainViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\ProcurarConteudoViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -305,19 +309,24 @@
     </Compile>
     <EmbeddedResource Include="Migrations\201511070405167_Init.resx">
       <DependentUpon>201511070405167_Init.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511081830394_Feed.resx">
       <DependentUpon>201511081830394_Feed.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511081834563_Feed-Required.resx">
       <DependentUpon>201511081834563_Feed-Required.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.resx">
       <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="MediaManager_TemporaryKey.pfx" />
     <None Include="packages.config" />

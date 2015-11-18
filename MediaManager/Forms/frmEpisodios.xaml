@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MediaManager.Forms"
-        xmlns:uc="clr-namespace:MediaManager.UserControls"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:ViewModel="clr-namespace:MediaManager.ViewModel"
         x:Class="MediaManager.Forms.frmEpisodios"

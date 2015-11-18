@@ -4,8 +4,8 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:local="clr-namespace:MediaManager.UserControls"
-        xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" x:Class="MediaManager.Forms.frmMain"
-        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280" WindowStartupLocation="CenterScreen">
+        xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmMain"
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>

@@ -29,6 +29,7 @@ namespace MediaManager.Helpers
             string url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
             string nomeArquivo = "updates_";
             string xmlString = null;
+            // RandomNum para não dar problema ao excluir um arquivo ainda sendo utilizado.
             var randomNum = new Random().Next(1, 55555);
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
 
@@ -118,16 +119,16 @@ namespace MediaManager.Helpers
 
                     if (int.Parse(serieDB.LastUpdated) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
-                        SeriesData data = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                        Serie serie = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
 
-                        data.Series[0].IDBanco = serieDB.IDBanco;
-                        data.Series[0].FolderPath = serieDB.FolderPath;
-                        data.Series[0].IsAnime = serieDB.IsAnime;
-                        data.Series[0].ContentType = serieDB.ContentType;
-                        data.Series[0].Title = serieDB.Title;
-                        data.Series[0].SerieAliasStr = serieDB.SerieAliasStr;
+                        serie.IDBanco = serieDB.IDBanco;
+                        serie.FolderPath = serieDB.FolderPath;
+                        serie.IsAnime = serieDB.IsAnime;
+                        serie.ContentType = serieDB.ContentType;
+                        serie.Title = serieDB.Title;
+                        serie.SerieAliasStr = serieDB.SerieAliasStr;
 
-                        await DBHelper.UpdateSerieAsync(data.Series[0]);
+                        await DBHelper.UpdateSerieAsync(serie);
                     }
                 }
             }
@@ -202,11 +203,12 @@ namespace MediaManager.Helpers
             return true;
         }
 
-        public async static Task<SeriesData> GetSerieInfoAsync(int IDTvdb, string lang)
+        public async static Task<Serie> GetSerieInfoAsync(int IDTvdb, string lang)
         {
             string xmlString = null;
             Random rnd = new Random();
             var randomNum = rnd.Next(1, 55555);
+            // Para evitar erros de arquivos sendo utilizados ao excluir.
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
             try
             {
@@ -238,9 +240,13 @@ namespace MediaManager.Helpers
             finally
             {
                 if (File.Exists(path))
+                {
                     File.Delete(path);
+                }
                 if (Directory.Exists(Path.GetDirectoryName(path)))
+                {
                     Directory.Delete(Path.GetDirectoryName(path));
+                }
             }
 
             SeriesData data = new SeriesData();
@@ -257,68 +263,10 @@ namespace MediaManager.Helpers
                 item.Episodes = new List<Episode>(data.Episodes);
             }
 
-            return data;
+            return data.Series.FirstOrDefault();
         }
 
-        public static SeriesData GetSerieInfo(int IDApi, string lang)
-        {
-            string xmlString = null;
-            Random rnd = new Random();
-            var randomNum = rnd.Next(1, 55555);
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
-            try
-            {
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                if (!Directory.Exists(Path.GetDirectoryName(path)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(path));
-                }
-                using (WebClient wc = new WebClient())
-                {
-                    wc.DownloadFile(new Uri(Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/series/" + IDApi + "/all/" + lang + ".zip"), path);
-                }
-
-                using (ZipFile zip = ZipFile.Read(path))
-                {
-                    ZipEntry xmlFileEntry = zip[lang + ".xml"];
-                    using (var ms = new MemoryStream())
-                    {
-                        xmlFileEntry.Extract(ms);
-                        var sr = new StreamReader(ms);
-                        ms.Position = 0;
-                        xmlString = sr.ReadToEnd();
-                    }
-                }
-            }
-            finally
-            {
-                if (File.Exists(path))
-                    File.Delete(path);
-                if (Directory.Exists(Path.GetDirectoryName(path)))
-                    Directory.Delete(Path.GetDirectoryName(path));
-            }
-
-            SeriesData data = new SeriesData();
-            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
-
-            using (var reader = new StringReader(xmlString))
-            {
-                data = (SeriesData)serializer.Deserialize(reader);
-            }
-
-            foreach (var item in data.Series)
-            {
-                item.Estado = Enums.Estado.Completo;
-                item.Episodes = new List<Episode>(data.Episodes);
-            }
-
-            return data;
-        }
-
-        public async static Task<SeriesData> GetSeriesAsync(string query)
+        public async static Task<List<Serie>> GetSeriesAsync(string query)
         {
             string responseData = null;
 
@@ -344,41 +292,40 @@ namespace MediaManager.Helpers
             List<Serie> series = new List<Serie>();
             if (data.Series != null)
             {
-                foreach (var itemData in data.Series)
+                //foreach (var itemData in data.Series)
+                //{
+                foreach (var item in data.Series)
                 {
-                    foreach (var item in data.Series)
-                    {
-                        var isExistente = false;
-                        item.Estado = Enums.Estado.Simples;
-                        foreach (var itemListaSeries in series)
-                        {
-                            if (item.IDApi == itemListaSeries.IDApi)
-                            {
-                                isExistente = true;
-                                break;
-                            }
-                        }
-                        if (!isExistente)
-                        {
-                            series.Add(item);
-                        }
-                    }
-                    //foreach (var item in series)
+                    var isExistente = series.Select(x => x.IDApi).Contains(item.IDApi);
+                    //foreach (var itemListaSeries in series)
                     //{
-                    //    if (item.IDApi == itemData.IDApi)
+                    //    if (item.IDApi == itemListaSeries.IDApi)
                     //    {
                     //        isExistente = true;
                     //        break;
                     //    }
                     //}
-                    //if (!isExistente)
-                    //    series.Add(itemData);
-                    //break;
+                    if (!isExistente)
+                    {
+                        item.Estado = Enums.Estado.Simples;
+                        series.Add(item);
+                    }
                 }
-                data.Series = series.ToArray();
+                //foreach (var item in series)
+                //{
+                //    if (item.IDApi == itemData.IDApi)
+                //    {
+                //        isExistente = true;
+                //        break;
+                //    }
+                //}
+                //if (!isExistente)
+                //    series.Add(itemData);
+                //break;
+                //}
             }
 
-            return data;
+            return series;
         }
 
         public static SeriesData GetSeries(string query)
@@ -387,7 +334,7 @@ namespace MediaManager.Helpers
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
             {
-                using (var response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query/* + "&language=" + Settings.Default.pref_IdiomaPesquisa*/).Result)
+                using (var response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query).Result)
                 {
                     responseData = response.Content.ReadAsStringAsync().Result;
                 }
