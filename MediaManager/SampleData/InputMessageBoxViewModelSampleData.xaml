@@ -1,0 +1,24 @@
+﻿<ConfigurableInputMessageBox:InputMessageBoxViewModel xmlns:ConfigurableInputMessageBox="clr-namespace:ConfigurableInputMessageBox" 
+                                                      xmlns:Windows="clr-namespace:System.Windows;assembly=PresentationFramework">
+	<ConfigurableInputMessageBox:InputMessageBoxViewModel.Properties>
+		<ConfigurableInputMessageBox:InputMessageBoxProperties 
+            ButtonWidth="75" 
+            CancelButtonText="Cancelar" 
+            Error="Duis aptent dis quisque nunc" 
+            Height="108"
+            InputText="Curae donec aenean" 
+            Message="Mauris curabitur aliquam" 
+            OkButtonText="Ok" 
+            Title="Nullam integer sed" 
+            ValidationMessage="Consequat vestibulum praesent" 
+            Width="430">
+			<ConfigurableInputMessageBox:InputMessageBoxProperties.MarginOkButton>
+				<Windows:Thickness 
+                    Bottom="10"
+                    Left="10"
+                    Right="90" 
+                    Top="10"/>
+			</ConfigurableInputMessageBox:InputMessageBoxProperties.MarginOkButton>
+		</ConfigurableInputMessageBox:InputMessageBoxProperties>
+	</ConfigurableInputMessageBox:InputMessageBoxViewModel.Properties>
+</ConfigurableInputMessageBox:InputMessageBoxViewModel>

@@ -1,0 +1,12 @@
+﻿<Forms:BarraProgressoViewModel xmlns:Forms="clr-namespace:MediaManager.Forms" xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=System"
+                               dNrProgressoMaximo="961.45"     
+                               dNrProgressoAtual="954.72" 
+                               nPcProgressoAtual="84" 
+                               sDsTexto="Integer cras quisque nam praesent" 
+                               sDsTarefa="Vestibulum adipiscing maecenas aliquam curabitur">
+    <Forms:BarraProgressoViewModel.Worker>
+		<ComponentModel:BackgroundWorker 
+            WorkerReportsProgress="True" 
+            WorkerSupportsCancellation="False"/>
+	</Forms:BarraProgressoViewModel.Worker>
+</Forms:BarraProgressoViewModel>

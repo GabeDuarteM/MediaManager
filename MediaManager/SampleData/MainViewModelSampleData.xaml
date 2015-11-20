@@ -1,0 +1,810 @@
+﻿<ViewModel:MainViewModel xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:Model="clr-namespace:MediaManager.Model" xmlns:System="clr-namespace:System;assembly=mscorlib">
+	<ViewModel:MainViewModel.Animes>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Maecenas mauris praesent phasellus" Estado="CompletoSemForeignKeys" FolderMetadata="Accumsan nullam vivamus" FolderPath="Fusce bibendum dictumst" ImgFanart="Est aptent" IDApi="96" IDBanco="30" ImgPoster="Vestibulum auctor aliquam" Language="Lorem hac leo morbi" LastUpdated="Nulla adipiscing" Overview="Eleifend aliquet" SerieAliasStr="Cras duis" Title="Facilisi parturient" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Nam aenean" Episodio="83" IDSerie="30" ID="15" Temporada="55"/>
+						<Model:SerieAlias AliasName="Curabitur class" Episodio="53" IDSerie="41" ID="11" Temporada="40"/>
+						<Model:SerieAlias AliasName="Aliquam curae donec" Episodio="58" IDSerie="13" ID="97" Temporada="71"/>
+						<Model:SerieAlias AliasName="Nunc etiam integer amet sed" Episodio="57" IDSerie="33" ID="78" Temporada="78"/>
+						<Model:SerieAlias AliasName="Dis quisque ante" Episodio="40" IDSerie="20" ID="97" Temporada="37"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Nascetur consequat felis nec" Estado="Novo" FolderMetadata="Non convallis enim" FolderPath="Ipsum adipiscing parturient per" ImgFanart="Vestibulum erat dignissim" IDApi="48" IDBanco="17" ImgPoster="Eros nibh cubilia sed" Language="Dapibus elementum pharetra placerat" LastUpdated="Nisi sem" Overview="Nisl egestas euismod" SerieAliasStr="Congue faucibus proin arcu" Title="Facilisis pulvinar sagittis sit vel" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Diam habitant" Episodio="18" IDSerie="95" ID="67" Temporada="75"/>
+						<Model:SerieAlias AliasName="Blandit inceptos augue interdum" Episodio="71" IDSerie="57" ID="40" Temporada="75"/>
+						<Model:SerieAlias AliasName="Dolor eget vestibulum" Episodio="31" IDSerie="69" ID="83" Temporada="79"/>
+						<Model:SerieAlias AliasName="Cursus lobortis dictum elit" Episodio="20" IDSerie="75" ID="72" Temporada="40"/>
+						<Model:SerieAlias AliasName="Mus commodo conubia vestibulum fames" Episodio="37" IDSerie="93" ID="69" Temporada="12"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Est ligula litora" Estado="Simples" FolderMetadata="Hac pede iaculis vestibulum lacinia" FolderPath="Lacus vestibulum laoreet quam" ImgFanart="Lorem suscipit magna fringilla" IDApi="75" IDBanco="30" ImgPoster="Adipiscing parturient leo habitasse" Language="Torquent massa luctus magnis hendrerit" LastUpdated="Metus ultrices mus" Overview="Himenaeos vestibulum nec morbi" SerieAliasStr="Vestibulum nunc adipiscing" Title="Vehicula natoque volutpat" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Feugiat fermentum nam gravida" Episodio="98" IDSerie="44" ID="86" Temporada="49"/>
+						<Model:SerieAlias AliasName="Senectus lectus sed" Episodio="22" IDSerie="75" ID="81" Temporada="41"/>
+						<Model:SerieAlias AliasName="Sociosqu libero" Episodio="19" IDSerie="26" ID="43" Temporada="62"/>
+						<Model:SerieAlias AliasName="Odio dis" Episodio="96" IDSerie="60" ID="62" Temporada="78"/>
+						<Model:SerieAlias AliasName="Orci parturient justo" Episodio="40" IDSerie="83" ID="10" Temporada="83"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Praesent accumsan sed sem" Estado="Simples" FolderMetadata="Neque vestibulum vestibulum" FolderPath="Adipiscing imperdiet" ImgFanart="Mollis malesuada ante montes penatibus" IDApi="74" IDBanco="35" ImgPoster="Parturient arcu diam" Language="Vestibulum eget viverra vestibulum" LastUpdated="Porttitor bibendum netus" Overview="Nulla elit" SerieAliasStr="Quis posuere" Title="Enim porta" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vestibulum maecenas" Episodio="11" IDSerie="68" ID="78" Temporada="61"/>
+						<Model:SerieAlias AliasName="Potenti adipiscing parturient pretium" Episodio="12" IDSerie="69" ID="99" Temporada="50"/>
+						<Model:SerieAlias AliasName="Urna non rhoncus cras" Episodio="44" IDSerie="82" ID="94" Temporada="10"/>
+						<Model:SerieAlias AliasName="Mattis mauris sodales duis" Episodio="68" IDSerie="40" ID="19" Temporada="31"/>
+						<Model:SerieAlias AliasName="Nunc amet per" Episodio="28" IDSerie="10" ID="76" Temporada="89"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Faucibus nunc adipiscing" Estado="CompletoSemForeignKeys" FolderMetadata="Dis ultricies" FolderPath="Habitant est" ImgFanart="Venenatis inceptos vitae vivamus interdum" IDApi="99" IDBanco="32" ImgPoster="Parturient hac" Language="Vestibulum vestibulum adipiscing" LastUpdated="Leo lobortis class ornare parturient" Overview="Vestibulum nascetur platea vestibulum primis" SerieAliasStr="Dictumst erat eleifend adipiscing" Title="Odio vulputate" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Eros aliquam tincidunt parturient" Episodio="62" IDSerie="75" ID="57" Temporada="22"/>
+						<Model:SerieAlias AliasName="Sit integer facilisi tristique quisque" Episodio="80" IDSerie="39" ID="59" Temporada="93"/>
+						<Model:SerieAlias AliasName="Vel nam nibh" Episodio="29" IDSerie="41" ID="65" Temporada="78"/>
+						<Model:SerieAlias AliasName="Purus vestibulum sed risus" Episodio="84" IDSerie="81" ID="66" Temporada="60"/>
+						<Model:SerieAlias AliasName="Nostra nisi velit nisl vestibulum" Episodio="78" IDSerie="71" ID="75" Temporada="68"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Série" ContentTypeString="Tellus tempor" Estado="Novo" FolderMetadata="Pede placerat elementum commodo" FolderPath="Pulvinar donec etiam conubia vestibulum" ImgFanart="Fusce adipiscing parturient vestibulum" IDApi="74" IDBanco="27" ImgPoster="Vestibulum sagittis quam adipiscing" Language="Cubilia tempus" LastUpdated="Nec non" Overview="Senectus facilisis" SerieAliasStr="Curabitur rutrum phasellus sapien adipiscing" Title="Fermentum lorem per quis" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Semper sociis" Episodio="80" IDSerie="94" ID="95" Temporada="50"/>
+						<Model:SerieAlias AliasName="Parturient vestibulum curae consequat aliquam" Episodio="47" IDSerie="81" ID="19" Temporada="16"/>
+						<Model:SerieAlias AliasName="Mus convallis" Episodio="83" IDSerie="55" ID="86" Temporada="76"/>
+						<Model:SerieAlias AliasName="Pharetra aliquet" Episodio="25" IDSerie="85" ID="21" Temporada="89"/>
+						<Model:SerieAlias AliasName="Blandit taciti dignissim orci" Episodio="28" IDSerie="21" ID="20" Temporada="51"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Adipiscing nulla euismod duis torquent" Estado="Novo" FolderMetadata="Auctor proin" FolderPath="Congue hendrerit sit nunc feugiat" ImgFanart="Vel amet gravida cursus" IDApi="82" IDBanco="55" ImgPoster="Ultrices nam iaculis lacinia vehicula" Language="Dictum laoreet" LastUpdated="Lectus himenaeos augue dolor" Overview="Volutpat ante libero arcu" SerieAliasStr="Sed parturient tortor dapibus" Title="Fames diam ligula" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vestibulum turpis varius morbi urna" Episodio="69" IDSerie="35" ID="90" Temporada="74"/>
+						<Model:SerieAlias AliasName="Sociosqu aenean fringilla cras" Episodio="49" IDSerie="97" ID="67" Temporada="34"/>
+						<Model:SerieAlias AliasName="Suscipit mauris nullam aptent" Episodio="28" IDSerie="35" ID="15" Temporada="40"/>
+						<Model:SerieAlias AliasName="Egestas sem" Episodio="77" IDSerie="28" ID="79" Temporada="40"/>
+						<Model:SerieAlias AliasName="Vestibulum habitasse" Episodio="21" IDSerie="21" ID="29" Temporada="23"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Hac penatibus posuere potenti magnis" Estado="Simples" FolderMetadata="Erat mattis porttitor" FolderPath="Leo justo" ImgFanart="Mauris mus praesent" IDApi="68" IDBanco="49" ImgPoster="Eros mollis vestibulum" Language="Tincidunt montes" LastUpdated="Accumsan nec" Overview="Vestibulum pretium lacus tristique" SerieAliasStr="Eget maecenas" Title="Rhoncus sodales ultricies nibh non" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Parturient litora elit sed" Episodio="32" IDSerie="50" ID="17" Temporada="70"/>
+						<Model:SerieAlias AliasName="Dis imperdiet felis" Episodio="75" IDSerie="56" ID="89" Temporada="61"/>
+						<Model:SerieAlias AliasName="Natoque ipsum" Episodio="57" IDSerie="58" ID="58" Temporada="63"/>
+						<Model:SerieAlias AliasName="Enim est" Episodio="36" IDSerie="25" ID="13" Temporada="72"/>
+						<Model:SerieAlias AliasName="Luctus malesuada" Episodio="69" IDSerie="18" ID="23" Temporada="58"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Nostra faucibus massa ornare" Estado="Novo" FolderMetadata="Vestibulum integer platea" FolderPath="Habitant vestibulum adipiscing primis metus" ImgFanart="Inceptos parturient interdum odio orci" IDApi="58" IDBanco="77" ImgPoster="Dignissim vestibulum elementum morbi sem" Language="Lobortis quisque" LastUpdated="Pede sit nascetur neque vel" Overview="Rutrum quam quis urna" SerieAliasStr="Nisi bibendum lorem adipiscing" Title="Sapien pharetra vestibulum" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Venenatis nisl viverra" Episodio="51" IDSerie="43" ID="85" Temporada="16"/>
+						<Model:SerieAlias AliasName="Dictumst vulputate eleifend nunc curabitur" Episodio="70" IDSerie="98" ID="88" Temporada="91"/>
+						<Model:SerieAlias AliasName="Phasellus consequat per convallis" Episodio="39" IDSerie="44" ID="60" Temporada="23"/>
+						<Model:SerieAlias AliasName="Sed magna" Episodio="67" IDSerie="34" ID="27" Temporada="79"/>
+						<Model:SerieAlias AliasName="Facilisi parturient aliquam" Episodio="92" IDSerie="78" ID="18" Temporada="66"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Adipiscing sagittis nunc habitasse hendrerit" Estado="Completo" FolderMetadata="Amet aliquet blandit senectus ante" FolderPath="Dis nulla" ImgFanart="Porta sociosqu est" IDApi="28" IDBanco="97" ImgPoster="Suscipit himenaeos purus torquent" Language="Risus velit parturient ultrices" LastUpdated="Vehicula vestibulum imperdiet vestibulum" Overview="Tempor commodo" SerieAliasStr="Nam semper adipiscing" Title="Volutpat conubia arcu hac" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Placerat cras parturient" Episodio="81" IDSerie="52" ID="23" Temporada="25"/>
+						<Model:SerieAlias AliasName="Facilisis fermentum fringilla vivamus duis" Episodio="24" IDSerie="59" ID="48" Temporada="97"/>
+						<Model:SerieAlias AliasName="Vestibulum sociis aliquam" Episodio="14" IDSerie="87" ID="33" Temporada="83"/>
+						<Model:SerieAlias AliasName="Vestibulum taciti pulvinar sed" Episodio="66" IDSerie="36" ID="65" Temporada="68"/>
+						<Model:SerieAlias AliasName="Netus tellus" Episodio="28" IDSerie="62" ID="67" Temporada="65"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+	</ViewModel:MainViewModel.Animes>
+	<ViewModel:MainViewModel.AnimesESeries>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Dictumst adipiscing iaculis lectus eleifend" Estado="Simples" FolderMetadata="Lacinia nunc nulla facilisi" FolderPath="Faucibus odio" ImgFanart="Parturient orci laoreet vestibulum venenatis" IDApi="38" IDBanco="21" ImgPoster="Vulputate curabitur proin libero natoque" Language="Ligula augue sed habitant dis" LastUpdated="Phasellus litora est pede consequat" Overview="Luctus hac vestibulum quam" SerieAliasStr="Euismod congue" Title="Dolor adipiscing" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Sem vestibulum cursus" Episodio="11" IDSerie="83" ID="11" Temporada="43"/>
+						<Model:SerieAlias AliasName="Nisi morbi feugiat tincidunt" Episodio="18" IDSerie="20" ID="89" Temporada="68"/>
+						<Model:SerieAlias AliasName="Nisl accumsan gravida tristique ultricies" Episodio="77" IDSerie="89" ID="44" Temporada="87"/>
+						<Model:SerieAlias AliasName="Sit bibendum" Episodio="78" IDSerie="18" ID="13" Temporada="45"/>
+						<Model:SerieAlias AliasName="Vel dictum nam" Episodio="76" IDSerie="91" ID="90" Temporada="90"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Facilisis duis" Estado="Simples" FolderMetadata="Rhoncus fermentum placerat" FolderPath="Fringilla felis mollis" ImgFanart="Pulvinar habitasse vestibulum montes vestibulum" IDApi="43" IDBanco="50" ImgPoster="Nunc sodales hendrerit ipsum" Language="Viverra nostra" LastUpdated="Aliquam sagittis integer mus adipiscing" Overview="Nec himenaeos amet justo parturient" SerieAliasStr="Parturient magnis mattis quis vestibulum" Title="Quisque ornare" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Inceptos vestibulum posuere" Episodio="24" IDSerie="86" ID="92" Temporada="80"/>
+						<Model:SerieAlias AliasName="Fames potenti leo convallis" Episodio="36" IDSerie="89" ID="25" Temporada="18"/>
+						<Model:SerieAlias AliasName="Adipiscing urna dignissim interdum parturient" Episodio="35" IDSerie="70" ID="49" Temporada="83"/>
+						<Model:SerieAlias AliasName="Pretium cras lobortis" Episodio="42" IDSerie="55" ID="69" Temporada="17"/>
+						<Model:SerieAlias AliasName="Mauris elementum nascetur pharetra" Episodio="69" IDSerie="12" ID="46" Temporada="45"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Lorem vestibulum semper" Estado="CompletoSemForeignKeys" FolderMetadata="Sed sem elit sit" FolderPath="Vivamus penatibus" ImgFanart="Adipiscing vehicula parturient aliquam" IDApi="18" IDBanco="49" ImgPoster="Vel sociis porttitor volutpat magna" Language="Tincidunt tristique aliquet" LastUpdated="Massa maecenas vestibulum metus" Overview="Nam taciti vestibulum" SerieAliasStr="Non imperdiet senectus platea" Title="Blandit commodo sed" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Sociosqu ante per malesuada" Episodio="19" IDSerie="88" ID="28" Temporada="43"/>
+						<Model:SerieAlias AliasName="Primis arcu suscipit diam" Episodio="96" IDSerie="56" ID="68" Temporada="94"/>
+						<Model:SerieAlias AliasName="Eget lacus" Episodio="20" IDSerie="12" ID="46" Temporada="89"/>
+						<Model:SerieAlias AliasName="Rutrum torquent" Episodio="86" IDSerie="57" ID="91" Temporada="37"/>
+						<Model:SerieAlias AliasName="Ultrices vestibulum sapien" Episodio="62" IDSerie="78" ID="94" Temporada="68"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Vestibulum facilisi mus" Estado="Simples" FolderMetadata="Nec nulla adipiscing porta" FolderPath="Euismod non faucibus vulputate" ImgFanart="Eros parturient habitant feugiat" IDApi="39" IDBanco="33" ImgPoster="Nibh per" Language="Sed inceptos" LastUpdated="Purus sem vestibulum" Overview="Risus nisi" SerieAliasStr="Tellus tempor tempus morbi conubia" Title="Sit curabitur gravida" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Cubilia praesent accumsan enim" Episodio="27" IDSerie="70" ID="95" Temporada="49"/>
+						<Model:SerieAlias AliasName="Bibendum dapibus erat adipiscing" Episodio="89" IDSerie="30" ID="69" Temporada="55"/>
+						<Model:SerieAlias AliasName="Dictumst neque dis est ultricies" Episodio="87" IDSerie="77" ID="93" Temporada="74"/>
+						<Model:SerieAlias AliasName="Egestas venenatis tortor parturient hac" Episodio="83" IDSerie="91" ID="67" Temporada="93"/>
+						<Model:SerieAlias AliasName="Vestibulum leo netus turpis eleifend" Episodio="29" IDSerie="62" ID="30" Temporada="40"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Adipiscing curae" Estado="Simples" FolderMetadata="Consequat convallis donec parturient" FolderPath="Dignissim vestibulum natoque" ImgFanart="Odio posuere vestibulum etiam adipiscing" IDApi="58" IDBanco="18" ImgPoster="Dis nullam fusce lobortis" Language="Lorem potenti aptent pretium" LastUpdated="Est elementum parturient hac" Overview="Nascetur rhoncus" SerieAliasStr="Iaculis velit" Title="Leo pharetra facilisis morbi" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Lacinia vitae" Episodio="81" IDSerie="82" ID="52" Temporada="64"/>
+						<Model:SerieAlias AliasName="Nisl nunc vel interdum varius" Episodio="60" IDSerie="83" ID="41" Temporada="17"/>
+						<Model:SerieAlias AliasName="Laoreet aenean" Episodio="66" IDSerie="41" ID="74" Temporada="69"/>
+						<Model:SerieAlias AliasName="Vestibulum nam mauris" Episodio="10" IDSerie="72" ID="93" Temporada="57"/>
+						<Model:SerieAlias AliasName="Phasellus sed class" Episodio="79" IDSerie="74" ID="86" Temporada="65"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Nec sodales congue" Estado="CompletoSemForeignKeys" FolderMetadata="Viverra habitasse senectus aliquam cursus" FolderPath="Hendrerit dolor" ImgFanart="Pede parturient" IDApi="36" IDBanco="12" ImgPoster="Himenaeos quam" Language="Quis fames vestibulum vestibulum felis" LastUpdated="Ipsum adipiscing justo integer lacus" Overview="Quisque dictum vivamus parturient" SerieAliasStr="Vestibulum mus nulla" Title="Imperdiet urna vestibulum non lectus" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Placerat vestibulum fermentum" Episodio="22" IDSerie="17" ID="22" Temporada="89"/>
+						<Model:SerieAlias AliasName="Orci proin" Episodio="46" IDSerie="75" ID="69" Temporada="58"/>
+						<Model:SerieAlias AliasName="Pulvinar augue" Episodio="16" IDSerie="20" ID="78" Temporada="94"/>
+						<Model:SerieAlias AliasName="Sagittis adipiscing" Episodio="23" IDSerie="66" ID="27" Temporada="34"/>
+						<Model:SerieAlias AliasName="Auctor fringilla" Episodio="19" IDSerie="72" ID="89" Temporada="80"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Penatibus porttitor nam" Estado="Completo" FolderMetadata="Amet vestibulum magna ante" FolderPath="Aliquet ultrices vehicula luctus arcu" ImgFanart="Blandit tincidunt diam eget elit" IDApi="68" IDBanco="63" ImgPoster="Massa sed dis commodo conubia" Language="Enim volutpat" LastUpdated="Tristique cubilia magnis" Overview="Mattis ultricies" SerieAliasStr="Per vestibulum" Title="Mauris venenatis" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Sed sem" Episodio="43" IDSerie="66" ID="23" Temporada="97"/>
+						<Model:SerieAlias AliasName="Aliquam malesuada cras sociosqu" Episodio="30" IDSerie="51" ID="71" Temporada="75"/>
+						<Model:SerieAlias AliasName="Libero duis adipiscing ligula parturient" Episodio="66" IDSerie="74" ID="74" Temporada="72"/>
+						<Model:SerieAlias AliasName="Vestibulum sit nunc" Episodio="40" IDSerie="56" ID="70" Temporada="70"/>
+						<Model:SerieAlias AliasName="Litora lorem suscipit torquent vel" Episodio="95" IDSerie="42" ID="23" Temporada="18"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Mus netus" Estado="Novo" FolderMetadata="Nec feugiat" FolderPath="Gravida ornare nulla iaculis porta" ImgFanart="Purus platea phasellus" IDApi="21" IDBanco="46" ImgPoster="Maecenas consequat nisi convallis" Language="Nisl praesent" LastUpdated="Nunc primis non per odio" Overview="Accumsan bibendum sed lacinia dictumst" SerieAliasStr="Erat mollis" Title="Eleifend sem laoreet" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Metus morbi eros est adipiscing" Episodio="59" IDSerie="80" ID="16" Temporada="55"/>
+						<Model:SerieAlias AliasName="Dapibus montes hac" Episodio="91" IDSerie="77" ID="54" Temporada="85"/>
+						<Model:SerieAlias AliasName="Leo vulputate" Episodio="92" IDSerie="82" ID="78" Temporada="19"/>
+						<Model:SerieAlias AliasName="Egestas euismod" Episodio="78" IDSerie="33" ID="94" Temporada="48"/>
+						<Model:SerieAlias AliasName="Neque nostra nibh curabitur" Episodio="49" IDSerie="16" ID="14" Temporada="40"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Pharetra fermentum" Estado="Completo" FolderMetadata="Vestibulum vel vitae adipiscing semper" FolderPath="Parturient potenti vestibulum quis" ImgFanart="Fringilla urna pretium vestibulum nam" IDApi="81" IDBanco="96" ImgPoster="Cras sed sociis placerat taciti" Language="Rhoncus tellus class sodales" LastUpdated="Viverra adipiscing" Overview="Pulvinar duis" SerieAliasStr="Orci risus facilisi" Title="Dis parturient sagittis" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Dignissim sit" Episodio="29" IDSerie="86" ID="50" Temporada="95"/>
+						<Model:SerieAlias AliasName="Elementum faucibus parturient facilisis vestibulum" Episodio="78" IDSerie="93" ID="49" Temporada="58"/>
+						<Model:SerieAlias AliasName="Natoque habitant inceptos pede" Episodio="47" IDSerie="44" ID="28" Temporada="80"/>
+						<Model:SerieAlias AliasName="Interdum rutrum velit posuere" Episodio="64" IDSerie="26" ID="59" Temporada="75"/>
+						<Model:SerieAlias AliasName="Lobortis sapien nascetur quam" Episodio="80" IDSerie="98" ID="97" Temporada="81"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Vestibulum imperdiet amet" Estado="Novo" FolderMetadata="Donec sociosqu aliquet malesuada vestibulum" FolderPath="Penatibus suscipit blandit" ImgFanart="Adipiscing tortor" IDApi="40" IDBanco="63" ImgPoster="Parturient nec" Language="Vestibulum vestibulum etiam non commodo" LastUpdated="Torquent ante turpis arcu porttitor" Overview="Tincidunt ultrices conubia" SerieAliasStr="Habitasse est aliquam vestibulum hendrerit" Title="Tristique diam per vehicula" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Hac integer" Episodio="90" IDSerie="91" ID="31" Temporada="62"/>
+						<Model:SerieAlias AliasName="Himenaeos quisque vestibulum curae vivamus" Episodio="46" IDSerie="73" ID="56" Temporada="37"/>
+						<Model:SerieAlias AliasName="Aliquam adipiscing leo mus tempor" Episodio="12" IDSerie="51" ID="38" Temporada="22"/>
+						<Model:SerieAlias AliasName="Nunc tempus" Episodio="87" IDSerie="68" ID="40" Temporada="95"/>
+						<Model:SerieAlias AliasName="Senectus parturient" Episodio="76" IDSerie="91" ID="38" Temporada="44"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+	</ViewModel:MainViewModel.AnimesESeries>
+	<ViewModel:MainViewModel.Filmes>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Erat sit" Estado="Completo" FolderMetadata="Parturient vestibulum" FolderPath="Bibendum vestibulum eros vel" ImgFanart="Dictumst porttitor" IDApi="56" IDBanco="21" ImgPoster="Aenean tincidunt mauris" Language="Eleifend tristique adipiscing" LastUpdated="Ultricies nam etiam sed" Overview="Nibh nisi" SerieAliasStr="Vitae leo class diam mus" Title="Parturient nullam" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Malesuada nec tempus curae" Episodio="28" IDSerie="46" ID="23" Temporada="98"/>
+						<Model:SerieAlias AliasName="Eget cubilia tortor penatibus" Episodio="48" IDSerie="31" ID="90" Temporada="10"/>
+						<Model:SerieAlias AliasName="Maecenas praesent dapibus elit accumsan" Episodio="80" IDSerie="90" ID="11" Temporada="73"/>
+						<Model:SerieAlias AliasName="Donec turpis non enim per" Episodio="13" IDSerie="63" ID="29" Temporada="55"/>
+						<Model:SerieAlias AliasName="Sed varius adipiscing sem" Episodio="74" IDSerie="41" ID="59" Temporada="42"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Habitant euismod hac" Estado="Simples" FolderMetadata="Curabitur inceptos phasellus adipiscing interdum" FolderPath="Pede quam lorem parturient quis" ImgFanart="Consequat vestibulum leo mus congue" IDApi="53" IDBanco="86" ImgPoster="Vestibulum cursus urna nec convallis" Language="Dignissim dictum lobortis" LastUpdated="Feugiat gravida adipiscing lectus iaculis" Overview="Lacinia cras" SerieAliasStr="Dis nisl" Title="Nascetur libero laoreet" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Facilisi est" Episodio="36" IDSerie="61" ID="84" Temporada="68"/>
+						<Model:SerieAlias AliasName="Nunc vestibulum fusce faucibus" Episodio="52" IDSerie="89" ID="33" Temporada="20"/>
+						<Model:SerieAlias AliasName="Odio venenatis vulputate aptent" Episodio="14" IDSerie="59" ID="93" Temporada="84"/>
+						<Model:SerieAlias AliasName="Auctor orci" Episodio="95" IDSerie="78" ID="39" Temporada="25"/>
+						<Model:SerieAlias AliasName="Vestibulum egestas" Episodio="10" IDSerie="76" ID="68" Temporada="13"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Augue dolor per fames" Estado="CompletoSemForeignKeys" FolderMetadata="Felis fermentum fringilla pretium pulvinar" FolderPath="Habitasse rhoncus magnis mattis adipiscing" ImgFanart="Parturient hendrerit sagittis arcu" IDApi="97" IDBanco="97" ImgPoster="Diam ipsum himenaeos" Language="Eget sed elit" LastUpdated="Justo senectus" Overview="Enim sem" SerieAliasStr="Duis nunc pharetra amet morbi" Title="Sociosqu mauris suscipit" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Parturient elementum non natoque ligula" Episodio="92" IDSerie="62" ID="92" Temporada="16"/>
+						<Model:SerieAlias AliasName="Posuere nulla" Episodio="15" IDSerie="93" ID="73" Temporada="12"/>
+						<Model:SerieAlias AliasName="Vestibulum placerat" Episodio="33" IDSerie="50" ID="86" Temporada="17"/>
+						<Model:SerieAlias AliasName="Proin vestibulum ante litora luctus" Episodio="87" IDSerie="47" ID="61" Temporada="79"/>
+						<Model:SerieAlias AliasName="Potenti facilisis" Episodio="48" IDSerie="20" ID="97" Temporada="69"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Eros magna adipiscing sed massa" Estado="Completo" FolderMetadata="Venenatis parturient ultrices vehicula vulputate" FolderPath="Curabitur metus" ImgFanart="Dis nibh integer quisque" IDApi="70" IDBanco="72" ImgPoster="Est hac leo phasellus" Language="Morbi mus nisi nostra ornare" LastUpdated="Platea nisl primis nunc" Overview="Neque volutpat" SerieAliasStr="Lacus imperdiet malesuada penatibus" Title="Vivamus vestibulum" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Porttitor torquent" Episodio="24" IDSerie="34" ID="28" Temporada="33"/>
+						<Model:SerieAlias AliasName="Vestibulum vestibulum erat sit" Episodio="76" IDSerie="59" ID="58" Temporada="73"/>
+						<Model:SerieAlias AliasName="Mollis tincidunt sodales vel tristique" Episodio="65" IDSerie="67" ID="52" Temporada="50"/>
+						<Model:SerieAlias AliasName="Viverra ultricies" Episodio="92" IDSerie="16" ID="68" Temporada="45"/>
+						<Model:SerieAlias AliasName="Montes nam aliquam lorem" Episodio="28" IDSerie="27" ID="26" Temporada="11"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Purus parturient" Estado="Completo" FolderMetadata="Elementum vestibulum odio" FolderPath="Per conubia" ImgFanart="Praesent facilisis cubilia sociis dapibus" IDApi="30" IDBanco="97" ImgPoster="Taciti sed orci tellus" Language="Accumsan sem" LastUpdated="Vestibulum fermentum risus egestas pede" Overview="Bibendum sit" SerieAliasStr="Rutrum nec" Title="Euismod adipiscing fringilla parturient vestibulum" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Aliquam consequat maecenas" Episodio="43" IDSerie="52" ID="88" Temporada="27"/>
+						<Model:SerieAlias AliasName="Aliquet vestibulum non netus sapien" Episodio="78" IDSerie="30" ID="30" Temporada="79"/>
+						<Model:SerieAlias AliasName="Nulla blandit" Episodio="93" IDSerie="88" ID="83" Temporada="95"/>
+						<Model:SerieAlias AliasName="Semper commodo convallis" Episodio="78" IDSerie="82" ID="43" Temporada="81"/>
+						<Model:SerieAlias AliasName="Porta adipiscing dignissim" Episodio="96" IDSerie="53" ID="44" Temporada="60"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Série" ContentTypeString="Donec duis tortor himenaeos" Estado="Simples" FolderMetadata="Imperdiet sed adipiscing laoreet dis" FolderPath="Faucibus malesuada" ImgFanart="Parturient etiam fusce lorem vestibulum" IDApi="59" IDBanco="84" ImgPoster="Penatibus natoque morbi nulla nunc" Language="Turpis varius proin porttitor vestibulum" LastUpdated="Amet augue" Overview="Habitant tincidunt aenean tristique" SerieAliasStr="Velit quam quis feugiat" Title="Ante inceptos ultricies" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vitae gravida" Episodio="49" IDSerie="69" ID="46" Temporada="78"/>
+						<Model:SerieAlias AliasName="Urna tempor habitasse iaculis class" Episodio="73" IDSerie="78" ID="12" Temporada="93"/>
+						<Model:SerieAlias AliasName="Vel dictumst curae lacinia" Episodio="52" IDSerie="36" ID="95" Temporada="51"/>
+						<Model:SerieAlias AliasName="Eleifend vestibulum cras" Episodio="84" IDSerie="81" ID="45" Temporada="59"/>
+						<Model:SerieAlias AliasName="Tempus nam hendrerit facilisi" Episodio="79" IDSerie="52" ID="38" Temporada="86"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Série" ContentTypeString="Dignissim lobortis parturient" Estado="Completo" FolderMetadata="Eget justo" FolderPath="Vestibulum elementum pretium cursus lacus" ImgFanart="Facilisis elit fermentum enim fringilla" IDApi="40" IDBanco="92" ImgPoster="Vestibulum nec habitasse" Language="Adipiscing erat parturient vestibulum vestibulum" LastUpdated="Rhoncus dictum sodales" Overview="Non nascetur eros per lorem" SerieAliasStr="Est arcu posuere" Title="Adipiscing viverra sed" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Venenatis hac mauris dolor nullam" Episodio="61" IDSerie="90" ID="97" Temporada="72"/>
+						<Model:SerieAlias AliasName="Potenti fames interdum leo felis" Episodio="63" IDSerie="30" ID="47" Temporada="82"/>
+						<Model:SerieAlias AliasName="Ipsum mus aptent vulputate" Episodio="57" IDSerie="52" ID="19" Temporada="46"/>
+						<Model:SerieAlias AliasName="Curabitur auctor congue" Episodio="49" IDSerie="57" ID="15" Temporada="10"/>
+						<Model:SerieAlias AliasName="Phasellus consequat diam adipiscing convallis" Episodio="56" IDSerie="10" ID="27" Temporada="99"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Pulvinar tincidunt" Estado="Simples" FolderMetadata="Vel netus litora nam tristique" FolderPath="Integer sagittis adipiscing parturient" ImgFanart="Quisque ultricies vivamus aliquam" IDApi="48" IDBanco="26" ImgPoster="Nunc aliquet sed vestibulum" Language="Odio nulla blandit" LastUpdated="Commodo dis venenatis orci porta" Overview="Vulputate curabitur" SerieAliasStr="Magna hendrerit massa" Title="Pede luctus quam" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Nibh metus lectus parturient libero" Episodio="68" IDSerie="59" ID="36" Temporada="46"/>
+						<Model:SerieAlias AliasName="Himenaeos sem morbi nisi sit" Episodio="10" IDSerie="64" ID="47" Temporada="24"/>
+						<Model:SerieAlias AliasName="Aliquam pharetra ligula" Episodio="17" IDSerie="47" ID="44" Temporada="64"/>
+						<Model:SerieAlias AliasName="Imperdiet vestibulum nisl malesuada penatibus" Episodio="85" IDSerie="88" ID="72" Temporada="11"/>
+						<Model:SerieAlias AliasName="Vestibulum placerat neque porttitor" Episodio="49" IDSerie="73" ID="41" Temporada="70"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Selecione" ContentTypeString="Mollis urna cras" Estado="Simples" FolderMetadata="Leo euismod duis" FolderPath="Dignissim vestibulum elementum montes" ImgFanart="Feugiat facilisis gravida velit vestibulum" IDApi="12" IDBanco="18" ImgPoster="Adipiscing nostra ornare" Language="Ultrices parturient vehicula fermentum vitae" LastUpdated="Fringilla platea habitasse nunc hendrerit" Overview="Amet class vestibulum iaculis curae" SerieAliasStr="Vestibulum magnis conubia" Title="Himenaeos vestibulum donec primis volutpat" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Senectus phasellus" Episodio="99" IDSerie="96" ID="48" Temporada="75"/>
+						<Model:SerieAlias AliasName="Est mattis adipiscing cubilia" Episodio="11" IDSerie="82" ID="79" Temporada="35"/>
+						<Model:SerieAlias AliasName="Dapibus purus sociosqu suscipit parturient" Episodio="85" IDSerie="53" ID="60" Temporada="68"/>
+						<Model:SerieAlias AliasName="Hac mauris torquent egestas" Episodio="39" IDSerie="22" ID="63" Temporada="26"/>
+						<Model:SerieAlias AliasName="Risus consequat convallis quis" Episodio="47" IDSerie="28" ID="83" Temporada="43"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Dictumst eleifend" Estado="Completo" FolderMetadata="Vestibulum mus facilisi semper" FolderPath="Natoque adipiscing posuere faucibus lorem" ImgFanart="Potenti sociis habitant parturient morbi" IDApi="58" IDBanco="87" ImgPoster="Inceptos vestibulum vestibulum" Language="Nulla interdum" LastUpdated="Pretium rhoncus" Overview="Taciti proin" SerieAliasStr="Lacinia etiam ante maecenas" Title="Tellus nec non tempor tempus" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Imperdiet adipiscing" Episodio="98" IDSerie="30" ID="84" Temporada="85"/>
+						<Model:SerieAlias AliasName="Arcu malesuada fusce praesent laoreet" Episodio="21" IDSerie="77" ID="55" Temporada="69"/>
+						<Model:SerieAlias AliasName="Accumsan diam penatibus eget" Episodio="35" IDSerie="54" ID="70" Temporada="51"/>
+						<Model:SerieAlias AliasName="Parturient rutrum bibendum" Episodio="37" IDSerie="50" ID="20" Temporada="34"/>
+						<Model:SerieAlias AliasName="Vestibulum sapien" Episodio="45" IDSerie="42" ID="84" Temporada="82"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+	</ViewModel:MainViewModel.Filmes>
+	<ViewModel:MainViewModel.Series>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Aliquam lobortis" Estado="CompletoSemForeignKeys" FolderMetadata="Integer nascetur sem nibh" FolderPath="Aenean tristique justo" ImgFanart="Mauris nullam quisque nisi aptent" IDApi="35" IDBanco="82" ImgPoster="Sit nisl" Language="Auctor pharetra nunc vel" LastUpdated="Vivamus nam placerat" Overview="Vestibulum congue cursus" SerieAliasStr="Augue dolor tortor" Title="Adipiscing sed dictum" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Per sed porttitor fames" Episodio="21" IDSerie="43" ID="26" Temporada="35"/>
+						<Model:SerieAlias AliasName="Elit adipiscing felis turpis enim" Episodio="88" IDSerie="94" ID="33" Temporada="90"/>
+						<Model:SerieAlias AliasName="Erat sodales varius" Episodio="51" IDSerie="24" ID="14" Temporada="91"/>
+						<Model:SerieAlias AliasName="Parturient ipsum viverra" Episodio="50" IDSerie="55" ID="21" Temporada="26"/>
+						<Model:SerieAlias AliasName="Vestibulum tincidunt eros" Episodio="68" IDSerie="57" ID="37" Temporada="26"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Phasellus conubia libero est" Estado="Simples" FolderMetadata="Cubilia magna" FolderPath="Sociosqu quis ligula massa" ImgFanart="Hac consequat metus" IDApi="29" IDBanco="49" ImgPoster="Vestibulum vestibulum dapibus" Language="Litora urna cras" LastUpdated="Suscipit egestas duis nunc luctus" Overview="Convallis leo" SerieAliasStr="Odio aliquam orci aliquet" Title="Torquent morbi" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Pede ultricies" Episodio="24" IDSerie="35" ID="87" Temporada="11"/>
+						<Model:SerieAlias AliasName="Blandit parturient lacus vestibulum commodo" Episodio="75" IDSerie="47" ID="22" Temporada="43"/>
+						<Model:SerieAlias AliasName="Venenatis lectus pulvinar vestibulum adipiscing" Episodio="11" IDSerie="59" ID="29" Temporada="20"/>
+						<Model:SerieAlias AliasName="Sagittis dis quam lorem senectus" Episodio="72" IDSerie="52" ID="13" Temporada="86"/>
+						<Model:SerieAlias AliasName="Vulputate parturient curabitur" Episodio="66" IDSerie="74" ID="54" Temporada="44"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Praesent non" Estado="Simples" FolderMetadata="Accumsan fermentum ornare feugiat" FolderPath="Ante arcu gravida platea" ImgFanart="Per netus iaculis lacinia" IDApi="13" IDBanco="95" ImgPoster="Nulla primis laoreet" Language="Bibendum dictumst diam fringilla" LastUpdated="Eget rutrum elit" Overview="Sed habitasse porta sapien enim" SerieAliasStr="Dignissim elementum ultrices magnis" Title="Eleifend erat hendrerit" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vehicula mattis" Episodio="36" IDSerie="70" ID="46" Temporada="38"/>
+						<Model:SerieAlias AliasName="Facilisis euismod" Episodio="79" IDSerie="26" ID="29" Temporada="14"/>
+						<Model:SerieAlias AliasName="Mauris mollis montes adipiscing" Episodio="35" IDSerie="62" ID="41" Temporada="39"/>
+						<Model:SerieAlias AliasName="Amet neque nostra" Episodio="12" IDSerie="99" ID="55" Temporada="86"/>
+						<Model:SerieAlias AliasName="Mus volutpat nec maecenas" Episodio="57" IDSerie="53" ID="81" Temporada="18"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Vestibulum penatibus" Estado="Novo" FolderMetadata="Class adipiscing porttitor" FolderPath="Tincidunt natoque" ImgFanart="Facilisi posuere tristique faucibus" IDApi="93" IDBanco="28" ImgPoster="Curae ultricies parturient venenatis odio" Language="Donec potenti orci" LastUpdated="Pretium vel" Overview="Etiam habitant" SerieAliasStr="Himenaeos purus sem" Title="Rhoncus vulputate" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Risus sit parturient eros" Episodio="41" IDSerie="48" ID="39" Temporada="52"/>
+						<Model:SerieAlias AliasName="Imperdiet semper" Episodio="73" IDSerie="71" ID="81" Temporada="12"/>
+						<Model:SerieAlias AliasName="Nibh nisi nisl" Episodio="51" IDSerie="63" ID="90" Temporada="74"/>
+						<Model:SerieAlias AliasName="Velit nunc" Episodio="61" IDSerie="41" ID="89" Temporada="47"/>
+						<Model:SerieAlias AliasName="Malesuada vitae vestibulum" Episodio="43" IDSerie="27" ID="28" Temporada="96"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Quisque taciti lobortis" Estado="Completo" FolderMetadata="Quam tellus adipiscing sed nascetur" FolderPath="Pharetra placerat" ImgFanart="Convallis vivamus dis dignissim quis" IDApi="89" IDBanco="71" ImgPoster="Urna cras aliquam tempor" Language="Pulvinar est sagittis tempus" LastUpdated="Duis senectus parturient" Overview="Lorem aliquet" SerieAliasStr="Inceptos interdum vestibulum pede curabitur" Title="Blandit sociosqu hac" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Phasellus vestibulum adipiscing" Episodio="58" IDSerie="10" ID="43" Temporada="96"/>
+						<Model:SerieAlias AliasName="Sodales fusce parturient vestibulum" Episodio="87" IDSerie="97" ID="79" Temporada="93"/>
+						<Model:SerieAlias AliasName="Consequat vestibulum sociis" Episodio="91" IDSerie="46" ID="21" Temporada="41"/>
+						<Model:SerieAlias AliasName="Viverra aliquam" Episodio="15" IDSerie="89" ID="41" Temporada="37"/>
+						<Model:SerieAlias AliasName="Integer nam" Episodio="55" IDSerie="43" ID="44" Temporada="33"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Arcu adipiscing" Estado="Novo" FolderMetadata="Diam parturient mus" FolderPath="Vestibulum nec cubilia dapibus aenean" ImgFanart="Maecenas egestas non vestibulum praesent" IDApi="98" IDBanco="52" ImgPoster="Nulla adipiscing mauris" Language="Fermentum fringilla eget habitasse" LastUpdated="Parturient elit" Overview="Vestibulum vestibulum proin enim nullam" SerieAliasStr="Tortor suscipit torquent vestibulum turpis" Title="Per sed erat adipiscing" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vestibulum varius" Episodio="75" IDSerie="94" ID="38" Temporada="20"/>
+						<Model:SerieAlias AliasName="Commodo nunc elementum" Episodio="55" IDSerie="48" ID="19" Temporada="35"/>
+						<Model:SerieAlias AliasName="Amet morbi ante" Episodio="91" IDSerie="11" ID="17" Temporada="23"/>
+						<Model:SerieAlias AliasName="Ultrices vehicula" Episodio="80" IDSerie="51" ID="15" Temporada="77"/>
+						<Model:SerieAlias AliasName="Facilisis leo conubia volutpat" Episodio="94" IDSerie="14" ID="91" Temporada="58"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Anime" ContentTypeString="Sed vestibulum" Estado="Novo" FolderMetadata="Adipiscing dis" FolderPath="Iaculis malesuada est lacinia" ImgFanart="Felis ligula laoreet" IDApi="29" IDBanco="38" ImgPoster="Eros litora natoque hac leo" Language="Penatibus bibendum ipsum porttitor tincidunt" LastUpdated="Tristique dictumst" Overview="Eleifend ultricies parturient facilisi" SerieAliasStr="Parturient aptent sem" Title="Mus nibh faucibus vestibulum" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Augue hendrerit accumsan sit auctor" Episodio="38" IDSerie="84" ID="30" Temporada="99"/>
+						<Model:SerieAlias AliasName="Congue vestibulum vel euismod" Episodio="57" IDSerie="72" ID="16" Temporada="82"/>
+						<Model:SerieAlias AliasName="Dolor nam cursus feugiat" Episodio="62" IDSerie="38" ID="70" Temporada="87"/>
+						<Model:SerieAlias AliasName="Dictum himenaeos lectus fames imperdiet" Episodio="67" IDSerie="12" ID="71" Temporada="76"/>
+						<Model:SerieAlias AliasName="Gravida libero" Episodio="33" IDSerie="54" ID="87" Temporada="66"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Filme" ContentTypeString="Odio magna" Estado="Completo" FolderMetadata="Nascetur sed vestibulum massa pharetra" FolderPath="Sodales mollis" ImgFanart="Curabitur montes nostra" IDApi="54" IDBanco="41" ImgPoster="Viverra sem orci pede" Language="Phasellus ornare platea sit aliquam" LastUpdated="Vel vestibulum adipiscing placerat" Overview="Pulvinar primis nam" SerieAliasStr="Nec justo non per luctus" Title="Metus integer sagittis rutrum" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Vestibulum posuere magnis potenti" Episodio="39" IDSerie="61" ID="91" Temporada="84"/>
+						<Model:SerieAlias AliasName="Lacus mattis" Episodio="85" IDSerie="50" ID="78" Temporada="52"/>
+						<Model:SerieAlias AliasName="Habitant nisi inceptos venenatis adipiscing" Episodio="28" IDSerie="72" ID="40" Temporada="33"/>
+						<Model:SerieAlias AliasName="Parturient lorem vulputate pretium rhoncus" Episodio="10" IDSerie="36" ID="73" Temporada="56"/>
+						<Model:SerieAlias AliasName="Mauris interdum lobortis nisl nunc" Episodio="62" IDSerie="62" ID="41" Temporada="18"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Episódio" ContentTypeString="Torquent cras netus elementum tellus" Estado="Simples" FolderMetadata="Duis parturient aliquet nunc facilisis" FolderPath="Amet leo ultrices" ImgFanart="Tempor nulla vestibulum" IDApi="51" IDBanco="97" ImgPoster="Tempus porta mus purus" Language="Vestibulum adipiscing fermentum parturient risus" LastUpdated="Ante vestibulum vehicula volutpat" Overview="Vestibulum adipiscing" SerieAliasStr="Consequat quam senectus" Title="Tortor arcu" bFlSelecionado="True">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Morbi convallis sapien" Episodio="85" IDSerie="47" ID="93" Temporada="79"/>
+						<Model:SerieAlias AliasName="Semper sed dis quisque quis" Episodio="74" IDSerie="67" ID="27" Temporada="26"/>
+						<Model:SerieAlias AliasName="Est vivamus aliquam dignissim" Episodio="13" IDSerie="32" ID="42" Temporada="99"/>
+						<Model:SerieAlias AliasName="Sociosqu sociis taciti" Episodio="90" IDSerie="48" ID="92" Temporada="73"/>
+						<Model:SerieAlias AliasName="Suscipit neque urna hac" Episodio="31" IDSerie="41" ID="93" Temporada="20"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+		<ViewModel:PosterViewModel>
+			<ViewModel:PosterViewModel.Poster>
+				<Model:Video ContentType="Série" ContentTypeString="Curae mauris donec etiam" Estado="Novo" FolderMetadata="Erat vestibulum" FolderPath="Fusce adipiscing" ImgFanart="Hendrerit himenaeos parturient imperdiet" IDApi="37" IDBanco="40" ImgPoster="Malesuada penatibus nullam" Language="Eros vestibulum" LastUpdated="Nibh aptent egestas" Overview="Auctor sed" SerieAliasStr="Maecenas blandit commodo nec non" Title="Porttitor lorem" bFlSelecionado="False">
+					<Model:Video.ImgPosterCache>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+						<System:Byte/>
+					</Model:Video.ImgPosterCache>
+					<Model:Video.SerieAlias>
+						<Model:SerieAlias AliasName="Per diam eget conubia turpis" Episodio="24" IDSerie="71" ID="44" Temporada="38"/>
+						<Model:SerieAlias AliasName="Velit fringilla cubilia parturient varius" Episodio="50" IDSerie="35" ID="77" Temporada="23"/>
+						<Model:SerieAlias AliasName="Vitae dapibus vestibulum" Episodio="13" IDSerie="84" ID="21" Temporada="98"/>
+						<Model:SerieAlias AliasName="Aenean elit" Episodio="16" IDSerie="46" ID="67" Temporada="15"/>
+						<Model:SerieAlias AliasName="Habitasse enim praesent class" Episodio="14" IDSerie="84" ID="32" Temporada="11"/>
+					</Model:Video.SerieAlias>
+				</Model:Video>
+			</ViewModel:PosterViewModel.Poster>
+		</ViewModel:PosterViewModel>
+	</ViewModel:MainViewModel.Series>
+</ViewModel:MainViewModel>
