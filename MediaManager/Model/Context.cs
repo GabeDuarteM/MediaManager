@@ -4,7 +4,7 @@ namespace MediaManager.Model
 {
     public class Context : DbContext
     {
-        public DbSet<Episode> Episode { get; set; }
+        public DbSet<Episodio> Episodio { get; set; }
 
         //public DbSet<Filme> Filmes { get; set; }
 

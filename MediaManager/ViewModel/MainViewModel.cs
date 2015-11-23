@@ -4,8 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using MediaManager.Commands;
+using System.Windows;
 using MediaManager.Helpers;
 using MediaManager.Model;
 
@@ -13,48 +12,44 @@ namespace MediaManager.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        //private ObservableCollection<PosterViewModel> _animes;
-        //private ObservableCollection<PosterViewModel> _filmes;
-        //private ObservableCollection<PosterViewModel> _series;
+        private ObservableCollection<PosterViewModel> _ListaAnimes;
+        public ObservableCollection<PosterViewModel> ListaAnimes { get { return _ListaAnimes; } set { _ListaAnimes = value; OnPropertyChanged(); } }
 
-        //public ObservableCollection<PosterViewModel> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
-        //public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
-        //public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
+        private ObservableCollection<PosterViewModel> _ListaFilmes;
+        public ObservableCollection<PosterViewModel> ListaFilmes { get { return _ListaFilmes; } set { _ListaFilmes = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<PosterViewModel> _animes;
-        private ObservableCollection<PosterViewModel> _filmes;
-        private ObservableCollection<PosterViewModel> _series;
+        private ObservableCollection<PosterViewModel> _ListaSeries;
+        public ObservableCollection<PosterViewModel> ListaSeries { get { return _ListaSeries; } set { _ListaSeries = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<PosterViewModel> Animes { get { return _animes; } set { _animes = value; OnPropertyChanged(); } }
-        public ObservableCollection<PosterViewModel> Filmes { get { return _filmes; } set { _filmes = value; OnPropertyChanged(); } }
-        public ObservableCollection<PosterViewModel> Series { get { return _series; } set { _series = value; OnPropertyChanged(); } }
-
-        public ObservableCollection<PosterViewModel> AnimesESeries
+        public ObservableCollection<PosterViewModel> ListaAnimesESeries
         {
             get
             {
                 ObservableCollection<PosterViewModel> retorno = new ObservableCollection<PosterViewModel>();
 
-                foreach (var anime in Animes)
+                foreach (var anime in ListaAnimes)
                     retorno.Add(anime);
 
-                foreach (var serie in Series)
+                foreach (var serie in ListaSeries)
                     retorno.Add(serie);
 
                 return retorno;
             }
         }
 
-        public MainViewModel(ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
+        public Window Owner { get; set; }
+
+        public MainViewModel(Window owner = null, ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
         {
-            AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie, animes, filmes, series);
+            Owner = owner;
+            AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, animes, filmes, series);
         }
 
-        public void AtualizarConteudo(Enums.ContentType tipoConteudo, ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
+        public void AtualizarConteudo(Enums.TipoConteudo nIdTipoConteudo, ICollection<Serie> listaAnimes = null, ICollection<Serie> listaFilmes = null, ICollection<Serie> listaSeries = null)
         {
-            switch (tipoConteudo)
+            switch (nIdTipoConteudo)
             {
-                case Enums.ContentType.Filme:
+                case Enums.TipoConteudo.Filme:
                     {
                         //Filmes = new ObservableCollection<PosterViewModel>();
                         //List<Filme> filmesDB = DatabaseHelper.GetFilmes();
@@ -72,66 +67,70 @@ namespace MediaManager.ViewModel
                         //break;
                         throw new NotImplementedException();
                     }
-                case Enums.ContentType.Série:
+                case Enums.TipoConteudo.Série:
                     {
-                        Series = new ObservableCollection<PosterViewModel>();
-                        series = (series != null) ? series : DBHelper.GetSeriesComForeignKeys();
+                        ListaSeries = new ObservableCollection<PosterViewModel>();
+                        listaSeries = (listaSeries != null) ? listaSeries : DBHelper.GetSeriesComForeignKeys();
 
-                        foreach (var item in series)
+                        foreach (var item in listaSeries)
                         {
-                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                            item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = item;
-                            _series.Add(posterVM);
+                            posterVM.oPoster = item;
+                            posterVM.Owner = Owner;
+                            _ListaSeries.Add(posterVM);
                         }
 
-                        Series = _series;
+                        ListaSeries = _ListaSeries;
                         break;
                     }
-                case Enums.ContentType.Anime:
+                case Enums.TipoConteudo.Anime:
                     {
-                        Animes = new ObservableCollection<PosterViewModel>();
-                        animes = (animes != null) ? animes : DBHelper.GetAnimesComForeignKeys();
+                        ListaAnimes = new ObservableCollection<PosterViewModel>();
+                        listaAnimes = (listaAnimes != null) ? listaAnimes : DBHelper.GetAnimesComForeignKeys();
 
-                        foreach (var item in animes)
+                        foreach (var item in listaAnimes)
                         {
-                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                            item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = item;
-                            _animes.Add(posterVM);
+                            posterVM.oPoster = item;
+                            posterVM.Owner = Owner;
+                            _ListaAnimes.Add(posterVM);
                         }
 
-                        Animes = _animes;
+                        ListaAnimes = _ListaAnimes;
                         break;
                     }
-                case Enums.ContentType.AnimeFilmeSérie:
+                case Enums.TipoConteudo.AnimeFilmeSérie:
                     {
-                        Series = new ObservableCollection<PosterViewModel>();
-                        Animes = new ObservableCollection<PosterViewModel>();
+                        ListaSeries = new ObservableCollection<PosterViewModel>();
+                        ListaAnimes = new ObservableCollection<PosterViewModel>();
                         //Filmes = new ObservableCollection<PosterViewModel>();
 
-                        series = (series != null) ? series : DBHelper.GetSeriesComForeignKeys();
-                        animes = (animes != null) ? animes : DBHelper.GetAnimesComForeignKeys();
+                        listaSeries = (listaSeries != null) ? listaSeries : DBHelper.GetSeriesComForeignKeys();
+                        listaAnimes = (listaAnimes != null) ? listaAnimes : DBHelper.GetAnimesComForeignKeys();
                         //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
-                        foreach (var item in series)
+                        foreach (var item in listaSeries)
                         {
-                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                            item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = item;
-                            _series.Add(posterVM);
+                            posterVM.oPoster = item;
+                            posterVM.Owner = Owner;
+                            _ListaSeries.Add(posterVM);
                         }
 
-                        foreach (var item in animes)
+                        foreach (var item in listaAnimes)
                         {
-                            var posterMetadata = Path.Combine(item.FolderMetadata, "poster.jpg");
-                            item.ImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
+                            var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                            item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
                             PosterViewModel posterVM = new PosterViewModel();
-                            posterVM.Poster = item;
-                            _animes.Add(posterVM);
+                            posterVM.oPoster = item;
+                            posterVM.Owner = Owner;
+                            _ListaAnimes.Add(posterVM);
                         }
 
                         //foreach (var item in filmes)
@@ -143,12 +142,12 @@ namespace MediaManager.ViewModel
                         //    _filmes.Add(posterVM);
                         //}
 
-                        Series = _series;
-                        Animes = _animes;
+                        ListaSeries = _ListaSeries;
+                        ListaAnimes = _ListaAnimes;
                         //Filmes = _filmes;
                         break;
                     }
-                case Enums.ContentType.Selecione:
+                case Enums.TipoConteudo.Selecione:
                     throw new InvalidEnumArgumentException();
                 default:
                     throw new InvalidEnumArgumentException();

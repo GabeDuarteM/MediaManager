@@ -24,7 +24,7 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                throw new NotImplementedException("Ainda não cara, ainda não...");
+                return;
             }
         }
 
@@ -41,17 +41,17 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as FeedsViewModel;
 
-                if (feedsVM.Feeds.Where(x => x.bFlSelecionado).Count() == 1)
+                if (feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {
-                    var feed = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
+                    var feed = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
                     if (feed != null)
                     {
-                        var feedAcima = feedsVM.Feeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                        var feedAcima = feedsVM.ListaFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade--;
                         feedAcima.nNrPrioridade++;
                         if (DBHelper.UpdateFeed(feed, feedAcima) == false)
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sNmFeed);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed);
                         }
                     }
                 }
@@ -91,17 +91,17 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as FeedsViewModel;
 
-                if (feedsVM.Feeds.Where(x => x.bFlSelecionado).Count() == 1)
+                if (feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {
-                    var feed = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.Feeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
+                    var feed = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.ListaFeeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
                     if (feed != null)
                     {
-                        var feedAbaixo = feedsVM.Feeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                        var feedAbaixo = feedsVM.ListaFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade++;
                         feedAbaixo.nNrPrioridade--;
                         if (DBHelper.UpdateFeed(feed, feedAbaixo) == false)
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sNmFeed);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed);
                         }
                     }
                 }
@@ -138,18 +138,18 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as FeedsViewModel;
-                int feedsSelecionadosCount = feedsVM.Feeds.Where(x => x.bFlSelecionado).Count();
-                if (feedsSelecionadosCount == feedsVM.Feeds.Count)
+                int feedsSelecionadosCount = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count();
+                if (feedsSelecionadosCount == feedsVM.ListaFeeds.Count && feedsVM.ListaFeeds.Count > 0)
                 {
-                    feedsVM.bFlSelecionarTodosFeeds = true;
+                    feedsVM.bFlSelecionarTodos = true;
                 }
                 else if (feedsSelecionadosCount == 0)
                 {
-                    feedsVM.bFlSelecionarTodosFeeds = false;
+                    feedsVM.bFlSelecionarTodos = false;
                 }
                 else if (feedsSelecionadosCount > 0)
                 {
-                    feedsVM.bFlSelecionarTodosFeeds = null;
+                    feedsVM.bFlSelecionarTodos = null;
                 }
             }
         }
@@ -166,17 +166,17 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as FeedsViewModel;
-                if (feedsVM.bFlSelecionarTodosFeeds == true)
+                if (feedsVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var feed in feedsVM.Feeds)
+                    foreach (var feed in feedsVM.ListaFeeds)
                     {
                         feed.bFlSelecionado = true;
                     }
                 }
                 else
                 {
-                    feedsVM.bFlSelecionarTodosFeeds = false;
-                    foreach (var feed in feedsVM.Feeds)
+                    feedsVM.bFlSelecionarTodos = false;
+                    foreach (var feed in feedsVM.ListaFeeds)
                     {
                         feed.bFlSelecionado = false;
                     }

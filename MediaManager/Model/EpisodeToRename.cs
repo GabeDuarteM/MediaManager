@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MediaManager.Helpers;
@@ -10,418 +12,50 @@ using MediaManager.Helpers;
 namespace MediaManager.Model
 {
     [System.Diagnostics.DebuggerDisplay("{FilenameRenamed}"), NotMapped]
-    public class EpisodeToRename : Episode, INotifyPropertyChanged
+    public class EpisodeToRenames : Episodio, INotifyPropertyChanged
     {
         private string _Filename;
 
         private string _FilenameRenamed;
 
-        private bool _IsSelected = true;
+        //public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged(); } }
 
-        public Enums.ContentType ContentType { get; set; }
+        //public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged(); } }
 
-        public string ContentTypeString { get { return Enums.ToString(ContentType); } }
+        //public string ParentTitle { get; set; }
 
-        public List<string> EpisodeList { get; set; } = new List<string>();  // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
-
-        public List<string> AbsoluteList { get; set; } = new List<string>(); // Para quando tiver mais de um episódio absoluto
-
-        public string Filename { get { return _Filename; } set { _Filename = value; OnPropertyChanged(); } }
-
-        public string FilenameRenamed { get { return _FilenameRenamed; } set { _FilenameRenamed = value; OnPropertyChanged(); } }
-
-        public string ParentTitle { get; set; }
-
-        public EpisodeToRename(Episode episode)
+        public EpisodeToRenames(Episodio episode)
         {
-            if (episode == null)
-                return;
-            AbsoluteNumber = episode.AbsoluteNumber;
-            AirsAfterSeason = episode.AirsAfterSeason;
-            AirsBeforeEpisode = episode.AirsBeforeEpisode;
-            AirsBeforeSeason = episode.AirsBeforeSeason;
-            Artwork = episode.Artwork;
-            EpisodeName = episode.EpisodeName;
-            EpisodeNumber = episode.EpisodeNumber;
-            FirstAired = episode.FirstAired;
-            FolderPath = episode.FolderPath;
-            IDBanco = episode.IDBanco;
-            IDSeasonTvdb = episode.IDSeasonTvdb;
-            IDSerie = episode.IDSerie;
-            IDSeriesTvdb = episode.IDSeriesTvdb;
-            IDTvdb = episode.IDTvdb;
-            IsRenamed = episode.IsRenamed;
-            Language = episode.Language;
-            LastUpdated = episode.LastUpdated;
-            OriginalFilePath = episode.OriginalFilePath;
-            Overview = episode.Overview;
-            Rating = episode.Rating;
-            RatingCount = episode.RatingCount;
-            SeasonNumber = episode.SeasonNumber;
-            Serie = episode.Serie != null ? episode.Serie : null;
-            ThumbAddedDate = episode.ThumbAddedDate;
+            //if (episode == null)
+            //    return;
+            //AbsoluteNumber = episode.AbsoluteNumber;
+            //AirsAfterSeason = episode.AirsAfterSeason;
+            //AirsBeforeEpisode = episode.AirsBeforeEpisode;
+            //AirsBeforeSeason = episode.AirsBeforeSeason;
+            //Artwork = episode.Artwork;
+            //EpisodeName = episode.EpisodeName;
+            //EpisodeNumber = episode.EpisodeNumber;
+            //FirstAired = episode.FirstAired;
+            //FolderPath = episode.FolderPath;
+            //IDBanco = episode.IDBanco;
+            //IDSeasonTvdb = episode.IDSeasonTvdb;
+            //IDSerie = episode.IDSerie;
+            //IDSeriesAPI = episode.IDSeriesAPI;
+            //IDApi = episode.IDApi;
+            //IsRenamed = episode.IsRenamed;
+            //Language = episode.Language;
+            //LastUpdated = episode.LastUpdated;
+            //OriginalFilePath = episode.OriginalFilePath;
+            //Overview = episode.Overview;
+            //Rating = episode.Rating;
+            //RatingCount = episode.RatingCount;
+            //SeasonNumber = episode.SeasonNumber;
+            //Serie = episode.Serie != null ? episode.Serie : null;
+            //ThumbAddedDate = episode.ThumbAddedDate;
         }
 
-        public EpisodeToRename()
+        public EpisodeToRenames()
         {
-        }
-
-        public void Clone(EpisodeToRename episode)
-        {
-            AbsoluteNumber = episode.AbsoluteNumber;
-            AirsAfterSeason = episode.AirsAfterSeason;
-            AirsBeforeEpisode = episode.AirsBeforeEpisode;
-            AirsBeforeSeason = episode.AirsBeforeSeason;
-            Artwork = episode.Artwork;
-            ContentType = episode.ContentType;
-            EpisodeList = episode.EpisodeList;
-            AbsoluteList = episode.AbsoluteList;
-            EpisodeName = episode.EpisodeName;
-            EpisodeNumber = episode.EpisodeNumber;
-            Filename = episode.Filename;
-            FilenameRenamed = episode.FilenameRenamed;
-            FirstAired = episode.FirstAired;
-            FolderPath = episode.FolderPath;
-            IDBanco = episode.IDBanco;
-            IDSeasonTvdb = episode.IDSeasonTvdb;
-            IDSerie = episode.IDSerie;
-            IDSeriesTvdb = episode.IDSeriesTvdb;
-            IDTvdb = episode.IDTvdb;
-            IsRenamed = episode.IsRenamed;
-            Language = episode.Language;
-            LastUpdated = episode.LastUpdated;
-            OriginalFilePath = episode.OriginalFilePath;
-            Overview = episode.Overview;
-            ParentTitle = episode.ParentTitle;
-            Rating = episode.Rating;
-            RatingCount = episode.RatingCount;
-            SeasonNumber = episode.SeasonNumber;
-            Serie = episode.Serie;
-            ThumbAddedDate = episode.ThumbAddedDate;
-            EstadoEpisodio = episode.EstadoEpisodio;
-        }
-
-        public bool GetEpisode()
-        {
-            Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
-
-            var FilenameTratado = System.IO.Path.GetFileNameWithoutExtension(Filename).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-
-            try
-            {
-                if (regexes.regex_S00E00.IsMatch(FilenameTratado))
-                {
-                    var match = regexes.regex_S00E00.Match(FilenameTratado);
-                    ParentTitle = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                    SeriesData data = new SeriesData();
-                    List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-
-                    SerieAlias alias = listaAlias.Where(x => x.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle).FirstOrDefault();
-                    if (Serie == null && alias != null)
-                    {
-                        data.Series = new Serie[1] { DBHelper.GetSeriePorID(alias.IDSerie) };
-                    }
-
-                    //foreach (var item in listaAlias)
-                    //{
-                    //    if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                    //    {
-                    //        if (Serie == null)
-                    //            data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
-                    //        alias = item;
-                    //        break;
-                    //    }
-                    //}
-                    if (Serie != null)
-                        data = new SeriesData() { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
-                    else
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(ParentTitle);
-                        if (serieTemp != null)
-                        {
-                            Serie = serieTemp;
-                            data.Series = new Serie[1] { serieTemp };
-                        }
-
-                        //List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
-                        //if (listaSeriesBanco.Count > 0)
-                        //{
-                        //    foreach (var item in listaSeriesBanco)
-                        //    {
-                        //        if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                        //        {
-                        //            data.Series = new Serie[1] { item };
-                        //            break;
-                        //        }
-                        //    }
-                        //    if (data.Series == null)
-                        //        data.Series = new Serie[1] { listaSeriesBanco[0] };
-                        //}
-                        //if (data.Series == null)
-                        //{
-                        //    data = await APIRequests.GetSeriesAsync(ParentTitle, false);
-
-                        //}
-
-                        //if (data.Series == null)
-                        //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
-                    }
-
-                    if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
-                    {
-                        char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) // Para quando se tem multi-episódios
-                            ? default(char)
-                            : match.Groups["separador"].Value.ToCharArray()[0];
-                        EpisodeToRename episodeToClone = null;
-                        if (Serie == null)
-                            Serie = data.Series[0];
-
-                        SeasonNumber = int.Parse(match.Groups["season"].Value);
-                        EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                        EpisodeNumber = int.Parse(EpisodeList[0]);
-                        if (alias != null)
-                        {
-                            var episodios = DBHelper.GetEpisodes(Serie);
-                            foreach (var item in episodios)
-                            {
-                                if (alias.Temporada + SeasonNumber - 1 == item.SeasonNumber && alias.Episodio + EpisodeNumber - 1 == item.EpisodeNumber)
-                                {
-                                    episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, item.SeasonNumber, item.EpisodeNumber));
-                                    if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
-                                        return false;
-                                    episodeToClone.EpisodeList = EpisodeList;
-                                    episodeToClone.AbsoluteList = AbsoluteList;
-                                    episodeToClone.Serie = Serie;
-                                    episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                                    episodeToClone.Filename = Filename;
-                                    episodeToClone.FolderPath = FolderPath;
-                                    episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                                    for (int i = 0; i < episodeToClone.EpisodeList.Count; i++)
-                                    {
-                                        episodeToClone.EpisodeList[i] = alias.Episodio + EpisodeNumber - 1 + "";
-
-                                        if (i == 0)
-                                            continue;
-
-                                        var episodeTemp = new EpisodeToRename(episodios.Find(x => x.SeasonNumber == alias.Temporada + SeasonNumber - 1 && x.EpisodeNumber == alias.Episodio + EpisodeNumber - 1));
-                                        episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                                    }
-                                    Clone(episodeToClone);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, EpisodeNumber));
-                            if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
-                                return false;
-                            episodeToClone.EpisodeList = EpisodeList;
-                            episodeToClone.Serie = Serie;
-                            episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                            episodeToClone.Filename = Filename;
-                            episodeToClone.FolderPath = FolderPath;
-                            episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var item in EpisodeList)
-                            {
-                                if (item == EpisodeList[0])
-                                    continue;
-
-                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(item)));
-                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                            }
-                            Clone(episodeToClone);
-                        }
-                        return true;
-                    }
-                }
-                else if (regexes.regex_0x00.IsMatch(FilenameTratado)) // TODO Fazer funcionar com alias
-                {
-                    var match = regexes.regex_0x00.Match(FilenameTratado);
-                    SeriesData data = null;
-                    if (Serie == null)
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(match.Groups["name"].Value);
-                        if (serieTemp != null)
-                        {
-                            data = new SeriesData() { Series = new Serie[1] { serieTemp } };
-                            Serie = serieTemp;
-                        }
-                    }
-                    //data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
-                    else
-                    {
-                        data = new SeriesData() { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
-                    }
-
-                    foreach (var item in data.Series)
-                    {
-                        if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(item.IDApi))
-                        {
-                            char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) // Para quando se tem multi-episódios
-                            ? default(char)
-                            : match.Groups["separador"].Value.ToCharArray()[0];
-                            Serie = DBHelper.GetSerieOuAnimePorIDApi(item.IDApi);
-                            SeasonNumber = int.Parse(match.Groups["season"].Value);
-                            EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                            EpisodeNumber = int.Parse(EpisodeList[0]);
-                            EpisodeToRename episodeToClone = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, EpisodeNumber));
-                            if (episodeToClone.IDBanco == 0) // Caso IDBanco seja 0 é porque não foi encontrado o episódio no banco.
-                                return false;
-                            episodeToClone.EpisodeList = EpisodeList;
-                            episodeToClone.Serie = Serie;
-                            episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                            episodeToClone.Filename = Filename;
-                            episodeToClone.FolderPath = FolderPath;
-                            episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var itemArray in EpisodeList)
-                            {
-                                if (itemArray == EpisodeList[0])
-                                    continue;
-
-                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, SeasonNumber, int.Parse(itemArray)));
-                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                            }
-                            Clone(episodeToClone);
-                            //EpisodeArray = match.Groups["episodes"].Value.Split(separador);
-                            break;
-                        }
-                    }
-                    return true;
-                }
-                else if (regexes.regex_Fansub0000.IsMatch(FilenameTratado))
-                {
-                    var match = regexes.regex_Fansub0000.Match(FilenameTratado);
-                    ParentTitle = match.Groups["name"].Value.Trim();
-                    SeriesData data = new SeriesData();
-                    List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    SerieAlias alias = listaAlias.Where(x => x.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle).FirstOrDefault();
-                    if (Serie == null && alias != null)
-                    {
-                        data.Series = new Serie[1] { DBHelper.GetSeriePorID(alias.IDSerie) };
-                    }
-                    //foreach (var item in listaAlias)
-                    //{
-                    //    if (item.AliasName.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == ParentTitle)
-                    //    {
-                    //        if (Serie == null)
-                    //            data.Series = new Serie[1] { DBHelper.GetSeriePorID(item.IDSerie) };
-                    //        alias = item;
-                    //        break;
-                    //    }
-                    //}
-                    if (Serie != null)
-                        data = new SeriesData { Series = new Serie[1] { Serie }, Episodes = Serie.Episodes.ToArray() };
-                    else
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(ParentTitle);
-                        if (serieTemp != null)
-                        {
-                            Serie = serieTemp;
-                            data.Series = new Serie[1] { serieTemp };
-                        }
-
-                        //List<Serie> listaSeriesBanco = DBHelper.GetSerieOuAnimePorTitulo(ParentTitle, true);
-                        //if (listaSeriesBanco.Count > 0)
-                        //{
-                        //    foreach (var item in listaSeriesBanco)
-                        //    {
-                        //        if (item.Title.Replace(".", " ").Replace("_", " ") == ParentTitle)
-                        //        {
-                        //            data.Series = new Serie[1] { item };
-                        //            break;
-                        //        }
-                        //        else if (item.Title.Replace(".", " ").Replace("_", " ").Replace("'", "") == ParentTitle.Replace("'", ""))
-                        //        {
-                        //            data.Series = new Serie[1] { item };
-                        //            break;
-                        //        }
-                        //    }
-                        //    if (data.Series == null)
-                        //        data.Series = new Serie[1] { listaSeriesBanco[0] };
-                        //}
-                        //if (data.Series == null)
-                        //    data = await APIRequests.GetSeriesAsync(ParentTitle, false);
-
-                        //if (data.Series == null)
-                        //    data = await APIRequests.GetSeriesAsync(match.Groups["name"].Value, false);
-                    }
-
-                    if (data.Series != null && DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
-                    {
-                        string separador = string.IsNullOrEmpty(match.Groups["separador"].Value) // Para quando se tem multi-episódios
-                            ? default(string)
-                            : match.Groups["separador"].Value;
-                        if (Serie == null)
-                            Serie = DBHelper.GetSerieOuAnimePorIDApi(data.Series[0].IDApi);
-                        EpisodeList = new List<string>(match.Groups["episodes"].Value.Split(new[] { separador }, StringSplitOptions.None));
-                        AbsoluteNumber = int.Parse(EpisodeList[0]);
-                        if (alias != null) // Entra se estiver utilizando alias para identificar a serie
-                        {
-                            var episodios = DBHelper.GetEpisodes(Serie);
-                            var primeiroEpisodioAlias = DBHelper.GetEpisode(Serie.IDBanco, alias.Temporada, alias.Episodio);
-                            Episode episodio = episodios.Where(x => x.AbsoluteNumber == primeiroEpisodioAlias.AbsoluteNumber + AbsoluteNumber - 1).First();
-                            var episodeToClone = new EpisodeToRename(episodio);
-                            if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
-                                return false;
-                            episodeToClone.EpisodeList = EpisodeList;
-                            //episodeToClone.AbsoluteNumber = AbsoluteNumber;
-                            episodeToClone.Serie = Serie;
-                            episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                            episodeToClone.Filename = Filename;
-                            episodeToClone.FolderPath = FolderPath;
-                            episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            for (int i = 0; i < episodeToClone.EpisodeList.Count; i++)
-                            {
-                                episodeToClone.AbsoluteList.Add(primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeList[i]) - 1 + "");
-                                if (episodeToClone.AbsoluteList.Count > 1)
-                                {
-                                    var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.AbsoluteList[i])).IDTvdb));
-                                    episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                                }
-                                //if (i == 0)
-                                //{
-                                //    //episodeToClone.EpisodeArray[i] = item.AbsoluteNumber + "";
-                                //    episodeToClone.AbsoluteArray.Add(episodio.AbsoluteNumber + "");
-                                //    continue;
-                                //}
-                                //episodeToClone.EpisodeArray[i] = primeiroEpisodioAlias.AbsoluteNumber + int.Parse(episodeToClone.EpisodeArray[i]) - 1 + "";
-                                //var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(episodios.Find(x => x.AbsoluteNumber == int.Parse(episodeToClone.EpisodeArray[i])).IDTvdb));
-                                //episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                            }
-                            Clone(episodeToClone);
-                            return true;
-                        }
-                        else
-                        {
-                            var episodeDB = DBHelper.GetEpisode(Serie.IDBanco, (int)AbsoluteNumber);
-                            var episodeToClone = new EpisodeToRename(episodeDB);
-                            if (episodeToClone.IDBanco == 0) // Caso seja 0 é porque não foi encontrado o episódio no banco.
-                                return false;
-                            episodeToClone.EpisodeList = EpisodeList;
-                            episodeToClone.AbsoluteList = new List<string>();
-                            episodeToClone.AbsoluteNumber = AbsoluteNumber;
-                            episodeToClone.Serie = Serie;
-                            episodeToClone.ContentType = episodeToClone.Serie.ContentType;
-                            episodeToClone.Filename = Filename;
-                            episodeToClone.FolderPath = FolderPath;
-                            episodeToClone.ParentTitle = episodeToClone.Serie.Title;
-                            foreach (var itemArray in EpisodeList)
-                            {
-                                episodeToClone.AbsoluteList.Add(itemArray);
-                                if (itemArray == EpisodeList[0])
-                                    continue;
-
-                                var episodeTemp = new EpisodeToRename(DBHelper.GetEpisode(Serie.IDBanco, episodeToClone.SeasonNumber, int.Parse(itemArray)));
-                                episodeToClone.EpisodeName += " & " + episodeTemp.EpisodeName;
-                            }
-                            Clone(episodeToClone);
-                            return true;
-                        }
-                    }
-                }
-            }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao reconhecer o episódio " + Filename, true); }
-            return false;
         }
 
         #region INotifyPropertyChanged Members

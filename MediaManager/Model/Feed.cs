@@ -6,7 +6,7 @@ using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
-    [System.Diagnostics.DebuggerDisplay("{sNmFeed} - {sDsTipoConteudo}")]
+    [System.Diagnostics.DebuggerDisplay("{sDsFeed} - {sDsTipoConteudo}")]
     public class Feed : INotifyPropertyChanged
     {
         private int _nCdFeed;
@@ -14,20 +14,20 @@ namespace MediaManager.Model
         [Key, Column(Order = 0)]
         public int nCdFeed { get { return _nCdFeed; } set { _nCdFeed = value; OnPropertyChanged(); } }
 
-        private string _sNmFeed;
+        private string _sDsFeed;
 
         [Required, Column(Order = 1)]
-        public string sNmFeed { get { return _sNmFeed; } set { _sNmFeed = value; OnPropertyChanged(); } }
+        public string sDsFeed { get { return _sDsFeed; } set { _sDsFeed = value; OnPropertyChanged(); } }
 
-        private string _sNmUrl;
+        private string _sLkFeed;
 
         [Required, Column(Order = 2)]
-        public string sNmUrl { get { return _sNmUrl; } set { _sNmUrl = value; OnPropertyChanged(); } }
+        public string sLkFeed { get { return _sLkFeed; } set { _sLkFeed = value; OnPropertyChanged(); } }
 
-        private Helpers.Enums.ContentType _nIdTipoConteudo;
+        private Enums.TipoConteudo _nIdTipoConteudo;
 
         [Required, Column(Order = 3)]
-        public Helpers.Enums.ContentType nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; OnPropertyChanged(); } }
+        public Enums.TipoConteudo nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; OnPropertyChanged(); } }
 
         private int _nNrPrioridade;
 

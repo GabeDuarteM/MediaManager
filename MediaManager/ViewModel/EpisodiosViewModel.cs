@@ -16,25 +16,25 @@ namespace MediaManager.ViewModel
 {
     public class EpisodiosViewModel : INotifyPropertyChanged
     {
-        private ICollectionView _episodiosView;
+        private ICollectionView _ListaEpisodiosView;
 
-        public ICollectionView EpisodiosView { get { return _episodiosView; } set { _episodiosView = value; OnPropertyChanged(); } }
+        public ICollectionView ListaEpisodiosView { get { return _ListaEpisodiosView; } set { _ListaEpisodiosView = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<Episode> _episodios;
+        private ObservableCollection<Episodio> _ListaEpisodios;
 
-        public ObservableCollection<Episode> Episodios { get { return _episodios; } set { _episodios = value; OnPropertyChanged(); } }
+        public ObservableCollection<Episodio> ListaEpisodios { get { return _ListaEpisodios; } set { _ListaEpisodios = value; OnPropertyChanged(); } }
 
-        private bool? _selecionarTodos;
+        private bool? _bFlSelecionarTodos;
 
-        public bool? SelecionarTodos { get { return _selecionarTodos; } set { _selecionarTodos = value; OnPropertyChanged(); } }
+        public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
 
-        private Array _EstadoEpisodio;
+        private Array _ArrayEstadoEpisodio;
 
-        public Array EstadoEpisodio { get { return _EstadoEpisodio; } set { _EstadoEpisodio = value; OnPropertyChanged(); } }
+        public Array ArrayEstadoEpisodio { get { return _ArrayEstadoEpisodio; } set { _ArrayEstadoEpisodio = value; OnPropertyChanged(); } }
 
-        private Enums.EstadoEpisodio _EstadoEpisodioSelecionado;
+        private Enums.EstadoEpisodio _nIdEstadoEpisodioSelecionado;
 
-        public Enums.EstadoEpisodio EstadoEpisodioSelecionado { get { return _EstadoEpisodioSelecionado; } set { _EstadoEpisodioSelecionado = value; OnPropertyChanged(); } }
+        public Enums.EstadoEpisodio nIdEstadoEpisodioSelecionado { get { return _nIdEstadoEpisodioSelecionado; } set { _nIdEstadoEpisodioSelecionado = value; OnPropertyChanged(); } }
 
         public Action ActionFechar { get; set; }
 
@@ -46,15 +46,15 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandFechar { get; set; }
 
-        public EpisodiosViewModel(List<Episode> episodios)
+        public EpisodiosViewModel(List<Episodio> episodios)
         {
-            Episodios = new ObservableCollection<Episode>(episodios);
-            EpisodiosView = new ListCollectionView(Episodios);
-            EpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription("SeasonNumber"));
-            SelecionarTodos = false;
-            var estadosParaExibir = new List<int> { 0, 1, 2, 4, 5 };
-            EstadoEpisodio = Enum.GetValues(typeof(Enums.EstadoEpisodio)).Cast<Enums.EstadoEpisodio>().Where(x => estadosParaExibir.Contains((int)x)).ToArray();
-            EstadoEpisodioSelecionado = Enums.EstadoEpisodio.Selecione;
+            ListaEpisodios = new ObservableCollection<Episodio>(episodios);
+            ListaEpisodiosView = new ListCollectionView(ListaEpisodios);
+            ListaEpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription("nNrTemporada"));
+            bFlSelecionarTodos = false;
+            var listaEstadosParaExibir = new List<int> { 0, 1, 2, 4, 5 };
+            ArrayEstadoEpisodio = Enum.GetValues(typeof(Enums.EstadoEpisodio)).Cast<Enums.EstadoEpisodio>().Where(x => listaEstadosParaExibir.Contains((int)x)).ToArray();
+            nIdEstadoEpisodioSelecionado = Enums.EstadoEpisodio.Selecione;
             CommandSelecionarTodos = new EpisodiosCommand.CommandSelecionarTodos();
             CommandIsSelected = new EpisodiosCommand.CommandIsSelected();
             CommandSalvar = new EpisodiosCommand.CommandSalvar();

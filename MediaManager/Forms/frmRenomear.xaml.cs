@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
-using MediaManager.Commands;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
@@ -21,7 +19,7 @@ namespace MediaManager.Forms
 
             DataContext = RenomearVM;
 
-            RenomearVM.CloseAction = new System.Action(() => Close()); // Para poder fechar depois no RenomearCommand
+            RenomearVM.ActionFechar = new Action(() => Close()); // Para poder fechar depois no RenomearCommand
         }
 
         public void ShowDialog(Window owner)

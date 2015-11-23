@@ -1,31 +1,49 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
+using MediaManager.Commands;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
-using Ookii.Dialogs.Wpf;
 
 namespace MediaManager.ViewModel
 {
     public class ProcurarConteudoViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Video> _Conteudos;
-        public ObservableCollection<Video> Conteudos { get { return _Conteudos; } set { _Conteudos = value; OnPropertyChanged(); } }
+        private ObservableCollection<Video> _ListaConteudos;
+        public ObservableCollection<Video> ListaConteudos { get { return _ListaConteudos; } set { _ListaConteudos = value; OnPropertyChanged(); } }
+
+        private bool? _bFlSelecionarTodos;
+
+        public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
+
+        public ICommand CommandAdicionar { get; set; }
+
+        public ICommand CommandSelecionar { get; set; }
+
+        public ICommand CommandSelecionarTodos { get; set; }
+
+        public Action ActionFechar { get; set; }
 
         public Window Owner { get; set; }
 
-        public ProcurarConteudoViewModel(Enums.ContentType tipoConteudo = Enums.ContentType.Selecione, Window owner = null)
+        public ProcurarConteudoViewModel(Enums.TipoConteudo tipoConteudo = Enums.TipoConteudo.Selecione, Window owner = null)
         {
-            Conteudos = new ObservableCollection<Video>();
-            Conteudos.Add(new Serie { Title = "Carregando...", FolderPath = "Carregando...", bFlSelecionado = false });
+            ListaConteudos = new ObservableCollection<Video>();
+            ListaConteudos.Add(new Serie { sDsTitulo = "Carregando...", sDsPasta = "Carregando...", bFlSelecionado = false });
             Owner = owner;
+            CommandAdicionar = new ProcurarConteudoCommands.CommandAdicionar();
+            CommandSelecionar = new ProcurarConteudoCommands.CommandSelecionar();
+            CommandSelecionarTodos = new ProcurarConteudoCommands.CommandSelecionarTodos();
             LoadConteudos(tipoConteudo);
+            CommandSelecionar.Execute(this);
         }
 
-        public void LoadConteudos(Enums.ContentType contentType)
+        public void LoadConteudos(Enums.TipoConteudo contentType)
         {
             frmBarraProgresso frmBarraProgresso = new frmBarraProgresso();
             frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Procurando pastas...";
@@ -35,7 +53,7 @@ namespace MediaManager.ViewModel
 
                 switch (contentType)
                 {
-                    case Enums.ContentType.AnimeFilmeSérie:
+                    case Enums.TipoConteudo.AnimeFilmeSérie:
                         DirectoryInfo[] dirSeries = Helper.retornarDiretoriosSeries();
                         DirectoryInfo[] dirAnimes = Helper.retornarDiretoriosAnimes();
                         DirectoryInfo[] dirFilmes = Helper.retornarDiretoriosFilmes();
@@ -53,28 +71,28 @@ namespace MediaManager.ViewModel
                                     if (data.Series.Length == 0)
                                     {
                                         Serie conteudo = new Serie();
-                                        conteudo.ContentType = Enums.ContentType.Série;
-                                        conteudo.FolderPath = dir.FullName;
+                                        conteudo.nIdTipoConteudo = Enums.TipoConteudo.Série;
+                                        conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
+                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].nCdApi))
                                     {
                                         Serie conteudo = data.Series[0];
-                                        conteudo.ContentType = Enums.ContentType.Série;
-                                        conteudo.FolderPath = dir.FullName;
+                                        conteudo.nIdTipoConteudo = Enums.TipoConteudo.Série;
+                                        conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlSelecionado = true;
 
-                                        if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
+                                        if (!string.IsNullOrWhiteSpace(conteudo.sAliases))
                                         {
-                                            foreach (var item in conteudo.SerieAliasStr.Split('|'))
+                                            foreach (var item in conteudo.sAliases.Split('|'))
                                             {
                                                 SerieAlias alias = new SerieAlias(item);
-                                                if (conteudo.SerieAlias == null)
+                                                if (conteudo.ListaSerieAlias == null)
                                                 {
-                                                    conteudo.SerieAlias = new ObservableCollection<SerieAlias>();
+                                                    conteudo.ListaSerieAlias = new ObservableCollection<SerieAlias>();
                                                 }
-                                                conteudo.SerieAlias.Add(alias);
+                                                conteudo.ListaSerieAlias.Add(alias);
                                             }
                                         }
 
@@ -96,28 +114,28 @@ namespace MediaManager.ViewModel
                                     if (data.Series == null || data.Series.Length == 0)
                                     {
                                         Serie conteudo = new Serie();
-                                        conteudo.ContentType = Enums.ContentType.Anime;
-                                        conteudo.FolderPath = dir.FullName;
+                                        conteudo.nIdTipoConteudo = Enums.TipoConteudo.Anime;
+                                        conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].IDApi))
+                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].nCdApi))
                                     {
                                         Serie conteudo = data.Series[0];
-                                        conteudo.ContentType = Enums.ContentType.Anime;
-                                        conteudo.FolderPath = dir.FullName;
+                                        conteudo.nIdTipoConteudo = Enums.TipoConteudo.Anime;
+                                        conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlSelecionado = true;
 
-                                        if (!string.IsNullOrWhiteSpace(conteudo.SerieAliasStr))
+                                        if (!string.IsNullOrWhiteSpace(conteudo.sAliases))
                                         {
-                                            foreach (var item in conteudo.SerieAliasStr.Split('|'))
+                                            foreach (var item in conteudo.sAliases.Split('|'))
                                             {
                                                 SerieAlias alias = new SerieAlias(item);
-                                                if (conteudo.SerieAlias == null)
+                                                if (conteudo.ListaSerieAlias == null)
                                                 {
-                                                    conteudo.SerieAlias = new ObservableCollection<SerieAlias>();
+                                                    conteudo.ListaSerieAlias = new ObservableCollection<SerieAlias>();
                                                 }
-                                                conteudo.SerieAlias.Add(alias);
+                                                conteudo.ListaSerieAlias.Add(alias);
                                             }
                                         }
 
@@ -144,9 +162,9 @@ namespace MediaManager.ViewModel
                         throw new InvalidEnumArgumentException();
                 }
 
-                Conteudos = conteudos;
+                ListaConteudos = conteudos;
 
-                if (Conteudos.Count == 0)
+                if (ListaConteudos.Count == 0)
                 {
                     Helper.MostrarMensagem("Nenhum novo conteúdo foi encontrado.", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                 }

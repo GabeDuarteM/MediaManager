@@ -4,11 +4,11 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Class="MediaManager.Forms.frmAdicionarConteudo"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="MediaManager.Forms.frmAdicionarConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Adicionar conteúdo - \{0\}}"
-        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/AdicionarConteudoViewModelSampleData.xaml}">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -25,25 +25,24 @@
             <RowDefinition Height="35*" />
         </Grid.RowDefinitions>
 
-        <Image Source="{Binding SelectedVideo.ImgFanart, Mode=OneWay}" HorizontalAlignment="Center" Height="260" Margin="0,10,0,10" VerticalAlignment="Top" Stretch="UniformToFill" Grid.Row="0" Grid.Column="1">
-        </Image>
-        <Image Source="{Binding SelectedVideo.ImgPosterCache, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="20,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill" Grid.Row="0" Grid.Column="1">
+        <Image Source="{Binding oVideoSelecionado.sDsImgFanart, Mode=OneWay}" HorizontalAlignment="Center" Height="260" Margin="0,10,0,10" VerticalAlignment="Top" Stretch="UniformToFill" Grid.Row="0" Grid.Column="1" />
+        <Image Source="{Binding oVideoSelecionado.bCacheImgPoster, Mode=OneWay}" HorizontalAlignment="Left" Height="188" Margin="20,55,0,0" VerticalAlignment="Top" Width="125" Stretch="Fill" Grid.Row="0" Grid.Column="1">
             <Image.Effect>
                 <DropShadowEffect />
             </Image.Effect>
         </Image>
         <DockPanel Grid.Row="1" Grid.Column="1">
-            <ComboBox ItemsSource="{Binding ResultPesquisa, Mode=OneWay}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedVideo, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
+            <ComboBox ItemsSource="{Binding ListaResultPesquisa, Mode=OneWay}" DisplayMemberPath="sDsTitulo" SelectedItem="{Binding oVideoSelecionado, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
             <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Click="btnConfig_Click">
                 <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Command="{Binding CommandAbrirEpisodios}" CommandParameter="{Binding}">
                 <Image Height="15" Width="15" Source="/MediaManager;component/Resources/ICONE_TV.png" Margin="0,0,0,1" />
             </Button>
-            <xctk:WatermarkTextBox Name="tbxPasta" Text="{Binding SelectedVideo.FolderPath, Mode=TwoWay}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" Height="22" Width="463" />
+            <xctk:WatermarkTextBox Name="tbxPasta" Text="{Binding oVideoSelecionado.sDsPasta, Mode=TwoWay}" Watermark="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" Height="22" Width="463" />
             <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="25" Click="btnPasta_Click" Margin="-1,0,0,0" />
         </DockPanel>
-        <TextBox Text="{Binding SelectedVideo.Overview, Mode=TwoWay}" Margin="0,4,0,5" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" />
+        <TextBox Text="{Binding oVideoSelecionado.sDsSinopse, Mode=OneWay}" Margin="0,4,0,5" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" />
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="75" IsCancel="True" Grid.Row="3" Grid.Column="1" />
         <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,80,10" Width="75" Click="btnSalvar_Click" IsDefault="True" Grid.Row="3" Grid.Column="1" />
     </Grid>

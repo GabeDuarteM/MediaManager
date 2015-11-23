@@ -44,7 +44,7 @@ exec sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER ALL'
 /*Reset Identity on tables with identity column*/
 exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1 BEGIN DBCC CHECKIDENT (''?'',RESEED,0) END'");
                     }
-                    frmMain.MainVM.AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
+                    frmMain.MainVM.AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie);
                 }
             }
 
@@ -68,10 +68,10 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                     Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
-                    folderDialog.SelectedPath = preferenciasVM.PastaAnimes;
+                    folderDialog.SelectedPath = preferenciasVM.sPastaAnimes;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        preferenciasVM.PastaAnimes = folderDialog.SelectedPath;
+                        preferenciasVM.sPastaAnimes = folderDialog.SelectedPath;
                     }
                 }
             }
@@ -92,10 +92,10 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                     Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
-                    folderDialog.SelectedPath = preferenciasVM.PastaFilmes;
+                    folderDialog.SelectedPath = preferenciasVM.sPastaFilmes;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        preferenciasVM.PastaFilmes = folderDialog.SelectedPath;
+                        preferenciasVM.sPastaFilmes = folderDialog.SelectedPath;
                     }
                 }
             }
@@ -116,10 +116,10 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                     Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
-                    folderDialog.SelectedPath = preferenciasVM.PastaSeries;
+                    folderDialog.SelectedPath = preferenciasVM.sPastaSeries;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        preferenciasVM.PastaSeries = folderDialog.SelectedPath;
+                        preferenciasVM.sPastaSeries = folderDialog.SelectedPath;
                     }
                 }
             }
@@ -140,10 +140,10 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                     Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
-                    folderDialog.SelectedPath = preferenciasVM.PastaDownloads;
+                    folderDialog.SelectedPath = preferenciasVM.sPastaDownloads;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        preferenciasVM.PastaDownloads = folderDialog.SelectedPath;
+                        preferenciasVM.sPastaDownloads = folderDialog.SelectedPath;
                     }
                 }
             }
@@ -165,20 +165,20 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 if (parameter is PreferenciasViewModel)
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    Properties.Settings.Default.pref_FormatoAnimes = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaAnimes) ? preferenciasVM.FormatoParaAnimes : "{Titulo} - {Absoluto} - {TituloEpisodio}";
-                    Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaFilmes) ? preferenciasVM.FormatoParaFilmes : "{Titulo} ({Ano})";
-                    Properties.Settings.Default.pref_FormatoSeries = !string.IsNullOrWhiteSpace(preferenciasVM.FormatoParaSeries) ? preferenciasVM.FormatoParaSeries : "{Titulo} - {SxEE} - {TituloEpisodio}";
-                    Properties.Settings.Default.pref_IdiomaPesquisa = preferenciasVM.IdiomaSelecionado;
-                    Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo = preferenciasVM.IntervaloDeProcuraConteudoNovo;
-                    Properties.Settings.Default.pref_PastaAnimes = preferenciasVM.PastaAnimes;
-                    Properties.Settings.Default.pref_PastaDownloads = preferenciasVM.PastaDownloads;
-                    Properties.Settings.Default.pref_PastaFilmes = preferenciasVM.PastaFilmes;
-                    Properties.Settings.Default.pref_PastaSeries = preferenciasVM.PastaSeries;
-                    Properties.Settings.Default.pref_MetodoDeProcessamento = (int)preferenciasVM.MetodoDeProcessamentoSelecionado;
+                    Properties.Settings.Default.pref_FormatoAnimes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaAnimes) ? preferenciasVM.sFormatoParaAnimes : "{Titulo} - {Absoluto} - {TituloEpisodio}";
+                    Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaFilmes) ? preferenciasVM.sFormatoParaFilmes : "{Titulo} ({Ano})";
+                    Properties.Settings.Default.pref_FormatoSeries = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaSeries) ? preferenciasVM.sFormatoParaSeries : "{Titulo} - {SxEE} - {TituloEpisodio}";
+                    Properties.Settings.Default.pref_IdiomaPesquisa = preferenciasVM.sIdiomaSelecionado;
+                    Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo = preferenciasVM.nIntervaloDeProcuraConteudoNovo;
+                    Properties.Settings.Default.pref_PastaAnimes = preferenciasVM.sPastaAnimes;
+                    Properties.Settings.Default.pref_PastaDownloads = preferenciasVM.sPastaDownloads;
+                    Properties.Settings.Default.pref_PastaFilmes = preferenciasVM.sPastaFilmes;
+                    Properties.Settings.Default.pref_PastaSeries = preferenciasVM.sPastaSeries;
+                    Properties.Settings.Default.pref_MetodoDeProcessamento = (int)preferenciasVM.nIdMetodoDeProcessamentoSelecionado;
                     Properties.Settings.Default.Save();
 
-                    if (preferenciasVM.CloseAction != null)
-                        preferenciasVM.CloseAction();
+                    if (preferenciasVM.ActionFechar != null)
+                        preferenciasVM.ActionFechar();
                 }
             }
         }

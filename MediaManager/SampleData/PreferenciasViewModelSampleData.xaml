@@ -1,0 +1,18 @@
+﻿<ViewModel:PreferenciasViewModel xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:Model="clr-namespace:MediaManager.Model" xmlns:Data="clr-namespace:System.Windows.Data;assembly=PresentationFramework" nIdMetodoDeProcessamentoSelecionado="Copiar" nIntervaloDeProcuraConteudoNovo="42" sPastaDownloads="Hendrerit nam semper sed himenaeos" sPastaSeries="Lacinia diam dolor eget" sVisualizacaoFormatoParaFilmes="Placerat pulvinar" sIdiomaSelecionado="Imperdiet pharetra sociis" sFormatoParaFilmes="Erat natoque" sFormatoParaSeries="Felis taciti enim laoreet" sFormatoParaAnimes="Ipsum justo" sPastaFilmes="Elit sapien" sPastaAnimes="Vel fames adipiscing" sVisualizacaoFormatoParaAnimes="Parturient potenti dis lorem" sVisualizacaoFormatoParaSeries="Posuere tellus lacus malesuada tempor">
+	<ViewModel:PreferenciasViewModel.oFeedsViewModel>
+		<ViewModel:FeedsViewModel>
+            <ViewModel:FeedsViewModel.ListaFeeds>
+                <Model:Feed bFlSelecionado="True" nNrPrioridade="37" nIdTipoConteudo="Episódio" nCdFeed="93" sDsFeed="Nam aliquam sed curabitur aenean" sDsTipoConteudo="Integer praesent dis mauris phasellus" sLkFeed="Vestibulum class maecenas"/>
+                <Model:Feed bFlSelecionado="False" nNrPrioridade="87" nIdTipoConteudo="Selecione" nCdFeed="78" sDsFeed="Adipiscing nullam est aptent parturient" sDsTipoConteudo="Consequat quisque hac auctor" sLkFeed="Accumsan cras"/>
+                <Model:Feed bFlSelecionado="True" nNrPrioridade="74" nIdTipoConteudo="Selecione" nCdFeed="25" sDsFeed="Congue leo vivamus" sDsTipoConteudo="Cursus dictum aliquam" sLkFeed="Vestibulum curae"/>
+                <Model:Feed bFlSelecionado="False" nNrPrioridade="19" nIdTipoConteudo="Anime" nCdFeed="53" sDsFeed="Aliquet vestibulum blandit" sDsTipoConteudo="Donec commodo adipiscing" sLkFeed="Bibendum dictumst eleifend lectus"/>
+                <Model:Feed bFlSelecionado="True" nNrPrioridade="40" nIdTipoConteudo="Série" nCdFeed="51" sDsFeed="Duis convallis" sDsTipoConteudo="Cubilia elementum parturient facilisis dapibus" sLkFeed="Facilisi dignissim faucibus conubia"/>
+                <Model:Feed bFlSelecionado="False" nNrPrioridade="43" nIdTipoConteudo="AnimeFilmeSérie" nCdFeed="68" sDsFeed="Vestibulum libero ligula" sDsTipoConteudo="Litora luctus magnis mattis mauris" sLkFeed="Egestas habitant"/>
+                <Model:Feed bFlSelecionado="True" nNrPrioridade="57" nIdTipoConteudo="AnimeFilmeSérie" nCdFeed="28" sDsFeed="Nunc etiam mollis" sDsTipoConteudo="Fusce fringilla nostra" sLkFeed="Vestibulum adipiscing montes fermentum"/>
+                <Model:Feed bFlSelecionado="False" nNrPrioridade="37" nIdTipoConteudo="Série" nCdFeed="95" sDsFeed="Lorem inceptos parturient ornare" sDsTipoConteudo="Nulla mus proin feugiat platea" sLkFeed="Morbi interdum euismod"/>
+                <Model:Feed bFlSelecionado="True" nNrPrioridade="81" nIdTipoConteudo="Série" nCdFeed="11" sDsFeed="Gravida nec lobortis primis" sDsTipoConteudo="Arcu per" sLkFeed="Amet ante non"/>
+                <Model:Feed bFlSelecionado="False" nNrPrioridade="68" nIdTipoConteudo="Episódio" nCdFeed="52" sDsFeed="Vestibulum sed" sDsTipoConteudo="Nascetur sit habitasse" sLkFeed="Iaculis sem rutrum augue vestibulum"/>
+            </ViewModel:FeedsViewModel.ListaFeeds>
+        </ViewModel:FeedsViewModel>
+	</ViewModel:PreferenciasViewModel.oFeedsViewModel>
+</ViewModel:PreferenciasViewModel>

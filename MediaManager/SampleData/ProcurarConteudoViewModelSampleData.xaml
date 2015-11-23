@@ -1,364 +1,364 @@
 ﻿<ViewModel:ProcurarConteudoViewModel xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:Model="clr-namespace:MediaManager.Model" xmlns:System="clr-namespace:System;assembly=mscorlib">
-	<ViewModel:ProcurarConteudoViewModel.Conteudos>
-		<Model:Video ContentType="Episódio" ContentTypeString="Venenatis auctor" Estado="Completo" FolderMetadata="Ante pulvinar vestibulum arcu congue" FolderPath="Mus sagittis adipiscing parturient" ImgFanart="Diam proin vestibulum" IDApi="31" IDBanco="83" ImgPoster="Augue cursus dictum senectus sociosqu" Language="Commodo vestibulum" LastUpdated="Conubia nec dolor vulputate" Overview="Cubilia eget fames" SerieAliasStr="Class curabitur vestibulum curae aenean" Title="Dapibus non elit egestas euismod" bFlSelecionado="True">
-			<Model:Video.ImgPosterCache>
+	<ViewModel:ProcurarConteudoViewModel.ListaConteudos>
+		<Model:Video bFlSelecionado="True" nIdTipoConteudo="Selecione" nCdVideo="92" nCdApi="20" nIdEstado="Simples" sDsPasta="Libero adipiscing sit" sDsMetadata="Himenaeos lectus nunc viverra" sAliases="Cras curabitur aenean vestibulum duis" sDsIdioma="Parturient vel vehicula" sDsImgPoster="Aliquam orci" sNrUltimaAtualizacao="Nulla ligula pede imperdiet volutpat" sDsTitulo="Quam malesuada dis vestibulum integer" sDsTipoConteudo="Neque hendrerit nisl" sDsImgFanart="Netus odio" sDsSinopse="Nam sed">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="44" nNrEpisodio="86" nNrTemporada="42" nCdAlias="82" sDsAlias="Adipiscing nunc mauris nam aliquam">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="35" nCdApi="84" nIdEstado="Simples" sDsPasta="Inceptos per dapibus fermentum" sDsMetadata="Habitant donec" sDsStatus="Nec cursus vestibulum curae facilisi" sAliases="Dis consequat accumsan" sDsIdioma="Hac dictumst leo eget elit" sDsClassificacao="Est bibendum nullam" sDsImgPoster="Dignissim congue" sNmAtores="Sed maecenas amet" sDsEmissora="Eleifend enim" sDsGeneros="Vivamus diam aptent aliquam aliquet" sNrUltimaAtualizacao="Elementum conubia" sDsTitulo="Faucibus erat non facilisis vestibulum" sDsTipoConteudo="Dictum lectus" sDsImgFanart="Convallis blandit auctor commodo" sDsEstreiaDiaSemana="Praesent phasellus integer ante parturient" sDsSinopse="Mus cubilia" sDsEstreiaHorario="Arcu class quisque"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="76" nNrEpisodio="41" nNrTemporada="20" nCdAlias="77" sDsAlias="Interdum etiam fusce fringilla">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Selecione" nCdVideo="86" nCdApi="21" nIdEstado="CompletoSemForeignKeys" sDsPasta="Ipsum vestibulum justo" sDsMetadata="Tincidunt sociosqu orci felis" sDsStatus="Placerat natoque parturient" sAliases="Ligula adipiscing sem" sDsIdioma="Vestibulum imperdiet laoreet" sDsClassificacao="Parturient feugiat nibh sit" sDsImgPoster="Nulla vestibulum lacinia nascetur" sNmAtores="Lobortis habitasse egestas" sDsEmissora="Pharetra nunc" sDsGeneros="Himenaeos nisi litora vel gravida" sNrUltimaAtualizacao="Malesuada proin augue" sDsTitulo="Nam pulvinar odio sagittis" sDsTipoConteudo="Posuere fames senectus porttitor sed" sDsImgFanart="Iaculis nisl" sDsEstreiaDiaSemana="Lorem morbi hendrerit sed eros" sDsSinopse="Penatibus dolor luctus magnis adipiscing" sDsEstreiaHorario="Libero euismod"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="79" nNrEpisodio="21" nNrTemporada="16" nCdAlias="27" sDsAlias="Lacus lorem pede potenti dis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Série" nCdVideo="28" nCdApi="94" nIdEstado="Simples" sDsPasta="Consequat parturient" sDsMetadata="Vivamus adipiscing tellus porta bibendum" sDsStatus="Neque netus integer sociis sed" sAliases="Hac ultrices venenatis vulputate quam" sDsIdioma="Parturient primis nec rutrum sapien" sDsClassificacao="Viverra leo vehicula" sDsImgPoster="Mus quis praesent platea adipiscing" sNmAtores="Pretium suscipit torquent magna mattis" sDsEmissora="Semper urna" sDsGeneros="Volutpat nostra" sNrUltimaAtualizacao="Non vestibulum vestibulum" sDsTitulo="Quisque taciti nulla curabitur" sDsTipoConteudo="Cras sem phasellus" sDsImgFanart="Maecenas aliquam vestibulum ornare massa" sDsEstreiaDiaSemana="Mauris tristique mollis" sDsSinopse="Metus morbi per accumsan" sDsEstreiaHorario="Ultricies rhoncus montes est sodales"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="33" nNrEpisodio="69" nNrTemporada="38" nCdAlias="60" sDsAlias="Duis dictumst aliquam aliquet purus">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Série" nCdVideo="17" nCdApi="99" nIdEstado="Simples" sDsPasta="Gravida parturient" sDsMetadata="Adipiscing lorem leo" sDsStatus="Curae hac interdum" sAliases="Tortor amet ante" sDsIdioma="Sed euismod" sDsClassificacao="Nam conubia" sDsImgPoster="Turpis habitant egestas" sNmAtores="Tempor nunc blandit sit" sDsEmissora="Adipiscing inceptos dignissim vitae est" sDsGeneros="Eleifend cubilia vestibulum dapibus" sNrUltimaAtualizacao="Dis feugiat varius velit vestibulum" sDsTitulo="Donec etiam" sDsTipoConteudo="Elementum fusce facilisis" sDsImgFanart="Facilisi faucibus convallis" sDsEstreiaDiaSemana="Risus commodo" sDsSinopse="Parturient vestibulum class vestibulum" sDsEstreiaHorario="Vel tempus"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="21" nNrEpisodio="75" nNrTemporada="34" nCdAlias="88" sDsAlias="Vestibulum lobortis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Filme" nCdVideo="43" nCdApi="72" nIdEstado="Completo" sDsPasta="Habitasse morbi" sDsMetadata="Dictum sodales" sDsStatus="Sem auctor magna ultrices" sAliases="Eget elit pharetra posuere adipiscing" sDsIdioma="Felis nullam ipsum fringilla" sDsClassificacao="Enim placerat morbi" sDsImgPoster="Fames parturient senectus non mauris" sNmAtores="Vestibulum fermentum iaculis lacinia laoreet" sDsEmissora="Per lacus sed" sDsGeneros="Pulvinar sagittis nulla proin erat" sNrUltimaAtualizacao="Sociosqu justo aptent pretium suscipit" sDsTitulo="Vestibulum nisi congue" sDsTipoConteudo="Massa cursus metus vestibulum" sDsImgFanart="Eros augue potenti nibh dolor" sDsEstreiaDiaSemana="Arcu mus nascetur" sDsSinopse="Rhoncus lorem torquent" sDsEstreiaHorario="Nec natoque diam aenean"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Maecenas cras" Episodio="83" IDSerie="30" ID="15" Temporada="11">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Aliquam praesent" Airs_Time="Accumsan nam adipiscing" Airs_DayOfWeek="Phasellus consequat duis convallis" ContentType="Anime" ContentTypeString="Faucibus nec non" ContentRating="Mauris vestibulum nullam" Estado="Completo" FolderMetadata="Morbi elit nulla habitant congue" FolderPath="Inceptos enim" Genre="Sed amet dignissim" ImgFanart="Donec dis aptent elementum" IDApi="55" IDBanco="53" ImgPoster="Facilisis ante est integer bibendum" IsAnime="True" Language="Vestibulum quisque" LastUpdated="Dictumst hac fermentum vivamus" Network="Etiam leo aliquam fringilla" Overview="Adipiscing auctor fusce lorem arcu" SerieAliasStr="Parturient nunc" Status="Habitasse eleifend aliquet" Title="Facilisi hendrerit mus diam eget" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Cursus parturient per" Episodio="41" IDSerie="58" ID="40" Temporada="71">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Dictum vestibulum sed interdum erat" Airs_Time="Proin eros" Airs_DayOfWeek="Himenaeos vestibulum" ContentType="AnimeFilmeSérie" ContentTypeString="Lorem senectus" ContentRating="Sit nisi nascetur lectus imperdiet" Estado="Novo" FolderMetadata="Luctus dis magna dapibus" FolderPath="Est quam hac leo" Genre="Blandit pharetra dolor adipiscing" ImgFanart="Parturient malesuada nisl vel" IDApi="97" IDBanco="13" ImgPoster="Placerat penatibus fames" IsAnime="True" Language="Nunc odio porttitor libero" LastUpdated="Orci felis pulvinar commodo" Network="Vestibulum conubia" Overview="Pede ipsum vestibulum ligula tincidunt" SerieAliasStr="Augue sem lobortis nibh" Status="Nam sagittis sed justo" Title="Cubilia tristique lacus litora ultricies" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Mus quis urna" Episodio="57" IDSerie="33" ID="78" Temporada="97">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Massa nec sociosqu" Airs_Time="Mauris metus mollis egestas duis" Airs_DayOfWeek="Magnis non mattis cras" ContentType="Anime" ContentTypeString="Ultrices convallis" ContentRating="Per montes morbi" Estado="Simples" FolderMetadata="Vehicula arcu semper" FolderPath="Porta diam" Genre="Nostra adipiscing" ImgFanart="Suscipit parturient sed ornare vestibulum" IDApi="78" IDBanco="40" ImgPoster="Torquent nunc platea primis sem" IsAnime="True" Language="Neque vulputate rutrum" LastUpdated="Feugiat curabitur netus" Network="Vestibulum gravida" Overview="Amet phasellus adipiscing nulla sapien" SerieAliasStr="Venenatis euismod" Status="Parturient ante vestibulum consequat" Title="Iaculis sit vel" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Lacinia dignissim volutpat vestibulum" Episodio="20" IDSerie="96" ID="37" Temporada="67">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Adipiscing maecenas purus nam laoreet" Airs_Time="Dis vestibulum est praesent" Airs_DayOfWeek="Sed natoque parturient risus" ContentType="AnimeFilmeSérie" ContentTypeString="Eros sodales" ContentRating="Adipiscing parturient accumsan" Estado="Simples" FolderMetadata="Nibh adipiscing viverra varius imperdiet" FolderPath="Etiam aenean nisi malesuada" Genre="Tellus tempor" ImgFanart="Tempus tortor elit vitae enim" IDApi="30" IDBanco="18" ImgPoster="Posuere hac class elementum turpis" IsAnime="True" Language="Vestibulum vestibulum potenti leo" LastUpdated="Adipiscing pretium" Network="Facilisis curae" Overview="Rhoncus fermentum parturient fringilla bibendum" SerieAliasStr="Vestibulum sociis taciti eget velit" Status="Vestibulum erat vestibulum habitasse" Title="Mus donec hendrerit himenaeos" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Nec dictumst penatibus" Episodio="95" IDSerie="71" ID="75" Temporada="75">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Non parturient fusce" Airs_Time="Facilisi integer faucibus habitant odio" Airs_DayOfWeek="Nisl eleifend nunc aliquam per" ContentType="Anime" ContentTypeString="Nunc placerat dis aliquam" ContentRating="Porttitor vestibulum vestibulum sem" Estado="Completo" FolderMetadata="Nulla ultricies est hac" FolderPath="Leo aliquet blandit amet" Genre="Inceptos interdum" ImgFanart="Mauris morbi orci" IDApi="40" IDBanco="57" ImgPoster="Nullam pede" IsAnime="True" Language="Adipiscing parturient" LastUpdated="Quam quisque sit lobortis" Network="Vel quis" Overview="Urna nam aptent vestibulum nascetur" SerieAliasStr="Sed lorem" Status="Vivamus cras sed tincidunt" Title="Pharetra duis tristique" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Adipiscing parturient viverra facilisis risus" Estado="Novo" FolderMetadata="Habitant fermentum platea non velit" FolderPath="Ante vitae" ImgFanart="Per vestibulum fringilla arcu aliquam" IDApi="83" IDBanco="83" ImgPoster="Sed vestibulum habitasse hendrerit" Language="Himenaeos diam sem class" LastUpdated="Adipiscing eget elit primis" Overview="Enim parturient inceptos interdum curae" SerieAliasStr="Felis enim erat lectus libero" Title="Vestibulum rutrum" bFlSelecionado="False">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="False" nIdTipoConteudo="Anime" nCdVideo="52" nCdApi="44" nIdEstado="Completo" sDsPasta="Nam turpis sed feugiat gravida" sDsMetadata="Vel tortor euismod" sAliases="Penatibus porttitor" sDsIdioma="Suscipit vestibulum iaculis" sDsImgPoster="Varius morbi vestibulum" sNrUltimaAtualizacao="Dis lacinia nulla adipiscing" sDsTitulo="Natoque est" sDsTipoConteudo="Tempus odio imperdiet malesuada orci" sDsImgFanart="Lorem parturient penatibus sociosqu" sDsSinopse="Laoreet parturient vestibulum">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="90" nNrEpisodio="35" nNrTemporada="79" nCdAlias="64" sDsAlias="Vestibulum tincidunt litora">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="50" nCdApi="76" nIdEstado="Novo" sDsPasta="Arcu vestibulum vestibulum semper sociis" sDsMetadata="Phasellus risus rutrum sapien" sDsStatus="Amet ornare platea" sAliases="Mattis est mauris" sDsIdioma="Montes quisque vulputate" sDsClassificacao="Praesent accumsan hac" sDsImgPoster="Porta urna mus bibendum" sNmAtores="Tristique luctus" sDsEmissora="Dictumst curabitur duis nunc" sDsGeneros="Venenatis leo" sNrUltimaAtualizacao="Nec vivamus aliquam cras" sDsTitulo="Ante parturient primis" sDsTipoConteudo="Non eleifend" sDsImgFanart="Mollis quis" sDsEstreiaDiaSemana="Adipiscing maecenas" sDsSinopse="Nostra purus" sDsEstreiaHorario="Ultricies magnis"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="78" nNrEpisodio="86" nNrTemporada="18" nCdAlias="48" sDsAlias="Taciti facilisi consequat diam">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="45" nCdApi="85" nIdEstado="Simples" sDsPasta="Nam senectus hendrerit dapibus vestibulum" sDsMetadata="Nulla vel pulvinar sagittis" sDsStatus="Adipiscing sit cubilia fusce lorem" sAliases="Habitant inceptos interdum" sDsIdioma="Tortor nascetur" sDsClassificacao="Per parturient" sDsImgPoster="Lobortis tempus blandit eros nibh" sNmAtores="Adipiscing eget faucibus" sDsEmissora="Nunc pharetra etiam facilisis odio" sDsGeneros="Curae elementum" sNrUltimaAtualizacao="Commodo conubia nisi nisl" sDsTitulo="Turpis varius orci" sDsTipoConteudo="Fringilla habitasse pede morbi parturient" sDsImgFanart="Sed vestibulum aliquet donec tempor" sDsEstreiaDiaSemana="Convallis elit velit vitae" sDsSinopse="Fermentum vestibulum placerat sem" sDsEstreiaHorario="Dignissim enim erat tellus class"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="94" nNrEpisodio="92" nNrTemporada="58" nCdAlias="84" sDsAlias="Sociosqu aenean mauris">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Filme" nCdVideo="21" nCdApi="40" nIdEstado="Completo" sDsPasta="Posuere accumsan leo potenti" sDsMetadata="Vestibulum dictum lorem amet" sDsStatus="Lacinia tincidunt" sAliases="Aptent euismod parturient" sDsIdioma="Dolor imperdiet gravida vestibulum" sDsClassificacao="Augue vestibulum" sDsImgPoster="Sed congue volutpat" sNmAtores="Egestas proin suscipit nullam torquent" sDsEmissora="Malesuada est penatibus maecenas duis" sDsGeneros="Ultrices vestibulum feugiat vehicula himenaeos" sNrUltimaAtualizacao="Cursus dis vestibulum" sDsTitulo="Ipsum nunc adipiscing tristique hac" sDsTipoConteudo="Justo parturient laoreet natoque lacus" sDsImgFanart="Adipiscing parturient urna auctor cras" sDsEstreiaDiaSemana="Quam vestibulum" sDsSinopse="Iaculis fames felis praesent porttitor" sDsEstreiaHorario="Adipiscing quis"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="40" nNrEpisodio="80" nNrTemporada="87" nCdAlias="68" sDsAlias="Pretium ante vestibulum">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="13" nCdApi="97" nIdEstado="CompletoSemForeignKeys" sDsPasta="Montes dis est risus velit" sDsMetadata="Interdum mauris lobortis mollis" sDsStatus="Porta inceptos sit" sAliases="Dictumst eleifend massa mus viverra" sDsIdioma="Quisque enim erat neque" sDsClassificacao="Metus nec aliquam facilisi" sDsImgPoster="Morbi non per" sNmAtores="Magna arcu rhoncus" sDsEmissora="Nulla faucibus eros venenatis habitant" sDsGeneros="Integer ligula litora luctus" sNrUltimaAtualizacao="Netus adipiscing sed sem" sDsTitulo="Vel nam purus sed vestibulum" sDsTipoConteudo="Phasellus vivamus mattis vestibulum" sDsImgFanart="Elit magnis" sDsEstreiaDiaSemana="Diam ultricies lectus eget bibendum" sDsSinopse="Vulputate parturient curabitur" sDsEstreiaHorario="Sodales libero"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="18" nNrEpisodio="74" nNrTemporada="68" nCdAlias="16" sDsAlias="Nostra ornare vitae hac platea">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="30" nCdApi="46" nIdEstado="Completo" sDsPasta="Dapibus egestas" sDsMetadata="Adipiscing sit nunc" sDsStatus="Tellus parturient cubilia vestibulum per" sAliases="Parturient mus" sDsIdioma="Pulvinar taciti vestibulum etiam sagittis" sDsClassificacao="Donec nibh nisi sapien" sDsImgPoster="Sociis placerat fermentum" sNmAtores="Leo primis class" sDsEmissora="Fusce commodo conubia non" sDsGeneros="Pharetra aliquet nec semper" sNrUltimaAtualizacao="Adipiscing blandit" sDsTitulo="Tempor sed hendrerit" sDsTipoConteudo="Sem nisl vestibulum senectus himenaeos" sDsImgFanart="Elementum vestibulum facilisis" sDsEstreiaDiaSemana="Consequat convallis aliquam rutrum nascetur" sDsSinopse="Fringilla habitasse" sDsEstreiaHorario="Adipiscing dignissim curae"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Eros suscipit ipsum nibh" Episodio="69" IDSerie="20" ID="79" Temporada="40">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Nisi nisl curabitur adipiscing justo" Airs_Time="Ligula parturient vestibulum nunc lorem" Airs_DayOfWeek="Lacus feugiat torquent gravida" ContentType="Selecione" ContentTypeString="Morbi orci pede nostra pretium" ContentRating="Parturient per magnis ultrices" Estado="Simples" FolderMetadata="Bibendum ornare" FolderPath="Adipiscing parturient dictumst platea vestibulum" Genre="Phasellus mattis vehicula sed" ImgFanart="Consequat sem vestibulum sit iaculis" IDApi="72" IDBanco="75" ImgPoster="Vestibulum magna volutpat" IsAnime="False" Language="Massa convallis mauris adipiscing metus" LastUpdated="Parturient maecenas vestibulum lacinia dignissim" Network="Laoreet natoque vel vestibulum elementum" Overview="Posuere mollis praesent" SerieAliasStr="Litora vestibulum adipiscing luctus" Status="Accumsan odio facilisis" Title="Potenti montes" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Rhoncus primis nam sed dis" Episodio="37" IDSerie="93" ID="69" Temporada="17">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Rutrum sapien est hac" Airs_Time="Quam semper" Airs_DayOfWeek="Fermentum leo vestibulum adipiscing" ContentType="AnimeFilmeSérie" ContentTypeString="Habitant inceptos vivamus" ContentRating="Neque mus parturient habitasse sociis" Estado="Simples" FolderMetadata="Sem sit risus tortor" FolderPath="Vestibulum aliquam turpis" Genre="Quis eleifend nec taciti non" ImgFanart="Urna per" IDApi="12" IDBanco="48" ImgPoster="Vestibulum viverra" IsAnime="False" Language="Vestibulum aliquam" LastUpdated="Adipiscing netus cras" Network="Tellus facilisi faucibus hendrerit" Overview="Nulla tempor" SerieAliasStr="Sodales fringilla" Status="Porta integer sed duis" Title="Quisque tempus purus parturient nunc" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Amet vel nam ante" Episodio="98" IDSerie="44" ID="86" Temporada="81">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Arcu velit vestibulum adipiscing vitae" Airs_Time="Class blandit" Airs_DayOfWeek="Diam sed aliquet" ContentType="Série" ContentTypeString="Nec eros mauris non cubilia" ContentRating="Interdum commodo parturient" Estado="Completo" FolderMetadata="Vestibulum pharetra porttitor per" FolderPath="Placerat pulvinar lorem" Genre="Vestibulum lobortis vestibulum" ImgFanart="Eget himenaeos adipiscing curae" IDApi="49" IDBanco="22" ImgPoster="Est parturient elit imperdiet hac" IsAnime="False" Language="Nascetur enim" LastUpdated="Donec leo etiam" Network="Erat fusce" Overview="Vestibulum malesuada" SerieAliasStr="Varius dis" Status="Conubia aenean" Title="Mus penatibus" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Adipiscing morbi" Episodio="75" IDSerie="19" ID="41" Temporada="62">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Nulla parturient proin" Airs_Time="Aptent auctor vestibulum congue" Airs_DayOfWeek="Vestibulum sagittis nullam sed" ContentType="Filme" ContentTypeString="Gravida luctus iaculis lacinia" ContentRating="Dolor nisi tincidunt fames" Estado="Completo" FolderMetadata="Laoreet nam" FolderPath="Magnis natoque" Genre="Sociosqu suscipit parturient vestibulum" ImgFanart="Cursus felis nisl nunc" IDApi="43" IDBanco="26" ImgPoster="Dapibus dictum egestas tristique" IsAnime="False" Language="Lectus vestibulum adipiscing parturient" LastUpdated="Libero euismod torquent ultrices" Network="Vehicula feugiat ultricies" Overview="Ligula volutpat" SerieAliasStr="Nibh adipiscing augue senectus sem" Status="Litora sit" Title="Ipsum vel vestibulum justo" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Mattis odio venenatis vulputate" Episodio="96" IDSerie="60" ID="62" Temporada="10">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Vestibulum lacus posuere maecenas" Airs_Time="Potenti phasellus mauris" Airs_DayOfWeek="Sed lorem curabitur" ContentType="Anime" ContentTypeString="Nulla porta facilisi nunc" ContentRating="Magna parturient quam" Estado="CompletoSemForeignKeys" FolderMetadata="Elementum amet" FolderPath="Purus vestibulum faucibus" Genre="Vestibulum quis" ImgFanart="Pretium urna dis massa" IDApi="78" IDBanco="40" ImgPoster="Consequat metus montes convallis est" IsAnime="False" Language="Vestibulum cras nostra dignissim accumsan" LastUpdated="Adipiscing duis hac bibendum leo" Network="Parturient morbi neque" Overview="Rhoncus mus netus vestibulum" SerieAliasStr="Orci praesent pede adipiscing mollis" Status="Ornare sodales dictumst" Title="Nec eleifend" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Anime" ContentTypeString="Sed laoreet proin adipiscing" Estado="Novo" FolderMetadata="Parturient dis mauris est" FolderPath="Hac ultrices vestibulum mollis" ImgFanart="Vestibulum adipiscing leo vehicula" IDApi="39" IDBanco="93" ImgPoster="Volutpat elementum augue" Language="Mus nec natoque parturient" LastUpdated="Vestibulum quis maecenas" Overview="Urna montes praesent dolor vestibulum" SerieAliasStr="Imperdiet malesuada penatibus" Title="Adipiscing fames non accumsan" bFlSelecionado="True">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="True" nIdTipoConteudo="Filme" nCdVideo="19" nCdApi="28" nIdEstado="CompletoSemForeignKeys" sDsPasta="Fringilla mauris proin adipiscing" sDsMetadata="Odio orci fermentum vestibulum" sAliases="Hac leo torquent" sDsIdioma="Nec imperdiet aptent parturient non" sDsImgPoster="Himenaeos sociosqu suscipit augue" sNrUltimaAtualizacao="Dolor quam auctor" sDsTitulo="Per sed sem penatibus ultrices" sDsTipoConteudo="Vestibulum facilisis nulla sagittis dapibus" sDsImgFanart="Habitasse senectus hendrerit pede nullam" sDsSinopse="Malesuada quis fames torquent egestas">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="84" nNrEpisodio="10" nNrTemporada="13" nCdAlias="93" sDsAlias="Ultrices vestibulum vehicula">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="37" nCdApi="56" nIdEstado="Completo" sDsPasta="Habitant sed duis congue dolor" sDsMetadata="Per quisque cras phasellus vestibulum" sDsStatus="Aptent facilisi quis vulputate" sAliases="Maecenas rhoncus praesent" sDsIdioma="Dictumst pede" sDsClassificacao="Accumsan porttitor" sDsImgPoster="Bibendum tristique nullam viverra" sNmAtores="Volutpat posuere" sDsEmissora="Eleifend nec" sDsGeneros="Mus proin" sNrUltimaAtualizacao="Adipiscing quam ultricies" sDsTitulo="Vestibulum faucibus curabitur" sDsTipoConteudo="Auctor urna integer non augue" sDsImgFanart="Sodales tincidunt" sDsEstreiaDiaSemana="Potenti aenean" sDsSinopse="Venenatis parturient aliquam" sDsEstreiaHorario="Mauris pretium"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="29" nNrEpisodio="54" nNrTemporada="48" nCdAlias="48" sDsAlias="Nunc amet ante cursus">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="81" nCdApi="30" nIdEstado="Completo" sDsPasta="Vestibulum nisi" sDsMetadata="Mattis mauris pulvinar dis est" sDsStatus="Magna erat eros nibh" sAliases="Fames dignissim sem eget aliquam" sDsIdioma="Commodo parturient litora" sDsClassificacao="Vestibulum aliquet libero elit felis" sDsImgPoster="Sit enim ligula vel blandit" sNmAtores="Inceptos dictum interdum consequat lectus" sDsEmissora="Nam justo conubia sed" sDsGeneros="Vestibulum adipiscing elementum ipsum" sNrUltimaAtualizacao="Fermentum luctus" sDsTitulo="Placerat massa cubilia" sDsTipoConteudo="Fringilla metus" sDsImgFanart="Facilisis nascetur" sDsEstreiaDiaSemana="Lobortis convallis adipiscing" sDsSinopse="Magnis lacus lorem pharetra" sDsEstreiaHorario="Arcu parturient vivamus diam"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="45" nNrEpisodio="63" nNrTemporada="81" nCdAlias="99" sDsAlias="Habitasse vestibulum mollis montes sagittis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Filme" nCdVideo="94" nCdApi="91" nIdEstado="CompletoSemForeignKeys" sDsPasta="Adipiscing natoque quis" sDsMetadata="Ultrices vestibulum laoreet purus vestibulum" sDsStatus="Torquent iaculis lacinia netus" sAliases="Parturient dapibus sociosqu leo" sDsIdioma="Rutrum nec morbi neque quam" sDsClassificacao="Mus egestas ornare" sDsImgPoster="Orci euismod vestibulum pede" sNmAtores="Hendrerit himenaeos" sDsEmissora="Adipiscing non feugiat" sDsGeneros="Vestibulum platea" sNrUltimaAtualizacao="Sapien malesuada" sDsTitulo="Parturient nulla sociis" sDsTipoConteudo="Vestibulum vestibulum adipiscing parturient porta" sDsImgFanart="Odio primis suscipit" sDsEstreiaDiaSemana="Senectus nostra" sDsSinopse="Semper gravida" sDsEstreiaHorario="Nisl imperdiet nunc adipiscing hac"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="53" nNrEpisodio="61" nNrTemporada="38" nCdAlias="84" sDsAlias="Vehicula risus">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="61" nCdApi="52" nIdEstado="Simples" sDsPasta="Sed eleifend eget elit" sDsMetadata="Diam aliquam" sDsStatus="Venenatis turpis" sAliases="Urna parturient velit" sDsIdioma="Tellus parturient" sDsClassificacao="Vestibulum pretium cras" sDsImgPoster="Sem sit bibendum vitae adipiscing" sNmAtores="Volutpat maecenas penatibus posuere porttitor" sDsEmissora="Tristique class ultricies vestibulum tempor" sDsGeneros="Accumsan vestibulum" sNrUltimaAtualizacao="Vel vestibulum amet" sDsTitulo="Arcu dictumst sodales viverra" sDsTipoConteudo="Vulputate curabitur" sDsImgFanart="Duis sed nunc rhoncus" sDsEstreiaDiaSemana="Taciti tincidunt praesent" sDsSinopse="Tempus tortor adipiscing nam ante" sDsEstreiaHorario="Per potenti"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="11" nNrEpisodio="60" nNrTemporada="50" nCdAlias="12" sDsAlias="Integer phasellus parturient quisque">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="71" nCdApi="43" nIdEstado="Completo" sDsPasta="Adipiscing parturient" sDsMetadata="Morbi cubilia" sDsStatus="Dignissim vestibulum nisi pharetra placerat" sAliases="Hac facilisi faucibus" sDsIdioma="Fusce leo eros nibh" sDsClassificacao="Donec aliquet enim adipiscing" sDsImgPoster="Erat adipiscing" sNmAtores="Vivamus curae consequat dis" sDsEmissora="Nascetur commodo parturient varius" sDsGeneros="Parturient habitant blandit" sNrUltimaAtualizacao="Lobortis lorem" sDsTitulo="Conubia nisl nunc elementum mus" sDsTipoConteudo="Vestibulum pulvinar" sDsImgFanart="Vestibulum vestibulum inceptos etiam interdum" sDsEstreiaDiaSemana="Aliquam vestibulum" sDsSinopse="Convallis aenean" sDsEstreiaHorario="Est vestibulum"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Integer erat" Episodio="75" IDSerie="11" ID="30" Temporada="61">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Vestibulum quisque" Airs_Time="Eros sapien tincidunt adipiscing" Airs_DayOfWeek="Donec porttitor etiam" ContentType="Série" ContentTypeString="Tortor turpis varius nam" ContentRating="Nisl lobortis" Estado="Simples" FolderMetadata="Commodo vestibulum sagittis adipiscing" FolderPath="Fames consequat" Genre="Semper sociis lorem" ImgFanart="Vivamus aliquam vel vestibulum morbi" IDApi="78" IDBanco="68" ImgPoster="Aliquet blandit tristique vestibulum taciti" IsAnime="True" Language="Nulla nascetur proin augue" LastUpdated="Pharetra ultricies nunc adipiscing" Network="Odio parturient venenatis" Overview="Vulputate dolor tellus vestibulum" SerieAliasStr="Nibh nisi fusce sit parturient" Status="Curabitur tempor" Title="Placerat tempus phasellus pulvinar" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Aenean mauris nullam conubia cubilia" Episodio="12" IDSerie="69" ID="99" Temporada="94">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Convallis parturient" Airs_Time="Vestibulum dignissim felis" Airs_DayOfWeek="Aptent sed" ContentType="Anime" ContentTypeString="Urna lectus gravida libero" ContentRating="Dis euismod orci" Estado="CompletoSemForeignKeys" FolderMetadata="Cras parturient vestibulum morbi" FolderPath="Sociosqu suscipit duis leo" Genre="Vestibulum congue est senectus adipiscing" ImgFanart="Justo facilisis" IDApi="50" IDBanco="44" ImgPoster="Lacus pede" IsAnime="True" Language="Parturient feugiat vestibulum fermentum quam" LastUpdated="Cursus lorem" Network="Vestibulum fringilla magna adipiscing dictum" Overview="Quis massa parturient vestibulum" SerieAliasStr="Auctor dapibus elementum ipsum egestas" Status="Hac vestibulum" Title="Adipiscing metus" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Torquent neque nunc netus" Episodio="82" IDSerie="68" ID="10" Temporada="31">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Habitasse iaculis nulla" Airs_Time="Ultrices vehicula volutpat maecenas" Airs_DayOfWeek="Amet ligula porta" ContentType="Filme" ContentTypeString="Faucibus himenaeos sed habitant" ContentRating="Ante accumsan vestibulum" Estado="Novo" FolderMetadata="Mauris inceptos mollis purus vestibulum" FolderPath="Sem imperdiet montes eros nostra" Genre="Litora adipiscing parturient vestibulum luctus" ImgFanart="Vestibulum lacinia laoreet arcu" IDApi="19" IDBanco="40" ImgPoster="Magnis nec diam eget" IsAnime="True" Language="Elit hendrerit bibendum" LastUpdated="Adipiscing enim natoque" Network="Non posuere potenti dictumst parturient" Overview="Vestibulum eleifend" SerieAliasStr="Praesent mus" Status="Vestibulum facilisi" Title="Mattis erat adipiscing per parturient" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Ornare vestibulum adipiscing" Episodio="28" IDSerie="10" ID="76" Temporada="35">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Malesuada parturient interdum pretium platea" Airs_Time="Sit vel" Airs_DayOfWeek="Penatibus nibh" ContentType="Episódio" ContentTypeString="Tempus parturient vestibulum leo nisl" ContentRating="Sed rhoncus vestibulum nisi" Estado="Novo" FolderMetadata="Vestibulum nunc" FolderPath="Tortor aliquet venenatis" Genre="Sodales primis" ImgFanart="Nascetur dis viverra" IDApi="89" IDBanco="74" ImgPoster="Rutrum est tincidunt aliquam sapien" IsAnime="True" Language="Adipiscing integer pharetra risus quisque" LastUpdated="Tristique vivamus semper parturient sociis" Network="Velit vitae vestibulum vestibulum" Overview="Aliquam taciti" SerieAliasStr="Lobortis vestibulum porttitor nam" Status="Adipiscing tellus" Title="Tempor ultricies hac class" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Vulputate curae odio blandit donec" Episodio="62" IDSerie="75" ID="57" Temporada="59">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Turpis varius mus" Airs_Time="Cubilia aenean curabitur etiam mauris" Airs_DayOfWeek="Commodo conubia" ContentType="Anime" ContentTypeString="Quam vestibulum iaculis" ContentRating="Placerat fusce pulvinar" Estado="Novo" FolderMetadata="Lacinia luctus vel" FolderPath="Nam magnis vestibulum mattis" Genre="Auctor sagittis nec consequat lorem" ImgFanart="Congue senectus dapibus" IDApi="22" IDBanco="80" ImgPoster="Pede cursus convallis egestas dictum" IsAnime="True" Language="Euismod sociosqu" LastUpdated="Non per lectus adipiscing" Network="Libero morbi ligula suscipit sed" Overview="Sem torquent feugiat nulla litora" SerieAliasStr="Phasellus nullam orci aptent" Status="Sit parturient" Title="Dignissim gravida" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Episódio" ContentTypeString="Nunc fringilla amet" Estado="Novo" FolderMetadata="Blandit vestibulum vestibulum ante" FolderPath="Habitasse praesent libero ligula" ImgFanart="Vel arcu commodo" IDApi="28" IDBanco="20" ImgPoster="Conubia diam" Language="Accumsan adipiscing litora luctus risus" LastUpdated="Cubilia velit eget" Overview="Bibendum vitae parturient dictumst elit" SerieAliasStr="Nostra bibendum" Title="Magnis hendrerit enim class" bFlSelecionado="False">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="False" nIdTipoConteudo="Anime" nCdVideo="79" nCdApi="77" nIdEstado="Completo" sDsPasta="Sed magnis lobortis convallis" sDsMetadata="Conubia luctus interdum" sAliases="Porttitor felis vehicula tincidunt urna" sDsIdioma="Elementum netus" sDsImgPoster="Dignissim nibh cubilia" sNrUltimaAtualizacao="Nisi dapibus nulla" sDsTitulo="Euismod porta adipiscing" sDsTipoConteudo="Erat ligula parturient nam litora" sDsImgFanart="Vestibulum nascetur morbi neque eros" sDsSinopse="Egestas vestibulum dis pharetra facilisis">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="17" nNrEpisodio="50" nNrTemporada="47" nCdAlias="92" sDsAlias="Tristique cras sit congue duis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="10" nCdApi="98" nIdEstado="Completo" sDsPasta="Massa rhoncus sodales" sDsMetadata="Convallis dignissim libero ligula" sDsStatus="Lorem pretium vestibulum" sAliases="Praesent cursus vestibulum" sDsIdioma="Lacinia eget laoreet natoque phasellus" sDsClassificacao="Ante vestibulum arcu justo accumsan" sDsImgPoster="Curabitur dictum" sNmAtores="Euismod ultricies" sDsEmissora="Vestibulum vestibulum lectus dis" sDsGeneros="Bibendum nam" sNrUltimaAtualizacao="Adipiscing parturient sed" sDsTitulo="Dictumst magna" sDsTipoConteudo="Consequat vestibulum adipiscing parturient" sDsImgFanart="Iaculis diam" sDsEstreiaDiaSemana="Volutpat ipsum nunc maecenas venenatis" sDsSinopse="Posuere adipiscing lacus potenti parturient" sDsEstreiaHorario="Feugiat amet gravida vel vulputate"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="14" nNrEpisodio="13" nNrTemporada="20" nCdAlias="17" sDsAlias="Elementum est">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="48" nCdApi="41" nIdEstado="CompletoSemForeignKeys" sDsPasta="Vestibulum porta" sDsMetadata="Pulvinar nunc" sDsStatus="Nisi vestibulum non placerat" sAliases="Leo elit morbi integer fringilla" sDsIdioma="Himenaeos nascetur pharetra netus" sDsClassificacao="Faucibus neque magnis" sDsImgPoster="Vivamus interdum hendrerit aliquam lobortis" sNmAtores="Viverra vestibulum aliquam facilisis" sDsEmissora="Malesuada eros" sDsGeneros="Habitant inceptos habitasse" sNrUltimaAtualizacao="Mattis mauris mus vestibulum imperdiet" sDsTitulo="Per penatibus nisl nulla" sDsTipoConteudo="Porttitor adipiscing parturient" sDsImgFanart="Enim erat quisque" sDsEstreiaDiaSemana="Hac vestibulum eleifend litora adipiscing" sDsSinopse="Nec nibh mollis montes nostra" sDsEstreiaHorario="Fermentum parturient facilisi luctus metus"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="33" nNrEpisodio="25" nNrTemporada="27" nCdAlias="64" sDsAlias="Vestibulum ornare sed aliquet">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="70" nCdApi="75" nIdEstado="Simples" sDsPasta="Ultrices quis hac" sDsMetadata="Sociis quam lacinia taciti" sDsStatus="Velit vitae" sAliases="Ultricies primis blandit commodo" sDsIdioma="Convallis parturient" sDsClassificacao="Sociosqu suscipit venenatis vulputate sit" sDsImgPoster="Rutrum dapibus egestas sapien" sNmAtores="Sagittis platea" sDsEmissora="Torquent vel" sDsGeneros="Purus curabitur phasellus consequat conubia" sNrUltimaAtualizacao="Euismod odio feugiat orci dignissim" sDsTitulo="Gravida elementum pede" sDsTipoConteudo="Class dis vestibulum est iaculis" sDsImgFanart="Adipiscing cubilia risus" sDsEstreiaDiaSemana="Tincidunt tristique" sDsSinopse="Semper nam sed vestibulum" sDsEstreiaHorario="Sem senectus"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="17" nNrEpisodio="52" nNrTemporada="58" nCdAlias="49" sDsAlias="Curae donec tellus etiam adipiscing">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="99" nCdApi="59" nIdEstado="CompletoSemForeignKeys" sDsPasta="Parturient malesuada amet" sDsMetadata="Est duis aenean hac nunc" sDsStatus="Adipiscing himenaeos dis" sAliases="Facilisis fermentum urna natoque" sDsIdioma="Vel nam" sDsClassificacao="Vestibulum posuere" sDsImgPoster="Volutpat sit pretium" sNmAtores="Laoreet parturient fusce leo tempor" sDsEmissora="Sodales turpis habitasse praesent varius" sDsGeneros="Lorem cras potenti tempus fringilla" sNrUltimaAtualizacao="Maecenas rhoncus" sDsTitulo="Viverra imperdiet morbi" sDsTipoConteudo="Accumsan nulla" sDsImgFanart="Tortor per sed sem" sDsEstreiaDiaSemana="Mus nec" sDsSinopse="Sed hendrerit" sDsEstreiaHorario="Non vestibulum vehicula"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="96" nNrEpisodio="41" nNrTemporada="20" nCdAlias="56" sDsAlias="Ante penatibus proin">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="11" nCdApi="34" nIdEstado="Completo" sDsPasta="Libero commodo" sDsMetadata="Lectus consequat metus inceptos" sDsStatus="Curabitur phasellus congue elit cursus" sAliases="Nec diam" sDsIdioma="Venenatis justo facilisi vulputate" sDsClassificacao="Mauris integer bibendum" sDsImgPoster="Quisque non vivamus aliquam" sNmAtores="Leo porttitor mus aliquam vestibulum" sDsEmissora="Sed faucibus adipiscing sem aptent" sDsGeneros="Dictumst ultricies fames eleifend felis" sNrUltimaAtualizacao="Eget per vestibulum vestibulum lacus" sDsTitulo="Massa aliquet blandit habitant dictum" sDsTipoConteudo="Vel enim" sDsImgFanart="Nullam parturient ipsum" sDsEstreiaDiaSemana="Vestibulum adipiscing augue dolor tincidunt" sDsSinopse="Auctor lorem sit magna" sDsEstreiaHorario="Tristique arcu"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Dictumst eleifend cras" Episodio="29" IDSerie="41" ID="65" Temporada="66">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Per sed" Airs_Time="Facilisi faucibus" Airs_DayOfWeek="Parturient duis" ContentType="Série" ContentTypeString="Vestibulum vestibulum fringilla placerat rutrum" ContentRating="Potenti habitant ornare nunc" Estado="Simples" FolderMetadata="Pulvinar eget habitasse lacus sed" FolderPath="Sapien lorem dis sagittis magna" Genre="Amet vestibulum felis pretium" ImgFanart="Inceptos platea interdum" IDApi="78" IDBanco="84" ImgPoster="Ante adipiscing parturient primis lobortis" IsAnime="False" Language="Facilisis vestibulum arcu" LastUpdated="Vestibulum ipsum" Network="Rhoncus sem adipiscing diam sit" Overview="Vel nam" SerieAliasStr="Vestibulum posuere" Status="Sodales fermentum" Title="Justo viverra nascetur pharetra parturient" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Massa senectus aliquam est metus" Episodio="81" IDSerie="78" ID="60" Temporada="68">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Adipiscing sociosqu semper parturient hac" Airs_Time="Himenaeos elit enim sociis neque" Airs_DayOfWeek="Hendrerit morbi leo" ContentType="Episódio" ContentTypeString="Vel adipiscing aliquet purus" ContentRating="Torquent erat eros imperdiet ultrices" Estado="CompletoSemForeignKeys" FolderMetadata="Risus tristique" FolderPath="Parturient ultricies odio blandit orci" Genre="Vestibulum vehicula malesuada" ImgFanart="Non nulla nibh" IDApi="75" IDBanco="71" ImgPoster="Integer quisque vestibulum volutpat" IsAnime="False" Language="Tellus adipiscing" LastUpdated="Nisi tempor penatibus maecenas vivamus" Network="Tempus per parturient" Overview="Nisl vestibulum sed" SerieAliasStr="Mus taciti suscipit nec netus" Status="Sem vestibulum nunc aliquam" Title="Porta tortor porttitor tincidunt sit" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Venenatis vulputate pede quam quis" Episodio="99" IDSerie="80" ID="32" Temporada="50">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Velit commodo urna" Airs_Time="Accumsan bibendum sed" Airs_DayOfWeek="Praesent nam curabitur conubia vestibulum" ContentType="Selecione" ContentTypeString="Morbi nulla elit habitant" ContentRating="Duis dis phasellus class consequat" Estado="Simples" FolderMetadata="Hac parturient proin nullam lacinia" FolderPath="Augue enim erat dolor fames" Genre="Curae vestibulum turpis" ImgFanart="Donec convallis dapibus etiam dignissim" IDApi="95" IDBanco="94" ImgPoster="Egestas dictumst nunc amet" IsAnime="False" Language="Elementum adipiscing varius parturient facilisis" LastUpdated="Eleifend ante est" Network="Arcu aenean euismod" Overview="Feugiat gravida facilisi faucibus diam" SerieAliasStr="Cras cubilia vitae" Status="Vestibulum mauris eget vestibulum" Title="Iaculis fusce adipiscing lorem fermentum" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Felis inceptos eros interdum" Episodio="47" IDSerie="81" ID="19" Temporada="86">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Fringilla ipsum habitasse lobortis" Airs_Time="Himenaeos nibh" Airs_DayOfWeek="Leo hendrerit mus" ContentType="AnimeFilmeSérie" ContentTypeString="Penatibus netus" ContentRating="Nisl nunc posuere justo" Estado="Completo" FolderMetadata="Vestibulum porttitor vel nam sed" FolderPath="Tincidunt dis placerat" Genre="Vestibulum lacus" ImgFanart="Non auctor lorem" IDApi="16" IDBanco="83" ImgPoster="Per vestibulum congue" IsAnime="False" Language="Potenti sed nascetur" LastUpdated="Sem imperdiet" Network="Magna massa pharetra sit" Overview="Adipiscing parturient" SerieAliasStr="Laoreet nisi natoque aptent nec" Status="Pretium metus morbi rhoncus" Title="Neque malesuada" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Vestibulum sodales cursus est pulvinar" Episodio="55" IDSerie="25" ID="76" Temporada="89">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Tristique sagittis odio hac" Airs_Time="Adipiscing nulla ultricies leo" Airs_DayOfWeek="Orci pede senectus" ContentType="Episódio" ContentTypeString="Adipiscing dignissim parturient sit duis" ContentRating="Mus sociosqu" Estado="Completo" FolderMetadata="Maecenas elementum" FolderPath="Aliquet facilisis fermentum" Genre="Suscipit venenatis torquent" ImgFanart="Viverra vulputate nec aliquam" IDApi="21" IDBanco="85" ImgPoster="Dictum vestibulum" IsAnime="False" Language="Integer quis" LastUpdated="Curabitur ultrices lectus" Network="Non quisque phasellus" Overview="Urna consequat vivamus per" SerieAliasStr="Porta quam parturient" Status="Aliquam cras vehicula sed purus" Title="Volutpat vestibulum sem convallis" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Episódio" ContentTypeString="Odio aliquam" Estado="Novo" FolderMetadata="Mauris mollis curabitur" FolderPath="Integer justo orci" ImgFanart="Placerat phasellus quisque parturient" IDApi="75" IDBanco="89" ImgPoster="Pulvinar pede sit" Language="Consequat sagittis" LastUpdated="Convallis senectus quam quis" Overview="Montes sociosqu nostra dignissim vivamus" SerieAliasStr="Nam mattis" Title="Suscipit elementum facilisis vestibulum aliquam" bFlSelecionado="True">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="True" nIdTipoConteudo="Selecione" nCdVideo="93" nCdApi="15" nIdEstado="CompletoSemForeignKeys" sDsPasta="Tristique quam platea proin volutpat" sDsMetadata="Nulla rhoncus tincidunt" sAliases="Parturient nisl feugiat mattis placerat" sDsIdioma="Quis primis sodales curabitur vestibulum" sDsImgPoster="Augue vulputate dolor" sNrUltimaAtualizacao="Viverra fames adipiscing aliquam rutrum" sDsTitulo="Felis hac urna" sDsTipoConteudo="Posuere potenti pretium" sDsImgFanart="Ultricies venenatis" sDsSinopse="Parturient phasellus maecenas dis est">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="97" nNrEpisodio="11" nNrTemporada="46" nCdAlias="72" sDsAlias="Purus fermentum">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Anime" nCdVideo="91" nCdApi="70" nIdEstado="Completo" sDsPasta="Vestibulum morbi volutpat" sDsMetadata="Ornare pede lorem vehicula" sDsStatus="Sed malesuada" sAliases="Iaculis adipiscing" sDsIdioma="Laoreet suscipit adipiscing montes natoque" sDsClassificacao="Sociosqu habitasse" sDsImgPoster="Himenaeos class vestibulum vestibulum" sNmAtores="Pulvinar sagittis nunc" sDsEmissora="Torquent nostra parturient ultrices" sDsGeneros="Orci velit hendrerit parturient" sNrUltimaAtualizacao="Curae imperdiet leo mus nec" sDsTitulo="Sem donec etiam fusce" sDsTipoConteudo="Sit vestibulum" sDsImgFanart="Lacinia mollis hac vitae" sDsEstreiaDiaSemana="Odio vestibulum fringilla gravida risus" sDsSinopse="Non posuere per" sDsEstreiaHorario="Vestibulum est senectus mauris"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="78" nNrEpisodio="90" nNrTemporada="21" nCdAlias="56" sDsAlias="Adipiscing potenti maecenas">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Anime" nCdVideo="80" nCdApi="54" nIdEstado="CompletoSemForeignKeys" sDsPasta="Massa phasellus" sDsMetadata="Adipiscing sociis curabitur" sDsStatus="Lorem vestibulum magna" sAliases="Dolor platea cras porttitor rhoncus" sDsIdioma="Viverra ipsum parturient" sDsClassificacao="Tincidunt accumsan fames" sDsImgPoster="Felis dis bibendum adipiscing" sNmAtores="Quam quis nulla" sDsEmissora="Est sapien vestibulum dictumst aliquam" sDsGeneros="Primis tristique" sNrUltimaAtualizacao="Ultricies justo venenatis" sDsTitulo="Vulputate integer" sDsTipoConteudo="Duis leo" sDsImgFanart="Rutrum nam sed sodales" sDsEstreiaDiaSemana="Parturient proin vel pretium penatibus" sDsSinopse="Hac lacus eleifend semper" sDsEstreiaHorario="Urna praesent augue vestibulum vestibulum"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="22" nNrEpisodio="13" nNrTemporada="36" nCdAlias="51" sDsAlias="Consequat nunc quisque metus facilisi">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="78" nCdApi="96" nIdEstado="CompletoSemForeignKeys" sDsPasta="Dis eget" sDsMetadata="Imperdiet sed diam nullam" sDsStatus="Arcu aenean vestibulum" sAliases="Per elementum" sDsIdioma="Sit vel parturient" sDsClassificacao="Neque aliquam" sDsImgPoster="Tellus tempor tempus" sNmAtores="Vivamus faucibus convallis" sDsEmissora="Blandit commodo hendrerit" sDsGeneros="Facilisis interdum fermentum aliquet" sNrUltimaAtualizacao="Amet ante tortor turpis habitasse" sDsTitulo="Nam porta vestibulum" sDsTipoConteudo="Lobortis mauris" sDsImgFanart="Sed netus sem fringilla" sDsEstreiaDiaSemana="Habitant mus taciti nec" sDsSinopse="Himenaeos nulla varius" sDsEstreiaHorario="Morbi inceptos non dignissim"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="97" nNrEpisodio="73" nNrTemporada="91" nCdAlias="53" sDsAlias="Aptent conubia malesuada auctor purus">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="12" nCdApi="79" nIdEstado="Simples" sDsPasta="Class convallis dignissim" sDsMetadata="Magnis sem" sDsStatus="Phasellus nibh consequat" sAliases="Parturient vestibulum vestibulum" sDsIdioma="Vulputate libero enim ligula non" sDsClassificacao="Lectus hac tincidunt tristique" sDsImgPoster="Elit adipiscing nec" sNmAtores="Cubilia congue" sDsEmissora="Euismod pharetra per erat" sDsGeneros="Leo ultricies mus" sNrUltimaAtualizacao="Curabitur litora" sDsTitulo="Placerat parturient sed vitae vestibulum" sDsTipoConteudo="Vestibulum luctus pulvinar" sDsImgFanart="Dapibus venenatis egestas" sDsEstreiaDiaSemana="Est risus cursus penatibus" sDsSinopse="Eros feugiat velit" sDsEstreiaHorario="Dictum nascetur adipiscing porttitor"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="67" nNrEpisodio="93" nNrTemporada="78" nCdAlias="59" sDsAlias="Elementum adipiscing mattis curae">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="51" nCdApi="53" nIdEstado="Completo" sDsPasta="Porttitor vestibulum" sDsMetadata="Sed ornare" sDsStatus="Orci vestibulum ultrices natoque" sAliases="Sagittis senectus" sDsIdioma="Laoreet suscipit" sDsClassificacao="Lacinia montes" sDsImgPoster="Hendrerit nostra sociosqu himenaeos" sNmAtores="Sit parturient mauris gravida" sDsEmissora="Malesuada odio" sDsGeneros="Donec etiam" sNrUltimaAtualizacao="Nisl imperdiet parturient nunc lorem" sDsTitulo="Adipiscing pede vel penatibus nam" sDsTipoConteudo="Parturient vehicula" sDsImgFanart="Vestibulum adipiscing fusce fringilla habitasse" sDsEstreiaDiaSemana="Facilisis nisi" sDsSinopse="Morbi vestibulum torquent" sDsEstreiaHorario="Iaculis mollis fermentum vestibulum"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Curae donec dapibus eleifend sed" Episodio="21" IDSerie="74" ID="51" Temporada="90">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Erat himenaeos etiam facilisi fusce" Airs_Time="Mauris vestibulum dis imperdiet est" Airs_DayOfWeek="Vestibulum faucibus lorem" ContentType="Episódio" ContentTypeString="Lacinia tincidunt" ContentRating="Adipiscing parturient euismod" Estado="Completo" FolderMetadata="Adipiscing ornare" FolderPath="Laoreet leo mus natoque quam" Genre="Hac feugiat habitant nulla" ImgFanart="Gravida eros inceptos" IDApi="27" IDBanco="69" ImgPoster="Nibh nisi nisl malesuada" IsAnime="True" Language="Nunc proin" LastUpdated="Augue dolor" Network="Nostra fames interdum" Overview="Penatibus porttitor lobortis iaculis odio" SerieAliasStr="Morbi mollis egestas montes" Status="Orci felis" Title="Vestibulum pede vestibulum" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Parturient nec quis urna posuere" Episodio="35" IDSerie="49" ID="74" Temporada="34">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Cras ipsum" Airs_Time="Per nunc" Airs_DayOfWeek="Duis vestibulum potenti nascetur non" ContentType="Episódio" ContentTypeString="Erat quisque eros" ContentRating="Platea justo primis adipiscing pretium" Estado="Simples" FolderMetadata="Sociosqu vestibulum vivamus sit aliquam" FolderPath="Vestibulum adipiscing vel" Genre="Sed placerat rhoncus lacus" ImgFanart="Arcu rutrum sodales" IDApi="67" IDBanco="97" ImgPoster="Diam lorem pulvinar eget" IsAnime="True" Language="Sapien viverra sagittis" LastUpdated="Aliquam elit magna" Network="Tristique sem semper" Overview="Sociis taciti" SerieAliasStr="Pharetra amet ante vestibulum" Status="Parturient integer senectus" Title="Enim massa tellus" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Suscipit metus morbi tempor neque" Episodio="28" IDSerie="35" ID="15" Temporada="79">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Ultricies venenatis nibh tempus" Airs_Time="Commodo nam" Airs_DayOfWeek="Aliquet vulputate nisi blandit tortor" ContentType="Série" ContentTypeString="Sed gravida risus" ContentRating="Sed torquent dis" Estado="Simples" FolderMetadata="Pede praesent" FolderPath="Facilisis velit vitae sem" Genre="Nisl est hac" ImgFanart="Ultrices cubilia dapibus egestas leo" IDApi="40" IDBanco="77" ImgPoster="Euismod mus nunc" IsAnime="True" Language="Turpis phasellus netus nec odio" LastUpdated="Non vehicula volutpat consequat per" Network="Convallis parturient nulla" Overview="Varius maecenas" SerieAliasStr="Conubia curabitur" Status="Porta purus" Title="Aenean feugiat dignissim elementum orci" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Fermentum iaculis" Episodio="28" IDSerie="21" ID="40" Temporada="23">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Lacinia accumsan bibendum sit" Airs_Time="Vel class fringilla vestibulum" Airs_DayOfWeek="Mauris vestibulum laoreet" ContentType="Anime" ContentTypeString="Nunc hac" ContentRating="Dictumst quis habitasse" Estado="CompletoSemForeignKeys" FolderMetadata="Posuere potenti" FolderPath="Parturient amet ante dictum" Genre="Urna cras eleifend nam donec" ImgFanart="Nullam duis" IDApi="29" IDBanco="21" ImgPoster="Facilisi hendrerit himenaeos adipiscing etiam" IsAnime="True" Language="Parturient aptent natoque" LastUpdated="Vestibulum sed" Network="Fusce imperdiet malesuada vestibulum" Overview="Lorem adipiscing" SerieAliasStr="Curae quam" Status="Auctor dis faucibus" Title="Congue cursus est" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Habitant arcu" Episodio="82" IDSerie="32" ID="55" Temporada="70">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Diam lectus leo eget" Airs_Time="Elit enim vestibulum" Airs_DayOfWeek="Pretium mus" ContentType="Episódio" ContentTypeString="Nisl nascetur sem nunc felis" ContentRating="Libero porttitor tincidunt erat" Estado="CompletoSemForeignKeys" FolderMetadata="Adipiscing ipsum" FolderPath="Pharetra viverra" Genre="Eros non inceptos" ImgFanart="Adipiscing tristique rhoncus interdum" IDApi="17" IDBanco="50" ImgPoster="Ultricies ligula venenatis" IsAnime="True" Language="Parturient proin" LastUpdated="Litora luctus augue" Network="Nibh lobortis dolor" Overview="Vestibulum nisi fames" SerieAliasStr="Morbi nec nulla penatibus vestibulum" Status="Magnis vulputate mattis sodales" Title="Per sed vestibulum" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="AnimeFilmeSérie" ContentTypeString="Venenatis diam vulputate sagittis" Estado="CompletoSemForeignKeys" FolderMetadata="Curabitur vestibulum" FolderPath="Sed senectus sodales" ImgFanart="Eget adipiscing viverra" IDApi="34" IDBanco="79" ImgPoster="Nulla sociosqu elit suscipit torquent" Language="Parturient vestibulum phasellus enim" LastUpdated="Dis aliquam vestibulum adipiscing integer" Overview="Ultrices erat parturient turpis est" SerieAliasStr="Urna torquent ultrices ornare" Title="Vehicula vestibulum eros volutpat porta" bFlSelecionado="False">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="False" nIdTipoConteudo="Anime" nCdVideo="99" nCdApi="15" nIdEstado="Completo" sDsPasta="Potenti sociosqu vestibulum suscipit" sDsMetadata="Fringilla massa metus per" sAliases="Praesent ipsum accumsan leo" sDsIdioma="Torquent parturient sit" sDsImgPoster="Cras sed morbi sem duis" sNrUltimaAtualizacao="Nunc viverra" sDsTitulo="Vel nullam" sDsTipoConteudo="Nec lorem non magna urna" sDsImgFanart="Pretium rhoncus adipiscing sodales" sDsSinopse="Vestibulum vestibulum amet mauris">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="19" nNrEpisodio="64" nNrTemporada="63" nCdAlias="68" sDsAlias="Justo vestibulum sapien bibendum cras">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="66" nCdApi="53" nIdEstado="CompletoSemForeignKeys" sDsPasta="Tempor nibh" sDsMetadata="Sed netus erat eros" sDsStatus="Commodo conubia sit" sAliases="Vestibulum mus" sDsIdioma="Aliquam habitant per" sDsClassificacao="Nec adipiscing" sDsImgPoster="Diam magna convallis vivamus faucibus" sNmAtores="Duis lacus lorem" sDsEmissora="Massa metus morbi" sDsGeneros="Ante eleifend facilisi" sNrUltimaAtualizacao="Sed aliquet" sDsTitulo="Cubilia tellus neque vel enim" sDsTipoConteudo="Inceptos nam" sDsImgFanart="Arcu consequat non quisque taciti" sDsEstreiaDiaSemana="Nunc semper amet integer" sDsSinopse="Sem blandit eget elit" sDsEstreiaHorario="Sociis dictumst"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="36" nNrEpisodio="83" nNrTemporada="63" nCdAlias="34" sDsAlias="Dignissim dis parturient">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="71" nCdApi="95" nIdEstado="Simples" sDsPasta="Vestibulum risus" sDsMetadata="Quam imperdiet" sDsStatus="Himenaeos purus" sAliases="Est iaculis vestibulum" sDsIdioma="Pharetra posuere placerat fringilla" sDsClassificacao="Nisl tortor turpis adipiscing facilisis" sDsImgPoster="Hac natoque leo" sNmAtores="Dapibus egestas elementum euismod" sDsEmissora="Habitasse nec porta" sDsGeneros="Parturient nascetur varius vestibulum lacinia" sNrUltimaAtualizacao="Mus nunc odio" sDsTitulo="Vestibulum vestibulum pulvinar adipiscing" sDsTipoConteudo="Pede parturient vestibulum" sDsImgFanart="Laoreet fermentum vestibulum aenean adipiscing" sDsEstreiaDiaSemana="Vestibulum tempus feugiat nulla interdum" sDsSinopse="Mauris orci hendrerit parturient" sDsEstreiaHorario="Lobortis gravida nisi"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="54" nNrEpisodio="79" nNrTemporada="10" nCdAlias="88" sDsAlias="Potenti sagittis adipiscing malesuada">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="43" nCdApi="90" nIdEstado="CompletoSemForeignKeys" sDsPasta="Vulputate luctus diam magnis eget" sDsMetadata="Litora etiam integer arcu" sDsStatus="Libero nunc" sAliases="Adipiscing penatibus" sDsIdioma="Per dictum venenatis sed torquent" sDsClassificacao="Porttitor rhoncus parturient sodales auctor" sDsImgPoster="Vestibulum urna ultricies viverra cras" sNmAtores="Pretium non quis velit parturient" sDsEmissora="Vehicula lectus duis" sDsGeneros="Vestibulum congue" sNrUltimaAtualizacao="Ultrices adipiscing sem aliquam" sDsTitulo="Sit amet volutpat" sDsTipoConteudo="Maecenas vel ligula vestibulum ante" sDsImgFanart="Sociosqu tincidunt tristique suscipit cursus" sDsEstreiaDiaSemana="Vitae nullam class curae senectus" sDsSinopse="Donec parturient" sDsEstreiaHorario="Vestibulum vestibulum aptent"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="47" nNrEpisodio="56" nNrTemporada="31" nCdAlias="75" sDsAlias="Praesent vestibulum adipiscing nam accumsan">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="82" nCdApi="34" nIdEstado="CompletoSemForeignKeys" sDsPasta="Sed sapien vestibulum habitant" sDsMetadata="Nibh rutrum parturient dignissim" sDsStatus="Eros proin" sAliases="Lorem morbi" sDsIdioma="Mus aliquet nec blandit" sDsClassificacao="Adipiscing parturient dis" sDsImgPoster="Enim leo mollis vestibulum" sNmAtores="Elit parturient sed" sDsEmissora="Nostra ornare facilisi erat parturient" sDsGeneros="Vestibulum est vivamus aliquam" sNrUltimaAtualizacao="Non montes adipiscing eleifend commodo" sDsTitulo="Augue faucibus dolor" sDsTipoConteudo="Platea primis per vestibulum adipiscing" sDsImgFanart="Bibendum dictumst nulla hac phasellus" sDsEstreiaDiaSemana="Quisque vestibulum" sDsSinopse="Vestibulum consequat convallis conubia cubilia" sDsEstreiaHorario="Fusce vestibulum mattis mauris curabitur"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="77" nNrEpisodio="69" nNrTemporada="47" nCdAlias="16" sDsAlias="Inceptos nisi">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="79" nCdApi="42" nIdEstado="CompletoSemForeignKeys" sDsPasta="Laoreet vestibulum natoque posuere" sDsMetadata="Lacinia aenean mus parturient" sDsStatus="Quis feugiat leo tortor gravida" sAliases="Tellus nunc" sDsIdioma="Nam sed" sDsClassificacao="Dapibus pharetra parturient" sDsImgPoster="Orci euismod" sNmAtores="Semper sem sociis fames interdum" sDsEmissora="Quam vestibulum" sDsGeneros="Elementum odio placerat justo sit" sNrUltimaAtualizacao="Pede tempus dis" sDsTitulo="Pulvinar lacus sagittis turpis" sDsTipoConteudo="Iaculis varius senectus vestibulum adipiscing" sDsImgFanart="Facilisis tempor vel egestas fermentum" sDsEstreiaDiaSemana="Nisl vestibulum taciti" sDsSinopse="Est hac" sDsEstreiaHorario="Lobortis felis ipsum adipiscing nascetur"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Vehicula platea fermentum aliquet fringilla" Episodio="56" IDSerie="57" ID="61" Temporada="63">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Primis cras habitasse" Airs_Time="Vestibulum commodo" Airs_DayOfWeek="Lacus blandit" ContentType="AnimeFilmeSérie" ContentTypeString="Nulla porta accumsan porttitor" ContentRating="Conubia sapien magna" Estado="CompletoSemForeignKeys" FolderMetadata="Feugiat amet tortor vestibulum" FolderPath="Tincidunt tristique ante adipiscing" Genre="Hendrerit parturient vestibulum" ImgFanart="Cubilia duis vestibulum" IDApi="58" IDBanco="58" ImgPoster="Dapibus semper maecenas" IsAnime="False" Language="Massa sociis nunc nam" LastUpdated="Praesent taciti metus adipiscing morbi" Network="Himenaeos imperdiet parturient egestas" Overview="Tellus vestibulum" SerieAliasStr="Rutrum adipiscing lorem volutpat vel" Status="Malesuada sed neque" Title="Penatibus tempor netus tempus euismod" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Dis ultricies turpis bibendum gravida" Episodio="36" IDSerie="25" ID="13" Temporada="23">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Parturient venenatis vulputate" Airs_Time="Arcu aenean vestibulum" Airs_DayOfWeek="Curabitur iaculis varius" ContentType="Selecione" ContentTypeString="Parturient nec vestibulum interdum lobortis" ContentRating="Eleifend phasellus" Estado="Completo" FolderMetadata="Vestibulum enim non adipiscing fermentum" FolderPath="Nascetur class fringilla habitasse per" Genre="Est purus vestibulum adipiscing consequat" ImgFanart="Convallis hac lacinia dignissim facilisi" IDApi="72" IDBanco="69" ImgPoster="Parturient vestibulum" IsAnime="False" Language="Vestibulum eget mauris laoreet" LastUpdated="Adipiscing leo natoque" Network="Posuere elit" Overview="Nullam potenti pretium faucibus habitant" SerieAliasStr="Dictumst diam" Status="Elementum rhoncus risus sodales aptent" Title="Velit vitae mus inceptos facilisis" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Pharetra viverra" Episodio="18" IDSerie="68" ID="58" Temporada="85">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Erat aliquam placerat" Airs_Time="Sed parturient" Airs_DayOfWeek="Hendrerit curae eros" ContentType="AnimeFilmeSérie" ContentTypeString="Phasellus consequat orci nulla pede" ContentRating="Etiam pulvinar sagittis vestibulum integer" Estado="Completo" FolderMetadata="Dictum ultrices" FolderPath="Proin augue lectus dolor" Genre="Quisque vivamus himenaeos" ImgFanart="Nisi imperdiet malesuada nisl" IDApi="49" IDBanco="51" ImgPoster="Fusce aliquam senectus" IsAnime="False" Language="Penatibus sem aliquet" LastUpdated="Porttitor blandit congue" Network="Tincidunt sociosqu nunc cursus sit" Overview="Vel suscipit tristique ultricies" SerieAliasStr="Auctor nibh donec" Status="Venenatis lorem vulputate curabitur" Title="Torquent morbi odio" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Commodo fames" Episodio="43" IDSerie="70" ID="16" Temporada="91">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Nam libero vehicula" Airs_Time="Adipiscing cubilia ligula litora luctus" Airs_DayOfWeek="Volutpat vestibulum conubia" ContentType="Selecione" ContentTypeString="Nec gravida dictumst adipiscing parturient" ContentRating="Magnis sed" Estado="CompletoSemForeignKeys" FolderMetadata="Montes cras eleifend" FolderPath="Fringilla iaculis non" Genre="Dapibus mattis" ImgFanart="Mauris convallis mollis maecenas quam" IDApi="88" IDBanco="98" ImgPoster="Dignissim egestas" IsAnime="False" Language="Felis quis ipsum" LastUpdated="Dis elementum est praesent" Network="Facilisis hac euismod accumsan justo" Overview="Feugiat leo vestibulum mus lacus" SerieAliasStr="Parturient vestibulum" Status="Bibendum lorem" Title="Magna fermentum massa urna" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Nostra facilisi" Episodio="39" IDSerie="44" ID="60" Temporada="27">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Duis vestibulum faucibus ornare habitasse" Airs_Time="Adipiscing primis rutrum lobortis" Airs_DayOfWeek="Habitant vestibulum platea inceptos interdum" ContentType="AnimeFilmeSérie" ContentTypeString="Parturient potenti pretium" ContentRating="Vestibulum lacinia hendrerit vestibulum" Estado="Completo" FolderMetadata="Netus ante arcu nam pulvinar" FolderPath="Ultricies vestibulum rhoncus" Genre="Adipiscing metus sapien sed nunc" ImgFanart="Nascetur semper himenaeos imperdiet" IDApi="23" IDBanco="67" ImgPoster="Parturient malesuada sociis laoreet" IsAnime="False" Language="Morbi vestibulum taciti" LastUpdated="Sem vestibulum tellus amet tempor" Network="Penatibus tempus porttitor tincidunt" Overview="Natoque tortor pharetra sit" SerieAliasStr="Per parturient" Status="Tristique adipiscing" Title="Vel neque posuere placerat" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Filme" ContentTypeString="Aptent dignissim elementum" Estado="Completo" FolderMetadata="Facilisis per sed sem" FolderPath="Placerat sit fermentum lacinia auctor" ImgFanart="Vel nam pulvinar" IDApi="46" IDBanco="98" ImgPoster="Sed vestibulum dis morbi" Language="Fringilla est nunc hac" LastUpdated="Vestibulum nulla" Overview="Congue leo cursus mus" SerieAliasStr="Consequat varius vestibulum" Title="Proin sagittis laoreet" bFlSelecionado="True">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="True" nIdTipoConteudo="Selecione" nCdVideo="89" nCdApi="55" nIdEstado="Completo" sDsPasta="Malesuada inceptos amet" sDsMetadata="Sit cursus vestibulum" sAliases="Aliquam aptent" sDsIdioma="Adipiscing fames penatibus lobortis nam" sDsImgPoster="Interdum ante" sNrUltimaAtualizacao="Felis dictum nascetur sed" sDsTitulo="Porttitor cubilia dis tincidunt" sDsTipoConteudo="Blandit commodo hendrerit himenaeos imperdiet" sDsImgFanart="Dolor vel" sDsSinopse="Lectus parturient arcu libero conubia">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="57" nNrEpisodio="48" nNrTemporada="69" nCdAlias="87" sDsAlias="Ultrices neque">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="42" nCdApi="45" nIdEstado="Completo" sDsPasta="Nibh vestibulum lectus" sDsMetadata="Eros accumsan nec" sDsStatus="Vestibulum aliquet" sAliases="Netus vestibulum habitasse arcu" sDsIdioma="Volutpat vivamus dis enim adipiscing" sDsClassificacao="Cursus nulla hendrerit porta" sDsImgPoster="Velit imperdiet elit" sNmAtores="Ante auctor integer congue" sDsEmissora="Aliquam penatibus est praesent porttitor" sDsGeneros="Dictum himenaeos vehicula diam" sNrUltimaAtualizacao="Maecenas vitae malesuada" sDsTitulo="Leo tincidunt" sDsTipoConteudo="Tristique mus class erat" sDsImgFanart="Purus sed eget risus" sDsEstreiaDiaSemana="Nam quisque" sDsSinopse="Parturient hac" sDsEstreiaHorario="Adipiscing parturient vestibulum"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="52" nNrEpisodio="39" nNrTemporada="11" nCdAlias="25" sDsAlias="Curae nisi bibendum ultricies">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Série" nCdVideo="26" nCdApi="48" nIdEstado="Simples" sDsPasta="Fames felis urna nam" sDsMetadata="Quis facilisis dapibus adipiscing vel" sDsStatus="Vestibulum interdum convallis" sAliases="Etiam litora luctus nunc" sDsIdioma="Morbi quam eleifend" sDsClassificacao="Vulputate odio orci pede" sDsImgPoster="Mauris mollis" sNmAtores="Dictumst donec libero nisl venenatis" sDsEmissora="Sed facilisi faucibus habitant inceptos" sDsGeneros="Commodo fusce conubia parturient per" sNrUltimaAtualizacao="Nulla vestibulum" sDsTitulo="Cubilia augue sit" sDsTipoConteudo="Dignissim dolor lobortis elementum" sDsImgFanart="Lorem magnis curabitur mattis phasellus" sDsEstreiaDiaSemana="Adipiscing ligula" sDsSinopse="Sem proin consequat montes" sDsEstreiaHorario="Non blandit"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="21" nNrEpisodio="18" nNrTemporada="76" nCdAlias="49" sDsAlias="Nascetur ipsum sed fermentum dis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Série" nCdVideo="14" nCdApi="15" nIdEstado="CompletoSemForeignKeys" sDsPasta="Posuere vestibulum" sDsMetadata="Nec eget" sDsStatus="Senectus mus lacinia" sAliases="Vestibulum euismod" sDsIdioma="Lorem vestibulum" sDsClassificacao="Platea feugiat" sDsImgPoster="Gravida lacus" sNmAtores="Cras fringilla nostra ornare egestas" sDsEmissora="Hendrerit sagittis massa sapien" sDsGeneros="Hac primis habitasse" sNrUltimaAtualizacao="Magna leo diam adipiscing" sDsTitulo="Parturient laoreet" sDsTipoConteudo="Morbi neque semper sociosqu natoque" sDsImgFanart="Ante arcu rutrum pulvinar" sDsEstreiaDiaSemana="Parturient duis nunc amet" sDsSinopse="Iaculis metus himenaeos imperdiet" sDsEstreiaHorario="Pharetra justo placerat est"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="32" nNrEpisodio="19" nNrTemporada="39" nCdAlias="51" sDsAlias="Vestibulum non netus suscipit adipiscing">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="55" nCdApi="40" nIdEstado="Novo" sDsPasta="Turpis praesent aliquam" sDsMetadata="Venenatis parturient vulputate curabitur" sDsStatus="Nisl tempus viverra" sAliases="Per penatibus porta purus" sDsIdioma="Velit vestibulum porttitor" sDsClassificacao="Ultrices erat sed pretium" sDsImgPoster="Nibh vehicula sit vel" sNmAtores="Elit potenti" sDsEmissora="Tincidunt tempor" sDsGeneros="Rhoncus eros risus" sNrUltimaAtualizacao="Vitae nisi" sDsTitulo="Nunc tortor adipiscing" sDsTipoConteudo="Tristique volutpat maecenas ultricies" sDsImgFanart="Sem vestibulum" sDsEstreiaDiaSemana="Nulla malesuada enim sociis taciti" sDsSinopse="Sodales class curae" sDsEstreiaHorario="Parturient tellus torquent"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="83" nNrEpisodio="86" nNrTemporada="51" nCdAlias="87" sDsAlias="Integer odio quisque nam sed">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Selecione" nCdVideo="85" nCdApi="60" nIdEstado="Novo" sDsPasta="Augue habitant sem congue" sDsMetadata="Nunc habitasse vestibulum facilisi faucibus" sDsStatus="Adipiscing auctor dictumst aliquam eleifend" sAliases="Adipiscing hac parturient leo" sDsIdioma="Fusce elementum lorem facilisis" sDsClassificacao="Vestibulum pede" sDsImgPoster="Adipiscing dignissim mauris" sNmAtores="Dis varius orci est accumsan" sDsEmissora="Nullam nulla aptent fermentum" sDsGeneros="Quam vivamus vestibulum" sNrUltimaAtualizacao="Cras nec morbi duis parturient" sDsTitulo="Per proin" sDsTipoConteudo="Aliquet sed parturient" sDsImgFanart="Quis urna etiam mus" sDsEstreiaDiaSemana="Aenean phasellus vestibulum vestibulum consequat" sDsSinopse="Fringilla vestibulum non bibendum vestibulum" sDsEstreiaHorario="Donec convallis"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Hac adipiscing maecenas" Episodio="92" IDSerie="78" ID="18" Temporada="77">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Leo aenean" Airs_Time="Praesent vestibulum mauris purus" Airs_DayOfWeek="Mus parturient nibh" ContentType="Episódio" ContentTypeString="Habitasse facilisi hendrerit parturient faucibus" ContentRating="Nullam accumsan" Estado="Simples" FolderMetadata="Sit habitant vivamus himenaeos vel" FolderPath="Vestibulum vestibulum fusce" Genre="Quisque elementum bibendum risus" ImgFanart="Velit facilisis dictumst" IDApi="66" IDBanco="58" ImgPoster="Nec nisl vitae eleifend" IsAnime="True" Language="Non vestibulum adipiscing fermentum" LastUpdated="Class parturient vestibulum" Network="Fringilla aptent per nunc" Overview="Vestibulum adipiscing" SerieAliasStr="Convallis dignissim nisi" Status="Curae sed donec" Title="Auctor sem etiam" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Imperdiet odio nam inceptos sed" Episodio="81" IDSerie="52" ID="23" Temporada="48">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Interdum dis malesuada adipiscing" Airs_Time="Lobortis congue vestibulum nascetur" Airs_DayOfWeek="Lorem parturient" ContentType="Anime" ContentTypeString="Parturient ligula fames" ContentRating="Aliquam morbi" Estado="Novo" FolderMetadata="Amet vulputate" FolderPath="Placerat curabitur phasellus" Genre="Vestibulum penatibus cursus" ImgFanart="Adipiscing pede" IDApi="25" IDBanco="24" ImgPoster="Parturient quam porttitor aliquet nulla" IsAnime="True" Language="Quis tincidunt dictum urna tristique" LastUpdated="Cras ultricies duis proin nunc" Network="Venenatis hac blandit" Overview="Vestibulum lectus vestibulum augue" SerieAliasStr="Est orci" Status="Dolor leo" Title="Adipiscing commodo conubia libero pharetra" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Litora luctus consequat magnis cubilia" Episodio="59" IDSerie="14" ID="97" Temporada="83">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Mattis dapibus" Airs_Time="Vestibulum mauris egestas elementum" Airs_DayOfWeek="Convallis vestibulum dignissim" ContentType="AnimeFilmeSérie" ContentTypeString="Torquent natoque per" ContentRating="Ipsum pulvinar adipiscing" Estado="Simples" FolderMetadata="Vestibulum sed" FolderPath="Adipiscing ultrices" Genre="Facilisis gravida fermentum iaculis mollis" ImgFanart="Sagittis justo montes" IDApi="33" IDBanco="87" ImgPoster="Fringilla lacinia" IsAnime="True" Language="Lacus laoreet" LastUpdated="Lorem parturient" Network="Senectus ante arcu vestibulum nostra" Overview="Habitasse sociosqu magna mus hendrerit" SerieAliasStr="Felis euismod feugiat" Status="Suscipit nec" Title="Diam non eget himenaeos" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Elit sem imperdiet" Episodio="66" IDSerie="36" ID="65" Temporada="67">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Enim erat parturient ornare platea" Airs_Time="Posuere eros nibh" Airs_DayOfWeek="Massa sit" ContentType="Filme" ContentTypeString="Dis quisque porta praesent vivamus" ContentRating="Malesuada nisi" Estado="Completo" FolderMetadata="Purus aliquam nunc accumsan odio" FolderPath="Vestibulum adipiscing parturient aliquet blandit" Genre="Rutrum pretium" ImgFanart="Vel vestibulum metus rhoncus morbi" IDApi="68" IDBanco="28" ImgPoster="Nisl adipiscing penatibus" IsAnime="True" Language="Porttitor sodales" LastUpdated="Sapien parturient tincidunt viverra nam" Network="Tristique aliquam" Overview="Vehicula integer neque volutpat" SerieAliasStr="Primis potenti vestibulum" Status="Netus nulla vestibulum maecenas" Title="Ultricies sed semper" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Venenatis commodo" Episodio="62" IDSerie="28" ID="65" Temporada="23">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Conubia sociis" Airs_Time="Risus orci cubilia pede" Airs_DayOfWeek="Bibendum taciti dictumst" ContentType="Anime" ContentTypeString="Consequat lorem gravida convallis nec" ContentRating="Tempor quam dapibus faucibus velit" Estado="Simples" FolderMetadata="Non nascetur" FolderPath="Iaculis pharetra parturient" Genre="Quis vulputate tempus tortor adipiscing" ImgFanart="Curabitur est vitae" IDApi="97" IDBanco="28" ImgPoster="Habitant inceptos" IsAnime="True" Language="Class hac" LastUpdated="Interdum egestas curae urna turpis" Network="Varius leo donec cras duis" Overview="Mus aenean mauris phasellus euismod" SerieAliasStr="Vestibulum eleifend facilisi tellus vestibulum" Status="Etiam fusce feugiat" Title="Lobortis nullam" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Selecione" ContentTypeString="Orci nascetur" Estado="Novo" FolderMetadata="Purus rutrum sapien" FolderPath="Dapibus himenaeos" ImgFanart="Pharetra placerat adipiscing parturient" IDApi="95" IDBanco="39" ImgPoster="Pulvinar pede sagittis senectus risus" Language="Quam vestibulum" LastUpdated="Velit semper imperdiet vitae" Overview="Quis egestas vestibulum" SerieAliasStr="Senectus augue" Title="Sociosqu malesuada urna adipiscing" bFlSelecionado="False">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="False" nIdTipoConteudo="Filme" nCdVideo="11" nCdApi="39" nIdEstado="CompletoSemForeignKeys" sDsPasta="Dignissim elementum fusce mauris" sDsMetadata="Orci etiam consequat convallis adipiscing" sAliases="Pharetra est" sDsIdioma="Sodales lorem" sDsImgPoster="Parturient pede quam" sNrUltimaAtualizacao="Montes fermentum fringilla vestibulum" sDsTitulo="Quis habitasse" sDsTipoConteudo="Phasellus rhoncus magnis donec mattis" sDsImgFanart="Mollis sit facilisis" sDsSinopse="Vel vestibulum">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="24" nNrEpisodio="90" nNrTemporada="19" nCdAlias="71" sDsAlias="Ipsum diam dapibus vestibulum egestas">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="41" nCdApi="91" nIdEstado="Novo" sDsPasta="Hendrerit iaculis lacinia sociosqu sed" sDsMetadata="Adipiscing senectus odio" sDsStatus="Nec pulvinar habitasse litora non" sAliases="Enim hac venenatis vulputate justo" sDsIdioma="Eros nibh ligula magna" sDsClassificacao="Gravida vestibulum adipiscing leo" sDsImgPoster="Lorem mus" sNmAtores="Eget elit" sDsEmissora="Elementum facilisis nisi vestibulum nisl" sDsGeneros="Erat curabitur phasellus lacus parturient" sNrUltimaAtualizacao="Placerat convallis dignissim" sDsTitulo="Per vestibulum" sDsTipoConteudo="Sagittis vestibulum luctus massa metus" sDsImgFanart="Consequat vestibulum" sDsEstreiaDiaSemana="Euismod tristique" sDsSinopse="Fermentum adipiscing nunc parturient fringilla" sDsEstreiaHorario="Ultricies feugiat"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="70" nNrEpisodio="58" nNrTemporada="98" nCdAlias="74" sDsAlias="Himenaeos magnis sem parturient">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="32" nCdApi="40" nIdEstado="Novo" sDsPasta="Eleifend cras mus" sDsMetadata="Semper sociis hac viverra leo" sDsStatus="Platea primis sodales dis" sAliases="Natoque posuere pede quam" sDsIdioma="Praesent porttitor vel purus quis" sDsClassificacao="Potenti ultrices vehicula netus" sDsImgPoster="Porta pretium penatibus adipiscing maecenas" sNmAtores="Mattis suscipit" sDsEmissora="Venenatis vulputate" sDsGeneros="Mollis montes vestibulum nostra volutpat" sNrUltimaAtualizacao="Tincidunt tristique accumsan rhoncus ultricies" sDsTitulo="Bibendum dictumst rutrum" sDsTipoConteudo="Est curabitur sapien" sDsImgFanart="Ornare nulla" sDsEstreiaDiaSemana="Imperdiet sit malesuada morbi vestibulum" sDsSinopse="Nam parturient urna sed" sDsEstreiaHorario="Laoreet mauris orci torquent neque"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="23" nNrEpisodio="18" nNrTemporada="72" nCdAlias="80" sDsAlias="Aliquam facilisi integer">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="94" nCdApi="30" nIdEstado="CompletoSemForeignKeys" sDsPasta="Blandit nulla sed" sDsMetadata="Nam aliquet morbi" sDsStatus="Donec senectus" sAliases="Velit adipiscing" sDsIdioma="Class nascetur sed pharetra nunc" sDsClassificacao="Per vitae" sDsImgPoster="Quisque consequat tellus" sNmAtores="Phasellus vestibulum faucibus vestibulum nec" sDsEmissora="Vivamus tempor pulvinar aliquam" sDsGeneros="Parturient vestibulum vestibulum" sNrUltimaAtualizacao="Placerat sem curae" sDsTitulo="Sit sociosqu etiam suscipit" sDsTipoConteudo="Torquent vel fusce lorem" sDsImgFanart="Taciti adipiscing" sDsEstreiaDiaSemana="Habitant inceptos interdum non risus" sDsSinopse="Convallis amet sagittis parturient dignissim" sDsEstreiaHorario="Lobortis duis"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="37" nNrEpisodio="37" nNrTemporada="18" nCdAlias="12" sDsAlias="Proin ultrices augue">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Filme" nCdVideo="77" nCdApi="64" nIdEstado="Novo" sDsPasta="Auctor hendrerit vestibulum" sDsMetadata="Lacinia hac neque inceptos" sDsStatus="Euismod fringilla feugiat habitasse" sAliases="Est maecenas cubilia" sDsIdioma="Egestas lorem" sDsClassificacao="Facilisis fermentum praesent vestibulum" sDsImgPoster="Lacus varius dapibus" sNmAtores="Vehicula dis tempus tortor dolor" sDsEmissora="Vestibulum magna eleifend massa" sDsGeneros="Vestibulum ipsum accumsan adipiscing" sNrUltimaAtualizacao="Diam dictumst" sDsTitulo="Gravida faucibus parturient aenean morbi" sDsTipoConteudo="Iaculis habitant mauris nullam aptent" sDsImgFanart="Justo parturient bibendum arcu vestibulum" sDsEstreiaDiaSemana="Fames commodo elementum felis" sDsSinopse="Facilisi adipiscing metus" sDsEstreiaHorario="Turpis conubia volutpat ante"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="59" nNrEpisodio="41" nNrTemporada="79" nCdAlias="27" sDsAlias="Vestibulum adipiscing eget himenaeos imperdiet">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="85" nCdApi="54" nIdEstado="CompletoSemForeignKeys" sDsPasta="Curae odio nascetur pretium vestibulum" sDsMetadata="Sem luctus parturient vestibulum potenti" sDsStatus="Ligula vitae litora class nunc" sAliases="Malesuada enim non laoreet" sDsIdioma="Natoque tincidunt risus" sDsClassificacao="Per adipiscing erat" sDsImgPoster="Lobortis purus nibh dictum" sNmAtores="Parturient interdum congue" sDsEmissora="Ultricies nisi adipiscing velit" sDsGeneros="Parturient penatibus vestibulum" sNrUltimaAtualizacao="Vestibulum tristique" sDsTitulo="Posuere venenatis vulputate" sDsTipoConteudo="Sed curabitur" sDsImgFanart="Porttitor nulla porta eros cursus" sDsEstreiaDiaSemana="Leo netus" sDsSinopse="Nisl lectus libero" sDsEstreiaHorario="Elit vestibulum vestibulum mus nec"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Sociosqu amet suscipit" Episodio="48" IDSerie="31" ID="90" Temporada="11">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Torquent habitasse dictum" Airs_Time="Hendrerit adipiscing" Airs_DayOfWeek="Dolor natoque lectus" ContentType="Filme" ContentTypeString="Sit lorem tristique magna mattis" ContentRating="Ligula arcu nec non ultrices" Estado="Simples" FolderMetadata="Mauris ultricies vel eros mollis" FolderPath="Accumsan vestibulum venenatis bibendum" Genre="Diam himenaeos parturient" ImgFanart="Eget imperdiet malesuada posuere potenti" IDApi="10" IDBanco="80" ImgPoster="Per pretium vehicula volutpat" IsAnime="False" Language="Elit vestibulum maecenas penatibus" LastUpdated="Fames litora luctus felis enim" Network="Porttitor rhoncus" Overview="Magnis praesent ipsum" SerieAliasStr="Libero ante" Status="Sed tincidunt" Title="Erat sodales justo sem lacus" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Adipiscing dictumst massa" Episodio="90" IDSerie="13" ID="73" Temporada="55">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Nibh eleifend viverra vulputate" Airs_Time="Quisque curabitur facilisi nostra ornare" Airs_DayOfWeek="Montes metus morbi aliquam integer" ContentType="Anime" ContentTypeString="Purus vestibulum fermentum risus conubia" ContentRating="Habitant phasellus" Estado="Novo" FolderMetadata="Vestibulum cubilia tellus adipiscing dapibus" FolderPath="Nunc egestas parturient lobortis nascetur" Genre="Vivamus consequat sed" ImgFanart="Aliquam nisl" IDApi="29" IDBanco="63" ImgPoster="Parturient neque convallis primis vestibulum" IsAnime="False" Language="Aliquet dis est dignissim" LastUpdated="Netus inceptos rutrum" Network="Sapien blandit vestibulum semper interdum" Overview="Adipiscing elementum hac nulla" SerieAliasStr="Nisi faucibus platea nam" Status="Facilisis parturient" Title="Sociis porta taciti commodo" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Euismod leo feugiat odio" Episodio="74" IDSerie="41" ID="59" Temporada="21">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Vestibulum gravida pharetra velit fringilla" Airs_Time="Pede vitae class quam lacinia" Airs_DayOfWeek="Habitasse orci iaculis vestibulum" ContentType="Anime" ContentTypeString="Nullam malesuada duis aptent" ContentRating="Per tempor" Estado="Completo" FolderMetadata="Penatibus auctor lorem" FolderPath="Potenti morbi nunc amet porttitor" Genre="Himenaeos urna" ImgFanart="Adipiscing parturient laoreet curae" IDApi="42" IDBanco="56" ImgPoster="Vestibulum tempus placerat" IsAnime="False" Language="Donec vestibulum adipiscing" LastUpdated="Sed tortor sem" Network="Natoque posuere parturient turpis etiam" Overview="Varius pulvinar fusce" SerieAliasStr="Mus hendrerit quis nec non" Status="Sagittis cras vestibulum sit vestibulum" Title="Imperdiet aenean mauris vel" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Congue cursus" Episodio="36" IDSerie="61" ID="84" Temporada="33">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Nam ante sed nulla" Airs_Time="Est hac tristique" Airs_DayOfWeek="Senectus dis pretium tincidunt" ContentType="Série" ContentTypeString="Sed phasellus" ContentRating="Leo rhoncus" Estado="Completo" FolderMetadata="Adipiscing magnis" FolderPath="Quisque vivamus" Genre="Dolor ultricies venenatis dictum fames" ImgFanart="Arcu sodales vulputate mus" IDApi="68" IDBanco="52" ImgPoster="Torquent adipiscing nec felis" IsAnime="False" Language="Viverra lectus diam ultrices curabitur" LastUpdated="Parturient vestibulum libero vehicula ligula" Network="Litora volutpat maecenas non" Overview="Aliquam luctus praesent accumsan" SerieAliasStr="Proin sociosqu suscipit augue" Status="Ipsum justo integer vestibulum" Title="Per bibendum" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Mattis dictumst eleifend consequat aliquam" Episodio="89" IDSerie="14" ID="20" Temporada="84">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Lacus eget sem" Airs_Time="Aliquet mauris mollis dignissim" Airs_DayOfWeek="Convallis lorem elit enim" ContentType="Episódio" ContentTypeString="Neque netus odio nulla" ContentRating="Massa vel" Estado="Completo" FolderMetadata="Hac habitasse leo mus vestibulum" FolderPath="Lobortis porta hendrerit" Genre="Facilisi elementum faucibus commodo montes" ImgFanart="Conubia habitant" IDApi="93" IDBanco="59" ImgPoster="Nam sed nostra facilisis eros" IsAnime="False" Language="Dis fermentum" LastUpdated="Est parturient" Network="Ornare nibh metus inceptos" Overview="Fringilla vestibulum nisi" SerieAliasStr="Blandit erat sit magna" Status="Platea primis" Title="Cubilia morbi nisl nunc interdum" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Série" ContentTypeString="Mauris fringilla magna" Estado="Novo" FolderMetadata="Nullam parturient habitasse vestibulum" FolderPath="Massa non metus aptent" ImgFanart="Conubia morbi" IDApi="24" IDBanco="28" ImgPoster="Per sed" Language="Hendrerit neque" LastUpdated="Netus auctor himenaeos" Overview="Imperdiet nisl nulla malesuada sem" SerieAliasStr="Sociis class suscipit taciti" Title="Interdum cubilia" bFlSelecionado="True">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="True" nIdTipoConteudo="Selecione" nCdVideo="91" nCdApi="89" nIdEstado="Novo" sDsPasta="Sed dis viverra" sDsMetadata="Sodales quis nam" sAliases="Pharetra placerat viverra aliquam" sDsIdioma="Aliquam integer quisque vivamus" sDsImgPoster="Praesent accumsan" sNrUltimaAtualizacao="Leo justo" sDsTitulo="Aliquet ornare blandit urna hendrerit" sDsTipoConteudo="Pede ipsum habitasse quam rhoncus" sDsImgFanart="Est hac" sDsSinopse="Aliquam lacus bibendum">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="21" nNrEpisodio="93" nNrTemporada="30" nCdAlias="36" sDsAlias="Pulvinar adipiscing parturient urna">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Filme" nCdVideo="34" nCdApi="47" nIdEstado="Completo" sDsPasta="Vestibulum dolor sit adipiscing" sDsMetadata="Himenaeos elit ultrices tempor sem" sDsStatus="Aliquet vestibulum blandit" sAliases="Platea primis nulla rutrum" sDsIdioma="Sociosqu vivamus nec suscipit" sDsClassificacao="Hac sagittis" sDsImgPoster="Mus amet hendrerit" sNmAtores="Vestibulum nam cras vestibulum adipiscing" sDsEmissora="Aliquam sociis" sDsGeneros="Sapien semper leo proin senectus" sNrUltimaAtualizacao="Non per sed" sDsTitulo="Commodo conubia taciti tellus ante" sDsTipoConteudo="Arcu diam eget" sDsImgFanart="Parturient nunc" sDsEstreiaDiaSemana="Sed dis duis est" sDsSinopse="Augue torquent" sDsEstreiaHorario="Integer nostra quisque ornare morbi"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="28" nNrEpisodio="73" nNrTemporada="91" nCdAlias="95" sDsAlias="Parturient vel enim imperdiet">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Selecione" nCdVideo="80" nCdApi="44" nIdEstado="CompletoSemForeignKeys" sDsPasta="Parturient accumsan lorem magna lacinia" sDsMetadata="Per iaculis" sDsStatus="Ipsum consequat vestibulum aptent" sAliases="Nam vehicula vestibulum vestibulum varius" sDsIdioma="Felis mauris venenatis" sDsClassificacao="Cubilia tincidunt sed dapibus tristique" sDsImgPoster="Vestibulum euismod est hac erat" sNmAtores="Malesuada tempus" sDsEmissora="Gravida nibh curabitur phasellus nullam" sDsGeneros="Adipiscing dis" sNrUltimaAtualizacao="Feugiat volutpat vulputate maecenas eros" sDsTitulo="Mus justo auctor" sDsTipoConteudo="Nec non adipiscing praesent lacus" sDsImgFanart="Egestas aenean ultricies parturient" sDsEstreiaDiaSemana="Penatibus fames tortor" sDsSinopse="Nisi leo" sDsEstreiaHorario="Turpis porttitor"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="31" nNrEpisodio="18" nNrTemporada="63" nCdAlias="57" sDsAlias="Bibendum massa nisl metus convallis">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Filme" nCdVideo="73" nCdApi="15" nIdEstado="Completo" sDsPasta="Ligula himenaeos lobortis quis nascetur" sDsMetadata="Interdum hendrerit adipiscing" sDsStatus="Habitant vivamus" sAliases="Sem morbi dignissim natoque sit" sDsIdioma="Aliquam facilisis dictum fermentum" sDsClassificacao="Posuere potenti vel" sDsImgPoster="Sodales facilisi cursus viverra" sNmAtores="Dictumst nunc" sDsEmissora="Fringilla libero" sDsGeneros="Adipiscing elementum neque eleifend pretium" sNrUltimaAtualizacao="Sed lectus orci faucibus" sDsTitulo="Vestibulum netus" sDsTipoConteudo="Vestibulum habitasse pede inceptos quam" sDsImgFanart="Nam congue rhoncus" sDsEstreiaDiaSemana="Vestibulum vestibulum" sDsSinopse="Integer quisque parturient" sDsEstreiaHorario="Laoreet sed odio"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="23" nNrEpisodio="65" nNrTemporada="36" nCdAlias="23" sDsAlias="Nulla urna cras">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Episódio" nCdVideo="62" nCdApi="52" nIdEstado="Completo" sDsPasta="Fusce parturient torquent mattis nec" sDsMetadata="Sociosqu magnis suscipit" sDsStatus="Venenatis leo diam" sAliases="Duis blandit risus malesuada penatibus" sDsIdioma="Sagittis egestas euismod" sDsClassificacao="Porttitor commodo conubia nunc cubilia" sDsImgPoster="Tristique pulvinar" sNmAtores="Aliquam pharetra porta" sDsEmissora="Curae litora est donec hac" sDsGeneros="Vestibulum velit tincidunt" sNrUltimaAtualizacao="Ante dis class" sDsTitulo="Feugiat mus senectus" sDsTipoConteudo="Adipiscing eget" sDsImgFanart="Vitae amet dapibus" sDsEstreiaDiaSemana="Parturient vestibulum" sDsSinopse="Etiam luctus arcu ultricies" sDsEstreiaHorario="Aliquet placerat purus imperdiet"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="60" nNrEpisodio="93" nNrTemporada="13" nCdAlias="16" sDsAlias="Lorem elit vulputate vestibulum">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="False" bFlAnime="True" bFlNaoEncontrado="True" bFlEditado="False" nIdTipoConteudo="Selecione" nCdVideo="60" nCdApi="23" nIdEstado="CompletoSemForeignKeys" sDsPasta="Felis maecenas orci vel" sDsMetadata="Odio posuere potenti pretium" sDsStatus="Nisl volutpat" sAliases="Phasellus proin mollis" sDsIdioma="Augue elementum facilisis dolor adipiscing" sDsClassificacao="Consequat enim convallis" sDsImgPoster="Sit ultrices" sNmAtores="Curabitur morbi vestibulum" sDsEmissora="Vehicula eros fringilla nibh" sDsGeneros="Iaculis per erat" sNrUltimaAtualizacao="Montes fermentum" sDsTitulo="Laoreet natoque" sDsTipoConteudo="Fames nunc vestibulum" sDsImgFanart="Sed sem dignissim" sDsEstreiaDiaSemana="Mauris non" sDsSinopse="Lacinia nisi parturient nostra" sDsEstreiaHorario="Gravida nulla"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Nec penatibus tellus non" Episodio="78" IDSerie="10" ID="25" Temporada="13">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Per cras torquent tempor" Airs_Time="Feugiat duis donec" Airs_DayOfWeek="Euismod sed tempus curae" ContentType="Série" ContentTypeString="Fames posuere sed adipiscing parturient" ContentRating="Etiam tincidunt sit parturient" Estado="Simples" FolderMetadata="Aenean potenti pretium venenatis" FolderPath="Vulputate curabitur phasellus consequat vestibulum" Genre="Gravida vehicula tortor volutpat" ImgFanart="Tristique iaculis ultricies fusce lacinia" IDApi="68" IDBanco="76" ImgPoster="Lorem morbi" IsAnime="True" Language="Amet vestibulum ante" LastUpdated="Arcu vel" Network="Maecenas laoreet nam diam" Overview="Nulla praesent proin augue" SerieAliasStr="Nunc ultrices porttitor sem" Status="Turpis varius vestibulum eget" Title="Natoque dolor" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Felis dis mauris" Episodio="53" IDSerie="92" ID="86" Temporada="16">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Vestibulum nullam accumsan ipsum" Airs_Time="Aptent elit enim auctor bibendum" Airs_DayOfWeek="Convallis dignissim elementum rhoncus facilisis" ContentType="Episódio" ContentTypeString="Quisque vestibulum" ContentRating="Hac leo lacus fermentum viverra" Estado="Novo" FolderMetadata="Libero habitant vivamus" FolderPath="Orci pede" Genre="Erat fringilla" ImgFanart="Eros congue aliquam adipiscing lorem" IDApi="92" IDBanco="62" ImgPoster="Parturient cursus vestibulum mus facilisi" IsAnime="True" Language="Habitasse vestibulum integer" LastUpdated="Faucibus nibh magna" Network="Nisi adipiscing massa" Overview="Metus dictum" SerieAliasStr="Sodales dictumst justo est eleifend" Status="Nisl nunc" Title="Odio lectus parturient" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Nec inceptos ligula" Episodio="15" IDSerie="93" ID="73" Temporada="86">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Non vestibulum per quam hendrerit" Airs_Time="Aliquet sed parturient interdum quis" Airs_DayOfWeek="Litora aliquam adipiscing himenaeos luctus" ContentType="Anime" ContentTypeString="Amet sagittis platea senectus porttitor" ContentRating="Morbi vestibulum cras magnis mattis" Estado="CompletoSemForeignKeys" FolderMetadata="Ante vestibulum arcu adipiscing sed" FolderPath="Sociosqu dis parturient est primis" Genre="Mauris neque blandit mollis" ImgFanart="Montes sem lobortis" IDApi="12" IDBanco="33" ImgPoster="Nascetur nostra" IsAnime="True" Language="Sit malesuada duis" LastUpdated="Netus adipiscing nunc commodo parturient" Network="Conubia nulla porta vel" Overview="Ornare cubilia nam penatibus" SerieAliasStr="Vestibulum urna imperdiet" Status="Dapibus pharetra" Title="Vestibulum purus placerat pulvinar" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Vestibulum vestibulum hac risus rutrum" Episodio="50" IDSerie="87" ID="17" Temporada="79">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Velit adipiscing leo vitae mus" Airs_Time="Torquent curae ultricies donec ultrices" Airs_DayOfWeek="Tincidunt egestas suscipit tristique class" ContentType="Filme" ContentTypeString="Non bibendum dictumst per taciti" ContentRating="Etiam fusce lorem parturient sapien" Estado="Novo" FolderMetadata="Vestibulum lacinia vulputate" FolderPath="Vestibulum eleifend sed laoreet" Genre="Morbi diam nulla proin" ImgFanart="Vehicula vestibulum augue" IDApi="61" IDBanco="47" ImgPoster="Volutpat maecenas vestibulum adipiscing" IsAnime="True" Language="Dolor fames eget praesent" LastUpdated="Elit feugiat nec" Network="Accumsan enim" Overview="Semper gravida felis" SerieAliasStr="Euismod venenatis" Status="Ipsum justo iaculis" Title="Sociis parturient" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Tellus erat natoque curabitur tempor" Episodio="48" IDSerie="20" ID="97" Temporada="97">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Tempus adipiscing tortor parturient" Airs_Time="Potenti faucibus sem phasellus consequat" Airs_DayOfWeek="Posuere facilisi lacus" ContentType="Episódio" ContentTypeString="Leo mus inceptos" ContentRating="Pretium lorem rhoncus" Estado="CompletoSemForeignKeys" FolderMetadata="Aliquam aliquet aenean" FolderPath="Blandit commodo fermentum nec" Genre="Nam eros vestibulum adipiscing" ImgFanart="Turpis sodales convallis nibh" IDApi="69" IDBanco="97" ImgPoster="Parturient vestibulum sed dignissim nisi" IsAnime="True" Language="Vestibulum viverra adipiscing" LastUpdated="Elementum aliquam parturient dis" Network="Integer est" Overview="Varius quisque habitant vestibulum" SerieAliasStr="Vestibulum sit vel" Status="Facilisis vestibulum adipiscing" Title="Vivamus hac" bFlSelecionado="False" bFlNaoEncontrado="True" bFlEditado="False"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-		<Model:Video ContentType="Filme" ContentTypeString="Leo mus dictumst" Estado="Simples" FolderMetadata="Proin eleifend nec integer vestibulum" FolderPath="Non per sed quisque facilisi" ImgFanart="Sem vivamus aliquam" IDApi="88" IDBanco="95" ImgPoster="Aliquet lectus libero fringilla" Language="Blandit habitasse augue hendrerit" LastUpdated="Dolor fames" Overview="Faucibus adipiscing sit" SerieAliasStr="Porta vestibulum" Title="Ligula vel" bFlSelecionado="False">
-			<Model:Video.ImgPosterCache>
+		<Model:Video bFlSelecionado="False" nIdTipoConteudo="Filme" nCdVideo="24" nCdApi="44" nIdEstado="CompletoSemForeignKeys" sDsPasta="Tempor vestibulum imperdiet posuere vestibulum" sDsMetadata="Purus natoque risus nascetur" sAliases="Platea mus nec commodo cras" sDsIdioma="Pulvinar tortor" sDsImgPoster="Tempus placerat eget" sNrUltimaAtualizacao="Adipiscing sagittis" sDsTitulo="Elit mus" sDsTipoConteudo="Lobortis parturient porta" sDsImgFanart="Leo malesuada pharetra penatibus diam" sDsSinopse="Porttitor velit senectus tincidunt">
+			<Model:Video.ListaSerieAlias>
+				<Model:SerieAlias nCdVideo="15" nNrEpisodio="10" nNrTemporada="75" nCdAlias="30" sDsAlias="Conubia himenaeos">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Série" nCdVideo="69" nCdApi="81" nIdEstado="Simples" sDsPasta="Vestibulum vulputate inceptos massa" sDsMetadata="Parturient iaculis sociis" sDsStatus="Diam faucibus nam" sAliases="Penatibus cubilia vestibulum vestibulum per" sDsIdioma="Dapibus parturient" sDsClassificacao="Porttitor duis sed" sDsImgPoster="Sit adipiscing vel amet" sNmAtores="Imperdiet vestibulum lorem" sDsEmissora="Vestibulum ante tristique ultricies" sDsGeneros="Tincidunt eleifend sem" sNrUltimaAtualizacao="Sapien egestas" sDsTitulo="Venenatis vestibulum gravida habitant sed" sDsTipoConteudo="Eget adipiscing semper magna" sDsImgFanart="Nunc facilisi" sDsEstreiaDiaSemana="Adipiscing parturient dictumst primis rutrum" sDsSinopse="Euismod arcu feugiat" sDsEstreiaHorario="Malesuada non"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="98" nNrEpisodio="95" nNrTemporada="92" nCdAlias="74" sDsAlias="Metus dis vestibulum taciti">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="84" nCdApi="42" nIdEstado="CompletoSemForeignKeys" sDsPasta="Sed pharetra vestibulum adipiscing donec" sDsMetadata="Facilisis curae orci" sDsStatus="Per elementum" sAliases="Laoreet natoque phasellus hac posuere" sDsIdioma="Eros nec nibh porta" sDsClassificacao="Netus enim leo tempus" sDsImgPoster="Tortor mus potenti" sNmAtores="Adipiscing lacinia morbi" sDsEmissora="Purus nisl risus pretium" sDsGeneros="Consequat convallis nulla" sNrUltimaAtualizacao="Parturient turpis nisi" sDsTitulo="Velit nascetur vitae class" sDsTipoConteudo="Varius aenean odio" sDsImgFanart="Erat interdum" sDsEstreiaDiaSemana="Tellus curabitur neque elit" sDsSinopse="Nunc dignissim lobortis non vestibulum" sDsEstreiaHorario="Est tempor"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="10" nNrEpisodio="83" nNrTemporada="53" nCdAlias="86" sDsAlias="Etiam pede sem fermentum sit">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="96" nCdApi="84" nIdEstado="Novo" sDsPasta="Torquent sed diam eget" sDsMetadata="Vestibulum aliquam suscipit adipiscing" sDsStatus="Quisque nec malesuada parturient" sAliases="Quis habitasse sed aptent fusce" sDsIdioma="Duis nunc" sDsClassificacao="Vestibulum viverra hendrerit dis est" sDsImgPoster="Integer vestibulum leo adipiscing" sNmAtores="Rhoncus quam sodales fringilla mauris" sDsEmissora="Imperdiet lectus senectus lorem amet" sDsGeneros="Urna hac cras auctor congue" sNrUltimaAtualizacao="Mus dictum" sDsTitulo="Non arcu vivamus" sDsTipoConteudo="Per vestibulum ligula" sDsImgFanart="Aliquam himenaeos cursus" sDsEstreiaDiaSemana="Vel placerat parturient pulvinar" sDsSinopse="Ante libero sociosqu" sDsEstreiaHorario="Nam sagittis nullam"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="23" nNrEpisodio="81" nNrTemporada="51" nCdAlias="31" sDsAlias="Litora penatibus">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="87" nCdApi="26" nIdEstado="Completo" sDsPasta="Vestibulum orci ornare" sDsMetadata="Odio consequat praesent parturient" sDsStatus="Dapibus vestibulum phasellus nunc adipiscing" sAliases="Vestibulum ultrices blandit adipiscing morbi" sDsIdioma="Proin montes" sDsClassificacao="Tristique ultricies mattis mauris mollis" sDsImgPoster="Eros adipiscing vehicula volutpat nulla" sNmAtores="Luctus elit aliquet parturient magnis" sDsEmissora="Nisi augue" sDsGeneros="Parturient vestibulum venenatis erat commodo" sNrUltimaAtualizacao="Parturient cubilia nibh" sDsTitulo="Dolor fames" sDsTipoConteudo="Felis maecenas vel ipsum nostra" sDsImgFanart="Vulputate vestibulum curabitur conubia" sDsEstreiaDiaSemana="Porttitor sem enim" sDsSinopse="Vestibulum nisl" sDsEstreiaHorario="Sit tincidunt vestibulum"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+				<Model:SerieAlias nCdVideo="53" nNrEpisodio="74" nNrTemporada="60" nCdAlias="84" sDsAlias="Platea accumsan vestibulum pede nam">
+					<Model:SerieAlias.oSerie>
+						<Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Episódio" nCdVideo="69" nCdApi="28" nIdEstado="Simples" sDsPasta="Tellus laoreet arcu interdum" sDsMetadata="Lacinia inceptos" sDsStatus="Amet semper sociis iaculis" sAliases="Urna dictumst eleifend" sDsIdioma="Vestibulum fermentum rutrum euismod" sDsClassificacao="Parturient primis massa elementum" sDsImgPoster="Egestas nunc" sNmAtores="Justo bibendum convallis" sDsEmissora="Vestibulum morbi sapien neque" sDsGeneros="Cras facilisi metus facilisis dis" sNrUltimaAtualizacao="Feugiat fringilla habitant" sDsTitulo="Taciti ante netus" sDsTipoConteudo="Nulla est hac hendrerit himenaeos" sDsImgFanart="Faucibus duis" sDsEstreiaDiaSemana="Adipiscing lacus quam" sDsSinopse="Adipiscing gravida habitasse" sDsEstreiaHorario="Lorem quis sed dignissim magna"/>
+					</Model:SerieAlias.oSerie>
+				</Model:SerieAlias>
+			</Model:Video.ListaSerieAlias>
+			<Model:Video.bCacheImgPoster>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
 				<System:Byte/>
-			</Model:Video.ImgPosterCache>
-			<Model:Video.SerieAlias>
-				<Model:SerieAlias AliasName="Congue purus" Episodio="34" IDSerie="76" ID="33" Temporada="73">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Sit vel adipiscing" Airs_Time="Dis lobortis nunc penatibus" Airs_DayOfWeek="Nam risus sed" ContentType="Episódio" ContentTypeString="Nunc lorem nec" ContentRating="Porttitor egestas" Estado="Simples" FolderMetadata="Vulputate non placerat curabitur" FolderPath="Phasellus laoreet natoque" Genre="Euismod tincidunt odio orci pede" ImgFanart="Est vitae" IDApi="58" IDBanco="59" ImgPoster="Class cursus feugiat dictum" IsAnime="False" Language="Quam quis gravida curae iaculis" LastUpdated="Hac lectus libero" Network="Donec vestibulum tristique ultricies" Overview="Etiam lacinia fusce" SerieAliasStr="Nascetur parturient velit pharetra dapibus" Status="Leo urna cras mus" Title="Duis ligula vestibulum adipiscing venenatis" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Litora parturient amet morbi luctus" Episodio="65" IDSerie="67" ID="52" Temporada="68">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Ante nulla" Airs_Time="Convallis pulvinar vestibulum vestibulum diam" Airs_DayOfWeek="Arcu magnis posuere consequat per" ContentType="AnimeFilmeSérie" ContentTypeString="Odio torquent montes" ContentRating="Augue sem dolor eget" Estado="Simples" FolderMetadata="Orci justo pede ultrices" FolderPath="Fermentum vehicula lacus fringilla" Genre="Dignissim elit enim sit" ImgFanart="Potenti fames sagittis erat adipiscing" IDApi="50" IDBanco="92" ImgPoster="Eros senectus" IsAnime="False" Language="Nibh felis elementum facilisis sociosqu" LastUpdated="Parturient vestibulum ipsum pretium" Network="Mattis vel nisi" Overview="Mauris mollis vestibulum" SerieAliasStr="Sed proin" Status="Nisl rhoncus suscipit sodales" Title="Nunc viverra" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Habitasse quam aliquam integer quis" Episodio="16" IDSerie="28" ID="45" Temporada="11">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Lorem magna" Airs_Time="Maecenas hendrerit himenaeos adipiscing" Airs_DayOfWeek="Nostra ornare volutpat" ContentType="Episódio" ContentTypeString="Commodo est" ContentRating="Urna nam vivamus massa parturient" Estado="CompletoSemForeignKeys" FolderMetadata="Facilisi faucibus porttitor conubia tincidunt" FolderPath="Arcu cubilia" Genre="Sed vestibulum bibendum metus" ImgFanart="Aliquam platea dictumst" IDApi="26" IDBanco="27" ImgPoster="Cras primis" IsAnime="False" Language="Imperdiet dis duis rutrum" LastUpdated="Morbi vestibulum" Network="Sapien adipiscing" Overview="Nunc neque" SerieAliasStr="Praesent quisque accumsan" Status="Amet malesuada parturient aliquet penatibus" Title="Eleifend ante blandit" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Tristique ultricies habitant" Episodio="70" IDSerie="43" ID="72" Temporada="27">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Vestibulum inceptos" Airs_Time="Venenatis vulputate interdum dapibus netus" Airs_DayOfWeek="Diam eget" ContentType="Anime" ContentTypeString="Porta gravida non" ContentRating="Enim vestibulum" Estado="Simples" FolderMetadata="Pede parturient quam" FolderPath="Purus per iaculis sed" Genre="Erat eros" ImgFanart="Nibh hac semper curabitur nascetur" IDApi="88" IDBanco="52" ImgPoster="Sociis phasellus leo nisi" IsAnime="False" Language="Consequat nisl nunc" LastUpdated="Pharetra egestas odio" Network="Nulla euismod mus taciti tellus" Overview="Tempor feugiat placerat" SerieAliasStr="Lobortis elit" Status="Pulvinar nec adipiscing sagittis orci" Title="Convallis dignissim tempus senectus sociosqu" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-				<Model:SerieAlias AliasName="Tortor suscipit lacinia sem vestibulum" Episodio="78" IDSerie="30" ID="30" Temporada="83">
-					<Model:SerieAlias.Serie>
-						<Model:Serie Actors="Quis turpis laoreet" Airs_Time="Natoque aenean" Airs_DayOfWeek="Urna varius elementum torquent" ContentType="Episódio" ContentTypeString="Parturient hac" ContentRating="Volutpat posuere risus velit" Estado="Simples" FolderMetadata="Cursus vestibulum" FolderPath="Amet nulla dictum fermentum" Genre="Vitae mauris potenti" ImgFanart="Class sit cras vel maecenas" IDApi="79" IDBanco="93" ImgPoster="Vestibulum nam curae adipiscing" IsAnime="False" Language="Pretium donec parturient nullam vestibulum" LastUpdated="Praesent sed aptent etiam fusce" Network="Lorem vestibulum rhoncus adipiscing" Overview="Sodales auctor duis congue viverra" SerieAliasStr="Ultrices facilisis vehicula" Status="Aliquam morbi accumsan" Title="Dis nunc est bibendum" bFlSelecionado="True" bFlNaoEncontrado="False" bFlEditado="True"/>
-					</Model:SerieAlias.Serie>
-				</Model:SerieAlias>
-			</Model:Video.SerieAlias>
+			</Model:Video.bCacheImgPoster>
 		</Model:Video>
-	</ViewModel:ProcurarConteudoViewModel.Conteudos>
+	</ViewModel:ProcurarConteudoViewModel.ListaConteudos>
 </ViewModel:ProcurarConteudoViewModel>

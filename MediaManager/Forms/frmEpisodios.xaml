@@ -25,8 +25,10 @@
             <RowDefinition Height="379*" />
             <RowDefinition Height="45*" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding EpisodiosView, Mode=TwoWay}" Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-			IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
+        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding ListaEpisodiosView, Mode=TwoWay}"
+                  Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
+
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="BorderThickness" Value="0" />
@@ -46,16 +48,19 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander>
-                                            <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Temporada " />
-                                                    <TextBlock Text="{Binding Path=Name}" />
-                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} Episódios'}" />
-                                                </StackPanel>
-                                            </Expander.Header>
-                                            <ItemsPresenter />
-                                        </Expander>
+                                        <Grid>
+                                            <Expander>
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Temporada " />
+                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                        <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} Episódios'}" />
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                            <!--<CheckBox HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" />-->
+                                        </Grid>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -70,15 +75,15 @@
                 </GroupStyle>
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Episodio" Binding="{Binding EpisodeNumber}" Width="*" />
-                <DataGridTextColumn Header="Título" Binding="{Binding EpisodeName}" Width="3*" />
-                <DataGridTextColumn Header="Pasta" Binding="{Binding FilePath}" Width="7*" />
-                <DataGridTextColumn Header="Status" Binding="{Binding EstadoEpisodio}" Width="1*" />
+                <DataGridTextColumn Header="Episodio" Binding="{Binding nNrEpisodio}" Width="*" />
+                <DataGridTextColumn Header="Título" Binding="{Binding sDsEpisodio}" Width="3*" />
+                <DataGridTextColumn Header="Arquivo" Binding="{Binding sDsFilepath}" Width="7*" />
+                <DataGridTextColumn Header="Status" Binding="{Binding nIdEstadoEpisodio}" Width="1*" />
                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
-                                      IsChecked="{Binding DataContext.SelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsChecked="{Binding DataContext.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Command="{Binding DataContext.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                       CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                         </DataTemplate>
@@ -86,7 +91,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
-                                      IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Command="{Binding DataContext.CommandIsSelected, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                       CommandParameter="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                         </DataTemplate>
@@ -95,7 +100,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Grid.Row="2" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Marcar itens como:" Height="26" Width="111" d:IsLocked="True" />
-        <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Height="23" Width="150" ItemsSource="{Binding EstadoEpisodio}" SelectedItem="{Binding EstadoEpisodioSelecionado}" d:IsLocked="True" />
+        <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Height="23" Width="150" ItemsSource="{Binding ArrayEstadoEpisodio}" SelectedItem="{Binding nIdEstadoEpisodioSelecionado}" d:IsLocked="True" />
         <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Salvar" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
         <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Content="Fechar" Width="75" Command="{Binding CommandFechar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
     </Grid>

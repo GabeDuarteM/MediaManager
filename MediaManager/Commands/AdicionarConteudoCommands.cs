@@ -19,8 +19,8 @@ namespace MediaManager.Commands
             public bool CanExecute(object parameter)
             {
                 if (parameter is AdicionarConteudoViewModel &&
-                    ((parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.Anime
-                    || (parameter as AdicionarConteudoViewModel).TipoConteudo == Helpers.Enums.ContentType.Série))
+                    ((parameter as AdicionarConteudoViewModel).nIdTipoConteudo == Helpers.Enums.TipoConteudo.Anime
+                    || (parameter as AdicionarConteudoViewModel).nIdTipoConteudo == Helpers.Enums.TipoConteudo.Série))
                 {
                     return true;
                 }
@@ -31,7 +31,7 @@ namespace MediaManager.Commands
             {
                 AdicionarConteudoViewModel AdicionarConteudoVM = parameter as AdicionarConteudoViewModel;
 
-                frmEpisodios frmEpisodios = new frmEpisodios(AdicionarConteudoVM.SelectedVideo);
+                frmEpisodios frmEpisodios = new frmEpisodios(AdicionarConteudoVM.oVideoSelecionado);
                 frmEpisodios.Show();
             }
         }

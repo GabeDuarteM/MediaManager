@@ -1,0 +1,414 @@
+﻿<ViewModel:RenomearViewModel xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:Model="clr-namespace:MediaManager.Model" xmlns:System="clr-namespace:System;assembly=mscorlib" bFlSelecionarTodos="{x:Null}" bFlSilencioso="True">
+    <ViewModel:RenomearViewModel.ListaEpisodios>
+        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="22" nIdTipoConteudo="Selecione" nCdVideo="60" nCdTemporadaAPI="25" nNrEpisodio="92" nCdEpisodioAPI="87" nNrTemporada="59" nCdVideoAPI="28" sDsFilepath="Congue vestibulum dignissim" sDsIdioma="Aliquam aliquet nulla" sLkArtwork="Parturient eleifend auctor" sDsFilepathOriginal="Proin facilisi faucibus cursus" sNrUltimaAtualizacao="Convallis amet" sDsEpisodio="Vivamus nunc lorem morbi" sDsSinopse="Dictum lectus elementum augue">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Est accumsan</System:String>
+                <System:String>Quisque hac parturient vestibulum</System:String>
+                <System:String>Leo donec mus</System:String>
+                <System:String>Bibendum aptent duis dictumst vestibulum</System:String>
+                <System:String>Etiam adipiscing fusce</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Aenean maecenas class aliquam cras</System:String>
+                <System:String>Integer mauris</System:String>
+                <System:String>Curabitur phasellus nam consequat vestibulum</System:String>
+                <System:String>Curae nullam</System:String>
+                <System:String>Praesent sed dis adipiscing</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="93" nCdApi="72" nIdEstado="CompletoSemForeignKeys" sDsPasta="Sit taciti parturient tellus" sDsMetadata="Pharetra porttitor dolor" sDsStatus="Habitant inceptos diam interdum eget" sAliases="Dolor nec interdum litora" sDsIdioma="Adipiscing fringilla habitasse facilisi" sDsClassificacao="Conubia luctus" sDsImgPoster="Amet eleifend ante fermentum" sNmAtores="Blandit vestibulum commodo facilisis" sDsEmissora="Faucibus donec" sDsGeneros="Rutrum mus curae sapien dignissim" sNrUltimaAtualizacao="Non aliquet blandit" sDsTitulo="Lobortis himenaeos per etiam fusce" sDsTipoConteudo="Nulla proin sem augue penatibus" sDsImgFanart="Nec aliquam dictumst elementum facilisis" sDsEstreiaDiaSemana="Libero habitant ligula" sDsSinopse="Semper arcu hendrerit" sDsEstreiaHorario="Fermentum inceptos">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="85" nIdTipoConteudo="Selecione" nCdVideo="67" nCdTemporadaAPI="34" nNrEpisodio="36" nCdEpisodioAPI="40" nNrTemporada="28" nCdVideoAPI="37" sDsFilepath="Vestibulum diam fringilla egestas" sDsIdioma="Lobortis ante" sLkArtwork="Adipiscing fames felis" sDsFilepathOriginal="Vestibulum eget" sNrUltimaAtualizacao="Arcu dapibus nascetur pharetra parturient" sDsEpisodio="Cubilia ipsum" sDsSinopse="Justo adipiscing placerat" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="59" nIdTipoConteudo="Filme" nCdVideo="40" nCdTemporadaAPI="61" nNrEpisodio="34" nCdEpisodioAPI="74" nNrTemporada="62" nCdVideoAPI="31" sDsFilepath="Himenaeos non" sDsIdioma="Enim hendrerit lacus erat" sLkArtwork="Euismod feugiat parturient" sDsFilepathOriginal="Eros imperdiet mattis sagittis" sNrUltimaAtualizacao="Magnis pulvinar lorem" sDsEpisodio="Habitasse elit gravida" sDsSinopse="Magna malesuada vestibulum per penatibus" />
+                        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="38" nIdTipoConteudo="Episódio" nCdVideo="95" nCdTemporadaAPI="26" nNrEpisodio="21" nCdEpisodioAPI="14" nNrTemporada="26" nCdVideoAPI="66" sDsFilepath="Torquent nisi nisl sem morbi" sDsIdioma="Sed sociosqu" sLkArtwork="Senectus iaculis" sDsFilepathOriginal="Nunc natoque odio neque ultrices" sNrUltimaAtualizacao="Suscipit massa tristique metus" sDsEpisodio="Lacinia porttitor tincidunt nibh laoreet" sDsSinopse="Mauris vehicula netus sit" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="46" nIdTipoConteudo="Anime" nCdVideo="40" nCdTemporadaAPI="55" nNrEpisodio="34" nCdEpisodioAPI="41" nNrTemporada="65" nCdVideoAPI="30" sDsFilepath="Parturient rhoncus mollis purus" sDsIdioma="Vel praesent adipiscing nulla nam" sLkArtwork="Volutpat maecenas posuere vestibulum potenti" sDsFilepathOriginal="Ultricies quam risus sodales" sNrUltimaAtualizacao="Pede accumsan porta" sDsEpisodio="Pretium orci" sDsSinopse="Velit montes venenatis viverra aliquam" />
+                        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="23" nIdTipoConteudo="Anime" nCdVideo="66" nCdTemporadaAPI="22" nNrEpisodio="83" nCdEpisodioAPI="83" nNrTemporada="80" nCdVideoAPI="95" sDsFilepath="Nunc consequat" sDsIdioma="Phasellus bibendum cras duis" sLkArtwork="Nostra vulputate quis sed" sDsFilepathOriginal="Vitae est vestibulum convallis class" sNrUltimaAtualizacao="Integer quisque" sDsEpisodio="Ornare dis curabitur platea urna" sDsSinopse="Hac leo primis vivamus vestibulum" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="49" nNrEpisodio="18" nNrTemporada="75" nCdAlias="86" sDsAlias="Parturient lorem vestibulum" />
+                        <Model:SerieAlias nCdVideo="72" nNrEpisodio="60" nNrTemporada="92" nCdAlias="86" sDsAlias="Elit commodo" />
+                        <Model:SerieAlias nCdVideo="13" nNrEpisodio="56" nNrTemporada="81" nCdAlias="16" sDsAlias="Vestibulum imperdiet sociis conubia" />
+                        <Model:SerieAlias nCdVideo="98" nNrEpisodio="84" nNrTemporada="65" nCdAlias="82" sDsAlias="Nascetur malesuada sed" />
+                        <Model:SerieAlias nCdVideo="11" nNrEpisodio="62" nNrTemporada="48" nCdAlias="42" sDsAlias="Adipiscing cubilia morbi" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="78" nIdTipoConteudo="Episódio" nCdVideo="62" nCdTemporadaAPI="17" nNrEpisodio="99" nCdEpisodioAPI="36" nNrTemporada="45" nCdVideoAPI="51" sDsFilepath="Enim imperdiet" sDsIdioma="Est vehicula fermentum fringilla habitasse" sLkArtwork="Suscipit torquent fames ultrices" sDsFilepathOriginal="Volutpat malesuada leo parturient felis" sNrUltimaAtualizacao="Hendrerit hac himenaeos" sDsEpisodio="Facilisis aenean mauris" sDsSinopse="Penatibus mus porttitor nullam nec">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Venenatis feugiat tortor</System:String>
+                <System:String>Vulputate turpis curabitur phasellus</System:String>
+                <System:String>Gravida iaculis sed adipiscing consequat</System:String>
+                <System:String>Convallis senectus varius sociosqu</System:String>
+                <System:String>Dignissim dis elementum</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Vel placerat dapibus</System:String>
+                <System:String>Tincidunt nam tempor pulvinar vestibulum</System:String>
+                <System:String>Tempus tristique vestibulum</System:String>
+                <System:String>Adipiscing sagittis parturient</System:String>
+                <System:String>Ultricies vestibulum egestas vestibulum euismod</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Série" nCdVideo="82" nCdApi="52" nIdEstado="Completo" sDsPasta="Turpis torquent" sDsMetadata="Sem facilisis tortor" sDsStatus="Parturient nec venenatis etiam vestibulum" sAliases="Auctor sed" sDsIdioma="Leo curae sagittis aliquam mus" sDsClassificacao="Tincidunt sem tristique praesent" sDsImgPoster="Quisque sapien semper vivamus" sNmAtores="Non ipsum erat" sDsEmissora="Arcu sociis donec tristique" sDsGeneros="Rutrum porttitor" sNrUltimaAtualizacao="Adipiscing tincidunt" sDsTitulo="Taciti vulputate eget blandit elit" sDsTipoConteudo="Sed convallis dignissim elementum" sDsImgFanart="Vestibulum class integer" sDsEstreiaDiaSemana="Eros per vestibulum maecenas nibh" sDsSinopse="Ultricies aliquet senectus diam" sDsEstreiaHorario="Vestibulum aptent adipiscing lacinia">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="49" nIdTipoConteudo="Série" nCdVideo="82" nCdTemporadaAPI="35" nNrEpisodio="91" nCdEpisodioAPI="73" nNrTemporada="45" nCdVideoAPI="48" sDsFilepath="Lorem bibendum lectus natoque" sDsIdioma="Parturient vestibulum cursus ultricies nisl" sLkArtwork="Justo nisi accumsan sit congue" sDsFilepathOriginal="Venenatis vulputate nunc" sNrUltimaAtualizacao="Vestibulum lacus dictum" sDsEpisodio="Laoreet vel nam" sDsSinopse="Adipiscing parturient" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="40" nIdTipoConteudo="Filme" nCdVideo="65" nCdTemporadaAPI="90" nNrEpisodio="95" nCdEpisodioAPI="55" nNrTemporada="73" nCdVideoAPI="48" sDsFilepath="Curabitur posuere pede vestibulum leo" sDsIdioma="Odio orci est magna ligula" sLkArtwork="Dictumst vestibulum" sDsFilepathOriginal="Eleifend phasellus mus morbi nec" sNrUltimaAtualizacao="Massa metus hac" sDsEpisodio="Sed libero dis" sDsSinopse="Quam adipiscing" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="99" nIdTipoConteudo="Anime" nCdVideo="84" nCdTemporadaAPI="26" nNrEpisodio="48" nCdEpisodioAPI="34" nNrTemporada="41" nCdVideoAPI="99" sDsFilepath="Urna facilisis" sDsIdioma="Vestibulum consequat per convallis habitant" sLkArtwork="Facilisi non faucibus" sDsFilepathOriginal="Vestibulum luctus sem sit" sNrUltimaAtualizacao="Sed inceptos dignissim elementum" sDsEpisodio="Quis parturient litora" sDsSinopse="Neque adipiscing fermentum magnis" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="56" nIdTipoConteudo="Série" nCdVideo="78" nCdTemporadaAPI="63" nNrEpisodio="84" nCdEpisodioAPI="14" nNrTemporada="93" nCdVideoAPI="33" sDsFilepath="Vestibulum dis" sDsIdioma="Mollis montes nam potenti" sLkArtwork="Fringilla habitasse mattis vel" sDsFilepathOriginal="Adipiscing est nulla cras parturient" sNrUltimaAtualizacao="Vestibulum nostra sed netus pretium" sDsEpisodio="Hendrerit mauris parturient himenaeos" sDsSinopse="Rhoncus porta purus sodales duis" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="59" nIdTipoConteudo="Filme" nCdVideo="19" nCdTemporadaAPI="23" nNrEpisodio="40" nCdEpisodioAPI="42" nNrTemporada="80" nCdVideoAPI="50" sDsFilepath="Amet ante ornare pharetra" sDsIdioma="Hac lobortis" sLkArtwork="Imperdiet risus nunc" sDsFilepathOriginal="Placerat vestibulum platea primis" sNrUltimaAtualizacao="Viverra nascetur velit vitae penatibus" sDsEpisodio="Malesuada interdum" sDsSinopse="Pulvinar aliquam" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="42" nNrEpisodio="80" nNrTemporada="49" nCdAlias="31" sDsAlias="Vestibulum fusce curabitur tellus commodo" />
+                        <Model:SerieAlias nCdVideo="19" nNrEpisodio="87" nNrTemporada="71" nCdAlias="68" sDsAlias="Enim non" />
+                        <Model:SerieAlias nCdVideo="75" nNrEpisodio="76" nNrTemporada="61" nCdAlias="62" sDsAlias="Erat phasellus lorem" />
+                        <Model:SerieAlias nCdVideo="90" nNrEpisodio="79" nNrTemporada="77" nCdAlias="11" sDsAlias="Tempor conubia sociosqu tempus consequat" />
+                        <Model:SerieAlias nCdVideo="16" nNrEpisodio="51" nNrTemporada="92" nCdAlias="14" sDsAlias="Adipiscing suscipit per" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="72" nIdTipoConteudo="Série" nCdVideo="51" nCdTemporadaAPI="24" nNrEpisodio="69" nCdEpisodioAPI="13" nNrTemporada="80" nCdVideoAPI="64" sDsFilepath="Vestibulum bibendum" sDsIdioma="Dolor fames adipiscing parturient" sLkArtwork="Hendrerit accumsan euismod est" sDsFilepathOriginal="Leo mus" sNrUltimaAtualizacao="Felis himenaeos hac pede" sDsEpisodio="Orci congue augue" sDsSinopse="Vestibulum ipsum">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Vehicula proin aenean</System:String>
+                <System:String>Mauris nullam vel volutpat</System:String>
+                <System:String>Maecenas nam praesent aptent</System:String>
+                <System:String>Sed odio vestibulum</System:String>
+                <System:String>Vestibulum dis auctor</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Eros cubilia nibh</System:String>
+                <System:String>Morbi nisi sit</System:String>
+                <System:String>Nulla nisl dapibus parturient fermentum</System:String>
+                <System:String>Fringilla nunc</System:String>
+                <System:String>Ultrices egestas habitasse varius</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="30" nCdApi="94" nIdEstado="Simples" sDsPasta="Euismod varius sed vehicula dis" sDsMetadata="Nam turpis nunc ultrices" sDsStatus="Habitasse conubia" sAliases="Penatibus dictumst porttitor parturient vestibulum" sDsIdioma="Sit sociosqu vestibulum suscipit" sDsClassificacao="Quis libero gravida vestibulum non" sDsImgPoster="Aliquet rutrum sem fusce" sNmAtores="Imperdiet cursus" sDsEmissora="Eget vestibulum" sDsGeneros="Arcu donec senectus diam" sNrUltimaAtualizacao="Torquent sapien lorem blandit fringilla" sDsTitulo="Cubilia elit enim sociis" sDsTipoConteudo="Himenaeos tempus tortor" sDsImgFanart="Aliquam fermentum parturient etiam" sDsEstreiaDiaSemana="Dictum feugiat quam lectus malesuada" sDsSinopse="Commodo semper adipiscing morbi" sDsEstreiaHorario="Nec justo adipiscing">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="76" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="92" nCdTemporadaAPI="98" nNrEpisodio="23" nCdEpisodioAPI="56" nNrTemporada="26" nCdVideoAPI="95" sDsFilepath="Ante litora sit vel" sDsIdioma="Lacus per lacinia tincidunt" sLkArtwork="Urna cras duis eleifend ligula" sDsFilepathOriginal="Luctus arcu parturient vestibulum" sNrUltimaAtualizacao="Adipiscing amet sed sem lorem" sDsEpisodio="Nunc iaculis" sDsSinopse="Diam laoreet nam eget" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="95" nIdTipoConteudo="Filme" nCdVideo="53" nCdTemporadaAPI="59" nNrEpisodio="54" nCdEpisodioAPI="52" nNrTemporada="47" nCdVideoAPI="26" sDsFilepath="Ultricies pretium venenatis vulputate rhoncus" sDsIdioma="Eros faucibus sed adipiscing tristique" sLkArtwork="Magna facilisi elit natoque enim" sDsFilepathOriginal="Est vestibulum magnis curabitur" sNrUltimaAtualizacao="Potenti parturient habitant dis" sDsEpisodio="Vestibulum erat posuere" sDsSinopse="Sodales vestibulum nibh" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="86" nIdTipoConteudo="Episódio" nCdVideo="42" nCdTemporadaAPI="58" nNrEpisodio="42" nCdEpisodioAPI="25" nNrTemporada="57" nCdVideoAPI="60" sDsFilepath="Orci pede" sDsIdioma="Odio vestibulum mattis hac" sLkArtwork="Nisi viverra adipiscing nisl massa" sDsFilepathOriginal="Consequat quam quis" sNrUltimaAtualizacao="Mauris mollis" sDsEpisodio="Parturient metus morbi nunc phasellus" sDsSinopse="Convallis neque vestibulum netus" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="45" nIdTipoConteudo="Anime" nCdVideo="74" nCdTemporadaAPI="45" nNrEpisodio="51" nCdEpisodioAPI="68" nNrTemporada="23" nCdVideoAPI="59" sDsFilepath="Lobortis nascetur nostra" sDsIdioma="Risus leo duis nunc" sLkArtwork="Montes inceptos interdum" sDsFilepathOriginal="Adipiscing mus" sNrUltimaAtualizacao="Dignissim aliquam" sDsEpisodio="Nulla urna porta purus cras" sDsSinopse="Ornare parturient velit" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="27" nIdTipoConteudo="Episódio" nCdVideo="32" nCdTemporadaAPI="97" nNrEpisodio="17" nCdEpisodioAPI="28" nNrTemporada="96" nCdVideoAPI="88" sDsFilepath="Pulvinar non per" sDsIdioma="Primis class vestibulum vestibulum" sLkArtwork="Platea integer quisque vitae pharetra" sDsFilepathOriginal="Vivamus facilisis sagittis" sNrUltimaAtualizacao="Adipiscing amet" sDsEpisodio="Placerat elementum nec" sDsSinopse="Ante sed curae" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="65" nNrEpisodio="64" nNrTemporada="62" nCdAlias="82" sDsAlias="Nulla proin parturient vestibulum dapibus" />
+                        <Model:SerieAlias nCdVideo="35" nNrEpisodio="57" nNrTemporada="91" nCdAlias="95" sDsAlias="Erat eros taciti vel tellus" />
+                        <Model:SerieAlias nCdVideo="55" nNrEpisodio="61" nNrTemporada="36" nCdAlias="90" sDsAlias="Tempor vestibulum" />
+                        <Model:SerieAlias nCdVideo="65" nNrEpisodio="86" nNrTemporada="19" nCdAlias="88" sDsAlias="Adipiscing egestas augue nibh hendrerit" />
+                        <Model:SerieAlias nCdVideo="71" nNrEpisodio="13" nNrTemporada="41" nCdAlias="32" sDsAlias="Nisi nisl" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="63" nIdTipoConteudo="Anime" nCdVideo="13" nCdTemporadaAPI="46" nNrEpisodio="87" nCdEpisodioAPI="28" nNrTemporada="77" nCdVideoAPI="47" sDsFilepath="Urna cras non dictumst" sDsIdioma="Justo quam nec" sLkArtwork="Ultricies congue" sDsFilepathOriginal="Lacus iaculis" sNrUltimaAtualizacao="Adipiscing venenatis quis" sDsEpisodio="Felis ipsum" sDsSinopse="Duis per lacinia nunc amet">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Nullam leo</System:String>
+                <System:String>Praesent accumsan dolor mus</System:String>
+                <System:String>Aptent vestibulum</System:String>
+                <System:String>Vestibulum fames auctor tincidunt</System:String>
+                <System:String>Tristique bibendum</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Odio imperdiet</System:String>
+                <System:String>Malesuada volutpat aenean parturient</System:String>
+                <System:String>Maecenas est orci</System:String>
+                <System:String>Hac pede penatibus porttitor</System:String>
+                <System:String>Mauris feugiat gravida</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Filme" nCdVideo="41" nCdApi="39" nIdEstado="Completo" sDsPasta="Praesent rhoncus varius curabitur" sDsMetadata="Elit morbi nam sed adipiscing" sDsStatus="Laoreet semper sociis natoque taciti" sAliases="Phasellus magna lectus" sDsIdioma="Iaculis donec" sDsClassificacao="Massa consequat" sDsImgPoster="Non porttitor" sNmAtores="Cursus lorem" sDsEmissora="Ultrices nunc etiam tincidunt sapien" sDsGeneros="Primis cras" sNrUltimaAtualizacao="Duis parturient" sDsTitulo="Tellus posuere per sed tristique" sDsTipoConteudo="Diam eget" sDsImgFanart="Adipiscing penatibus rutrum" sDsEstreiaDiaSemana="Sed vulputate ante" sDsSinopse="Vestibulum lacinia vehicula" sDsEstreiaHorario="Dictum parturient curabitur arcu laoreet">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="61" nIdTipoConteudo="Anime" nCdVideo="50" nCdTemporadaAPI="38" nNrEpisodio="33" nCdEpisodioAPI="30" nNrTemporada="65" nCdVideoAPI="48" sDsFilepath="Rhoncus eget sit eleifend sodales" sDsIdioma="Ligula potenti" sLkArtwork="Natoque posuere" sDsFilepathOriginal="Metus vel litora" sNrUltimaAtualizacao="Diam pretium" sDsEpisodio="Sem libero" sDsSinopse="Morbi facilisi viverra" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="76" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="10" nCdTemporadaAPI="98" nNrEpisodio="61" nCdEpisodioAPI="77" nNrTemporada="20" nCdVideoAPI="56" sDsFilepath="Convallis quisque magnis vivamus" sDsIdioma="Elit faucibus enim" sLkArtwork="Luctus nam" sDsFilepathOriginal="Dis inceptos" sNrUltimaAtualizacao="Sed habitant integer netus" sDsEpisodio="Neque aliquam" sDsSinopse="Vestibulum est interdum lobortis" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="83" nIdTipoConteudo="Filme" nCdVideo="87" nCdTemporadaAPI="14" nNrEpisodio="76" nCdEpisodioAPI="83" nNrTemporada="39" nCdVideoAPI="30" sDsFilepath="Adipiscing placerat" sDsIdioma="Aliquet hac" sLkArtwork="Erat dignissim" sDsFilepathOriginal="Nisi leo parturient facilisis" sNrUltimaAtualizacao="Nibh blandit pharetra vestibulum" sDsEpisodio="Aliquam nascetur eros elementum nulla" sDsSinopse="Porta mattis commodo" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="88" nIdTipoConteudo="Série" nCdVideo="35" nCdTemporadaAPI="65" nNrEpisodio="62" nCdEpisodioAPI="28" nNrTemporada="42" nCdVideoAPI="63" sDsFilepath="Pede fermentum fringilla" sDsIdioma="Mollis risus" sLkArtwork="Vestibulum nisl purus conubia nunc" sDsFilepathOriginal="Mus vestibulum" sNrUltimaAtualizacao="Adipiscing parturient orci" sDsEpisodio="Vestibulum odio mauris" sDsSinopse="Habitasse montes pulvinar nostra hendrerit" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="63" nIdTipoConteudo="Selecione" nCdVideo="20" nCdTemporadaAPI="58" nNrEpisodio="10" nCdEpisodioAPI="28" nNrTemporada="11" nCdVideoAPI="27" sDsFilepath="Curae platea feugiat sociosqu" sDsIdioma="Sagittis malesuada" sLkArtwork="Quam cubilia dapibus himenaeos imperdiet" sDsFilepathOriginal="Urna suscipit" sNrUltimaAtualizacao="Vitae class senectus euismod" sDsEpisodio="Egestas vestibulum velit ornare quis" sDsSinopse="Nec torquent gravida" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="88" nNrEpisodio="62" nNrTemporada="31" nCdAlias="14" sDsAlias="Potenti tempor pretium" />
+                        <Model:SerieAlias nCdVideo="41" nNrEpisodio="36" nNrTemporada="15" nCdAlias="89" sDsAlias="Ultricies fusce tempus tortor" />
+                        <Model:SerieAlias nCdVideo="30" nNrEpisodio="32" nNrTemporada="21" nCdAlias="24" sDsAlias="Sem turpis sit" />
+                        <Model:SerieAlias nCdVideo="41" nNrEpisodio="80" nNrTemporada="26" nCdAlias="44" sDsAlias="Amet venenatis lorem vestibulum ante" />
+                        <Model:SerieAlias nCdVideo="71" nNrEpisodio="26" nNrTemporada="73" nCdAlias="48" sDsAlias="Volutpat vulputate arcu vel maecenas" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="72" nIdTipoConteudo="Episódio" nCdVideo="32" nCdTemporadaAPI="84" nNrEpisodio="11" nCdEpisodioAPI="25" nNrTemporada="22" nCdVideoAPI="60" sDsFilepath="Inceptos lacus" sDsIdioma="Ipsum leo dictum" sLkArtwork="Hac quisque" sDsFilepathOriginal="Vestibulum lectus lorem adipiscing parturient" sNrUltimaAtualizacao="Nisi justo fermentum faucibus habitant" sDsEpisodio="Nibh vivamus" sDsSinopse="Aliquam vestibulum magna">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Vestibulum auctor</System:String>
+                <System:String>Integer dolor enim fames</System:String>
+                <System:String>Facilisi felis congue</System:String>
+                <System:String>Facilisis cursus</System:String>
+                <System:String>Est erat eros</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Parturient accumsan phasellus bibendum</System:String>
+                <System:String>Dictumst nulla consequat convallis dignissim</System:String>
+                <System:String>Aenean mauris sodales nullam</System:String>
+                <System:String>Viverra elementum dis</System:String>
+                <System:String>Aptent proin eleifend aliquam augue</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Série" nCdVideo="42" nCdApi="65" nIdEstado="Novo" sDsPasta="Egestas nibh" sDsMetadata="Cubilia eros tortor turpis dapibus" sDsStatus="Adipiscing non facilisis" sAliases="Blandit vestibulum ligula" sDsIdioma="Faucibus parturient lacus" sDsClassificacao="Morbi litora interdum commodo neque" sDsImgPoster="Elit facilisi tellus" sNmAtores="Nisl massa" sDsEmissora="Dignissim tempor" sDsGeneros="Adipiscing dictumst taciti eget" sNrUltimaAtualizacao="Vestibulum lorem vestibulum habitant enim" sDsTitulo="Per erat" sDsTipoConteudo="Commodo vestibulum conubia" sDsImgFanart="Eleifend integer mus" sDsEstreiaDiaSemana="Libero mus nunc" sDsSinopse="Quisque vivamus elementum magna nec" sDsEstreiaHorario="Aliquet metus">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="49" nIdTipoConteudo="Série" nCdVideo="18" nCdTemporadaAPI="39" nNrEpisodio="58" nCdEpisodioAPI="89" nNrTemporada="52" nCdVideoAPI="46" sDsFilepath="Orci pulvinar pede fringilla purus" sDsIdioma="Pharetra placerat cubilia dapibus nulla" sLkArtwork="Lobortis netus conubia adipiscing" sDsFilepathOriginal="Habitasse quam risus hendrerit himenaeos" sNrUltimaAtualizacao="Porta nec luctus egestas" sDsEpisodio="Nascetur odio" sDsSinopse="Imperdiet sagittis" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="99" nIdTipoConteudo="Episódio" nCdVideo="12" nCdTemporadaAPI="99" nNrEpisodio="31" nCdEpisodioAPI="98" nNrTemporada="56" nCdVideoAPI="73" sDsFilepath="Non gravida suscipit" sDsIdioma="Mattis quis sociosqu euismod class" sLkArtwork="Malesuada velit magnis" sDsFilepathOriginal="Parturient mauris penatibus urna donec" sNrUltimaAtualizacao="Feugiat curae" sDsEpisodio="Vitae senectus" sDsSinopse="Per mollis cras torquent" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="43" nIdTipoConteudo="Episódio" nCdVideo="31" nCdTemporadaAPI="43" nNrEpisodio="23" nCdEpisodioAPI="20" nNrTemporada="28" nCdVideoAPI="30" sDsFilepath="Fusce sit lorem vehicula" sDsIdioma="Ultrices sem porttitor" sLkArtwork="Duis vestibulum etiam montes" sDsFilepathOriginal="Adipiscing tincidunt tristique parturient ultricies" sNrUltimaAtualizacao="Nostra vestibulum" sDsEpisodio="Iaculis sed" sDsSinopse="Vel vestibulum" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="42" nIdTipoConteudo="Filme" nCdVideo="40" nCdTemporadaAPI="78" nNrEpisodio="86" nCdEpisodioAPI="94" nNrTemporada="39" nCdVideoAPI="66" sDsFilepath="Dis praesent est" sDsIdioma="Nam lacinia laoreet natoque" sLkArtwork="Volutpat venenatis nunc" sDsFilepathOriginal="Curabitur hac posuere" sNrUltimaAtualizacao="Ornare sed maecenas" sDsEpisodio="Amet vulputate" sDsSinopse="Accumsan platea primis" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="89" nIdTipoConteudo="Série" nCdVideo="75" nCdTemporadaAPI="98" nNrEpisodio="90" nCdEpisodioAPI="13" nNrTemporada="83" nCdVideoAPI="76" sDsFilepath="Viverra sociis felis" sDsIdioma="Sapien semper rhoncus proin" sLkArtwork="Bibendum potenti rutrum phasellus" sDsFilepathOriginal="Consequat aliquam ipsum justo diam" sNrUltimaAtualizacao="Augue sodales dolor fames arcu" sDsEpisodio="Ante leo morbi pretium nulla" sDsSinopse="Vestibulum convallis" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="74" nNrEpisodio="85" nNrTemporada="38" nCdAlias="21" sDsAlias="Tempus parturient" />
+                        <Model:SerieAlias nCdVideo="27" nNrEpisodio="23" nNrTemporada="26" nCdAlias="42" sDsAlias="Sed aliquam" />
+                        <Model:SerieAlias nCdVideo="26" nNrEpisodio="46" nNrTemporada="88" nCdAlias="98" sDsAlias="Aliquet blandit" />
+                        <Model:SerieAlias nCdVideo="51" nNrEpisodio="38" nNrTemporada="10" nCdAlias="15" sDsAlias="Sem massa fermentum" />
+                        <Model:SerieAlias nCdVideo="71" nNrEpisodio="40" nNrTemporada="17" nCdAlias="93" sDsAlias="Fringilla metus morbi" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="60" nIdTipoConteudo="Anime" nCdVideo="22" nCdTemporadaAPI="79" nNrEpisodio="95" nCdEpisodioAPI="78" nNrTemporada="19" nCdVideoAPI="41" sDsFilepath="Vestibulum adipiscing penatibus pharetra cursus" sDsIdioma="Pede dis risus" sLkArtwork="Gravida porta iaculis lacinia purus" sDsFilepathOriginal="Hac placerat" sNrUltimaAtualizacao="Est quam" sDsEpisodio="Orci laoreet malesuada" sDsSinopse="Pulvinar quis porttitor velit">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Vestibulum aptent</System:String>
+                <System:String>Neque nam</System:String>
+                <System:String>Odio netus sed</System:String>
+                <System:String>Imperdiet interdum auctor</System:String>
+                <System:String>Lobortis nascetur nulla congue</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Varius euismod nisi</System:String>
+                <System:String>Aenean vestibulum nisl</System:String>
+                <System:String>Sit habitasse mauris nunc vel</System:String>
+                <System:String>Feugiat adipiscing</System:String>
+                <System:String>Inceptos parturient hendrerit nullam himenaeos</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Anime" nCdVideo="19" nCdApi="26" nIdEstado="Novo" sDsPasta="Bibendum eros parturient" sDsMetadata="Varius erat aenean" sDsStatus="Eget porta vehicula volutpat" sAliases="Potenti duis donec nec nunc" sDsIdioma="Aliquet blandit netus torquent" sDsClassificacao="Amet tristique ante non" sDsImgPoster="Vestibulum penatibus adipiscing suscipit amet" sNmAtores="Vitae parturient class urna dictum" sDsEmissora="Tincidunt nulla" sDsGeneros="Senectus vestibulum duis leo" sNrUltimaAtualizacao="Commodo porttitor ante arcu ultrices" sDsTitulo="Nec non ultricies parturient" sDsTipoConteudo="Purus risus curabitur adipiscing" sDsImgFanart="Morbi sociosqu tempor neque nunc" sDsEstreiaDiaSemana="Natoque leo tincidunt vestibulum" sDsSinopse="Mus tristique diam" sDsEstreiaHorario="Posuere mus sagittis cras curae">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="10" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="73" nCdTemporadaAPI="96" nNrEpisodio="95" nCdEpisodioAPI="36" nNrTemporada="11" nCdVideoAPI="57" sDsFilepath="Libero morbi suscipit per" sDsIdioma="Vulputate fusce" sLkArtwork="Arcu vestibulum ultricies venenatis" sDsFilepathOriginal="Pretium elit" sNrUltimaAtualizacao="Lectus diam eget lorem curabitur" sDsEpisodio="Etiam senectus sociosqu" sDsSinopse="Rhoncus phasellus enim" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="31" nIdTipoConteudo="Anime" nCdVideo="15" nCdTemporadaAPI="92" nNrEpisodio="34" nCdEpisodioAPI="56" nNrTemporada="24" nCdVideoAPI="54" sDsFilepath="Nibh vehicula volutpat" sDsIdioma="Ultrices viverra erat" sLkArtwork="Torquent ligula adipiscing consequat litora" sDsFilepathOriginal="Maecenas sem nisi" sNrUltimaAtualizacao="Parturient eros" sDsEpisodio="Sodales sed" sDsSinopse="Convallis praesent nulla vestibulum sit" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="42" nIdTipoConteudo="Episódio" nCdVideo="51" nCdTemporadaAPI="50" nNrEpisodio="77" nCdEpisodioAPI="41" nNrTemporada="84" nCdVideoAPI="61" sDsFilepath="Fames felis" sDsIdioma="Accumsan vel mattis mauris" sLkArtwork="Nisl proin dignissim elementum luctus" sDsFilepathOriginal="Fermentum aliquam nam mollis bibendum" sNrUltimaAtualizacao="Facilisis dolor" sDsEpisodio="Nunc odio vestibulum magnis augue" sDsSinopse="Orci dictumst adipiscing ipsum" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="98" nIdTipoConteudo="Selecione" nCdVideo="21" nCdTemporadaAPI="82" nNrEpisodio="62" nCdEpisodioAPI="45" nNrTemporada="46" nCdVideoAPI="58" sDsFilepath="Platea hendrerit" sDsIdioma="Eleifend justo facilisi nostra integer" sLkArtwork="Montes parturient fringilla" sDsFilepathOriginal="Quisque vivamus" sNrUltimaAtualizacao="Habitasse faucibus ornare lacus lorem" sDsEpisodio="Sed vestibulum" sDsSinopse="Magna massa pede vestibulum aliquam" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="43" nIdTipoConteudo="Anime" nCdVideo="81" nCdTemporadaAPI="25" nNrEpisodio="35" nCdEpisodioAPI="95" nNrTemporada="32" nCdVideoAPI="33" sDsFilepath="Pharetra taciti placerat" sDsIdioma="Semper himenaeos imperdiet adipiscing" sLkArtwork="Primis rutrum sapien dis habitant" sDsFilepathOriginal="Tellus pulvinar metus cras malesuada" sNrUltimaAtualizacao="Lobortis quis nascetur sociis urna" sDsEpisodio="Inceptos interdum quam" sDsSinopse="Est parturient sagittis hac" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="40" nNrEpisodio="11" nNrTemporada="37" nCdAlias="52" sDsAlias="Conubia vestibulum" />
+                        <Model:SerieAlias nCdVideo="54" nNrEpisodio="80" nNrTemporada="48" nCdAlias="30" sDsAlias="Tempus cubilia" />
+                        <Model:SerieAlias nCdVideo="92" nNrEpisodio="88" nNrTemporada="28" nCdAlias="27" sDsAlias="Elit enim vestibulum maecenas" />
+                        <Model:SerieAlias nCdVideo="39" nNrEpisodio="28" nNrTemporada="70" nCdAlias="46" sDsAlias="Dapibus venenatis vulputate tortor praesent" />
+                        <Model:SerieAlias nCdVideo="42" nNrEpisodio="80" nNrTemporada="12" nCdAlias="35" sDsAlias="Accumsan turpis" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="24" nIdTipoConteudo="Anime" nCdVideo="65" nCdTemporadaAPI="98" nNrEpisodio="90" nCdEpisodioAPI="61" nNrTemporada="87" nCdVideoAPI="99" sDsFilepath="Morbi dis vestibulum est quis" sDsIdioma="Vestibulum orci pede adipiscing" sLkArtwork="Odio gravida" sDsFilepathOriginal="Urna nulla vestibulum faucibus" sNrUltimaAtualizacao="Iaculis quam parturient" sDsEpisodio="Parturient vestibulum sed congue cursus" sDsSinopse="Consequat habitant hac">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Nisl fusce euismod</System:String>
+                <System:String>Feugiat phasellus</System:String>
+                <System:String>Nullam aptent lorem</System:String>
+                <System:String>Vel auctor</System:String>
+                <System:String>Facilisi nam nunc</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Velit nibh vestibulum vitae per</System:String>
+                <System:String>Vestibulum egestas class dictumst sed</System:String>
+                <System:String>Curae donec sem eleifend adipiscing</System:String>
+                <System:String>Etiam sit</System:String>
+                <System:String>Nisi mauris</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Selecione" nCdVideo="64" nCdApi="71" nIdEstado="CompletoSemForeignKeys" sDsPasta="Fermentum magnis pede" sDsMetadata="Litora vestibulum lobortis facilisis luctus" sDsStatus="Elementum feugiat gravida lectus iaculis" sAliases="Proin interdum lobortis laoreet" sDsIdioma="Auctor accumsan vestibulum vestibulum" sDsClassificacao="Vestibulum non" sDsImgPoster="Lorem egestas nibh morbi nec" sNmAtores="Convallis inceptos lacinia" sDsEmissora="Congue euismod cursus adipiscing parturient" sDsGeneros="Maecenas mus parturient aptent" sNrUltimaAtualizacao="Nulla bibendum" sDsTitulo="Eleifend nisi facilisi lacinia proin" sDsTipoConteudo="Ligula interdum laoreet felis natoque" sDsImgFanart="Etiam fusce praesent" sDsEstreiaDiaSemana="Dictum adipiscing leo parturient mus" sDsSinopse="Dictum dictumst dignissim non per" sDsEstreiaHorario="Nec lectus dignissim vestibulum">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="76" nIdTipoConteudo="Série" nCdVideo="92" nCdTemporadaAPI="31" nNrEpisodio="61" nCdEpisodioAPI="33" nNrTemporada="32" nCdVideoAPI="61" sDsFilepath="Potenti elementum felis facilisis" sDsIdioma="Ligula parturient vestibulum dolor vestibulum" sLkArtwork="Natoque adipiscing posuere libero per" sDsFilepathOriginal="Nunc parturient pretium amet vestibulum" sNrUltimaAtualizacao="Sed fames adipiscing" sDsEpisodio="Cras duis augue" sDsSinopse="Fermentum ipsum vestibulum fringilla" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="97" nIdTipoConteudo="Filme" nCdVideo="14" nCdTemporadaAPI="33" nNrEpisodio="40" nCdEpisodioAPI="21" nNrTemporada="53" nCdVideoAPI="42" sDsFilepath="Sit habitasse mattis" sDsIdioma="Luctus lacus viverra" sLkArtwork="Rhoncus litora nascetur" sDsFilepathOriginal="Placerat pulvinar magna vel parturient" sNrUltimaAtualizacao="Magnis lorem aliquam integer sem" sDsEpisodio="Adipiscing sodales justo pharetra" sDsSinopse="Ante arcu vestibulum" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="94" nIdTipoConteudo="Filme" nCdVideo="28" nCdTemporadaAPI="66" nNrEpisodio="97" nCdEpisodioAPI="94" nNrTemporada="96" nCdVideoAPI="17" sDsFilepath="Platea elit enim adipiscing primis" sDsIdioma="Hendrerit nostra massa" sLkArtwork="Sagittis mauris mollis quisque diam" sDsFilepathOriginal="Sociosqu morbi" sNrUltimaAtualizacao="Metus ornare himenaeos senectus" sDsEpisodio="Vestibulum eget montes" sDsSinopse="Rutrum nam sed sapien vivamus" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="54" nIdTipoConteudo="Série" nCdVideo="89" nCdTemporadaAPI="97" nNrEpisodio="65" nCdEpisodioAPI="11" nNrTemporada="29" nCdVideoAPI="23" sDsFilepath="Penatibus tellus hac porttitor parturient" sDsIdioma="Aliquet netus dis imperdiet nulla" sLkArtwork="Neque semper aliquam sociis" sDsFilepathOriginal="Vestibulum tincidunt" sNrUltimaAtualizacao="Blandit erat est malesuada ultrices" sDsEpisodio="Taciti suscipit torquent" sDsSinopse="Tristique porta ultricies purus risus" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="91" nIdTipoConteudo="Selecione" nCdVideo="80" nCdTemporadaAPI="72" nNrEpisodio="87" nCdEpisodioAPI="41" nNrTemporada="93" nCdVideoAPI="42" sDsFilepath="Aenean class conubia cubilia convallis" sDsIdioma="Curabitur commodo phasellus eros" sLkArtwork="Vestibulum tempor tempus venenatis" sDsFilepathOriginal="Curae dapibus donec vehicula mauris" sNrUltimaAtualizacao="Tortor turpis varius consequat" sDsEpisodio="Velit vulputate leo vitae adipiscing" sDsSinopse="Nullam volutpat" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="67" nNrEpisodio="96" nNrTemporada="95" nCdAlias="99" sDsAlias="Vestibulum sed faucibus nisl augue" />
+                        <Model:SerieAlias nCdVideo="59" nNrEpisodio="16" nNrTemporada="56" nCdAlias="42" sDsAlias="Nunc sem libero" />
+                        <Model:SerieAlias nCdVideo="58" nNrEpisodio="30" nNrTemporada="93" nCdAlias="10" sDsAlias="Odio sit dolor" />
+                        <Model:SerieAlias nCdVideo="42" nNrEpisodio="30" nNrTemporada="47" nCdAlias="66" sDsAlias="Habitant vestibulum vel adipiscing" />
+                        <Model:SerieAlias nCdVideo="95" nNrEpisodio="92" nNrTemporada="31" nCdAlias="91" sDsAlias="Parturient fames inceptos orci" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="33" nIdTipoConteudo="Filme" nCdVideo="13" nCdTemporadaAPI="47" nNrEpisodio="32" nCdEpisodioAPI="12" nNrTemporada="16" nCdVideoAPI="53" sDsFilepath="Neque vestibulum suscipit" sDsIdioma="Massa himenaeos metus rutrum" sLkArtwork="Aliquam sed vestibulum dis" sDsFilepathOriginal="Ante netus" sNrUltimaAtualizacao="Amet morbi parturient" sDsEpisodio="Platea vestibulum primis adipiscing" sDsSinopse="Nulla integer torquent">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Pretium montes</System:String>
+                <System:String>Rhoncus sodales urna sagittis</System:String>
+                <System:String>Lacus hendrerit cras senectus lorem</System:String>
+                <System:String>Viverra duis parturient magna sociosqu</System:String>
+                <System:String>Nunc nostra nam ornare</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Ipsum vestibulum nascetur mattis</System:String>
+                <System:String>Fringilla justo pharetra</System:String>
+                <System:String>Habitasse mauris</System:String>
+                <System:String>Quam placerat adipiscing</System:String>
+                <System:String>Pulvinar quis posuere mollis potenti</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Série" nCdVideo="96" nCdApi="95" nIdEstado="CompletoSemForeignKeys" sDsPasta="Mollis nec" sDsMetadata="Mus mauris senectus parturient" sDsStatus="Duis dis" sAliases="Aliquam est" sDsIdioma="Sit interdum" sDsClassificacao="Vestibulum aliquet semper blandit diam" sDsImgPoster="Ligula adipiscing curabitur" sNmAtores="Quisque sapien arcu" sDsEmissora="Laoreet lacus" sDsGeneros="Inceptos urna" sNrUltimaAtualizacao="Lobortis vel justo nascetur nam" sDsTitulo="Natoque lorem nunc posuere vestibulum" sDsTipoConteudo="Pulvinar sagittis adipiscing magnis mattis" sDsImgFanart="Vestibulum libero cras vulputate" sDsEstreiaDiaSemana="Porta purus" sDsSinopse="Parturient sed vestibulum" sDsEstreiaHorario="Risus velit vivamus ultrices">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="61" nIdTipoConteudo="Anime" nCdVideo="60" nCdTemporadaAPI="99" nNrEpisodio="79" nCdEpisodioAPI="34" nNrTemporada="39" nCdVideoAPI="35" sDsFilepath="Tellus donec penatibus mus nec" sDsIdioma="Taciti imperdiet curae malesuada" sLkArtwork="Eget vitae sociis" sDsFilepathOriginal="Tempor tempus conubia elit" sNrUltimaAtualizacao="Hac leo vehicula" sDsEpisodio="Commodo class" sDsSinopse="Volutpat enim maecenas adipiscing" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="66" nIdTipoConteudo="Selecione" nCdVideo="90" nCdTemporadaAPI="21" nNrEpisodio="98" nCdEpisodioAPI="60" nNrTemporada="95" nCdVideoAPI="33" sDsFilepath="Porttitor euismod eros" sDsIdioma="Vestibulum turpis dapibus vestibulum per" sLkArtwork="Etiam cubilia parturient" sDsFilepathOriginal="Nibh praesent" sNrUltimaAtualizacao="Adipiscing parturient lorem erat egestas" sDsEpisodio="Non tortor fusce" sDsSinopse="Sed varius accumsan" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="76" nIdTipoConteudo="Série" nCdVideo="35" nCdTemporadaAPI="64" nNrEpisodio="54" nCdEpisodioAPI="89" nNrTemporada="34" nCdVideoAPI="66" sDsFilepath="Aenean dictumst" sDsIdioma="Tincidunt bibendum parturient vestibulum" sLkArtwork="Sem vestibulum sit vel" sDsFilepathOriginal="Sed morbi vestibulum nulla" sNrUltimaAtualizacao="Tristique nisi" sDsEpisodio="Vestibulum adipiscing feugiat nam" sDsSinopse="Eleifend dis est" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="35" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="97" nCdTemporadaAPI="51" nNrEpisodio="98" nCdEpisodioAPI="87" nNrTemporada="41" nCdVideoAPI="49" sDsFilepath="Nunc nec odio non" sDsIdioma="Nisl mus" sLkArtwork="Hac proin" sDsFilepathOriginal="Nullam fames adipiscing gravida iaculis" sNrUltimaAtualizacao="Mauris dolor" sDsEpisodio="Leo augue" sDsSinopse="Aptent parturient per" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="97" nIdTipoConteudo="Série" nCdVideo="62" nCdTemporadaAPI="92" nNrEpisodio="72" nCdEpisodioAPI="29" nNrTemporada="80" nCdVideoAPI="35" sDsFilepath="Vestibulum adipiscing" sDsIdioma="Sed congue pede cursus" sLkArtwork="Felis auctor" sDsFilepathOriginal="Parturient faucibus vestibulum habitant dictum" sNrUltimaAtualizacao="Quam quis vestibulum" sDsEpisodio="Orci facilisi lacinia" sDsSinopse="Sem lectus ipsum ultricies venenatis" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="67" nNrEpisodio="10" nNrTemporada="90" nCdAlias="98" sDsAlias="Adipiscing phasellus pharetra parturient potenti" />
+                        <Model:SerieAlias nCdVideo="86" nNrEpisodio="68" nNrTemporada="81" nCdAlias="76" sDsAlias="Litora est luctus" />
+                        <Model:SerieAlias nCdVideo="36" nNrEpisodio="10" nNrTemporada="77" nCdAlias="72" sDsAlias="Hac leo" />
+                        <Model:SerieAlias nCdVideo="82" nNrEpisodio="56" nNrTemporada="77" nCdAlias="23" sDsAlias="Vestibulum pretium placerat amet ante" />
+                        <Model:SerieAlias nCdVideo="80" nNrEpisodio="86" nNrTemporada="35" nCdAlias="81" sDsAlias="Vestibulum arcu magna" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="58" nIdTipoConteudo="Filme" nCdVideo="98" nCdTemporadaAPI="85" nNrEpisodio="46" nCdEpisodioAPI="63" nNrTemporada="69" nCdVideoAPI="35" sDsFilepath="Primis eros parturient" sDsIdioma="Sit platea" sLkArtwork="Ornare ultrices porta" sDsFilepathOriginal="Rutrum volutpat" sNrUltimaAtualizacao="Enim purus erat vivamus" sDsEpisodio="Vehicula adipiscing" sDsSinopse="Sapien vestibulum convallis nibh">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Sodales morbi neque netus</System:String>
+                <System:String>Torquent sed elit</System:String>
+                <System:String>Nulla sem viverra</System:String>
+                <System:String>Vestibulum vestibulum aliquam nostra integer</System:String>
+                <System:String>Quisque consequat</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Montes non vestibulum</System:String>
+                <System:String>Diam rhoncus vestibulum</System:String>
+                <System:String>Adipiscing massa sociosqu per</System:String>
+                <System:String>Suscipit eget</System:String>
+                <System:String>Metus parturient</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="Filme" nCdVideo="72" nCdApi="61" nIdEstado="Simples" sDsPasta="Gravida adipiscing" sDsMetadata="Mauris purus mollis" sDsStatus="Libero ligula dignissim" sAliases="Aliquam vitae aliquet maecenas nisl" sDsIdioma="Cursus dictum lectus" sDsClassificacao="Class curae blandit" sDsImgPoster="Auctor congue conubia phasellus sed" sNmAtores="Semper risus velit vestibulum" sDsEmissora="Sit consequat" sDsGeneros="Aliquet nullam aptent blandit" sNrUltimaAtualizacao="Nulla vestibulum sem" sDsTitulo="Nunc cubilia" sDsTipoConteudo="Euismod mattis porta ultrices feugiat" sDsImgFanart="Placerat nisi commodo" sDsEstreiaDiaSemana="Vel nam" sDsSinopse="Pulvinar nisl vel convallis sagittis" sDsEstreiaHorario="Sociis nisi">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixado" nCdEpisodio="29" nIdTipoConteudo="Selecione" nCdVideo="24" nCdTemporadaAPI="97" nNrEpisodio="41" nCdEpisodioAPI="38" nNrTemporada="80" nCdVideoAPI="59" sDsFilepath="Lorem tellus sed" sDsIdioma="Facilisis fermentum conubia cubilia fusce" sLkArtwork="Adipiscing nunc praesent donec" sDsFilepathOriginal="Morbi tempor dapibus fringilla egestas" sNrUltimaAtualizacao="Orci taciti accumsan" sDsEpisodio="Dignissim odio etiam elementum commodo" sDsSinopse="Pede euismod parturient" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="66" nIdTipoConteudo="Filme" nCdVideo="66" nCdTemporadaAPI="76" nNrEpisodio="88" nCdEpisodioAPI="67" nNrTemporada="49" nCdVideoAPI="32" sDsFilepath="Facilisi felis cras dis" sDsIdioma="Proin urna parturient" sLkArtwork="Bibendum vestibulum nulla vestibulum dictumst" sDsFilepathOriginal="Vestibulum adipiscing habitasse duis nunc" sNrUltimaAtualizacao="Gravida augue dolor fames vestibulum" sDsEpisodio="Adipiscing eleifend quam quis feugiat" sDsSinopse="Tempus faucibus hendrerit habitant" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Arquivado" nCdEpisodio="50" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="64" nCdTemporadaAPI="23" nNrEpisodio="16" nCdEpisodioAPI="34" nNrTemporada="83" nCdVideoAPI="26" sDsFilepath="Diam est" sDsIdioma="Himenaeos natoque" sLkArtwork="Iaculis lacinia ipsum" sDsFilepathOriginal="Imperdiet eget justo potenti" sNrUltimaAtualizacao="Posuere vestibulum ante arcu vestibulum" sDsEpisodio="Amet inceptos laoreet parturient" sDsSinopse="Interdum pretium" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="24" nIdTipoConteudo="Episódio" nCdVideo="99" nCdTemporadaAPI="54" nNrEpisodio="46" nCdEpisodioAPI="76" nNrTemporada="60" nCdVideoAPI="69" sDsFilepath="Aliquam nascetur turpis" sDsIdioma="Lobortis enim" sLkArtwork="Elit malesuada rhoncus adipiscing lacus" sDsFilepathOriginal="Integer pharetra" sNrUltimaAtualizacao="Viverra tortor penatibus porttitor" sDsEpisodio="Hac sodales" sDsSinopse="Lorem leo mus tincidunt erat" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="45" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="42" nCdTemporadaAPI="92" nNrEpisodio="51" nCdEpisodioAPI="82" nNrTemporada="54" nCdVideoAPI="17" sDsFilepath="Eros vulputate" sDsIdioma="Massa non per metus" sLkArtwork="Tristique ultricies parturient" sDsFilepathOriginal="Morbi vestibulum" sNrUltimaAtualizacao="Vivamus aliquam venenatis" sDsEpisodio="Quisque nec varius magna aenean" sDsSinopse="Neque mauris curabitur netus nibh" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="27" nNrEpisodio="75" nNrTemporada="76" nCdAlias="21" sDsAlias="Elementum adipiscing litora" />
+                        <Model:SerieAlias nCdVideo="20" nNrEpisodio="34" nNrTemporada="19" nCdAlias="26" sDsAlias="Senectus nam dapibus" />
+                        <Model:SerieAlias nCdVideo="86" nNrEpisodio="25" nNrTemporada="39" nCdAlias="58" sDsAlias="Parturient sociosqu suscipit sed" />
+                        <Model:SerieAlias nCdVideo="72" nNrEpisodio="18" nNrTemporada="43" nCdAlias="38" sDsAlias="Luctus egestas vestibulum vestibulum" />
+                        <Model:SerieAlias nCdVideo="94" nNrEpisodio="19" nNrTemporada="15" nCdAlias="85" sDsAlias="Facilisis torquent fermentum magnis fringilla" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+        <Model:Episodio bFlSelecionado="True" bFlRenomeado="True" nIdEstadoEpisodio="Selecione" nCdEpisodio="52" nIdTipoConteudo="Anime" nCdVideo="29" nCdTemporadaAPI="90" nNrEpisodio="61" nCdEpisodioAPI="25" nNrTemporada="30" nCdVideoAPI="46" sDsFilepath="Primis penatibus natoque dictumst" sDsIdioma="Urna vestibulum bibendum cras" sLkArtwork="Etiam non per adipiscing" sDsFilepathOriginal="Porttitor eleifend tincidunt rutrum posuere" sNrUltimaAtualizacao="Lorem sit duis" sDsEpisodio="Sed sem parturient vestibulum fusce" sDsSinopse="Tristique sapien ultricies facilisi">
+            <Model:Episodio.ListaStrEpisodiosAbsolutos>
+                <System:String>Class est curae pede hac</System:String>
+                <System:String>Leo iaculis mus vestibulum</System:String>
+                <System:String>Lacinia nec nostra donec vestibulum</System:String>
+                <System:String>Quam praesent quis ornare malesuada</System:String>
+                <System:String>Laoreet platea accumsan</System:String>
+            </Model:Episodio.ListaStrEpisodiosAbsolutos>
+            <Model:Episodio.ListaStrEpisodios>
+                <System:String>Odio vehicula</System:String>
+                <System:String>Habitasse risus</System:String>
+                <System:String>Parturient hendrerit</System:String>
+                <System:String>Himenaeos volutpat maecenas montes</System:String>
+                <System:String>Imperdiet velit orci vitae dis</System:String>
+            </Model:Episodio.ListaStrEpisodios>
+            <Model:Episodio.oSerie>
+                <Model:Serie bFlSelecionado="True" bFlAnime="False" bFlNaoEncontrado="False" bFlEditado="True" nIdTipoConteudo="AnimeFilmeSérie" nCdVideo="90" nCdApi="35" nIdEstado="Novo" sDsPasta="Donec non vestibulum etiam dignissim" sDsMetadata="Lacinia nec vitae class curae" sDsStatus="Eget feugiat vestibulum" sAliases="Sociis dis adipiscing nulla" sDsIdioma="Arcu neque parturient lectus netus" sDsClassificacao="Parturient taciti pretium habitant" sDsImgPoster="Egestas phasellus metus morbi adipiscing" sNmAtores="Venenatis semper vulputate faucibus" sDsEmissora="Dictumst diam vestibulum" sDsGeneros="Cursus amet" sNrUltimaAtualizacao="Consequat euismod est" sDsTitulo="Elit adipiscing enim gravida purus" sDsTipoConteudo="Ligula litora nibh" sDsImgFanart="Cubilia dis ante dapibus dictum" sDsEstreiaDiaSemana="Potenti curabitur morbi" sDsSinopse="Nulla hac porta" sDsEstreiaHorario="Vel nam sed">
+                    <Model:Serie.ListaEpisodios>
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="84" nIdTipoConteudo="Série" nCdVideo="94" nCdTemporadaAPI="25" nNrEpisodio="85" nCdEpisodioAPI="34" nNrTemporada="78" nCdVideoAPI="54" sDsFilepath="Proin tempor consequat est hac" sDsIdioma="Inceptos phasellus interdum nunc" sLkArtwork="Vestibulum rhoncus vestibulum adipiscing" sDsFilepathOriginal="Pharetra sodales convallis" sNrUltimaAtualizacao="Lobortis tellus amet nascetur ante" sDsEpisodio="Parturient vestibulum" sDsSinopse="Arcu tempus dignissim diam" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="11" nIdTipoConteudo="Selecione" nCdVideo="59" nCdTemporadaAPI="50" nNrEpisodio="59" nCdEpisodioAPI="46" nNrTemporada="13" nCdVideoAPI="30" sDsFilepath="Elit mus augue" sDsIdioma="Eget placerat parturient turpis" sLkArtwork="Viverra elementum tortor" sDsFilepathOriginal="Sagittis fermentum" sNrUltimaAtualizacao="Vestibulum vestibulum pulvinar" sDsEpisodio="Facilisis vestibulum adipiscing leo aliquam" sDsSinopse="Fringilla adipiscing integer habitasse enim" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Desejado" nCdEpisodio="39" nIdTipoConteudo="Filme" nCdVideo="30" nCdTemporadaAPI="82" nNrEpisodio="66" nCdEpisodioAPI="51" nNrTemporada="16" nCdVideoAPI="43" sDsFilepath="Per sed" sDsIdioma="Imperdiet eros non nibh fames" sLkArtwork="Varius aenean nec dolor hendrerit" sDsFilepathOriginal="Senectus vivamus nullam" sNrUltimaAtualizacao="Malesuada mauris nisi" sDsEpisodio="Himenaeos quisque erat" sDsSinopse="Nisl nunc parturient aptent" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Ignorado" nCdEpisodio="58" nIdTipoConteudo="Anime" nCdVideo="59" nCdTemporadaAPI="31" nNrEpisodio="20" nCdEpisodioAPI="33" nNrTemporada="20" nCdVideoAPI="56" sDsFilepath="Tincidunt lacus orci pede ultrices" sDsIdioma="Aliquam torquent auctor aliquet" sLkArtwork="Sociosqu penatibus porttitor sem" sDsFilepathOriginal="Vehicula vestibulum volutpat blandit quam" sNrUltimaAtualizacao="Sit ipsum justo" sDsEpisodio="Felis suscipit odio" sDsSinopse="Maecenas tristique ultricies vestibulum" />
+                        <Model:Episodio bFlSelecionado="False" bFlRenomeado="True" nIdEstadoEpisodio="Baixando" nCdEpisodio="96" nIdTipoConteudo="Selecione" nCdVideo="88" nCdTemporadaAPI="56" nNrEpisodio="32" nCdEpisodioAPI="37" nNrTemporada="35" nCdVideoAPI="95" sDsFilepath="Conubia accumsan massa parturient" sDsIdioma="Venenatis cras congue" sLkArtwork="Lorem praesent magna quis urna" sDsFilepathOriginal="Sed curabitur bibendum" sNrUltimaAtualizacao="Commodo vulputate" sDsEpisodio="Adipiscing vel nam" sDsSinopse="Vestibulum duis nunc vestibulum" />
+                    </Model:Serie.ListaEpisodios>
+                    <Model:Serie.ListaSerieAlias>
+                        <Model:SerieAlias nCdVideo="85" nNrEpisodio="42" nNrTemporada="39" nCdAlias="91" sDsAlias="Eleifend parturient risus" />
+                        <Model:SerieAlias nCdVideo="97" nNrEpisodio="79" nNrTemporada="68" nCdAlias="70" sDsAlias="Leo convallis" />
+                        <Model:SerieAlias nCdVideo="11" nNrEpisodio="36" nNrTemporada="95" nCdAlias="74" sDsAlias="Erat facilisi vestibulum" />
+                        <Model:SerieAlias nCdVideo="17" nNrEpisodio="23" nNrTemporada="99" nCdAlias="74" sDsAlias="Faucibus libero velit habitant mus" />
+                        <Model:SerieAlias nCdVideo="75" nNrEpisodio="13" nNrTemporada="36" nCdAlias="23" sDsAlias="Iaculis eros" />
+                    </Model:Serie.ListaSerieAlias>
+                    <Model:Serie.bCacheImgPoster>
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                        <System:Byte />
+                    </Model:Serie.bCacheImgPoster>
+                </Model:Serie>
+            </Model:Episodio.oSerie>
+        </Model:Episodio>
+    </ViewModel:RenomearViewModel.ListaEpisodios>
+</ViewModel:RenomearViewModel>

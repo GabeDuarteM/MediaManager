@@ -9,32 +9,33 @@ using System.Threading.Tasks;
 
 namespace MediaManager.Model
 {
-    [DebuggerDisplay("{AliasName} {Temporada}x{Episodio}")]
+    [DebuggerDisplay("{sDsAlias} {Temporada}x{nNrEpisodio}")]
     public class SerieAlias
     {
-        public string AliasName { get; set; }
+        public string sDsAlias { get; set; }
 
-        public int Episodio { get; set; }
+        public int nNrEpisodio { get; set; }
 
-        public int ID { get; set; }
+        [Key]
+        public int nCdAlias { get; set; }
 
         [Required]
-        public int IDSerie { get; set; }
+        public int nCdVideo { get; set; }
 
-        [Column(Order = 2), ForeignKey("IDSerie")]
-        public Serie Serie { get; set; }
+        [Column(Order = 2), ForeignKey("nCdVideo")]
+        public Serie oSerie { get; set; }
 
-        public int Temporada { get; set; }
+        public int nNrTemporada { get; set; }
 
         public SerieAlias()
         {
         }
 
-        public SerieAlias(string aliasName)
+        public SerieAlias(string nomeAlias)
         {
-            AliasName = aliasName;
-            Temporada = 1;
-            Episodio = 1;
+            sDsAlias = nomeAlias;
+            nNrTemporada = 1;
+            nNrEpisodio = 1;
         }
     }
 }

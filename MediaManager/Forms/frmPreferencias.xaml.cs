@@ -24,7 +24,7 @@ namespace MediaManager.Forms
 
             DataContext = preferenciasVM;
 
-            preferenciasVM.CloseAction = new Action(() => Close());
+            preferenciasVM.ActionFechar = new Action(() => Close());
         }
 
         public void ShowDialog(Window owner)

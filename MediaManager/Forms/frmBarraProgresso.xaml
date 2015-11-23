@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:MediaManager.Properties"
         mc:Ignorable="d"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Procurar conteúdos - {0}'}"
-        Height="150" Width="450" ResizeMode="NoResize" FontFamily="Segoe WP" FontWeight="Light" d:DataContext="{d:DesignData /SampleData/BarraProgressoViewModelSampleData.xaml}" WindowStartupLocation="CenterOwner">
+        Height="150" Width="450" ResizeMode="NoResize" FontFamily="Segoe WP" FontWeight="Light" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/BarraProgressoViewModelSampleData.xaml}">
     <Grid d:IsLocked="True">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

@@ -32,23 +32,23 @@ namespace MediaManager.Helpers
             {
                 if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Poster)
                 {
-                    if (video.ImgPoster != new Serie().ImgPoster)
+                    if (video.sDsImgPoster != new Serie().sDsImgPoster)
                     {
                         using (System.Net.WebClient wc = new System.Net.WebClient())
                         {
-                            var path = Path.Combine(video.FolderMetadata, "poster.jpg");
-                            await wc.DownloadFileTaskAsync(new Uri(video.ImgPoster), path);
+                            var path = Path.Combine(video.sDsMetadata, "poster.jpg");
+                            await wc.DownloadFileTaskAsync(new Uri(video.sDsImgPoster), path);
                         }
                     }
                 }
                 if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Fanart)
                 {
-                    if (video.ImgFanart != new Serie().ImgFanart)
+                    if (video.sDsImgFanart != new Serie().sDsImgFanart)
                     {
                         using (System.Net.WebClient wc = new System.Net.WebClient())
                         {
-                            var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                            await wc.DownloadFileTaskAsync(new Uri(video.ImgFanart), path);
+                            var path = Path.Combine(video.sDsMetadata, "fanart.jpg");
+                            await wc.DownloadFileTaskAsync(new Uri(video.sDsImgFanart), path);
                         }
                     }
                 }
@@ -63,23 +63,23 @@ namespace MediaManager.Helpers
             {
                 if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Poster)
                 {
-                    if (video.ImgPoster != new Serie().ImgPoster)
+                    if (video.sDsImgPoster != new Serie().sDsImgPoster)
                     {
                         using (System.Net.WebClient wc = new System.Net.WebClient())
                         {
-                            var path = Path.Combine(video.FolderMetadata, "poster.jpg");
-                            wc.DownloadFile(new Uri(video.ImgPoster), path);
+                            var path = Path.Combine(video.sDsMetadata, "poster.jpg");
+                            wc.DownloadFile(new Uri(video.sDsImgPoster), path);
                         }
                     }
                 }
                 if (tipoImagem == Enums.TipoImagem.Todos || tipoImagem == Enums.TipoImagem.Fanart)
                 {
-                    if (video.ImgFanart != new Serie().ImgFanart)
+                    if (video.sDsImgFanart != new Serie().sDsImgFanart)
                     {
                         using (System.Net.WebClient wc = new System.Net.WebClient())
                         {
-                            var path = Path.Combine(video.FolderMetadata, "fanart.jpg");
-                            wc.DownloadFile(new Uri(video.ImgFanart), path);
+                            var path = Path.Combine(video.sDsMetadata, "fanart.jpg");
+                            wc.DownloadFile(new Uri(video.sDsImgFanart), path);
                         }
                     }
                 }
@@ -108,21 +108,21 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static bool RealizarPosProcessamento(EpisodeToRename item)
+        public static bool RealizarPosProcessamento(Episodio item)
         {
             switch ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento)
             {
                 case Enums.MetodoDeProcessamento.HardLink:
                     {
-                        if (CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed), Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
+                        if (CreateHardLink(item.sDsFilepath, item.sDsFilepathOriginal, IntPtr.Zero))
                             return true;
-                        else { TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
+                        else { TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepath), "Ocorreu um erro ao criar o " + Settings.Default.pref_MetodoDeProcessamento.ToString()); return false; }
                     }
                 case Enums.MetodoDeProcessamento.Copiar:
                     {
                         try
                         {
-                            File.Copy(Path.Combine(item.FolderPath, item.Filename), Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
+                            File.Copy(item.sDsFilepathOriginal, item.sDsFilepath);
                             return true;
                         }
                         catch (Exception e) { TratarException(e, "Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
@@ -133,20 +133,20 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static string RenomearConformePreferencias(EpisodeToRename episodio, string formato = null)
+        public static string RenomearConformePreferencias(Episodio episodio, string formato = null)
         {
             if (formato == null)
             {
-                switch (episodio.ContentType)
+                switch (episodio.nIdTipoConteudo)
                 {
-                    case Enums.ContentType.Filme: // TODO Funcionar com filmes
+                    case Enums.TipoConteudo.Filme: // TODO Funcionar com filmes
                         break;
 
-                    case Enums.ContentType.Série:
+                    case Enums.TipoConteudo.Série:
                         formato = settings.pref_FormatoSeries;
                         break;
 
-                    case Enums.ContentType.Anime:
+                    case Enums.TipoConteudo.Anime:
                         formato = settings.pref_FormatoAnimes;
                         break;
 
@@ -163,21 +163,21 @@ namespace MediaManager.Helpers
                 switch (tag.Value)
                 {
                     case "{Titulo}":
-                        formato = formato.Replace(tag.Value, episodio.ParentTitle);
+                        formato = formato.Replace(tag.Value, episodio.oSerie.sDsTitulo);
                         break;
 
                     case "{TituloEpisodio}":
-                        formato = formato.Replace(tag.Value, episodio.EpisodeName);
+                        formato = formato.Replace(tag.Value, episodio.sDsEpisodio);
                         break;
 
                     case "{Temporada}":
-                        formato = formato.Replace(tag.Value, episodio.SeasonNumber.ToString("00") + "");
+                        formato = formato.Replace(tag.Value, episodio.nNrTemporada.ToString("00") + "");
                         break;
 
                     case "{Episodio}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeList)
+                            foreach (var item in episodio.ListaStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -192,7 +192,7 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.AbsoluteList)
+                            foreach (var item in episodio.ListaStrEpisodiosAbsolutos)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -207,7 +207,7 @@ namespace MediaManager.Helpers
                     case "{SxEE}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeList)
+                            foreach (var item in episodio.ListaStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -216,13 +216,13 @@ namespace MediaManager.Helpers
                                 else
                                     ep += "x" + nItem.ToString("00");
                             }
-                            formato = formato.Replace(tag.Value, episodio.SeasonNumber + "x" + ep);
+                            formato = formato.Replace(tag.Value, episodio.nNrTemporada + "x" + ep);
                             break;
                         }
                     case "{S00E00}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.EpisodeList)
+                            foreach (var item in episodio.ListaStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -231,7 +231,7 @@ namespace MediaManager.Helpers
                                 else
                                     ep += "E" + nItem.ToString("00");
                             }
-                            formato = formato.Replace(tag.Value, "S" + episodio.SeasonNumber.ToString("00") + "E" + ep);
+                            formato = formato.Replace(tag.Value, "S" + episodio.nNrTemporada.ToString("00") + "E" + ep);
                             break;
                         }
                     default:
@@ -242,7 +242,7 @@ namespace MediaManager.Helpers
             return RetirarCaracteresInvalidos(formato, false); // TODO Corrigir quando é anime o SxEE e o S00E00 para retornar o n do ep normal e não o absoluto.
         }
 
-        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = false)
+        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = true)
         {
             if (mensagem.Last() != '.')
             {
@@ -439,19 +439,19 @@ namespace MediaManager.Helpers
 
         public static ObservableCollection<SerieAlias> PopularCampoSerieAlias(Video video)
         {
-            if (/*video.IDBanco == 0 && */(video.SerieAlias == null || video.SerieAlias.Count == 0))
+            if (/*video.IDBanco == 0 && */(video.ListaSerieAlias == null || video.ListaSerieAlias.Count == 0))
             {
-                video.SerieAlias = new ObservableCollection<SerieAlias>();
-                if (!string.IsNullOrWhiteSpace(video.SerieAliasStr))
+                video.ListaSerieAlias = new ObservableCollection<SerieAlias>();
+                if (!string.IsNullOrWhiteSpace(video.sAliases))
                 {
-                    foreach (var item in video.SerieAliasStr.Split('|'))
+                    foreach (var item in video.sAliases.Split('|'))
                     {
                         SerieAlias alias = new SerieAlias(item);
-                        video.SerieAlias.Add(alias);
+                        video.ListaSerieAlias.Add(alias);
                     }
                 }
             }
-            return video.SerieAlias;
+            return video.ListaSerieAlias;
         }
 
         public class RegexEpisodio

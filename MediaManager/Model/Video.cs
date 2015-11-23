@@ -14,51 +14,45 @@ using MediaManager.Properties;
 
 namespace MediaManager.Model
 {
-    [DebuggerDisplay("{IDApi} - {Title} - {Language}")]
+    [DebuggerDisplay("{nCdApi} - {sDsTitulo} - {sDsIdioma}")]
     public abstract class Video : System.ComponentModel.INotifyPropertyChanged
     {
-        private Enums.ContentType _ContentType;
-        private string _FolderPath;
-        private string _ImgFanart;
-        private string _ImgPoster;
-        private string _Overview;
-        private string _Title;
-        private string _SerieAliasStr;
-        private ObservableCollection<SerieAlias> _SerieAlias;
+        private string _sAliases;
 
         [XmlIgnore, NotMapped]
-        public virtual string SerieAliasStr { get { return _SerieAliasStr; } set { _SerieAliasStr = value; OnPropertyChanged(); } }
+        public virtual string sAliases { get { return _sAliases; } set { _sAliases = value; OnPropertyChanged(); } }
+
+        private ObservableCollection<SerieAlias> _ListaSerieAlias;
 
         [XmlIgnore]
-        public ObservableCollection<SerieAlias> SerieAlias { get { return _SerieAlias; } set { _SerieAlias = value; OnPropertyChanged(); } }
+        public ObservableCollection<SerieAlias> ListaSerieAlias { get { return _ListaSerieAlias; } set { _ListaSerieAlias = value; OnPropertyChanged(); } }
+
+        private Enums.TipoConteudo _nIdTipoConteudo;
 
         [NotMapped, XmlIgnore]
-        public virtual Enums.ContentType ContentType { get { return _ContentType; } set { _ContentType = value; OnPropertyChanged(); } }
+        public virtual Enums.TipoConteudo nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; OnPropertyChanged(); } }
 
         [NotMapped, XmlIgnore]
-        public virtual string ContentTypeString { get { return Enums.ToString(ContentType); } }
+        public virtual string sDsTipoConteudo { get { return nIdTipoConteudo.ToString(); } }
 
         [NotMapped, XmlIgnore]
-        public Enums.Estado Estado { get; set; }
+        public Enums.Estado nIdEstado { get; set; }
 
         [XmlIgnore]
-        public virtual string FolderMetadata
+        public virtual string sDsMetadata
         {
             get
             {
-                switch (ContentType)
+                switch (nIdTipoConteudo)
                 {
-                    case Enums.ContentType.Filme:
-                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
-                            "Filmes", Helper.RetirarCaracteresInvalidos(Title));
+                    case Enums.TipoConteudo.Filme:
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "Filmes", Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
-                    case Enums.ContentType.Série:
-                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
-                            "Séries", Helper.RetirarCaracteresInvalidos(Title));
+                    case Enums.TipoConteudo.Série:
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "Séries", Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
-                    case Enums.ContentType.Anime:
-                        return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Properties.Settings.Default.AppName, "Metadata",
-                            "Animes", Helper.RetirarCaracteresInvalidos(Title));
+                    case Enums.TipoConteudo.Anime:
+                        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "Animes", Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
                     default:
                         throw new System.ComponentModel.InvalidEnumArgumentException();
@@ -66,75 +60,88 @@ namespace MediaManager.Model
             }
         }
 
-        [XmlIgnore]
-        public virtual string FolderPath { get { return _FolderPath; } set { _FolderPath = value; OnPropertyChanged(); } }
+        private string _sDsPasta;
 
         [XmlIgnore]
-        public virtual int IDApi { get; set; }
+        public virtual string sDsPasta { get { return _sDsPasta; } set { _sDsPasta = value; OnPropertyChanged(); } }
 
         [XmlIgnore]
-        public virtual int IDBanco { get; set; }
+        public virtual int nCdApi { get; set; }
 
         [XmlIgnore]
-        public virtual string ImgFanart
+        public virtual int nCdVideo { get; set; }
+
+        private string _sDsImgFanart;
+
+        [XmlIgnore]
+        public virtual string sDsImgFanart
         {
-            get { return _ImgFanart; }
+            get { return _sDsImgFanart; }
             set
             {
-                _ImgFanart = string.IsNullOrWhiteSpace(value)
+                _sDsImgFanart = string.IsNullOrWhiteSpace(value)
                     ? ("pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png")
                     : value;
                 OnPropertyChanged();
             }
         }
 
+        private string _sDsImgPoster;
+
         [XmlIgnore]
-        public virtual string ImgPoster
+        public virtual string sDsImgPoster
         {
-            get { return _ImgPoster; }
+            get { return _sDsImgPoster; }
             set
             {
-                _ImgPoster = string.IsNullOrWhiteSpace(value)
+                _sDsImgPoster = string.IsNullOrWhiteSpace(value)
                     ? ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                     : value;
                 OnPropertyChanged();
 
-                if (ImgPoster.StartsWith("http"))
+                if (sDsImgPoster.StartsWith("http"))
                 {
                     BitmapImage bmp = new BitmapImage(new Uri(value));
-                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(bmp));
-                    using (MemoryStream ms = new MemoryStream())
+                    bmp.DownloadCompleted += (s, e) =>
                     {
-                        encoder.Save(ms);
-                        ImgPosterCache = ms.ToArray();
-                    }
+                        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(bmp));
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            encoder.Save(ms);
+                            bCacheImgPoster = ms.ToArray();
+                        }
+                    };
                 }
                 else
                 {
-                    ImgPosterCache = (ImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                    bCacheImgPoster = (sDsImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
                                             ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                                            : File.ReadAllBytes(ImgPoster);
+                                            : File.ReadAllBytes(sDsImgPoster);
                 }
             }
         }
 
-        private byte[] _ImgPosterCache;
+        private byte[] _bCacheImgPoster;
 
         [XmlIgnore, NotMapped]
-        public byte[] ImgPosterCache { get { return _ImgPosterCache; } set { _ImgPosterCache = value; OnPropertyChanged(); } }
+        public byte[] bCacheImgPoster { get { return _bCacheImgPoster; } set { _bCacheImgPoster = value; OnPropertyChanged(); } }
 
         [XmlIgnore]
-        public virtual string Language { get; set; }
+        public virtual string sDsIdioma { get; set; }
 
         [XmlIgnore]
-        public virtual string LastUpdated { get; set; }
+        public virtual string sNrUltimaAtualizacao { get; set; }
+
+        private string _sDsSinopse;
 
         [XmlIgnore]
-        public virtual string Overview { get { return _Overview; } set { _Overview = value; OnPropertyChanged(); } }
+        public virtual string sDsSinopse { get { return _sDsSinopse; } set { _sDsSinopse = value; OnPropertyChanged(); } }
+
+        private string _sDsTitulo;
 
         [XmlIgnore]
-        public virtual string Title { get { return _Title; } set { _Title = value; OnPropertyChanged(); } }
+        public virtual string sDsTitulo { get { return _sDsTitulo; } set { _sDsTitulo = value; OnPropertyChanged(); } }
 
         private bool _bFlSelecionado;
 
@@ -143,8 +150,8 @@ namespace MediaManager.Model
 
         public Video()
         {
-            _ImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
-            _ImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
+            _sDsImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
+            _sDsImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         }
 
         public void Clone(object objOrigem)
@@ -167,21 +174,21 @@ namespace MediaManager.Model
 
         private void SetDefaultFolderPath()
         {
-            switch (ContentType)
+            switch (nIdTipoConteudo)
             {
-                case Enums.ContentType.Filme:
-                    if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaFilmes))
-                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(Title));
+                case Enums.TipoConteudo.Filme:
+                    if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes))
+                        sDsPasta = Path.Combine(Settings.Default.pref_PastaFilmes, Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
-                case Enums.ContentType.Série:
-                    if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaSeries))
-                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(Title));
+                case Enums.TipoConteudo.Série:
+                    if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaSeries))
+                        sDsPasta = Path.Combine(Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
-                case Enums.ContentType.Anime:
-                    if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_PastaAnimes))
-                        FolderPath = Path.Combine(Properties.Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(Title));
+                case Enums.TipoConteudo.Anime:
+                    if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes))
+                        sDsPasta = Path.Combine(Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
                 default:

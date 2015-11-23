@@ -10,7 +10,7 @@
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
-    <Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=TextBox}">
         <xctk:WatermarkTextBox x:Name="TextBox" Text="{Binding Properties.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" Watermark="{Binding Properties.Message, Mode=TwoWay}" Margin="10" VerticalAlignment="Top" TabIndex="0" />
         <Button Content="{Binding Properties.CancelButtonText, Mode=TwoWay}" Width="{Binding Properties.ButtonWidth, Mode=TwoWay}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" TabIndex="2" />
         <Button Command="{Binding OkButtonClickCommand}" Content="{Binding Properties.OkButtonText, Mode=TwoWay}" Width="{Binding Properties.ButtonWidth, Mode=TwoWay}" Margin="{Binding Properties.MarginOkButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsDefault="True" TabIndex="1" />

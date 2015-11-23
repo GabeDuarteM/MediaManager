@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
@@ -13,18 +14,30 @@ namespace MediaManager.ViewModel
 {
     public class RenomearViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<EpisodeToRename> _Episodes;
+        public bool bFlSilencioso { get; set; }
 
-        public bool IsSilencioso { get; set; }
+        private bool? _bFlSelecionarTodos;
 
-        public Action CloseAction { get; set; } // Para poder fechar depois no RenomearCommand
+        public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<EpisodeToRename> Episodes { get { return _Episodes; } set { _Episodes = value; OnPropertyChanged("Episodes"); } }
+        public Action ActionFechar { get; set; } // Para poder fechar depois no RenomearCommand
 
-        public ICommand RenomearCommand { get; set; } = new RenomearCommand();
+        private ObservableCollection<Episodio> _ListaEpisodios;
+
+        public ObservableCollection<Episodio> ListaEpisodios { get { return _ListaEpisodios; } set { _ListaEpisodios = value; OnPropertyChanged(); } }
+
+        public ICommand CommandRenomear { get; set; }
+
+        public ICommand CommandSelecionar { get; set; }
+
+        public ICommand CommandSelecionarTodos { get; set; }
 
         public RenomearViewModel(IEnumerable<FileInfo> arquivos = null)
         {
+            CommandRenomear = new RenomearCommands.CommandRenomear();
+            CommandSelecionar = new RenomearCommands.CommandSelecionar();
+            CommandSelecionarTodos = new RenomearCommands.CommandSelecionarTodos();
+
             if (arquivos == null)
                 arquivos = new DirectoryInfo(Properties.Settings.Default.pref_PastaDownloads).EnumerateFiles("*.*", SearchOption.AllDirectories);
             Carregar(arquivos);
@@ -32,33 +45,31 @@ namespace MediaManager.ViewModel
 
         private void Carregar(IEnumerable<FileInfo> arquivos)
         {
-            Episodes = new ObservableCollection<EpisodeToRename>();
-            Episodes.Add(new EpisodeToRename() { ParentTitle = "Carregando...", OriginalFilePath = "Carregando...", FilenameRenamed = "Carregando...", IsSelected = false });
+            ListaEpisodios = new ObservableCollection<Episodio>();
+            ListaEpisodios.Add(new Episodio() { oSerie = new Serie() { sDsTitulo = "Carregando..." }, sDsFilepathOriginal = "Carregando...", bFlSelecionado = false });
 
             string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
-            List<EpisodeToRename> listaEpisodios = new List<EpisodeToRename>();
-            List<EpisodeToRename> listaEpisodiosNotFound = new List<EpisodeToRename>();
+            List<Episodio> listaEpisodios = new List<Episodio>();
+            List<Episodio> listaEpisodiosNaoEncontrados = new List<Episodio>();
 
             foreach (var item in arquivos)
             {
                 if (extensoesPermitidas.Contains(item.Extension))
                 {
-                    EpisodeToRename episodio = new EpisodeToRename();
-                    episodio.Filename = item.Name;
-                    episodio.FolderPath = item.DirectoryName;
-                    //if (DBHelper.VerificarSeEpisodioJaFoiRenomeado(item.FullName))
-                    //    continue;
+                    Episodio episodio = new Episodio();
+                    episodio.sDsFilepath = item.FullName;
+
+                    asdfasdfasdfasdfasdfasdfasdf;
                     if (episodio.GetEpisode())
                     {
-                        episodio.OriginalFilePath = item.FullName;
-                        episodio.FilenameRenamed = Helper.RenomearConformePreferencias(episodio) + item.Extension;
-                        episodio.IsRenamed = true;
+                        episodio.sDsFilepathOriginal = item.FullName;
+                        episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);
+                        episodio.bFlRenomeado = true;
                         listaEpisodios.Add(episodio);
                     }
                     else
                     {
-                        episodio.FilenameRenamed = episodio.Filename;
-                        listaEpisodiosNotFound.Add(episodio);
+                        listaEpisodiosNaoEncontrados.Add(episodio);
                     }
                 }
             }
@@ -68,14 +79,14 @@ namespace MediaManager.ViewModel
             //    tw.WriteLine(item.Filename);
             //    tw.Close();
             //}
-            Episodes = new ObservableCollection<EpisodeToRename>(listaEpisodios);
+            ListaEpisodios = new ObservableCollection<Episodio>(listaEpisodios);
         }
 
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

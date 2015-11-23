@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,32 +16,35 @@ namespace MediaManager.ViewModel
 {
     public class ConfigurarConteudoViewModel : INotifyPropertyChanged
     {
-        private string _AliasName;
-        private int _Temporada;
-        private int _Episodio;
-        private SerieAlias _SelectedAlias;
+        private string _sDsAlias;
 
-        private Video _Video;
+        public string sDsAlias { get { return _sDsAlias; } set { _sDsAlias = value; OnPropertyChanged(); } }
 
-        public string AliasName { get { return _AliasName; } set { _AliasName = value; OnPropertyChanged("AliasName"); } }
+        public string sNrTemporada { get { return nNrTemporada >= 0 ? "S" + _nNrTemporada.ToString("00") : "S"; } set { _nNrTemporada = ValidarPossivelTexto(value, _nNrTemporada); OnPropertyChanged("nNrTemporada"); } }
 
-        public string TemporadaStr { get { return Temporada > 0 ? "S" + _Temporada.ToString("00") : "S"; } set { _Temporada = ValidarPossivelTexto(value, _Temporada); OnPropertyChanged("Temporada"); } }
+        private int _nNrTemporada;
 
-        public int Temporada { get { return _Temporada; } set { _Temporada = value; OnPropertyChanged("Temporada"); } }
+        public int nNrTemporada { get { return _nNrTemporada; } set { _nNrTemporada = value; OnPropertyChanged(); OnPropertyChanged("sNrTemporada"); } }
 
-        public string EpisodioStr { get { return Episodio > 0 ? "E" + _Episodio.ToString("00") : "E"; } set { _Episodio = ValidarPossivelTexto(value, _Episodio); OnPropertyChanged("Episodio"); } }
+        public string sNrEpisodio { get { return nNrEpisodio >= 0 ? "E" + _nNrEpisodio.ToString("00") : "E"; } set { _nNrEpisodio = ValidarPossivelTexto(value, _nNrEpisodio); OnPropertyChanged("nNrEpisodio"); } }
 
-        public int Episodio { get { return _Episodio; } set { _Episodio = value; OnPropertyChanged("Episodio"); } }
+        private int _nNrEpisodio;
 
-        public bool IsAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
+        public int nNrEpisodio { get { return _nNrEpisodio; } set { _nNrEpisodio = value; OnPropertyChanged(); OnPropertyChanged("sNrEpisodio"); } }
 
-        public SerieAlias SelectedAlias { get { return _SelectedAlias; } set { _SelectedAlias = value; OnPropertyChanged("SelectedAlias"); } }
+        public bool bFlAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
 
-        public Video Video { get { return _Video; } set { _Video = value; OnPropertyChanged("Video"); } }
+        private SerieAlias _oAliasSelecionado;
+
+        public SerieAlias oAliasSelecionado { get { return _oAliasSelecionado; } set { _oAliasSelecionado = value; OnPropertyChanged(); } }
+
+        private Video _oVideo;
+
+        public Video oVideo { get { return _oVideo; } set { _oVideo = value; OnPropertyChanged(); } }
 
         public Action ActionDialogResult { get; set; }
 
-        public Action ActionClose { get; set; }
+        public Action ActionFechar { get; set; }
 
         public ICommand DoubleClickCommand { get; set; }
 
@@ -52,12 +56,12 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandRemoverSerie { get; set; }
 
-        public ConfigurarConteudoViewModel(Video video)
+        public ConfigurarConteudoViewModel(Video oVideo)
         {
-            Video = video;
-            _Temporada = 1;
-            _Episodio = 1;
-            Video.SerieAlias = Helper.PopularCampoSerieAlias(Video);
+            this.oVideo = oVideo;
+            _nNrTemporada = 1;
+            _nNrEpisodio = 1;
+            this.oVideo.ListaSerieAlias = Helper.PopularCampoSerieAlias(this.oVideo);
 
             DoubleClickCommand = new ConfigurarConteudoCommands.DoubleClickNoGridAliasCommand();
             AddAlias = new ConfigurarConteudoCommands.AddAlias();
@@ -79,7 +83,7 @@ namespace MediaManager.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

@@ -11,7 +11,7 @@ namespace MediaManager.Model
     public class SeriesData
     {
         [XmlElement("Episode")]
-        public Episode[] Episodes { get; set; }
+        public Episodio[] Episodios { get; set; }
 
         [XmlElement("Series")]
         public Serie[] Series { get; set; }

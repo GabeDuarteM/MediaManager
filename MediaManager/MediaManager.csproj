@@ -158,6 +158,7 @@
     <Compile Include="Commands\CommandsPreferencias.cs" />
     <Compile Include="Commands\EpisodiosCommand.cs" />
     <Compile Include="Commands\FeedsCommands.cs" />
+    <Compile Include="Commands\ProcurarConteudoCommands.cs" />
     <Compile Include="Commands\RenomearCommand.cs" />
     <Compile Include="Forms\frmBarraProgresso.xaml.cs">
       <DependentUpon>frmBarraProgresso.xaml</DependentUpon>
@@ -171,21 +172,17 @@
     <Compile Include="Helpers\APIRequests.cs" />
     <Compile Include="Helpers\DBHelper.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Migrations\201511070405167_Init.cs" />
-    <Compile Include="Migrations\201511070405167_Init.Designer.cs">
-      <DependentUpon>201511070405167_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201511220033051_Init.cs" />
+    <Compile Include="Migrations\201511220033051_Init.Designer.cs">
+      <DependentUpon>201511220033051_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511081830394_Feed.cs" />
-    <Compile Include="Migrations\201511081830394_Feed.Designer.cs">
-      <DependentUpon>201511081830394_Feed.cs</DependentUpon>
+    <Compile Include="Migrations\201511220607463_Nome_Episodio.cs" />
+    <Compile Include="Migrations\201511220607463_Nome_Episodio.Designer.cs">
+      <DependentUpon>201511220607463_Nome_Episodio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511081834563_Feed-Required.cs" />
-    <Compile Include="Migrations\201511081834563_Feed-Required.Designer.cs">
-      <DependentUpon>201511081834563_Feed-Required.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.cs" />
-    <Compile Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.Designer.cs">
-      <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
+    <Compile Include="Migrations\201511221909460_ajuste_Feeds.cs" />
+    <Compile Include="Migrations\201511221909460_ajuste_Feeds.Designer.cs">
+      <DependentUpon>201511221909460_ajuste_Feeds.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Context.cs" />
@@ -235,11 +232,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="SampleData\BarraProgressoViewModelSampleData.xaml">
+    <DesignData Include="SampleData\AdicionarConteudoViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <DesignData Include="SampleData\InputMessageBoxViewModelSampleData.xaml">
+    <DesignData Include="SampleData\ConfigurarConteudoViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\EpisodiosViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\FeedsViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -247,7 +252,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <DesignData Include="SampleData\PosterViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\PreferenciasViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
     <DesignData Include="SampleData\ProcurarConteudoViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\RenomearViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\BarraProgressoViewModelSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\InputMessageBoxViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -307,21 +332,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201511070405167_Init.resx">
-      <DependentUpon>201511070405167_Init.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Migrations\201511220033051_Init.resx">
+      <DependentUpon>201511220033051_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511081830394_Feed.resx">
-      <DependentUpon>201511081830394_Feed.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Migrations\201511220607463_Nome_Episodio.resx">
+      <DependentUpon>201511220607463_Nome_Episodio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511081834563_Feed-Required.resx">
-      <DependentUpon>201511081834563_Feed-Required.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511120110322_AdicionarPrioridadeNoFeed.resx">
-      <DependentUpon>201511120110322_AdicionarPrioridadeNoFeed.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Migrations\201511221909460_ajuste_Feeds.resx">
+      <DependentUpon>201511221909460_ajuste_Feeds.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

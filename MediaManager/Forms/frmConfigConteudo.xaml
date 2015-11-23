@@ -7,38 +7,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmConfigConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Configurar conteúdo - \{0\}}"
         Height="350.275"
-        Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData /SampleData/ConfigurarConteudoViewModelSampleData.xaml}">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
-            <ColumnDefinition Width="234*"/>
-            <ColumnDefinition Width="156*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="9*" />
+            <ColumnDefinition Width="234*" />
+            <ColumnDefinition Width="156*" />
+            <ColumnDefinition Width="10*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="286*"/>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="286*" />
+            <RowDefinition Height="29*" />
+            <RowDefinition Height="6*" />
         </Grid.RowDefinitions>
         <xctk:WatermarkTextBox Watermark="Formato de renomeio customizado...(Ainda não funfa :))" ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,0,0" Grid.Column="1" Grid.ColumnSpan="2" />
         <GroupBox Header="Alias" Margin="1,36.96,0,-0.315" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid Margin="0,1.12,1,0.667">
-                <xctk:WatermarkTextBox Text="{Binding AliasName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..." ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="0,0,115.667,0" />
-                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding TemporadaStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
-                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding EpisodioStr, Mode=TwoWay,UpdateSourceTrigger=LostFocus}" ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
+                <xctk:WatermarkTextBox Text="{Binding sDsAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..."
+                                       ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="0,0,115.667,0" />
+                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding sNrTemporada, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                       ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
+                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding sNrEpisodio, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                       ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
                 <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" />
                 <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" />
-                <DataGrid SelectedItem="{Binding SelectedAlias}" ItemsSource="{Binding Video.SerieAlias, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
+
+                <DataGrid SelectedItem="{Binding oAliasSelecionado}" ItemsSource="{Binding oVideo.ListaSerieAlias, Mode=TwoWay}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column"
+                          AlternationCount="2" AlternatingRowBackground="#FFDDDDDD"
+                          HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
+
                     <DataGrid.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding AliasName, Mode=OneWay}" Header="Alias" Width="10*" />
-                        <DataGridTextColumn Binding="{Binding Temporada, Mode=OneWay}" Header="S00" Width="1*" />
-                        <DataGridTextColumn Binding="{Binding Episodio, Mode=OneWay}" Header="E00" Width="1*" />
+                        <DataGridTextColumn Binding="{Binding sDsAlias, Mode=OneWay}" Header="Alias" Width="10*" />
+                        <DataGridTextColumn Binding="{Binding nNrTemporada, Mode=OneWay}" Header="S00" Width="1*" />
+                        <DataGridTextColumn Binding="{Binding nNrEpisodio, Mode=OneWay}" Header="E00" Width="1*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -46,7 +54,7 @@
         <Button Content="Cancelar" HorizontalAlignment="Right" Margin="0,5.315,0,3.725" Width="75" IsCancel="True" Grid.Row="1" d:LayoutOverrides="Height" Grid.Column="2" />
         <Button Content="Salvar" HorizontalAlignment="Left" Margin="1,5.315,0,3.725" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Grid.Row="1" d:LayoutOverrides="Height" Grid.Column="2" />
         <Button Grid.Column="1" HorizontalAlignment="Left" Margin="5,5.315,0,4.685" Grid.Row="1" Width="26" Command="{Binding CommandRemoverSerie}" CommandParameter="{Binding}" ToolTip="Remover série">
-            <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png"/>
+            <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" />
         </Button>
     </Grid>
 </Window>

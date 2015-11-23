@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using MediaManager.Properties;
@@ -97,31 +98,31 @@ namespace ConfigurableInputMessageBox
         private string _validationMessage;
         private int _width;
 
-        public int ButtonWidth { get { return _buttonWidth; } set { _buttonWidth = value; OnPropertyChanged("ButtonWidth"); } }
+        public int ButtonWidth { get { return _buttonWidth; } set { _buttonWidth = value; OnPropertyChanged(); } }
 
-        public string CancelButtonText { get { return _cancelButtonText; } set { _cancelButtonText = value; OnPropertyChanged("CancelButtonText"); } }
+        public string CancelButtonText { get { return _cancelButtonText; } set { _cancelButtonText = value; OnPropertyChanged(); } }
 
-        public int Height { get { return _height; } set { _height = value; OnPropertyChanged("Height"); } }
+        public int Height { get { return _height; } set { _height = value; OnPropertyChanged(); } }
 
-        public string InputText { get { return _inputText; } set { _inputText = value; OnPropertyChanged("InputText"); } }
+        public string InputText { get { return _inputText; } set { _inputText = value; OnPropertyChanged(); } }
 
         public Thickness MarginOkButton { get { return new Thickness(10, 10, ButtonWidth + 15, 10); } }
 
-        public string Message { get { return _message; } set { _message = value; OnPropertyChanged("Message"); } }
+        public string Message { get { return _message; } set { _message = value; OnPropertyChanged(); } }
 
-        public string OkButtonText { get { return _okButtonText; } set { _okButtonText = value; OnPropertyChanged("OkButtonText"); } }
+        public string OkButtonText { get { return _okButtonText; } set { _okButtonText = value; OnPropertyChanged(); } }
 
-        public string Title { get { return _title; } set { _title = value; OnPropertyChanged("Title"); } }
+        public string Title { get { return _title; } set { _title = value; OnPropertyChanged(); } }
 
-        public string ValidationMessage { get { return _validationMessage; } set { _validationMessage = value; OnPropertyChanged("ValidationMessage"); } }
+        public string ValidationMessage { get { return _validationMessage; } set { _validationMessage = value; OnPropertyChanged(); } }
 
-        public int Width { get { return _width; } set { _width = value; OnPropertyChanged("Width"); } }
+        public int Width { get { return _width; } set { _width = value; OnPropertyChanged(); } }
 
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 
@@ -164,7 +165,7 @@ namespace ConfigurableInputMessageBox
         private bool? _dialogResult;
         private InputMessageBoxProperties _properties;
 
-        public bool? DialogResult { get { return _dialogResult; } set { _dialogResult = value; OnPropertyChanged("DialogResult"); } }
+        public bool? DialogResult { get { return _dialogResult; } set { _dialogResult = value; OnPropertyChanged(); } }
 
         public ICommand OkButtonClickCommand { get; private set; }
 
@@ -227,7 +228,7 @@ namespace ConfigurableInputMessageBox
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

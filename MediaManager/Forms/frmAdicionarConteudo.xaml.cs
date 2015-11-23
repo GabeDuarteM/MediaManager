@@ -18,7 +18,7 @@ namespace MediaManager.Forms
 
         public bool IsProcurarConteudo { get; set; }
 
-        public frmAdicionarConteudo(Enums.ContentType tipoConteudo)
+        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo)
         {
             InitializeComponent();
 
@@ -28,8 +28,8 @@ namespace MediaManager.Forms
             if (inputMessageBox.DialogResult == true)
             {
                 Video serie = new Serie();
-                serie.ContentType = tipoConteudo;
-                serie.Title = inputMessageBox.InputViewModel.Properties.InputText;
+                serie.nIdTipoConteudo = tipoConteudo;
+                serie.sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText;
 
                 AdicionarConteudoViewModel = new AdicionarConteudoViewModel(serie, tipoConteudo);
             }
@@ -37,7 +37,7 @@ namespace MediaManager.Forms
             DataContext = AdicionarConteudoViewModel;
         }
 
-        public frmAdicionarConteudo(Enums.ContentType tipoConteudo, Video video)
+        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, Video video)
         {
             InitializeComponent();
 
@@ -48,19 +48,19 @@ namespace MediaManager.Forms
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
-            Video serie = AdicionarConteudoViewModel.SelectedVideo;
-            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoViewModel.SelectedVideo);
+            Video serie = AdicionarConteudoViewModel.oVideoSelecionado;
+            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoViewModel.oVideoSelecionado);
             frmConfigConteudo.ShowDialog();
-            foreach (var item in AdicionarConteudoViewModel.ResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
+            foreach (var item in AdicionarConteudoViewModel.ListaResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
             {
-                if (item.IDApi == AdicionarConteudoViewModel.SelectedVideo.IDApi)
+                if (item.nCdApi == AdicionarConteudoViewModel.oVideoSelecionado.nCdApi)
                 {
-                    item.SerieAlias = frmConfigConteudo.ConfigurarConteudoVM.Video.SerieAlias;
+                    item.ListaSerieAlias = frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias;
                     //AdicionarConteudoViewModel.SelectedVideo.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
                     break;
                 }
             }
-            if (frmConfigConteudo.ConfigurarConteudoVM.IsAcaoRemover)
+            if (frmConfigConteudo.ConfigurarConteudoVM.bFlAcaoRemover)
             {
                 Close();
             }
@@ -79,7 +79,7 @@ namespace MediaManager.Forms
 
         private async void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if (AdicionarConteudoViewModel.SelectedVideo == null || AdicionarConteudoViewModel.SelectedVideo.FolderPath == null)
+            if (AdicionarConteudoViewModel.oVideoSelecionado == null || AdicionarConteudoViewModel.oVideoSelecionado.sDsPasta == null)
             {
                 Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
@@ -90,9 +90,9 @@ namespace MediaManager.Forms
             }
             else
             {
-                switch (AdicionarConteudoViewModel.TipoConteudo)
+                switch (AdicionarConteudoViewModel.nIdTipoConteudo)
                 {
-                    case Enums.ContentType.Filme:
+                    case Enums.TipoConteudo.Filme:
                         //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
                         //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
 
@@ -117,13 +117,13 @@ namespace MediaManager.Forms
                         //}
                         break;
 
-                    case Enums.ContentType.Série:
-                    case Enums.ContentType.Anime:
+                    case Enums.TipoConteudo.Série:
+                    case Enums.TipoConteudo.Anime:
                         {
                             Serie serie = null;
-                            if (AdicionarConteudoViewModel.SelectedVideo is Serie)
+                            if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
                             {
-                                serie = (Serie)AdicionarConteudoViewModel.SelectedVideo;
+                                serie = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
                             }
                             //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
                             //{
@@ -131,7 +131,7 @@ namespace MediaManager.Forms
                             //    serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
                             //}
 
-                            serie.SerieAlias = Helper.PopularCampoSerieAlias(serie);
+                            serie.ListaSerieAlias = Helper.PopularCampoSerieAlias(serie);
 
                             if (IsEdicao)
                             {
@@ -141,7 +141,7 @@ namespace MediaManager.Forms
                                 }
                                 catch (Exception ex)
                                 {
-                                    Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.Title);
+                                    Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.sDsTitulo);
                                     DialogResult = false;
                                 }
                             }
@@ -153,18 +153,18 @@ namespace MediaManager.Forms
                                 }
                                 catch (Exception ex)
                                 {
-                                    Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.Title);
+                                    Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.sDsTitulo);
                                     DialogResult = false;
                                 }
                             }
                             break;
                         }
 
-                    case Enums.ContentType.AnimeFilmeSérie:
+                    case Enums.TipoConteudo.AnimeFilmeSérie:
                         {
                             Serie anime = null;
-                            if (AdicionarConteudoViewModel.SelectedVideo is Serie)
-                                anime = (Serie)AdicionarConteudoViewModel.SelectedVideo;
+                            if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
+                                anime = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
                             //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
                             //{
                             //    anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);

@@ -24,19 +24,19 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
-                if (episodiosVM.SelecionarTodos == true)
+                if (episodiosVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var episodio in episodiosVM.Episodios)
+                    foreach (var episodio in episodiosVM.ListaEpisodios)
                     {
-                        episodio.IsSelected = true;
+                        episodio.bFlSelecionado = true;
                     }
                 }
                 else
                 {
-                    episodiosVM.SelecionarTodos = false;
-                    foreach (var episodio in episodiosVM.Episodios)
+                    episodiosVM.bFlSelecionarTodos = false;
+                    foreach (var episodio in episodiosVM.ListaEpisodios)
                     {
-                        episodio.IsSelected = false;
+                        episodio.bFlSelecionado = false;
                     }
                 }
             }
@@ -70,14 +70,14 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
-                if (episodiosVM.EstadoEpisodioSelecionado != Helpers.Enums.EstadoEpisodio.Selecione)
+                if (episodiosVM.nIdEstadoEpisodioSelecionado != Helpers.Enums.EstadoEpisodio.Selecione)
                 {
-                    List<Episode> listaEpisodiosModificados = episodiosVM.Episodios.Where(x => x.IsSelected).ToList();
+                    List<Episodio> listaEpisodiosModificados = episodiosVM.ListaEpisodios.Where(x => x.bFlSelecionado).ToList();
                     if (listaEpisodiosModificados.Count > 0)
                     {
                         foreach (var item in listaEpisodiosModificados)
                         {
-                            item.EstadoEpisodio = episodiosVM.EstadoEpisodioSelecionado;
+                            item.nIdEstadoEpisodio = episodiosVM.nIdEstadoEpisodioSelecionado;
                         }
 
                         DBHelper.UpdateListaEpisodios(listaEpisodiosModificados);
@@ -98,18 +98,18 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var episodiosVM = parameter as EpisodiosViewModel;
-                int episodiosSelecionadosCount = episodiosVM.Episodios.Where(x => x.IsSelected).Count();
-                if (episodiosSelecionadosCount == episodiosVM.Episodios.Count)
+                int episodiosSelecionadosCount = episodiosVM.ListaEpisodios.Where(x => x.bFlSelecionado).Count();
+                if (episodiosSelecionadosCount == episodiosVM.ListaEpisodios.Count)
                 {
-                    episodiosVM.SelecionarTodos = true;
+                    episodiosVM.bFlSelecionarTodos = true;
                 }
                 else if (episodiosSelecionadosCount == 0)
                 {
-                    episodiosVM.SelecionarTodos = false;
+                    episodiosVM.bFlSelecionarTodos = false;
                 }
                 else if (episodiosSelecionadosCount > 0)
                 {
-                    episodiosVM.SelecionarTodos = null;
+                    episodiosVM.bFlSelecionarTodos = null;
                 }
             }
         }

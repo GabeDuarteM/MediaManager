@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Forms;
@@ -12,11 +13,13 @@ namespace MediaManager.ViewModel
 {
     public class PosterViewModel : INotifyPropertyChanged
     {
-        private Video _poster;
+        private Video _oPoster;
 
         public ICommand AbrirEdicaoCommand { get; private set; }
 
-        public Video Poster { get { return _poster; } set { _poster = value; OnPropertyChanged(); } }
+        public Video oPoster { get { return _oPoster; } set { _oPoster = value; OnPropertyChanged(); } }
+
+        public Window Owner { get; set; }
 
         public PosterViewModel()
         {
@@ -25,9 +28,9 @@ namespace MediaManager.ViewModel
 
         public void Editar()
         {
-            switch (Poster.ContentType)
+            switch (oPoster.nIdTipoConteudo)
             {
-                case Enums.ContentType.Filme:
+                case Enums.TipoConteudo.Filme:
                     {
                         //Video filme = new Filme();
                         //filme = DatabaseHelper.GetFilmePorId(Poster.ID);
@@ -46,22 +49,15 @@ namespace MediaManager.ViewModel
                         //}
                         throw new NotImplementedException(); // TODO Fazer funfar com filme;
                     }
-                case Enums.ContentType.Série:
+                case Enums.TipoConteudo.Anime:
+                case Enums.TipoConteudo.Série:
                     {
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
+                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(oPoster.nIdTipoConteudo, oPoster);
                         frmAdicionarConteudo.IsEdicao = true;
+                        frmAdicionarConteudo.Owner = Owner;
                         frmAdicionarConteudo.ShowDialog();
 
-                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Série);
-                        break;
-                    }
-                case Enums.ContentType.Anime:
-                    {
-                        frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.ContentType, Poster);
-                        frmAdicionarConteudo.IsEdicao = true;
-                        frmAdicionarConteudo.ShowDialog();
-
-                        frmMain.MainVM.AtualizarConteudo(Enums.ContentType.Anime);
+                        frmMain.MainVM.AtualizarConteudo(oPoster.nIdTipoConteudo);
                         break;
                     }
                 default:

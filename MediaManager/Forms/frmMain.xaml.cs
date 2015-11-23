@@ -34,7 +34,7 @@ namespace MediaManager.Forms
 
             InitializeComponent();
 
-            MainVM = new MainViewModel();
+            MainVM = new MainViewModel(owner: this);
 
             DataContext = MainVM;
 
@@ -54,15 +54,14 @@ namespace MediaManager.Forms
         /// <returns></returns>
         private bool TratarArgumentos()
         {
-            string[] argsArray = Environment.GetCommandLineArgs();
+            // Usa o Skip pois o primeiro sempre vai ser o caminho do executável.
+            string[] argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
             bool sucesso = false;
             string argsString = null;
 
             foreach (var item in argsArray)
             {
-                if (item == argsArray[0]) // Ignora o primeiro item, pois sempre vai ser o nome da aplicação.
-                    continue;
-                else if (argsString == null)
+                if (argsString == null)
                     argsString += "\"" + item + "\"";
                 else
                     argsString += ", " + item;
@@ -70,7 +69,7 @@ namespace MediaManager.Forms
             if (argsString != null)
                 Helper.LogMessage("Aplicação iniciada com os seguintes argumentos: " + argsString);
 
-            for (int i = 1; i < argsArray.Length; i++)
+            for (int i = 0; i < argsArray.Length; i++)
             {
                 if (argsArray[i].StartsWith("-"))
                 {
@@ -112,20 +111,20 @@ namespace MediaManager.Forms
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(arg);
                     RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
-                    renomearVM.IsSilencioso = true;
-                    if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                    renomearVM.bFlSilencioso = true;
+                    if (renomearVM.CommandRenomear.CanExecute(renomearVM))
                     {
-                        renomearVM.RenomearCommand.Execute(renomearVM);
+                        renomearVM.CommandRenomear.Execute(renomearVM);
                     }
                 }
                 else if (File.Exists(arg))
                 {
                     IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
                     RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
-                    renomearVM.IsSilencioso = true;
-                    if (renomearVM.RenomearCommand.CanExecute(renomearVM))
+                    renomearVM.bFlSilencioso = true;
+                    if (renomearVM.CommandRenomear.CanExecute(renomearVM))
                     {
-                        renomearVM.RenomearCommand.Execute(renomearVM);
+                        renomearVM.CommandRenomear.Execute(renomearVM);
                     }
                 }
                 return true;
@@ -153,14 +152,14 @@ namespace MediaManager.Forms
 
             foreach (var item in DBHelper.GetFeeds().OrderBy(x => x.nNrPrioridade))
             {
-                var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sNmUrl));
+                var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
                 List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
 
                 foreach (var itemArgotic in argotic.Channel.Items)
                 {
                     Helper.RegexEpisodio a = new Helper.RegexEpisodio();
                     System.Text.RegularExpressions.Match b = null;
-                    if (item.nIdTipoConteudo == Enums.ContentType.Série)
+                    if (item.nIdTipoConteudo == Enums.TipoConteudo.Série)
                         b = a.regex_0x00.Match(itemArgotic.Title);
                     else
                         b = a.regex_Fansub0000.Match(itemArgotic.Title);
@@ -180,7 +179,7 @@ namespace MediaManager.Forms
 
         private void ProcurarNovosEpisodiosBaixados()
         {
-            var series = MainVM.AnimesESeries.ToList();
+            var series = MainVM.ListaAnimesESeries.ToList();
 
             //foreach (var serie in series)
             //{
@@ -237,26 +236,26 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Anime);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Anime);
             frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.Anime);
+                MainVM.AtualizarConteudo(Enums.TipoConteudo.Anime);
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Filme);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Filme);
             frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.Filme);
+                MainVM.AtualizarConteudo(Enums.TipoConteudo.Filme);
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.ContentType.Série);
+            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Série);
             frmAdicionarConteudo.ShowDialog(this);
             if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.Série);
+                MainVM.AtualizarConteudo(Enums.TipoConteudo.Série);
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
@@ -267,10 +266,10 @@ namespace MediaManager.Forms
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.ContentType.AnimeFilmeSérie, this);
+            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, this);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
-                MainVM.AtualizarConteudo(Enums.ContentType.AnimeFilmeSérie);
+                MainVM.AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie);
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)

@@ -15,17 +15,17 @@ namespace MediaManager.ViewModel
 {
     public class FeedsViewModel : INotifyPropertyChanged
     {
-        private List<Feed> _Feeds;
+        private List<Feed> _ListaFeeds;
 
-        public List<Feed> Feeds { get { return _Feeds; } set { _Feeds = value; OnPropertyChanged(); } }
+        public List<Feed> ListaFeeds { get { return _ListaFeeds; } set { _ListaFeeds = value; OnPropertyChanged(); } }
 
-        private CollectionViewSource _FeedsView;
+        private CollectionViewSource _ListaFeedsView;
 
-        public CollectionViewSource FeedsView { get { return _FeedsView; } set { _FeedsView = value; OnPropertyChanged(); } }
+        public CollectionViewSource ListaFeedsView { get { return _ListaFeedsView; } set { _ListaFeedsView = value; OnPropertyChanged(); } }
 
-        private bool? _bFlSelecionarTodosFeeds;
+        private bool? _bFlSelecionarTodos;
 
-        public bool? bFlSelecionarTodosFeeds { get { return _bFlSelecionarTodosFeeds; } set { _bFlSelecionarTodosFeeds = value; OnPropertyChanged(); } }
+        public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
 
         public ICommand CommandAdicionarFeed { get; set; }
 
@@ -37,22 +37,23 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSelecionar { get; set; }
 
-        public FeedsViewModel(List<Feed> feeds = null /* Teste unitário ¬¬ */)
+        public ICommand CommandSelecionarTodos { get; set; }
+
+        public FeedsViewModel(List<Feed> listaFeeds = null /* Teste unitário ¬¬ */)
         {
-            if (feeds == null)
-                Feeds = DBHelper.GetFeeds();
-            else
-                Feeds = feeds;
-            FeedsView = new CollectionViewSource();
-            FeedsView.Source = Feeds;
-            FeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
-            FeedsView.IsLiveSortingRequested = true;
-            FeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
+            ListaFeeds = (listaFeeds == null) ? ListaFeeds = DBHelper.GetFeeds() : ListaFeeds = listaFeeds;
+            ListaFeedsView = new CollectionViewSource();
+            ListaFeedsView.Source = ListaFeeds;
+            ListaFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
+            ListaFeedsView.IsLiveSortingRequested = true;
+            ListaFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
             CommandAdicionarFeed = new FeedsCommands.CommandAdicionarFeed();
             CommandAumentarPrioridadeFeed = new FeedsCommands.CommandAumentarPrioridadeFeed();
             CommandDiminuirPrioridadeFeed = new FeedsCommands.CommandDiminuirPrioridadeFeed();
             CommandRemoverFeed = new FeedsCommands.CommandRemoverFeed();
             CommandSelecionar = new FeedsCommands.CommandSelecionar();
+            CommandSelecionarTodos = new FeedsCommands.CommandSelecionarTodos();
+            CommandSelecionar.Execute(this);
         }
 
         #region INotifyPropertyChanged Members

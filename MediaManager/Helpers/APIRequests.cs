@@ -94,16 +94,16 @@ namespace MediaManager.Helpers
             XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
             List<Serie> listaSeriesAnimes = DBHelper.GetSeriesEAnimes();
-            List<Episode> listaEpisodios = DBHelper.GetEpisodes();
+            List<Episodio> listaEpisodios = DBHelper.GetEpisodes();
             List<string> listaSeriesAnimesIDApi = new List<string>();
             List<string> listaEpisodiosIDApi = new List<string>();
             foreach (var item in listaSeriesAnimes)
             {
-                listaSeriesAnimesIDApi.Add(item.IDApi + "");
+                listaSeriesAnimesIDApi.Add(item.nCdApi + "");
             }
             foreach (var item in listaEpisodios)
             {
-                listaEpisodiosIDApi.Add(item.IDTvdb + "");
+                listaEpisodiosIDApi.Add(item.nCdEpisodioAPI + "");
             }
 
             foreach (XmlNode item in nodesSeries)
@@ -117,16 +117,16 @@ namespace MediaManager.Helpers
 
                     //data.Series[0].Episodes = new List<Episode>(data.Episodes);
 
-                    if (int.Parse(serieDB.LastUpdated) < int.Parse(item.SelectSingleNode("time").InnerText))
+                    if (int.Parse(serieDB.sNrUltimaAtualizacao) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
                         Serie serie = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
 
-                        serie.IDBanco = serieDB.IDBanco;
-                        serie.FolderPath = serieDB.FolderPath;
-                        serie.IsAnime = serieDB.IsAnime;
-                        serie.ContentType = serieDB.ContentType;
-                        serie.Title = serieDB.Title;
-                        serie.SerieAliasStr = serieDB.SerieAliasStr;
+                        serie.nCdVideo = serieDB.nCdVideo;
+                        serie.sDsPasta = serieDB.sDsPasta;
+                        serie.bFlAnime = serieDB.bFlAnime;
+                        serie.nIdTipoConteudo = serieDB.nIdTipoConteudo;
+                        serie.sDsTitulo = serieDB.sDsTitulo;
+                        serie.sAliases = serieDB.sAliases;
 
                         await DBHelper.UpdateSerieAsync(serie);
                     }
@@ -139,18 +139,18 @@ namespace MediaManager.Helpers
                 int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
                 if (listaEpisodiosIDApi.Contains(IDApi + ""))
                 {
-                    Episode episodioDB = DBHelper.GetEpisode(IDApi);
+                    Episodio episodioDB = DBHelper.GetEpisode(IDApi);
 
-                    if (int.Parse(episodioDB.LastUpdated) < int.Parse(item.SelectSingleNode("time").InnerText))
+                    if (int.Parse(episodioDB.sNrUltimaAtualizacao) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
-                        Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
-                        episodio.IDBanco = episodioDB.IDBanco;
+                        Episodio episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                        episodio.nCdEpisodio = episodioDB.nCdEpisodio;
                         DBHelper.UpdateEpisodio(episodio);
                     }
                 }
                 else if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
                 {
-                    Episode episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                    Episodio episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
                     DBHelper.AddEpisodio(episodio);
                 }
             }
@@ -169,11 +169,11 @@ namespace MediaManager.Helpers
                             using (Context db = new Context())
                             {
                                 var serie = (from series in db.Serie
-                                             where series.IDApi == IDApi
+                                             where series.nCdApi == IDApi
                                              select series).First();
-                                if (urlImagem != serie.ImgFanart)
+                                if (urlImagem != serie.sDsImgFanart)
                                 {
-                                    serie.ImgFanart = urlImagem;
+                                    serie.sDsImgFanart = urlImagem;
                                     db.SaveChanges();
                                     await Helper.DownloadImagesAsync(serie, Enums.TipoImagem.Fanart);
                                 }
@@ -184,11 +184,11 @@ namespace MediaManager.Helpers
                             using (Context db = new Context())
                             {
                                 var serie = (from series in db.Serie
-                                             where series.IDApi == IDApi
+                                             where series.nCdApi == IDApi
                                              select series).First();
-                                if (urlImagem != serie.ImgPoster)
+                                if (urlImagem != serie.sDsImgPoster)
                                 {
-                                    serie.ImgPoster = urlImagem;
+                                    serie.sDsImgPoster = urlImagem;
                                     db.SaveChanges();
                                     await Helper.DownloadImagesAsync(serie, Enums.TipoImagem.Poster);
                                 }
@@ -259,8 +259,8 @@ namespace MediaManager.Helpers
 
             foreach (var item in data.Series)
             {
-                item.Estado = Enums.Estado.Completo;
-                item.Episodes = new List<Episode>(data.Episodes);
+                item.nIdEstado = Enums.Estado.Completo;
+                item.ListaEpisodios = new List<Episodio>(data.Episodios);
             }
 
             return data.Series.FirstOrDefault();
@@ -272,7 +272,7 @@ namespace MediaManager.Helpers
 
             using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
             {
-                using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query/* + "&language=" + Settings.Default.pref_IdiomaPesquisa*/))
+                using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
                 {
                     responseData = await response.Content.ReadAsStringAsync();
                 }
@@ -292,37 +292,15 @@ namespace MediaManager.Helpers
             List<Serie> series = new List<Serie>();
             if (data.Series != null)
             {
-                //foreach (var itemData in data.Series)
-                //{
                 foreach (var item in data.Series)
                 {
-                    var isExistente = series.Select(x => x.IDApi).Contains(item.IDApi);
-                    //foreach (var itemListaSeries in series)
-                    //{
-                    //    if (item.IDApi == itemListaSeries.IDApi)
-                    //    {
-                    //        isExistente = true;
-                    //        break;
-                    //    }
-                    //}
+                    var isExistente = series.Select(x => x.nCdApi).Contains(item.nCdApi);
                     if (!isExistente)
                     {
-                        item.Estado = Enums.Estado.Simples;
+                        item.nIdEstado = Enums.Estado.Simples;
                         series.Add(item);
                     }
                 }
-                //foreach (var item in series)
-                //{
-                //    if (item.IDApi == itemData.IDApi)
-                //    {
-                //        isExistente = true;
-                //        break;
-                //    }
-                //}
-                //if (!isExistente)
-                //    series.Add(itemData);
-                //break;
-                //}
             }
 
             return series;
@@ -359,10 +337,10 @@ namespace MediaManager.Helpers
                     foreach (var item in data.Series)
                     {
                         var isExistente = false;
-                        item.Estado = Enums.Estado.Simples;
+                        item.nIdEstado = Enums.Estado.Simples;
                         foreach (var itemListaSeries in series)
                         {
-                            if (item.IDApi == itemListaSeries.IDApi)
+                            if (item.nCdApi == itemListaSeries.nCdApi)
                             {
                                 isExistente = true;
                                 break;
@@ -391,7 +369,7 @@ namespace MediaManager.Helpers
             return data;
         }
 
-        private static async Task<Episode> GetEpisodeInfoAsync(int IDApi, string pref_IdiomaPesquisa)
+        private static async Task<Episodio> GetEpisodeInfoAsync(int IDApi, string pref_IdiomaPesquisa)
         {
             string responseData = null;
 
@@ -403,13 +381,13 @@ namespace MediaManager.Helpers
                 }
             }
 
-            Episode episode = new Episode();
+            Episodio episode = new Episodio();
             XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {
                 var data = (SeriesData)serializer.Deserialize(reader);
-                episode = data.Episodes[0];
+                episode = data.Episodios[0];
             }
             return episode;
         }

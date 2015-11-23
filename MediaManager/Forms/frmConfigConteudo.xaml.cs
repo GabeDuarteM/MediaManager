@@ -16,7 +16,7 @@ namespace MediaManager.Forms
             InitializeComponent();
             ConfigurarConteudoVM = new ConfigurarConteudoViewModel(video);
             ConfigurarConteudoVM.ActionDialogResult = new System.Action(() => DialogResult = true);
-            ConfigurarConteudoVM.ActionClose = new System.Action(() => Close());
+            ConfigurarConteudoVM.ActionFechar = new System.Action(() => Close());
             DataContext = ConfigurarConteudoVM;
         }
     }

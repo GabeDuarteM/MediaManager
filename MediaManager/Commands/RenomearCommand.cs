@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -8,104 +9,136 @@ using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
 {
-    public class RenomearCommand : ICommand
+    public class RenomearCommands
     {
-        #region ICommand Members
-
-        public event EventHandler CanExecuteChanged
+        public class CommandRenomear : ICommand
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            if (parameter is RenomearViewModel && (parameter as RenomearViewModel).Episodes != null && (parameter as RenomearViewModel).Episodes.Count > 0)
-                return true;
-            else
-                return false;
-        }
-
-        public void Execute(object parameter)
-        {
-            RenomearViewModel renomearVM = (parameter as RenomearViewModel);
-            foreach (var item in renomearVM.Episodes)
+            public event EventHandler CanExecuteChanged
             {
-                if (item.IsSelected)
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return parameter is RenomearViewModel
+                    && (parameter as RenomearViewModel).ListaEpisodios != null
+                    && (parameter as RenomearViewModel).ListaEpisodios.Count > 0;
+            }
+
+            public void Execute(object parameter)
+            {
+                RenomearViewModel renomearVM = (parameter as RenomearViewModel);
+
+                foreach (var item in renomearVM.ListaEpisodios)
                 {
-                    Helper.LogMessage("O arquivo \"" + Path.Combine(item.FolderPath, item.Filename) + "\" será copiado para \"" + Path.Combine(item.Serie.FolderPath, item.FilenameRenamed) + "\"");
-                    Helper.LogMessage("Método de processamento: " + ((Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
-
-                    if (!Directory.Exists(Path.GetDirectoryName(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)))) // Adiciona o FilenameRenamed para quando houver pasta no nome (Ex. "Season 04\\Arrow - 4x05 - Haunted.mkv")
+                    if (item.bFlSelecionado)
                     {
-                        Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)));
-                        Helper.LogMessage("Diretório \"" + Path.GetDirectoryName(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)) + "\" criado.");
-                    }
+                        Helper.LogMessage("O arquivo \"" + item.sDsFilepathOriginal + "\" será copiado para \"" + item.sDsFilepath + "\"");
+                        Helper.LogMessage("Método de processamento: " + ((Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
 
-                    if (File.Exists(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)) && !renomearVM.IsSilencioso)
-                    {
-                        //if (!renomearVM.IsSilencioso)
-                        //{
-                        if (MessageBox.Show("O episódio " + item.FilenameRenamed + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + Path.Combine(item.FolderPath, item.Filename) + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        // Adiciona o FilenameRenamed para quando houver pasta no nome (Ex. "Season 04\\Arrow - 4x05 - Haunted.mkv")
+                        if (!Directory.Exists(Path.GetDirectoryName(item.sDsFilepath)))
                         {
-                            File.Delete(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
+                            Directory.CreateDirectory(Path.GetDirectoryName(item.sDsFilepath));
+                            Helper.LogMessage("Diretório \"" + Path.GetDirectoryName(item.sDsFilepath) + "\" criado.");
+                        }
+
+                        if (File.Exists(item.sDsFilepathOriginal) && !renomearVM.bFlSilencioso)
+                        {
+                            if (MessageBox.Show("O arquivo " + item.sDsFilepathOriginal + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + item.sDsFilepath + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                            {
+                                File.Delete(item.sDsFilepathOriginal);
+                                if (Helper.RealizarPosProcessamento(item))
+                                {
+                                    item.bFlRenomeado = true;
+                                    item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
+                                    DBHelper.UpdateEpisodioRenomeado(item);
+                                }
+                                else
+                                {
+                                    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepathOriginal), "Ocorreu um erro ao criar o HardLink.", true);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (File.Exists(item.sDsFilepath))
+                                File.Delete(item.sDsFilepath);
                             if (Helper.RealizarPosProcessamento(item))
                             {
-                                item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
-                                item.FilenameRenamed = Path.GetFileName(item.FilePath);
-                                item.IsRenamed = true;
-                                item.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
+                                item.bFlRenomeado = true;
+                                item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
                                 DBHelper.UpdateEpisodioRenomeado(item);
                             }
-                            //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                            //        Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
-                            //{
-                            //    item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
-                            //    item.IsRenamed = true;
-                            //    DBHelper.UpdateEpisodioRenomeado(item);
-                            //}
-                            else
-                            {
-                                Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
-                            }
                         }
-                        //}
-                        //else
-                        //{
-                        //    Helper.LogMessage("O arquivo " + Path.Combine(item.Serie.FolderPath, item.FilenameRenamed) + " já existe e não será sobrescrito.");
-                        //}
-                    }
-                    else
-                    {
-                        if (File.Exists(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed)))
-                            File.Delete(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed));
-                        if (Helper.RealizarPosProcessamento(item))
-                        {
-                            item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
-                            item.FilenameRenamed = Path.GetFileName(item.FilePath);
-                            item.IsRenamed = true;
-                            item.EstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                            DBHelper.UpdateEpisodioRenomeado(item);
-                        }
-                        //if (Helper.CreateHardLink(Path.Combine(item.Serie.FolderPath, item.FilenameRenamed),
-                        //        Path.Combine(item.FolderPath, item.Filename), IntPtr.Zero))
-                        //{
-                        //    Helper.LogMessage("O arquivo " + Path.Combine(item.Serie.FolderPath, item.FilenameRenamed) + " foi renomeado com sucesso.");
-                        //    item.FilePath = Path.Combine(item.Serie.FolderPath, item.FilenameRenamed);
-                        //    item.IsRenamed = true;
-                        //    DBHelper.UpdateEpisodioRenomeado(item);
-                        //}
-                        //else
-                        //{
-                        //    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + Path.Combine(item.FolderPath, item.Filename)), "Ocorreu um erro ao criar o HardLink.", true);
-                        //}
                     }
                 }
+                if (renomearVM.ActionFechar != null)
+                {
+                    renomearVM.ActionFechar();
+                }
             }
-            if (renomearVM.CloseAction != null)
-                renomearVM.CloseAction();
+        }
+
+        public class CommandSelecionar : ICommand
+        {
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return parameter is RenomearViewModel;
+            }
+
+            public void Execute(object parameter)
+            {
+                var renomearVM = parameter as RenomearViewModel;
+                int episodiosSelecionadosCount = renomearVM.ListaEpisodios.Where(x => x.bFlSelecionado).Count();
+                if (episodiosSelecionadosCount == renomearVM.ListaEpisodios.Count && renomearVM.ListaEpisodios.Count > 0)
+                {
+                    renomearVM.bFlSelecionarTodos = true;
+                }
+                else if (episodiosSelecionadosCount == 0)
+                {
+                    renomearVM.bFlSelecionarTodos = false;
+                }
+                else if (episodiosSelecionadosCount > 0)
+                {
+                    renomearVM.bFlSelecionarTodos = null;
+                }
+            }
+        }
+
+        public class CommandSelecionarTodos : ICommand
+        {
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return parameter is RenomearViewModel;
+            }
+
+            public void Execute(object parameter)
+            {
+                var renomearVM = parameter as RenomearViewModel;
+                if (renomearVM.bFlSelecionarTodos == true)
+                {
+                    renomearVM.ListaEpisodios.ToList().ForEach(x => x.bFlSelecionado = true);
+                }
+                else
+                {
+                    renomearVM.bFlSelecionarTodos = false;
+                    renomearVM.ListaEpisodios.ToList().ForEach(x => x.bFlSelecionado = false);
+                }
+            }
         }
     }
-
-    #endregion ICommand Members
 }
