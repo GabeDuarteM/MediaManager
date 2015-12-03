@@ -25,7 +25,7 @@ namespace MediaManager.Forms
         public frmMain()
         {
             Teste();
-            //TESTCopiarEstruturaDePastas();
+            TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
 
@@ -179,7 +179,7 @@ namespace MediaManager.Forms
 
         private void ProcurarNovosEpisodiosBaixados()
         {
-            var series = MainVM.ListaAnimesESeries.ToList();
+            var series = MainVM.lstAnimesESeries.ToList();
 
             //foreach (var serie in series)
             //{

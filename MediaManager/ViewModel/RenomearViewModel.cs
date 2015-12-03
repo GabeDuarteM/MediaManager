@@ -22,9 +22,9 @@ namespace MediaManager.ViewModel
 
         public Action ActionFechar { get; set; } // Para poder fechar depois no RenomearCommand
 
-        private ObservableCollection<Episodio> _ListaEpisodios;
+        private ObservableCollection<Episodio> _lstEpisodios;
 
-        public ObservableCollection<Episodio> ListaEpisodios { get { return _ListaEpisodios; } set { _ListaEpisodios = value; OnPropertyChanged(); } }
+        public ObservableCollection<Episodio> lstEpisodios { get { return _lstEpisodios; } set { _lstEpisodios = value; OnPropertyChanged(); } }
 
         public ICommand CommandRenomear { get; set; }
 
@@ -41,16 +41,17 @@ namespace MediaManager.ViewModel
             if (arquivos == null)
                 arquivos = new DirectoryInfo(Properties.Settings.Default.pref_PastaDownloads).EnumerateFiles("*.*", SearchOption.AllDirectories);
             Carregar(arquivos);
+            CommandSelecionar.Execute(this);
         }
 
         private void Carregar(IEnumerable<FileInfo> arquivos)
         {
-            ListaEpisodios = new ObservableCollection<Episodio>();
-            ListaEpisodios.Add(new Episodio() { oSerie = new Serie() { sDsTitulo = "Carregando..." }, sDsFilepathOriginal = "Carregando...", bFlSelecionado = false });
+            this.lstEpisodios = new ObservableCollection<Episodio>();
+            this.lstEpisodios.Add(new Episodio() { oSerie = new Serie() { sDsTitulo = "Carregando..." }, sDsFilepathOriginal = "Carregando...", bFlSelecionado = false });
 
             string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
-            List<Episodio> listaEpisodios = new List<Episodio>();
-            List<Episodio> listaEpisodiosNaoEncontrados = new List<Episodio>();
+            List<Episodio> lstEpisodios = new List<Episodio>();
+            List<Episodio> lstEpisodiosNaoEncontrados = new List<Episodio>();
 
             foreach (var item in arquivos)
             {
@@ -58,18 +59,16 @@ namespace MediaManager.ViewModel
                 {
                     Episodio episodio = new Episodio();
                     episodio.sDsFilepath = item.FullName;
-
-                    asdfasdfasdfasdfasdfasdfasdf;
-                    if (episodio.GetEpisode())
+                    if (episodio.IdentificarEpisodio())
                     {
                         episodio.sDsFilepathOriginal = item.FullName;
                         episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);
                         episodio.bFlRenomeado = true;
-                        listaEpisodios.Add(episodio);
+                        lstEpisodios.Add(episodio);
                     }
                     else
                     {
-                        listaEpisodiosNaoEncontrados.Add(episodio);
+                        lstEpisodiosNaoEncontrados.Add(episodio);
                     }
                 }
             }
@@ -79,7 +78,7 @@ namespace MediaManager.ViewModel
             //    tw.WriteLine(item.Filename);
             //    tw.Close();
             //}
-            ListaEpisodios = new ObservableCollection<Episodio>(listaEpisodios);
+            this.lstEpisodios = new ObservableCollection<Episodio>(lstEpisodios);
         }
 
         #region INotifyPropertyChanged Members

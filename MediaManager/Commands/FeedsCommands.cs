@@ -41,12 +41,12 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as FeedsViewModel;
 
-                if (feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {
-                    var feed = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
+                    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
                     if (feed != null)
                     {
-                        var feedAcima = feedsVM.ListaFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                        var feedAcima = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade--;
                         feedAcima.nNrPrioridade++;
                         if (DBHelper.UpdateFeed(feed, feedAcima) == false)
@@ -91,12 +91,12 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as FeedsViewModel;
 
-                if (feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {
-                    var feed = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.ListaFeeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
+                    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.lstFeeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
                     if (feed != null)
                     {
-                        var feedAbaixo = feedsVM.ListaFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                        var feedAbaixo = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade++;
                         feedAbaixo.nNrPrioridade--;
                         if (DBHelper.UpdateFeed(feed, feedAbaixo) == false)
@@ -138,8 +138,8 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as FeedsViewModel;
-                int feedsSelecionadosCount = feedsVM.ListaFeeds.Where(x => x.bFlSelecionado).Count();
-                if (feedsSelecionadosCount == feedsVM.ListaFeeds.Count && feedsVM.ListaFeeds.Count > 0)
+                int feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
+                if (feedsSelecionadosCount == feedsVM.lstFeeds.Count && feedsVM.lstFeeds.Count > 0)
                 {
                     feedsVM.bFlSelecionarTodos = true;
                 }
@@ -168,7 +168,7 @@ namespace MediaManager.Commands
                 var feedsVM = parameter as FeedsViewModel;
                 if (feedsVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var feed in feedsVM.ListaFeeds)
+                    foreach (var feed in feedsVM.lstFeeds)
                     {
                         feed.bFlSelecionado = true;
                     }
@@ -176,7 +176,7 @@ namespace MediaManager.Commands
                 else
                 {
                     feedsVM.bFlSelecionarTodos = false;
-                    foreach (var feed in feedsVM.ListaFeeds)
+                    foreach (var feed in feedsVM.lstFeeds)
                     {
                         feed.bFlSelecionado = false;
                     }

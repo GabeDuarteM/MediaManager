@@ -3,7 +3,7 @@ namespace MediaManager.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -12,10 +12,10 @@ namespace MediaManager.Migrations
                 c => new
                     {
                         nCdEpisodio = c.Int(nullable: false, identity: true),
-                        sDsNome = c.String(),
+                        sDsEpisodio = c.String(),
                         nNrEpisodio = c.Int(nullable: false),
                         nNrTemporada = c.Int(nullable: false),
-                        sNrAbsoluto = c.Int(),
+                        nNrAbsoluto = c.Int(),
                         nNrEstreiaDepoisTemporada = c.Int(),
                         nNrEstreiaAntesEpisodio = c.Int(),
                         nNrEstreiaAntesTemporada = c.Int(),
@@ -86,7 +86,7 @@ namespace MediaManager.Migrations
                 c => new
                     {
                         nCdFeed = c.Int(nullable: false, identity: true),
-                        sNmFeed = c.String(nullable: false),
+                        sDsFeed = c.String(nullable: false),
                         sLkFeed = c.String(nullable: false),
                         nIdTipoConteudo = c.Int(nullable: false),
                         nNrPrioridade = c.Int(nullable: false),

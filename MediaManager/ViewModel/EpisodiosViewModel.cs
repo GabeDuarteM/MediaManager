@@ -16,13 +16,13 @@ namespace MediaManager.ViewModel
 {
     public class EpisodiosViewModel : INotifyPropertyChanged
     {
-        private ICollectionView _ListaEpisodiosView;
+        private ICollectionView _lstEpisodiosView;
 
-        public ICollectionView ListaEpisodiosView { get { return _ListaEpisodiosView; } set { _ListaEpisodiosView = value; OnPropertyChanged(); } }
+        public ICollectionView lstEpisodiosView { get { return _lstEpisodiosView; } set { _lstEpisodiosView = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<Episodio> _ListaEpisodios;
+        private ObservableCollection<Episodio> _lstEpisodios;
 
-        public ObservableCollection<Episodio> ListaEpisodios { get { return _ListaEpisodios; } set { _ListaEpisodios = value; OnPropertyChanged(); } }
+        public ObservableCollection<Episodio> lstEpisodios { get { return _lstEpisodios; } set { _lstEpisodios = value; OnPropertyChanged(); } }
 
         private bool? _bFlSelecionarTodos;
 
@@ -48,12 +48,12 @@ namespace MediaManager.ViewModel
 
         public EpisodiosViewModel(List<Episodio> episodios)
         {
-            ListaEpisodios = new ObservableCollection<Episodio>(episodios);
-            ListaEpisodiosView = new ListCollectionView(ListaEpisodios);
-            ListaEpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription("nNrTemporada"));
+            lstEpisodios = new ObservableCollection<Episodio>(episodios);
+            lstEpisodiosView = new ListCollectionView(lstEpisodios);
+            lstEpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription("nNrTemporada"));
             bFlSelecionarTodos = false;
-            var listaEstadosParaExibir = new List<int> { 0, 1, 2, 4, 5 };
-            ArrayEstadoEpisodio = Enum.GetValues(typeof(Enums.EstadoEpisodio)).Cast<Enums.EstadoEpisodio>().Where(x => listaEstadosParaExibir.Contains((int)x)).ToArray();
+            var lstEstadosParaExibir = new List<int> { 0, 1, 2, 4, 5 };
+            ArrayEstadoEpisodio = Enum.GetValues(typeof(Enums.EstadoEpisodio)).Cast<Enums.EstadoEpisodio>().Where(x => lstEstadosParaExibir.Contains((int)x)).ToArray();
             nIdEstadoEpisodioSelecionado = Enums.EstadoEpisodio.Selecione;
             CommandSelecionarTodos = new EpisodiosCommand.CommandSelecionarTodos();
             CommandIsSelected = new EpisodiosCommand.CommandIsSelected();

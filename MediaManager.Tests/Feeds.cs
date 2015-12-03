@@ -24,17 +24,17 @@ namespace MediaManager.Tests
             Feed feed10 = new Feed() { nCdFeed = 10, bFlSelecionado = false, nIdTipoConteudo = Helpers.Enums.TipoConteudo.Série, nNrPrioridade = 5 };
 
             FeedsViewModel feedVM = new FeedsViewModel(new List<Feed>());
-            feedVM.ListaFeeds = new List<Feed>();
-            feedVM.ListaFeeds.Add(feed);
-            feedVM.ListaFeeds.Add(feed2);
-            feedVM.ListaFeeds.Add(feed3);
-            feedVM.ListaFeeds.Add(feed4);
-            feedVM.ListaFeeds.Add(feed5);
-            feedVM.ListaFeeds.Add(feed6);
-            feedVM.ListaFeeds.Add(feed7);
-            feedVM.ListaFeeds.Add(feed8);
-            feedVM.ListaFeeds.Add(feed9);
-            feedVM.ListaFeeds.Add(feed10);
+            feedVM.lstFeeds = new List<Feed>();
+            feedVM.lstFeeds.Add(feed);
+            feedVM.lstFeeds.Add(feed2);
+            feedVM.lstFeeds.Add(feed3);
+            feedVM.lstFeeds.Add(feed4);
+            feedVM.lstFeeds.Add(feed5);
+            feedVM.lstFeeds.Add(feed6);
+            feedVM.lstFeeds.Add(feed7);
+            feedVM.lstFeeds.Add(feed8);
+            feedVM.lstFeeds.Add(feed9);
+            feedVM.lstFeeds.Add(feed10);
 
             feedVM.CommandAumentarPrioridadeFeed = new Commands.FeedsCommands.CommandAumentarPrioridadeFeed();
             feedVM.CommandAumentarPrioridadeFeed.Execute(feedVM);

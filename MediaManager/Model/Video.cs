@@ -22,10 +22,10 @@ namespace MediaManager.Model
         [XmlIgnore, NotMapped]
         public virtual string sAliases { get { return _sAliases; } set { _sAliases = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<SerieAlias> _ListaSerieAlias;
+        private ObservableCollection<SerieAlias> _lstSerieAlias;
 
         [XmlIgnore]
-        public ObservableCollection<SerieAlias> ListaSerieAlias { get { return _ListaSerieAlias; } set { _ListaSerieAlias = value; OnPropertyChanged(); } }
+        public ObservableCollection<SerieAlias> lstSerieAlias { get { return _lstSerieAlias; } set { _lstSerieAlias = value; OnPropertyChanged(); } }
 
         private Enums.TipoConteudo _nIdTipoConteudo;
 

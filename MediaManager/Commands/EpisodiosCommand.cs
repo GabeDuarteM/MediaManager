@@ -26,7 +26,7 @@ namespace MediaManager.Commands
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
                 if (episodiosVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var episodio in episodiosVM.ListaEpisodios)
+                    foreach (var episodio in episodiosVM.lstEpisodios)
                     {
                         episodio.bFlSelecionado = true;
                     }
@@ -34,7 +34,7 @@ namespace MediaManager.Commands
                 else
                 {
                     episodiosVM.bFlSelecionarTodos = false;
-                    foreach (var episodio in episodiosVM.ListaEpisodios)
+                    foreach (var episodio in episodiosVM.lstEpisodios)
                     {
                         episodio.bFlSelecionado = false;
                     }
@@ -72,15 +72,15 @@ namespace MediaManager.Commands
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
                 if (episodiosVM.nIdEstadoEpisodioSelecionado != Helpers.Enums.EstadoEpisodio.Selecione)
                 {
-                    List<Episodio> listaEpisodiosModificados = episodiosVM.ListaEpisodios.Where(x => x.bFlSelecionado).ToList();
-                    if (listaEpisodiosModificados.Count > 0)
+                    List<Episodio> lstEpisodiosModificados = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).ToList();
+                    if (lstEpisodiosModificados.Count > 0)
                     {
-                        foreach (var item in listaEpisodiosModificados)
+                        foreach (var item in lstEpisodiosModificados)
                         {
                             item.nIdEstadoEpisodio = episodiosVM.nIdEstadoEpisodioSelecionado;
                         }
 
-                        DBHelper.UpdateListaEpisodios(listaEpisodiosModificados);
+                        DBHelper.UpdateListaEpisodios(lstEpisodiosModificados);
                     }
                 }
             }
@@ -98,8 +98,8 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var episodiosVM = parameter as EpisodiosViewModel;
-                int episodiosSelecionadosCount = episodiosVM.ListaEpisodios.Where(x => x.bFlSelecionado).Count();
-                if (episodiosSelecionadosCount == episodiosVM.ListaEpisodios.Count)
+                int episodiosSelecionadosCount = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
+                if (episodiosSelecionadosCount == episodiosVM.lstEpisodios.Count)
                 {
                     episodiosVM.bFlSelecionarTodos = true;
                 }

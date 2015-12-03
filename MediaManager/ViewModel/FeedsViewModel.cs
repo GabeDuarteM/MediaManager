@@ -15,13 +15,13 @@ namespace MediaManager.ViewModel
 {
     public class FeedsViewModel : INotifyPropertyChanged
     {
-        private List<Feed> _ListaFeeds;
+        private List<Feed> _lstFeeds;
 
-        public List<Feed> ListaFeeds { get { return _ListaFeeds; } set { _ListaFeeds = value; OnPropertyChanged(); } }
+        public List<Feed> lstFeeds { get { return _lstFeeds; } set { _lstFeeds = value; OnPropertyChanged(); } }
 
-        private CollectionViewSource _ListaFeedsView;
+        private CollectionViewSource _lstFeedsView;
 
-        public CollectionViewSource ListaFeedsView { get { return _ListaFeedsView; } set { _ListaFeedsView = value; OnPropertyChanged(); } }
+        public CollectionViewSource lstFeedsView { get { return _lstFeedsView; } set { _lstFeedsView = value; OnPropertyChanged(); } }
 
         private bool? _bFlSelecionarTodos;
 
@@ -39,14 +39,14 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSelecionarTodos { get; set; }
 
-        public FeedsViewModel(List<Feed> listaFeeds = null /* Teste unitário ¬¬ */)
+        public FeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
         {
-            ListaFeeds = (listaFeeds == null) ? ListaFeeds = DBHelper.GetFeeds() : ListaFeeds = listaFeeds;
-            ListaFeedsView = new CollectionViewSource();
-            ListaFeedsView.Source = ListaFeeds;
-            ListaFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
-            ListaFeedsView.IsLiveSortingRequested = true;
-            ListaFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
+            this.lstFeeds = (lstFeeds == null) ? this.lstFeeds = DBHelper.GetFeeds() : this.lstFeeds = lstFeeds;
+            lstFeedsView = new CollectionViewSource();
+            lstFeedsView.Source = this.lstFeeds;
+            lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
+            lstFeedsView.IsLiveSortingRequested = true;
+            lstFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
             CommandAdicionarFeed = new FeedsCommands.CommandAdicionarFeed();
             CommandAumentarPrioridadeFeed = new FeedsCommands.CommandAumentarPrioridadeFeed();
             CommandDiminuirPrioridadeFeed = new FeedsCommands.CommandDiminuirPrioridadeFeed();

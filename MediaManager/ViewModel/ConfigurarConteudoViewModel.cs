@@ -61,7 +61,7 @@ namespace MediaManager.ViewModel
             this.oVideo = oVideo;
             _nNrTemporada = 1;
             _nNrEpisodio = 1;
-            this.oVideo.ListaSerieAlias = Helper.PopularCampoSerieAlias(this.oVideo);
+            this.oVideo.lstSerieAlias = Helper.PopularCampoSerieAlias(this.oVideo);
 
             DoubleClickCommand = new ConfigurarConteudoCommands.DoubleClickNoGridAliasCommand();
             AddAlias = new ConfigurarConteudoCommands.AddAlias();

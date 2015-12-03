@@ -40,7 +40,7 @@ namespace MediaManager.Model
         public override Enums.TipoConteudo nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; OnPropertyChanged(); _bFlAnime = (value == Enums.TipoConteudo.Anime) ? true : false; } }
 
         [XmlIgnore]
-        public List<Episodio> ListaEpisodios { get; set; }
+        public List<Episodio> lstEpisodios { get; set; }
 
         [XmlElement("FirstAired")]
         public string _sDtEstreia;

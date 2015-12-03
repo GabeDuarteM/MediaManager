@@ -79,7 +79,7 @@
                         <RowDefinition Height="19*" />
                     </Grid.RowDefinitions>
 
-                    <DataGrid ItemsSource="{Binding oFeedsViewModel.ListaFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                    <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
             IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.Row="0">
                         <DataGrid.Resources>
                             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />

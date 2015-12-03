@@ -49,12 +49,12 @@ namespace MediaManager.Forms
         private void checkTodos_Click(object sender, RoutedEventArgs e)
         {
             if ((sender as CheckBox).IsChecked == true)
-                foreach (var item in ProcurarConteudoViewModel.ListaConteudos)
+                foreach (var item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = true;
                 }
             else
-                foreach (var item in ProcurarConteudoViewModel.ListaConteudos)
+                foreach (var item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = false;
                 }

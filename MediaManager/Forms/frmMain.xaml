@@ -36,7 +36,7 @@
                     <!--<ScrollViewer.DataContext>
                         <ViewModel:MainViewModel />
                     </ScrollViewer.DataContext>-->
-                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding ListaSeries, Mode=OneWay}" Background="#FFE5E5E5">
+                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding lstSeries, Mode=OneWay}" Background="#FFE5E5E5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -54,7 +54,7 @@
             </TabItem>
             <TabItem x:Name="tiFilmes" Header="Filmes">
                 <ScrollViewer x:Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridFilmes" ItemsSource="{Binding ListaFilmes, Mode=OneWay}" Background="#FFE5E5E5">
+                    <ItemsControl x:Name="gridFilmes" ItemsSource="{Binding lstFilmes, Mode=OneWay}" Background="#FFE5E5E5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />
@@ -72,7 +72,7 @@
             </TabItem>
             <TabItem x:Name="tiAnimes" Header="Animes">
                 <ScrollViewer x:Name="scrollAnimes" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridAnimes" ItemsSource="{Binding ListaAnimes, Mode=OneWay}" Background="#FFE5E5E5">
+                    <ItemsControl x:Name="gridAnimes" ItemsSource="{Binding lstAnimes, Mode=OneWay}" Background="#FFE5E5E5">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />

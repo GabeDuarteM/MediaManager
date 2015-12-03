@@ -25,7 +25,7 @@
             <RowDefinition Height="379*" />
             <RowDefinition Height="45*" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding ListaEpisodiosView, Mode=TwoWay}"
+        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding lstEpisodiosView, Mode=TwoWay}"
                   Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
                   IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
 

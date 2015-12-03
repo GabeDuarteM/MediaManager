@@ -120,8 +120,8 @@ namespace MediaManager.ViewModel
                 oSerie = new Serie() { sDsTitulo = "Exemplo de título" },
                 sDsEpisodio = "Título do episódio",
                 nNrTemporada = 3,
-                ListaStrEpisodios = new List<string>() { "5" },
-                ListaStrEpisodiosAbsolutos = new List<string>() { "25" }
+                lstStrEpisodios = new List<string>() { "5" },
+                lstStrEpisodiosAbsolutos = new List<string>() { "25" }
             };
 
             switch (nIdTipoConteudo)

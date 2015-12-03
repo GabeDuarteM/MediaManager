@@ -14,8 +14,8 @@ namespace MediaManager.ViewModel
 {
     public class ProcurarConteudoViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Video> _ListaConteudos;
-        public ObservableCollection<Video> ListaConteudos { get { return _ListaConteudos; } set { _ListaConteudos = value; OnPropertyChanged(); } }
+        private ObservableCollection<Video> _lstConteudos;
+        public ObservableCollection<Video> lstConteudos { get { return _lstConteudos; } set { _lstConteudos = value; OnPropertyChanged(); } }
 
         private bool? _bFlSelecionarTodos;
 
@@ -33,8 +33,8 @@ namespace MediaManager.ViewModel
 
         public ProcurarConteudoViewModel(Enums.TipoConteudo tipoConteudo = Enums.TipoConteudo.Selecione, Window owner = null)
         {
-            ListaConteudos = new ObservableCollection<Video>();
-            ListaConteudos.Add(new Serie { sDsTitulo = "Carregando...", sDsPasta = "Carregando...", bFlSelecionado = false });
+            lstConteudos = new ObservableCollection<Video>();
+            lstConteudos.Add(new Serie { sDsTitulo = "Carregando...", sDsPasta = "Carregando...", bFlSelecionado = false });
             Owner = owner;
             CommandAdicionar = new ProcurarConteudoCommands.CommandAdicionar();
             CommandSelecionar = new ProcurarConteudoCommands.CommandSelecionar();
@@ -88,11 +88,11 @@ namespace MediaManager.ViewModel
                                             foreach (var item in conteudo.sAliases.Split('|'))
                                             {
                                                 SerieAlias alias = new SerieAlias(item);
-                                                if (conteudo.ListaSerieAlias == null)
+                                                if (conteudo.lstSerieAlias == null)
                                                 {
-                                                    conteudo.ListaSerieAlias = new ObservableCollection<SerieAlias>();
+                                                    conteudo.lstSerieAlias = new ObservableCollection<SerieAlias>();
                                                 }
-                                                conteudo.ListaSerieAlias.Add(alias);
+                                                conteudo.lstSerieAlias.Add(alias);
                                             }
                                         }
 
@@ -131,11 +131,11 @@ namespace MediaManager.ViewModel
                                             foreach (var item in conteudo.sAliases.Split('|'))
                                             {
                                                 SerieAlias alias = new SerieAlias(item);
-                                                if (conteudo.ListaSerieAlias == null)
+                                                if (conteudo.lstSerieAlias == null)
                                                 {
-                                                    conteudo.ListaSerieAlias = new ObservableCollection<SerieAlias>();
+                                                    conteudo.lstSerieAlias = new ObservableCollection<SerieAlias>();
                                                 }
-                                                conteudo.ListaSerieAlias.Add(alias);
+                                                conteudo.lstSerieAlias.Add(alias);
                                             }
                                         }
 
@@ -162,9 +162,9 @@ namespace MediaManager.ViewModel
                         throw new InvalidEnumArgumentException();
                 }
 
-                ListaConteudos = conteudos;
+                lstConteudos = conteudos;
 
-                if (ListaConteudos.Count == 0)
+                if (lstConteudos.Count == 0)
                 {
                     Helper.MostrarMensagem("Nenhum novo conteúdo foi encontrado.", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                 }

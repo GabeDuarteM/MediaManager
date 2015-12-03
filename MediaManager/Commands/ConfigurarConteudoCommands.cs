@@ -68,13 +68,13 @@ namespace MediaManager.Commands
                 {
                     alias.nCdVideo = frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo;
                     DBHelper.AddSerieAlias(alias);
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
+                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
                 }
                 else
                 {
-                    if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias == null)
-                        frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias = new ObservableCollection<SerieAlias>();
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias.Add(alias);
+                    if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias == null)
+                        frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>();
+                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Add(alias);
                 }
             }
 
@@ -104,11 +104,11 @@ namespace MediaManager.Commands
                 if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0)
                 {
                     DBHelper.RemoveSerieAlias(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
+                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
                 }
                 else
                 {
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.ListaSerieAlias.Remove(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
+                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Remove(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
                 }
             }
 

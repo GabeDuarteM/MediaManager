@@ -32,7 +32,7 @@ namespace MediaManager.Model
         public string _sNrAbsoluto;
 
         [XmlIgnore, Column(Order = 4)]
-        public int? sNrAbsoluto
+        public int? nNrAbsoluto
         {
             get
             {
@@ -44,10 +44,10 @@ namespace MediaManager.Model
         }
 
         [XmlIgnore, NotMapped]
-        public List<string> ListaStrEpisodios { get; set; }  // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
+        public List<string> lstStrEpisodios { get; set; }  // Para quando tiver mais de um episódio (nome.do.episodio.S00E00E01E02E03E04)
 
         [XmlIgnore, NotMapped]
-        public List<string> ListaStrEpisodiosAbsolutos { get; set; } // Para quando tiver mais de um episódio absoluto
+        public List<string> lstStrEpisodiosAbsolutos { get; set; } // Para quando tiver mais de um episódio absoluto
 
         [XmlElement("airsafter_season")]
         public string _sNrEstreiaDepoisTemporada;
@@ -222,8 +222,8 @@ namespace MediaManager.Model
         public Episodio()
         {
             nIdEstadoEpisodio = Enums.EstadoEpisodio.Ignorado;
-            ListaStrEpisodios = new List<string>();
-            ListaStrEpisodiosAbsolutos = new List<string>();
+            lstStrEpisodios = new List<string>();
+            lstStrEpisodiosAbsolutos = new List<string>();
         }
 
         public void Clone(object objOrigem)
@@ -244,7 +244,7 @@ namespace MediaManager.Model
             return;
         }
 
-        public bool GetEpisode()
+        public bool IdentificarEpisodio()
         {
             Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
@@ -261,306 +261,173 @@ namespace MediaManager.Model
                 {
                     var match = regexes.regex_S00E00.Match(FilenameTratado);
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                    List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    SerieAlias alias = listaAlias.Where(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo).FirstOrDefault();
+                    // Para quando se tem multi-episódios
+                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    nNrTemporada = int.Parse(match.Groups["season"].Value);
+                    lstStrEpisodios = new List<string>(match.Groups["episodes"].Value.Split(separador));
+                    nNrEpisodio = int.Parse(lstStrEpisodios[0]);
 
-                    if (alias != null)
-                    {
-                        oSerie = DBHelper.GetSeriePorID(alias.nCdVideo);
-                    }
-
-                    if (oSerie.nCdVideo == 0)
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
-
-                        if (serieTemp != null)
-                        {
-                            oSerie = serieTemp;
-                        }
-                    }
-
-                    if (oSerie.nCdVideo > 0)
-                    {
-                        List<Episodio> listaEpisodios = DBHelper.GetEpisodes(oSerie);
-
-                        // Para quando se tem multi-episódios
-                        char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
-                        nNrTemporada = int.Parse(match.Groups["season"].Value);
-                        ListaStrEpisodios = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                        nNrEpisodio = int.Parse(ListaStrEpisodios[0]);
-
-                        if (alias != null)
-                        {
-                            Episodio episodio = listaEpisodios.FirstOrDefault(x => x.nNrTemporada == alias.nNrTemporada + nNrTemporada - 1 && x.nNrEpisodio == alias.nNrEpisodio + nNrEpisodio - 1);
-
-                            if (episodio == null)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodios.Count; i++)
-                            {
-                                // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
-                                episodio.ListaStrEpisodios[i] = alias.nNrEpisodio + nNrEpisodio - 1 + "";
-                                episodio.ListaStrEpisodiosAbsolutos.Add(listaEpisodios.Where(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault().sNrAbsoluto + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                Episodio episodioTemp = listaEpisodios.FirstOrDefault(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])); // TODO Testar pra ver se funfa
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                            Clone(episodio);
-                        }
-                        else
-                        {
-                            Episodio episodio = listaEpisodios.Where(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio).FirstOrDefault();
-
-                            if (episodio == null)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodios.Count; i++)
-                            {
-                                // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
-                                episodio.ListaStrEpisodiosAbsolutos.Add(listaEpisodios.Where(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault().sNrAbsoluto + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                Episodio episodioTemp = listaEpisodios.Where(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault(); // TODO Testar pra ver se funfa
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                            Clone(episodio);
-                        }
-                        return true;
-                    }
+                    return SetarAtributosEpisodioIdentificado();
                 }
                 else if (regexes.regex_0x00.IsMatch(FilenameTratado)) // TODO Fazer funcionar com alias
                 {
                     var match = regexes.regex_0x00.Match(FilenameTratado);
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                    List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    SerieAlias alias = listaAlias.Where(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo).FirstOrDefault();
 
-                    if (alias != null)
-                    {
-                        oSerie = DBHelper.GetSeriePorID(alias.nCdVideo);
-                    }
+                    // Para quando se tem multi-episódios
+                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    nNrTemporada = int.Parse(match.Groups["season"].Value);
+                    lstStrEpisodios = new List<string>(match.Groups["episodes"].Value.Split(separador));
+                    nNrEpisodio = int.Parse(lstStrEpisodios[0]);
 
-                    if (oSerie.nCdVideo == 0)
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
-
-                        if (serieTemp != null)
-                        {
-                            oSerie = serieTemp;
-                        }
-                    }
-
-                    if (oSerie.nCdVideo > 0)
-                    {
-                        List<Episodio> listaEpisodios = DBHelper.GetEpisodes(oSerie);
-
-                        // Para quando se tem multi-episódios
-                        char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
-                        nNrTemporada = int.Parse(match.Groups["season"].Value);
-                        ListaStrEpisodios = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                        nNrEpisodio = int.Parse(ListaStrEpisodios[0]);
-                        if (alias != null)
-                        {
-                            Episodio episodio = listaEpisodios.Where(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio).FirstOrDefault();
-
-                            if (episodio == null)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodios.Count; i++)
-                            {
-                                // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
-                                episodio.ListaStrEpisodios[i] = alias.nNrEpisodio + nNrEpisodio - 1 + "";
-                                episodio.ListaStrEpisodiosAbsolutos.Add(listaEpisodios.Where(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault().sNrAbsoluto + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                Episodio episodioTemp = listaEpisodios.Where(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault(); // TODO Testar pra ver se funfa
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Episodio episodio = listaEpisodios.Where(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio).FirstOrDefault();
-
-                            if (episodio == null)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodios.Count; i++)
-                            {
-                                episodio.ListaStrEpisodiosAbsolutos.Add(listaEpisodios.Where(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault().sNrAbsoluto + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                Episodio episodioTemp = listaEpisodios.Where(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == int.Parse(episodio.ListaStrEpisodios[i])).FirstOrDefault(); // TODO Testar pra ver se funfa
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                            Clone(episodio);
-                        }
-                    }
-                    return true;
+                    return SetarAtributosEpisodioIdentificado();
                 }
                 else if (regexes.regex_Fansub0000.IsMatch(FilenameTratado))
                 {
                     var match = regexes.regex_Fansub0000.Match(FilenameTratado);
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-                    List<SerieAlias> listaAlias = DBHelper.GetAllAliases();
-                    SerieAlias alias = listaAlias.Where(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo).FirstOrDefault();
-                    if (alias != null)
-                    {
-                        oSerie = DBHelper.GetSeriePorID(alias.nCdVideo);
-                    }
+                    // Para quando se tem multi-episódios
+                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    lstStrEpisodiosAbsolutos = new List<string>(match.Groups["episodes"].Value.Split(separador));
+                    nNrAbsoluto = int.Parse(lstStrEpisodiosAbsolutos[0]);
 
-                    if (oSerie.nCdVideo == 0)
-                    {
-                        var serieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
-
-                        if (serieTemp != null)
-                        {
-                            oSerie = serieTemp;
-                        }
-                    }
-
-                    if (oSerie.nCdVideo > 0)
-                    {
-                        List<Episodio> listaEpisodios = DBHelper.GetEpisodes(oSerie);
-
-                        // Para quando se tem multi-episódios
-                        char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
-                        ListaStrEpisodiosAbsolutos = new List<string>(match.Groups["episodes"].Value.Split(separador));
-                        sNrAbsoluto = int.Parse(ListaStrEpisodios[0]);
-
-                        if (alias != null) // Entra se estiver utilizando alias para identificar a serie
-                        {
-                            Episodio primeiroEpisodioAlias = listaEpisodios.FirstOrDefault(x => x.nNrTemporada == alias.nNrTemporada && x.nNrEpisodio == alias.nNrEpisodio);
-                            Episodio episodio = listaEpisodios.FirstOrDefault(x => x.sNrAbsoluto == primeiroEpisodioAlias.sNrAbsoluto + sNrAbsoluto - 1);
-
-                            if (episodio.nCdEpisodio == 0)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodiosAbsolutos.Count; i++)
-                            {
-                                // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
-                                episodio.ListaStrEpisodiosAbsolutos[i] = primeiroEpisodioAlias.sNrAbsoluto + int.Parse(episodio.ListaStrEpisodiosAbsolutos[i]) - 1 + "";
-                                Episodio episodioTemp = listaEpisodios.FirstOrDefault(x => x.sNrAbsoluto == int.Parse(episodio.ListaStrEpisodiosAbsolutos[i]));
-                                episodio.ListaStrEpisodios.Add(episodioTemp.nNrEpisodio + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                            Clone(episodio);
-                        }
-                        else
-                        {
-                            Episodio episodio = listaEpisodios.FirstOrDefault(x => x.sNrAbsoluto == sNrAbsoluto);
-
-                            if (episodio == null)
-                            {
-                                return false;
-                            }
-
-                            episodio.ListaStrEpisodios = ListaStrEpisodios;
-                            episodio.ListaStrEpisodiosAbsolutos = ListaStrEpisodiosAbsolutos;
-                            episodio.sNrAbsoluto = sNrAbsoluto;
-                            episodio.oSerie = oSerie;
-                            episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
-
-                            for (int i = 0; i < episodio.ListaStrEpisodiosAbsolutos.Count; i++)
-                            {
-                                // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
-                                Episodio episodioTemp = listaEpisodios.FirstOrDefault(x => x.sNrAbsoluto == int.Parse(episodio.ListaStrEpisodiosAbsolutos[i]));
-                                episodio.ListaStrEpisodios.Add(episodioTemp.nNrEpisodio + "");
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                if (episodioTemp != null)
-                                {
-                                    episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
-                                }
-                            }
-                            Clone(episodio);
-                        }
-                        return true;
-                    }
+                    return SetarAtributosEpisodioIdentificado();
                 }
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao reconhecer o episódio " + sDsFilepath, true); }
             return false;
+        }
+
+        private bool SetarAtributosEpisodioIdentificado()
+        {
+            List<SerieAlias> lstAlias = DBHelper.GetAllAliases();
+            SerieAlias alias = lstAlias.FirstOrDefault(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo);
+
+            if (alias != null)
+            {
+                oSerie = DBHelper.GetSeriePorID(alias.nCdVideo);
+            }
+
+            if (oSerie.nCdVideo == 0)
+            {
+                var oSerieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
+
+                if (oSerieTemp != null)
+                {
+                    oSerie = oSerieTemp;
+                }
+            }
+
+            if (oSerie.nCdVideo > 0)
+            {
+                List<Episodio> lstEpisodios = DBHelper.GetEpisodes(oSerie);
+
+                if (alias != null)
+                {
+                    Episodio episodio = null;
+                    Episodio primeiroEpisodioAbsolutoAlias = null;
+
+                    if (nNrAbsoluto > 0)
+                    {
+                        primeiroEpisodioAbsolutoAlias = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == alias.nNrTemporada && x.nNrEpisodio == alias.nNrEpisodio);
+                        episodio = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == primeiroEpisodioAbsolutoAlias.nNrAbsoluto + nNrAbsoluto - 1);
+                    }
+                    else
+                    {
+                        episodio = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == alias.nNrTemporada + nNrTemporada - 1 && x.nNrEpisodio == alias.nNrEpisodio + nNrEpisodio - 1);
+                    }
+
+                    if (episodio == null) // Se não encontrou o episódio retorna falso.
+                    {
+                        return false;
+                    }
+
+                    episodio.lstStrEpisodios = lstStrEpisodios;
+                    episodio.lstStrEpisodiosAbsolutos = lstStrEpisodiosAbsolutos;
+                    episodio.oSerie = oSerie;
+                    episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
+
+                    for (int i = 0; i < ((nNrAbsoluto > 0) ? episodio.lstStrEpisodiosAbsolutos.Count : episodio.lstStrEpisodios.Count); i++)
+                    {
+                        Episodio episodioTemp = null;
+
+                        // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
+                        if (nNrAbsoluto > 0)
+                        {
+                            episodio.lstStrEpisodiosAbsolutos[i] = primeiroEpisodioAbsolutoAlias.nNrAbsoluto + int.Parse(episodio.lstStrEpisodiosAbsolutos[i]) - 1 + "";
+                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == int.Parse(episodio.lstStrEpisodiosAbsolutos[i]));
+                            episodio.lstStrEpisodios.Add(episodioTemp.nNrEpisodio + "");
+                        }
+                        else
+                        {
+                            episodio.lstStrEpisodios[i] = alias.nNrEpisodio + int.Parse(lstStrEpisodios[i]) - 1 + "";
+                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.lstStrEpisodios[i])); // TODO Testar pra ver se funfa
+                            episodio.lstStrEpisodiosAbsolutos.Add(lstEpisodios.First(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.lstStrEpisodios[i])).nNrAbsoluto + "");
+                        }
+
+                        if (i != 0 && episodioTemp != null)
+                        {
+                            episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
+                        }
+                    }
+                    Clone(episodio);
+                }
+                else
+                {
+                    Episodio episodio = null;
+
+                    if (nNrAbsoluto > 0)
+                    {
+                        episodio = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == nNrAbsoluto);
+                    }
+                    else
+                    {
+                        episodio = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio);
+                    }
+
+                    if (episodio == null)
+                    {
+                        return false;
+                    }
+
+                    episodio.lstStrEpisodios = lstStrEpisodios;
+                    episodio.lstStrEpisodiosAbsolutos = lstStrEpisodiosAbsolutos;
+                    episodio.oSerie = oSerie;
+                    episodio.nIdTipoConteudo = episodio.oSerie.nIdTipoConteudo;
+
+                    if (nNrAbsoluto > 0) // TODO Testar pra ver o pq desse if :D
+                    {
+                        episodio.nNrAbsoluto = nNrAbsoluto;
+                    }
+
+                    for (int i = 0; i < ((nNrAbsoluto > 0) ? episodio.lstStrEpisodiosAbsolutos.Count : episodio.lstStrEpisodios.Count); i++)
+                    {
+                        Episodio episodioTemp = null;
+                        // Ajuste no numero do episodio caso este seja de um alias que não comece no primeiro episodio da primeira temporada.
+                        if (nNrAbsoluto > 0)
+                        {
+                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == int.Parse(episodio.lstStrEpisodiosAbsolutos[i]));
+                            episodio.lstStrEpisodios.Add(episodioTemp.nNrEpisodio + "");
+                        }
+                        else
+                        {
+                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == int.Parse(episodio.lstStrEpisodios[i])); // TODO Testar pra ver se funfa
+                            episodio.lstStrEpisodiosAbsolutos.Add(lstEpisodios.First(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == int.Parse(episodio.lstStrEpisodios[i])).nNrAbsoluto + "");
+                        }
+
+                        if (i != 0 && episodioTemp != null)
+                        {
+                            episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
+                        }
+                    }
+                    Clone(episodio);
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #region INotifyPropertyChanged Members

@@ -177,7 +177,7 @@ namespace MediaManager.Helpers
                     case "{Episodio}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.ListaStrEpisodios)
+                            foreach (var item in episodio.lstStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -192,7 +192,7 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.ListaStrEpisodiosAbsolutos)
+                            foreach (var item in episodio.lstStrEpisodiosAbsolutos)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -207,7 +207,7 @@ namespace MediaManager.Helpers
                     case "{SxEE}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.ListaStrEpisodios)
+                            foreach (var item in episodio.lstStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -222,7 +222,7 @@ namespace MediaManager.Helpers
                     case "{S00E00}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.ListaStrEpisodios)
+                            foreach (var item in episodio.lstStrEpisodios)
                             {
                                 int nItem;
                                 int.TryParse(item, out nItem);
@@ -307,12 +307,12 @@ namespace MediaManager.Helpers
             return distance[currentRow, m];
         }
 
-        public static Dictionary<string, int> OrdenarListaUsandoLevenshtein(string origem, IList<string> listaDestinos)
+        public static Dictionary<string, int> OrdenarListaUsandoLevenshtein(string origem, IList<string> lstDestinos)
         {
             try
             {
                 Dictionary<string, int> retorno = new Dictionary<string, int>();
-                foreach (var destino in listaDestinos)
+                foreach (var destino in lstDestinos)
                 {
                     retorno.Add(destino, CalcularAlgoritimoLevenshtein(origem, destino));
                 }
@@ -439,19 +439,19 @@ namespace MediaManager.Helpers
 
         public static ObservableCollection<SerieAlias> PopularCampoSerieAlias(Video video)
         {
-            if (/*video.IDBanco == 0 && */(video.ListaSerieAlias == null || video.ListaSerieAlias.Count == 0))
+            if (/*video.IDBanco == 0 && */(video.lstSerieAlias == null || video.lstSerieAlias.Count == 0))
             {
-                video.ListaSerieAlias = new ObservableCollection<SerieAlias>();
+                video.lstSerieAlias = new ObservableCollection<SerieAlias>();
                 if (!string.IsNullOrWhiteSpace(video.sAliases))
                 {
                     foreach (var item in video.sAliases.Split('|'))
                     {
                         SerieAlias alias = new SerieAlias(item);
-                        video.ListaSerieAlias.Add(alias);
+                        video.lstSerieAlias.Add(alias);
                     }
                 }
             }
-            return video.ListaSerieAlias;
+            return video.lstSerieAlias;
         }
 
         public class RegexEpisodio
@@ -459,11 +459,11 @@ namespace MediaManager.Helpers
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
             public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
-            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/4
-            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:(?:ep|Episode)(?:\s{0,})?)?(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
+            // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/6
+            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\[(?<fansub>.*?)\](?:\s{0,})?)?(?<name>.*?)?(?:\s{0,})(?:(?:\s{0,})?[-&](?:\s)?)?(?:(?:ep|Episode)(?:\s{0,})?)?(?:\D)(?<episodes>(?:\d{2,3})(?:\D|$)(?:(?<separador>(?:\s*)[\s&-](?:\s*))*\d{2,3})*)");
 
-            // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/2
-            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)(?: - )?(?:\s{0,})(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-])\d{1,3})*)");
+            // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/3
+            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)(?: - )?(?:\s{0,})(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
         }
 
         #region [ APIs trakt ]

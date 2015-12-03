@@ -93,22 +93,22 @@ namespace MediaManager.Helpers
             XmlNodeList nodesEpisodios = xml.SelectNodes("/Data/Episode");
             XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
-            List<Serie> listaSeriesAnimes = DBHelper.GetSeriesEAnimes();
-            List<Episodio> listaEpisodios = DBHelper.GetEpisodes();
-            List<string> listaSeriesAnimesIDApi = new List<string>();
-            List<string> listaEpisodiosIDApi = new List<string>();
-            foreach (var item in listaSeriesAnimes)
+            List<Serie> lstSeriesAnimes = DBHelper.GetSeriesEAnimes();
+            List<Episodio> lstEpisodios = DBHelper.GetEpisodes();
+            List<string> lstSeriesAnimesIDApi = new List<string>();
+            List<string> lstEpisodiosIDApi = new List<string>();
+            foreach (var item in lstSeriesAnimes)
             {
-                listaSeriesAnimesIDApi.Add(item.nCdApi + "");
+                lstSeriesAnimesIDApi.Add(item.nCdApi + "");
             }
-            foreach (var item in listaEpisodios)
+            foreach (var item in lstEpisodios)
             {
-                listaEpisodiosIDApi.Add(item.nCdEpisodioAPI + "");
+                lstEpisodiosIDApi.Add(item.nCdEpisodioAPI + "");
             }
 
             foreach (XmlNode item in nodesSeries)
             {
-                if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("id").InnerText))
+                if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("id").InnerText))
                 {
                     int IDApi = 0;
                     int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
@@ -137,7 +137,7 @@ namespace MediaManager.Helpers
             {
                 int IDApi = 0;
                 int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
-                if (listaEpisodiosIDApi.Contains(IDApi + ""))
+                if (lstEpisodiosIDApi.Contains(IDApi + ""))
                 {
                     Episodio episodioDB = DBHelper.GetEpisode(IDApi);
 
@@ -148,7 +148,7 @@ namespace MediaManager.Helpers
                         DBHelper.UpdateEpisodio(episodio);
                     }
                 }
-                else if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
+                else if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
                 {
                     Episodio episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
                     DBHelper.AddEpisodio(episodio);
@@ -159,7 +159,7 @@ namespace MediaManager.Helpers
             {
                 if ((item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Fanart.ToString().ToLower() || item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Poster.ToString().ToLower()))
                 {
-                    if (listaSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
+                    if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
                     {
                         var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
                         var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" + item.SelectSingleNode("path").InnerText;
@@ -260,7 +260,7 @@ namespace MediaManager.Helpers
             foreach (var item in data.Series)
             {
                 item.nIdEstado = Enums.Estado.Completo;
-                item.ListaEpisodios = new List<Episodio>(data.Episodios);
+                item.lstEpisodios = new List<Episodio>(data.Episodios);
             }
 
             return data.Series.FirstOrDefault();

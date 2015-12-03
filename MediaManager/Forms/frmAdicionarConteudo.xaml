@@ -32,7 +32,7 @@
             </Image.Effect>
         </Image>
         <DockPanel Grid.Row="1" Grid.Column="1">
-            <ComboBox ItemsSource="{Binding ListaResultPesquisa, Mode=OneWay}" DisplayMemberPath="sDsTitulo" SelectedItem="{Binding oVideoSelecionado, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
+            <ComboBox ItemsSource="{Binding lstResultPesquisa, Mode=OneWay}" DisplayMemberPath="sDsTitulo" SelectedItem="{Binding oVideoSelecionado, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
             <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Click="btnConfig_Click">
                 <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
             </Button>

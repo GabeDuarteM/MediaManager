@@ -7,13 +7,13 @@ namespace MediaManager.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.2-31219")]
-    public sealed partial class ajuste_Feeds : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ajuste_Feeds));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201511221909460_ajuste_Feeds"; }
+            get { return "201512030200010_init"; }
         }
         
         string IMigrationMetadata.Source
