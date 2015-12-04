@@ -121,6 +121,8 @@ namespace MediaManager.Forms
                     case Enums.TipoConteudo.Anime:
                         {
                             Serie serie = null;
+                            DBHelper DBHelper = new DBHelper();
+
                             if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
                             {
                                 serie = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
@@ -163,6 +165,8 @@ namespace MediaManager.Forms
                     case Enums.TipoConteudo.AnimeFilmeSérie:
                         {
                             Serie anime = null;
+                            DBHelper DBHelper = new DBHelper();
+
                             if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
                                 anime = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
                             //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)

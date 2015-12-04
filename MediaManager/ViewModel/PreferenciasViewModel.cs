@@ -18,19 +18,19 @@ namespace MediaManager.ViewModel
 
         private string _sPastaSeries;
 
-        public string sPastaSeries { get { return _sPastaSeries; } set { _sPastaSeries = value; OnPropertyChanged(); } }
+        public string sPastaSeries { get { return _sPastaSeries; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Série, value); _sPastaSeries = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaSeries { get; set; }
 
         private string _sPastaFilmes;
 
-        public string sPastaFilmes { get { return _sPastaFilmes; } set { _sPastaFilmes = value; OnPropertyChanged(); } }
+        public string sPastaFilmes { get { return _sPastaFilmes; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Filme, value); _sPastaFilmes = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaFilmes { get; set; }
 
         private string _sPastaAnimes;
 
-        public string sPastaAnimes { get { return _sPastaAnimes; } set { _sPastaAnimes = value; OnPropertyChanged(); } }
+        public string sPastaAnimes { get { return _sPastaAnimes; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Anime, value); _sPastaAnimes = value; OnPropertyChanged(); } }
 
         public ICommand CommandEscolherPastaAnimes { get; set; }
 
@@ -105,12 +105,16 @@ namespace MediaManager.ViewModel
             sPastaDownloads = Properties.Settings.Default.pref_PastaDownloads;
             sPastaFilmes = Properties.Settings.Default.pref_PastaFilmes;
             sPastaSeries = Properties.Settings.Default.pref_PastaSeries;
-            CommandEscolherPastaAnimes = new CommandsPreferencias.CommandEscolherPastaAnimes();
-            CommandEscolherPastaDownloads = new CommandsPreferencias.CommandEscolherPastaDownloads();
-            CommandEscolherPastaFilmes = new CommandsPreferencias.CommandEscolherPastaFilmes();
-            CommandEscolherPastaSeries = new CommandsPreferencias.CommandEscolherPastaSeries();
-            CommandLimparBancoDeDados = new CommandsPreferencias.CommandLimparBancoDeDados();
-            CommandSalvar = new CommandsPreferencias.CommandSalvar();
+            CommandEscolherPastaAnimes = new PreferenciasCommands.CommandEscolherPastaAnimes();
+            CommandEscolherPastaDownloads = new PreferenciasCommands.CommandEscolherPastaDownloads();
+            CommandEscolherPastaFilmes = new PreferenciasCommands.CommandEscolherPastaFilmes();
+            CommandEscolherPastaSeries = new PreferenciasCommands.CommandEscolherPastaSeries();
+            CommandLimparBancoDeDados = new PreferenciasCommands.CommandLimparBancoDeDados();
+            CommandSalvar = new PreferenciasCommands.CommandSalvar();
+        }
+
+        private void PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo nIdTipoConteudo, string valor)
+        {
         }
 
         private void AlterarVisualizacaoFormato(string sFormato, Enums.TipoConteudo nIdTipoConteudo)
@@ -120,8 +124,8 @@ namespace MediaManager.ViewModel
                 oSerie = new Serie() { sDsTitulo = "Exemplo de título" },
                 sDsEpisodio = "Título do episódio",
                 nNrTemporada = 3,
-                lstStrEpisodios = new List<string>() { "5" },
-                lstStrEpisodiosAbsolutos = new List<string>() { "25" }
+                lstIntEpisodios = new List<int>() { 5 },
+                lstIntEpisodiosAbsolutos = new List<int>() { 25 }
             };
 
             switch (nIdTipoConteudo)

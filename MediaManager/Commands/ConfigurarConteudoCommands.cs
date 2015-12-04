@@ -62,6 +62,8 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 SerieAlias alias = new SerieAlias(frmConfigConteudo.ConfigurarConteudoVM.sDsAlias);
+                DBHelper DBHelper = new DBHelper();
+
                 alias.nNrTemporada = frmConfigConteudo.ConfigurarConteudoVM.nNrTemporada;
                 alias.nNrEpisodio = frmConfigConteudo.ConfigurarConteudoVM.nNrEpisodio;
                 if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0 && Directory.Exists(frmConfigConteudo.ConfigurarConteudoVM.oVideo.sDsMetadata)) // Verifica se existe a pasta para quando é edição de uma série não cair no if.
@@ -103,6 +105,8 @@ namespace MediaManager.Commands
             {
                 if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0)
                 {
+                    DBHelper DBHelper = new DBHelper();
+
                     DBHelper.RemoveSerieAlias(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
                     frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
                 }
@@ -153,6 +157,8 @@ namespace MediaManager.Commands
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                 if (MessageBox.Show("Você realmente deseja remover " + (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    DBHelper DBHelper = new DBHelper();
+
                     DBHelper.RemoverSerieOuAnimePorID(ConfigurarConteudoVM.oVideo.nCdVideo);
                     ConfigurarConteudoVM.bFlAcaoRemover = true;
                     ConfigurarConteudoVM.ActionFechar();

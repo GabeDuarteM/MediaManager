@@ -177,14 +177,12 @@ namespace MediaManager.Helpers
                     case "{Episodio}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.lstStrEpisodios)
+                            foreach (var item in episodio.lstIntEpisodios)
                             {
-                                int nItem;
-                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = nItem.ToString("00");
+                                    ep = item.ToString("00");
                                 else
-                                    ep += " & " + nItem.ToString("00");
+                                    ep += " & " + item.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, ep);
                             break;
@@ -192,14 +190,12 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.lstStrEpisodiosAbsolutos)
+                            foreach (var item in episodio.lstIntEpisodiosAbsolutos)
                             {
-                                int nItem;
-                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = nItem.ToString("00");
+                                    ep = item.ToString("00");
                                 else
-                                    ep += " & " + nItem.ToString("00");
+                                    ep += " & " + item.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, ep);
                             break;
@@ -207,14 +203,12 @@ namespace MediaManager.Helpers
                     case "{SxEE}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.lstStrEpisodios)
+                            foreach (var item in episodio.lstIntEpisodios)
                             {
-                                int nItem;
-                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = nItem.ToString("00");
+                                    ep = item.ToString("00");
                                 else
-                                    ep += "x" + nItem.ToString("00");
+                                    ep += "x" + item.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, episodio.nNrTemporada + "x" + ep);
                             break;
@@ -222,14 +216,12 @@ namespace MediaManager.Helpers
                     case "{S00E00}":
                         {
                             string ep = "";
-                            foreach (var item in episodio.lstStrEpisodios)
+                            foreach (var item in episodio.lstIntEpisodios)
                             {
-                                int nItem;
-                                int.TryParse(item, out nItem);
                                 if (ep == "")
-                                    ep = nItem.ToString("00");
+                                    ep = item.ToString("00");
                                 else
-                                    ep += "E" + nItem.ToString("00");
+                                    ep += "E" + item.ToString("00");
                             }
                             formato = formato.Replace(tag.Value, "S" + episodio.nNrTemporada.ToString("00") + "E" + ep);
                             break;
@@ -240,6 +232,26 @@ namespace MediaManager.Helpers
             }
 
             return RetirarCaracteresInvalidos(formato, false); // TODO Corrigir quando é anime o SxEE e o S00E00 para retornar o n do ep normal e não o absoluto.
+        }
+
+        public static string ColocarVirgula(string frase, List<string> adicional)
+        {
+            foreach (var item in adicional)
+            {
+                if (item == adicional[0])
+                {
+                    frase += item;
+                }
+                else if (item == adicional.Last())
+                {
+                    frase += " e " + item;
+                }
+                else
+                {
+                    frase += ", " + item;
+                }
+            }
+            return frase;
         }
 
         public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = true)

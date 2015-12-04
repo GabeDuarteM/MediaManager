@@ -155,7 +155,7 @@
     <Compile Include="Behaviors\PersistenciaGroupExpandedBehavior.cs" />
     <Compile Include="Commands\AdicionarConteudoCommands.cs" />
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
-    <Compile Include="Commands\CommandsPreferencias.cs" />
+    <Compile Include="Commands\PreferenciasCommands.cs" />
     <Compile Include="Commands\EpisodiosCommand.cs" />
     <Compile Include="Commands\FeedsCommands.cs" />
     <Compile Include="Commands\ProcurarConteudoCommands.cs" />

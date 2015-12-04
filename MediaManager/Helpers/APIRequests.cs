@@ -93,6 +93,7 @@ namespace MediaManager.Helpers
             XmlNodeList nodesEpisodios = xml.SelectNodes("/Data/Episode");
             XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
+            DBHelper DBHelper = new DBHelper();
             List<Serie> lstSeriesAnimes = DBHelper.GetSeriesEAnimes();
             List<Episodio> lstEpisodios = DBHelper.GetEpisodes();
             List<string> lstSeriesAnimesIDApi = new List<string>();

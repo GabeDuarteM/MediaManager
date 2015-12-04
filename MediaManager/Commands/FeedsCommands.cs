@@ -40,6 +40,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as FeedsViewModel;
+                DBHelper DBHelper = new DBHelper();
 
                 if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {
@@ -90,6 +91,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as FeedsViewModel;
+                DBHelper DBHelper = new DBHelper();
 
                 if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
                 {

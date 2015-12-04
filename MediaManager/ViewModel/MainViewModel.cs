@@ -70,6 +70,8 @@ namespace MediaManager.ViewModel
                 case Enums.TipoConteudo.Série:
                     {
                         this.lstSeries = new ObservableCollection<PosterViewModel>();
+                        DBHelper DBHelper = new DBHelper();
+
                         lstSeries = (lstSeries != null) ? lstSeries : DBHelper.GetSeriesComForeignKeys();
 
                         foreach (var item in lstSeries)
@@ -88,6 +90,8 @@ namespace MediaManager.ViewModel
                 case Enums.TipoConteudo.Anime:
                     {
                         this.lstAnimes = new ObservableCollection<PosterViewModel>();
+                        DBHelper DBHelper = new DBHelper();
+
                         lstAnimes = (lstAnimes != null) ? lstAnimes : DBHelper.GetAnimesComForeignKeys();
 
                         foreach (var item in lstAnimes)
@@ -108,6 +112,8 @@ namespace MediaManager.ViewModel
                         this.lstSeries = new ObservableCollection<PosterViewModel>();
                         this.lstAnimes = new ObservableCollection<PosterViewModel>();
                         //Filmes = new ObservableCollection<PosterViewModel>();
+
+                        DBHelper DBHelper = new DBHelper();
 
                         lstSeries = (lstSeries != null) ? lstSeries : DBHelper.GetSeriesComForeignKeys();
                         lstAnimes = (lstAnimes != null) ? lstAnimes : DBHelper.GetAnimesComForeignKeys();

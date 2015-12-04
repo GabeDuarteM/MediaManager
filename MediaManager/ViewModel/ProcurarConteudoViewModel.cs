@@ -50,6 +50,7 @@ namespace MediaManager.ViewModel
             frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (sender, e) =>
             {
                 ObservableCollection<Video> conteudos = new ObservableCollection<Video>();
+                DBHelper DBHelper = new DBHelper();
 
                 switch (contentType)
                 {

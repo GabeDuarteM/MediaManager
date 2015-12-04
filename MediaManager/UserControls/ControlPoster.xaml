@@ -11,7 +11,9 @@
         </Grid.Effect>
         <TextBlock>
             <Hyperlink TextDecorations="None" Cursor="Arrow" Command="{Binding AbrirEdicaoCommand}">
-                <Image Stretch="Fill"  Source="{Binding oPoster.bCacheImgPoster, Mode=OneWay}" />
+                <Grid Height="277.5" Width="177.5" Background="Transparent"> <!-- Solução paleativa para quando a imagem do poster estiver quebrada o usuário ainda conseguir clicar nele. -->
+                    <Image x:Name="image" Stretch="Fill" Source="{Binding oPoster.bCacheImgPoster, Mode=OneWay}" />
+                </Grid>
             </Hyperlink>
         </TextBlock>
     </Grid>

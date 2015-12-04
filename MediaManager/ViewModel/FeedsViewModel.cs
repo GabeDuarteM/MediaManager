@@ -41,6 +41,8 @@ namespace MediaManager.ViewModel
 
         public FeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
         {
+            DBHelper DBHelper = new DBHelper();
+
             this.lstFeeds = (lstFeeds == null) ? this.lstFeeds = DBHelper.GetFeeds() : this.lstFeeds = lstFeeds;
             lstFeedsView = new CollectionViewSource();
             lstFeedsView.Source = this.lstFeeds;

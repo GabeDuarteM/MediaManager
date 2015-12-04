@@ -47,8 +47,8 @@
                             <Button Content="..." ToolTip="Selecionar..." Margin="508,76,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" />
                             <Button Content="..." ToolTip="Selecionar..." Margin="508,107,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" />
                             <Label Content="Procurar por novos conteúdos a cada" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,134,10,0" />
-                            <xctk:IntegerUpDown Text="{Binding nIntervaloDeProcuraConteudoNovo}" Margin="10,137,280,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="10" Maximum="99999" RenderTransformOrigin="0.5,0.5" />
-                            <Label Content="minutos. (min. 10)" HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,175,0" />
+                            <xctk:IntegerUpDown Text="{Binding nIntervaloDeProcuraConteudoNovo}" Margin="10,137,270,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="10" Maximum="99999" RenderTransformOrigin="0.5,0.5" />
+                            <Label Content="minutos. (min. 10)" HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,165,0" />
                         </Grid>
                     </GroupBox>
                     <Label Content="Idioma de pesquisa:" Grid.Column="1" Grid.Row="2" />
@@ -80,7 +80,7 @@
                     </Grid.RowDefinitions>
 
                     <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-            IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.Row="0">
+            IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
                         <DataGrid.Resources>
                             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
                             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />

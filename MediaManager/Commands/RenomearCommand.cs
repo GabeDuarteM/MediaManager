@@ -36,6 +36,8 @@ namespace MediaManager.Commands
                     {
                         try
                         {
+                            DBHelper DBHelper = new DBHelper();
+
                             if (item.bFlSelecionado)
                             {
                                 Helper.LogMessage("O arquivo \"" + item.sDsFilepathOriginal + "\" será copiado para \"" + item.sDsFilepath + "\"");
@@ -48,9 +50,9 @@ namespace MediaManager.Commands
                                     Helper.LogMessage("Diretório \"" + Path.GetDirectoryName(item.sDsFilepath) + "\" criado.");
                                 }
 
-                                if (File.Exists(item.sDsFilepathOriginal) && !renomearVM.bFlSilencioso)
+                                if (File.Exists(item.sDsFilepath) && !renomearVM.bFlSilencioso)
                                 {
-                                    if (MessageBox.Show("O arquivo " + item.sDsFilepathOriginal + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + item.sDsFilepath + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                                    if (MessageBox.Show("O arquivo " + item.sDsFilepath + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + item.sDsFilepathOriginal + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                                     {
                                         File.Delete(item.sDsFilepathOriginal);
                                         if (Helper.RealizarPosProcessamento(item))

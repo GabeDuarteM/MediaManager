@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MediaManager.Model
 {
-    [DebuggerDisplay("{sDsAlias} {Temporada}x{nNrEpisodio}")]
+    [DebuggerDisplay("{sDsAlias} {nNrTemporada}x{nNrEpisodio}")]
     public class SerieAlias
     {
         public string sDsAlias { get; set; }

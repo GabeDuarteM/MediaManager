@@ -15,7 +15,7 @@ namespace MediaManager.Forms
         {
             InitializeComponent();
 
-            RenomearVM = new RenomearViewModel();
+            RenomearVM = new RenomearViewModel(false);
 
             DataContext = RenomearVM;
 

@@ -13,7 +13,7 @@ namespace MediaManager.Forms
         public frmEpisodios(Video serie)
         {
             InitializeComponent();
-            EpisodiosViewModel episodiosVM = new EpisodiosViewModel(DBHelper.GetEpisodes(serie));
+            EpisodiosViewModel episodiosVM = new EpisodiosViewModel(new DBHelper().GetEpisodes(serie));
             episodiosVM.ActionFechar = new System.Action(() => Close());
             DataContext = episodiosVM;
         }

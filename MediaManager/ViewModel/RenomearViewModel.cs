@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
@@ -32,19 +33,22 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSelecionarTodos { get; set; }
 
-        public RenomearViewModel(IEnumerable<FileInfo> arquivos = null)
+        public RenomearViewModel(bool bFlConsiderarArquivosJaRenomeados, IEnumerable<FileInfo> arquivos = null)
         {
             CommandRenomear = new RenomearCommands.CommandRenomear();
             CommandSelecionar = new RenomearCommands.CommandSelecionar();
             CommandSelecionarTodos = new RenomearCommands.CommandSelecionarTodos();
 
+            //lstEpisodiosView.SortDescriptions.Add(new SortDescription("oSerie.sDsTitulo", ListSortDirection.Ascending));
+            //lstEpisodiosView.IsLiveSortingRequested = true;
+
             if (arquivos == null)
                 arquivos = new DirectoryInfo(Properties.Settings.Default.pref_PastaDownloads).EnumerateFiles("*.*", SearchOption.AllDirectories);
-            Carregar(arquivos);
+            Carregar(arquivos, bFlConsiderarArquivosJaRenomeados);
             CommandSelecionar.Execute(this);
         }
 
-        private void Carregar(IEnumerable<FileInfo> arquivos)
+        private void Carregar(IEnumerable<FileInfo> arquivos, bool bFlConsiderarArquivosJaRenomeados)
         {
             this.lstEpisodios = new ObservableCollection<Episodio>();
             this.lstEpisodios.Add(new Episodio() { oSerie = new Serie() { sDsTitulo = "Carregando..." }, sDsFilepathOriginal = "Carregando...", bFlSelecionado = false });
@@ -59,7 +63,7 @@ namespace MediaManager.ViewModel
                 {
                     Episodio episodio = new Episodio();
                     episodio.sDsFilepath = item.FullName;
-                    if (episodio.IdentificarEpisodio())
+                    if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() && !episodio.bFlRenomeado) || (bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio()))
                     {
                         episodio.sDsFilepathOriginal = item.FullName;
                         episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);

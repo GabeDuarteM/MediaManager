@@ -4,13 +4,22 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmRenomear"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Renomear - \{0\}}"
-        Height="400" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/RenomearViewModelSampleData.xaml}">
+        Height="400" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
+    <Window.Resources>
+        <CollectionViewSource x:Key="lstEpisodiosView" Source="{Binding lstEpisodios}" IsLiveSortingRequested="True">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="oSerie.sDsTitulo" Direction="Ascending" />
+                <scm:SortDescription PropertyName="nNrAbsoluto" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding lstEpisodios, Mode=OneWay}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+        <DataGrid ItemsSource="{Binding Source={StaticResource lstEpisodiosView}}" Margin="10,10,10,35" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
             IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD">
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">

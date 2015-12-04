@@ -4,7 +4,7 @@ namespace MediaManager.Model
 {
     public class Context : DbContext
     {
-        public DbSet<Episodio> Episodio { get; set; }
+        public virtual DbSet<Episodio> Episodio { get; set; }
 
         //public DbSet<Filme> Filmes { get; set; }
 
@@ -12,10 +12,10 @@ namespace MediaManager.Model
 
         //public DbSet<Images> Images { get; set; }
 
-        public DbSet<Serie> Serie { get; set; }
+        public virtual DbSet<Serie> Serie { get; set; }
 
-        public DbSet<SerieAlias> SerieAlias { get; set; }
+        public virtual DbSet<SerieAlias> SerieAlias { get; set; }
 
-        public DbSet<Feed> Feed { get; set; }
+        public virtual DbSet<Feed> Feed { get; set; }
     }
 }

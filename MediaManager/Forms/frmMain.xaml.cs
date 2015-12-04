@@ -24,8 +24,8 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
-            Teste();
-            TESTCopiarEstruturaDePastas();
+            //Teste();
+            //TESTCopiarEstruturaDePastas();
 
             Argumentos = new Dictionary<string, string>();
 
@@ -110,7 +110,7 @@ namespace MediaManager.Forms
                 if (Directory.Exists(arg))
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(arg);
-                    RenomearViewModel renomearVM = new RenomearViewModel(dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
+                    RenomearViewModel renomearVM = new RenomearViewModel(true, dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
                     renomearVM.bFlSilencioso = true;
                     if (renomearVM.CommandRenomear.CanExecute(renomearVM))
                     {
@@ -120,7 +120,7 @@ namespace MediaManager.Forms
                 else if (File.Exists(arg))
                 {
                     IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
-                    RenomearViewModel renomearVM = new RenomearViewModel(arquivo);
+                    RenomearViewModel renomearVM = new RenomearViewModel(true, arquivo);
                     renomearVM.bFlSilencioso = true;
                     if (renomearVM.CommandRenomear.CanExecute(renomearVM))
                     {
@@ -150,7 +150,7 @@ namespace MediaManager.Forms
             throw new NotImplementedException();
             string nomeProcurado = "Arrow";
 
-            foreach (var item in DBHelper.GetFeeds().OrderBy(x => x.nNrPrioridade))
+            foreach (var item in new DBHelper().GetFeeds().OrderBy(x => x.nNrPrioridade))
             {
                 var argotic = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
                 List<Argotic.Syndication.RssItem> encontradosArgotic = new List<Argotic.Syndication.RssItem>();
