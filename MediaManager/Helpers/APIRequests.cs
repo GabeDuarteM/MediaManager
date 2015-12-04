@@ -307,7 +307,7 @@ namespace MediaManager.Helpers
             return series;
         }
 
-        public static SeriesData GetSeries(string query)
+        public static List<Serie> GetSeries(string query)
         {
             string responseData = null;
 
@@ -364,10 +364,9 @@ namespace MediaManager.Helpers
                     //    series.Add(itemData);
                     //break;
                 }
-                data.Series = series.ToArray();
             }
 
-            return data;
+            return series;
         }
 
         private static async Task<Episodio> GetEpisodeInfoAsync(int IDApi, string pref_IdiomaPesquisa)

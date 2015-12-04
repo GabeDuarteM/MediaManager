@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -68,8 +69,8 @@ namespace MediaManager.ViewModel
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
                                 if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
                                 {
-                                    SeriesData data = APIRequests.GetSeries(dir.Name);
-                                    if (data.Series.Length == 0)
+                                    List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
+                                    if (lstSeries.Count == 0)
                                     {
                                         Serie conteudo = new Serie();
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Série;
@@ -77,9 +78,9 @@ namespace MediaManager.ViewModel
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].nCdApi))
+                                    else if (lstSeries.Count > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(lstSeries[0].nCdApi))
                                     {
-                                        Serie conteudo = data.Series[0];
+                                        Serie conteudo = lstSeries[0];
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Série;
                                         conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlSelecionado = true;
@@ -111,8 +112,8 @@ namespace MediaManager.ViewModel
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
                                 if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
                                 {
-                                    SeriesData data = APIRequests.GetSeries(dir.Name);
-                                    if (data.Series == null || data.Series.Length == 0)
+                                    List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
+                                    if (lstSeries == null || lstSeries.Count == 0)
                                     {
                                         Serie conteudo = new Serie();
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Anime;
@@ -120,9 +121,9 @@ namespace MediaManager.ViewModel
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (data.Series.Length > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(data.Series[0].nCdApi))
+                                    else if (lstSeries.Count > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(lstSeries[0].nCdApi))
                                     {
-                                        Serie conteudo = data.Series[0];
+                                        Serie conteudo = lstSeries[0];
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Anime;
                                         conteudo.sDsPasta = dir.FullName;
                                         conteudo.bFlSelecionado = true;
