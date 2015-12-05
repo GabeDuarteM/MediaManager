@@ -14,16 +14,14 @@ namespace MediaManager.Helpers
 {
     public class DBHelper
     {
-        private Context db;
+        public static Context Context { get; set; }
 
-        public DBHelper(Context db = null)
+        public DBHelper()
         {
-            if (db == null)
+            if (Context == null)
             {
-                db = new Context();
+                Context = new Context();
             }
-
-            this.db = db;
         }
 
         public bool AddEpisodio(Episodio episode)
@@ -31,14 +29,14 @@ namespace MediaManager.Helpers
             try
             {
                 if (episode.nCdEpisodio > 0)
-                    db.Episodio.Add(episode);
+                    Context.Episodio.Add(episode);
                 else
                 {
                     Serie serie = GetSerieOuAnimePorIDApi(episode.nCdVideoAPI);
                     episode.nCdVideo = serie.nCdVideo;
-                    db.Episodio.Add(episode);
+                    Context.Episodio.Add(episode);
                 }
-                db.SaveChanges();
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o episódio com o ID " + episode.nCdEpisodioAPI + " ao banco.", true); return false; }
@@ -48,8 +46,8 @@ namespace MediaManager.Helpers
         {
             try
             {
-                db.SerieAlias.Add(alias);
-                db.SaveChanges();
+                Context.SerieAlias.Add(alias);
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias \"" + alias.sDsAlias + "\" ao banco.", true); return false; }
@@ -65,9 +63,9 @@ namespace MediaManager.Helpers
                     alias.nNrEpisodio = 1;
                     alias.nNrTemporada = 1;
                     alias.nCdVideo = video.nCdVideo;
-                    db.SerieAlias.Add(alias);
+                    Context.SerieAlias.Add(alias);
                 }
-                db.SaveChanges();
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias padrão do video \"" + video.sDsTitulo + "\" ao banco.", true); return false; }
@@ -83,8 +81,8 @@ namespace MediaManager.Helpers
                 if (!await Helper.DownloadImagesAsync(serie))
                 { MessageBox.Show("Erro ao baixar as imagens."); return false; }
 
-                db.Serie.Add(serie);
-                db.SaveChanges();
+                Context.Serie.Add(serie);
+                Context.SaveChanges();
 
                 VerificaEpisodiosNoDiretorio(serie);
                 return true;
@@ -102,8 +100,8 @@ namespace MediaManager.Helpers
                 if (!Helper.DownloadImages(serie))
                 { MessageBox.Show("Erro ao baixar as imagens."); return false; }
 
-                db.Serie.Add(serie);
-                db.SaveChanges();
+                Context.Serie.Add(serie);
+                Context.SaveChanges();
 
                 VerificaEpisodiosNoDiretorio(serie);
                 return true;
@@ -113,14 +111,14 @@ namespace MediaManager.Helpers
 
         public List<SerieAlias> GetAllAliases()
         {
-            var aliases = from aliasDB in db.SerieAlias
+            var aliases = from aliasDB in Context.SerieAlias
                           select aliasDB;
             return aliases != null ? aliases.ToList() : null;
         }
 
         public Serie GetAnimePorIDApi(int IDApi)
         {
-            var animesDB = (from animeDB in db.Serie
+            var animesDB = (from animeDB in Context.Serie
                             where animeDB.bFlAnime && animeDB.nCdApi == IDApi
                             select animeDB);
             Serie anime = animesDB.First();
@@ -133,7 +131,7 @@ namespace MediaManager.Helpers
         /// <returns>Retorna um List<Serie> contendo todos os animes que tenham serie.isAnime == true ordenados pelo título.</returns>
         public List<Serie> GetAnimes()
         {
-            var animesDB = (from animeDB in db.Serie
+            var animesDB = (from animeDB in Context.Serie
                             where animeDB.bFlAnime
                             orderby animeDB.sDsTitulo
                             select animeDB);
@@ -149,7 +147,7 @@ namespace MediaManager.Helpers
 
         public List<Serie> GetAnimesComForeignKeys()
         {
-            var animesDB = (from animeDB in db.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
+            var animesDB = (from animeDB in Context.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
                             where animeDB.bFlAnime
                             orderby animeDB.sDsTitulo
                             select animeDB);
@@ -165,7 +163,7 @@ namespace MediaManager.Helpers
 
         public Episodio GetEpisode(int IDSerie, int seasonNumber, int episodeNumber)
         {
-            var todosEpisodiosDB = from episodioDB in db.Episodio
+            var todosEpisodiosDB = from episodioDB in Context.Episodio
                                    where episodioDB.nCdVideo == IDSerie && episodioDB.nNrTemporada == seasonNumber && episodioDB.nNrEpisodio == episodeNumber
                                    select episodioDB;
             return todosEpisodiosDB.FirstOrDefault();
@@ -173,7 +171,7 @@ namespace MediaManager.Helpers
 
         public Episodio GetEpisode(int IDSerie, int absoluteNumber)
         {
-            var todosEpisodiosDB = from episodioDB in db.Episodio
+            var todosEpisodiosDB = from episodioDB in Context.Episodio
                                    where episodioDB.nCdVideo == IDSerie && episodioDB.nNrAbsoluto == absoluteNumber
                                    select episodioDB;
             return todosEpisodiosDB.FirstOrDefault();
@@ -181,7 +179,7 @@ namespace MediaManager.Helpers
 
         public Episodio GetEpisode(int IDApi)
         {
-            var todosEpisodiosDB = from episodioDB in db.Episodio
+            var todosEpisodiosDB = from episodioDB in Context.Episodio
                                    where episodioDB.nCdEpisodioAPI == IDApi
                                    select episodioDB;
             return todosEpisodiosDB.Count() != 0 ? todosEpisodiosDB.First() : null;
@@ -189,7 +187,7 @@ namespace MediaManager.Helpers
 
         public List<Episodio> GetEpisodes()
         {
-            var todosEpisodiosDB = from episodioDB in db.Episodio
+            var todosEpisodiosDB = from episodioDB in Context.Episodio
                                    select episodioDB;
             var lstEpisodios = todosEpisodiosDB.ToList();
             return lstEpisodios;
@@ -197,7 +195,7 @@ namespace MediaManager.Helpers
 
         public List<Episodio> GetEpisodes(Video serie)
         {
-            var episodios = from episodiosDB in db.Episodio
+            var episodios = from episodiosDB in Context.Episodio
                             where episodiosDB.nCdVideo == serie.nCdVideo
                             select episodiosDB;
             var lstEpisodios = episodios.ToList();
@@ -214,7 +212,7 @@ namespace MediaManager.Helpers
                     }
                 case Enums.TipoConteudo.Série:
                     {
-                        var series = from seriesDB in db.Serie
+                        var series = from seriesDB in Context.Serie
                                      where !seriesDB.bFlAnime
                                      select seriesDB;
                         foreach (var item in series)
@@ -222,12 +220,12 @@ namespace MediaManager.Helpers
                             var sPastaItem = Path.GetDirectoryName(item.sDsPasta);
                             item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
                         }
-                        db.SaveChanges();
+                        Context.SaveChanges();
                         break;
                     }
                 case Enums.TipoConteudo.Anime:
                     {
-                        var series = from seriesDB in db.Serie
+                        var series = from seriesDB in Context.Serie
                                      where seriesDB.bFlAnime
                                      select seriesDB;
                         foreach (var item in series)
@@ -235,7 +233,7 @@ namespace MediaManager.Helpers
                             var sPastaItem = Path.GetDirectoryName(item.sDsPasta);
                             item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
                         }
-                        db.SaveChanges();
+                        Context.SaveChanges();
                         break;
                     }
 
@@ -246,28 +244,28 @@ namespace MediaManager.Helpers
 
         public List<Episodio> GetEpisodesToRename()
         {
-            var allEpisodesDB = from episodeDB in db.Episodio
+            var allEpisodesDB = from episodeDB in Context.Episodio
                                 where !episodeDB.bFlRenomeado
                                 select episodeDB;
 
             var allEpisodes = allEpisodesDB.ToList();
             foreach (var item in allEpisodes)
             {
-                item.oSerie = db.Serie.Find(item.nCdVideo);
+                item.oSerie = Context.Serie.Find(item.nCdVideo);
             }
             return allEpisodes;
         }
 
         public List<Feed> GetFeeds()
         {
-            var feeds = from feedsDB in db.Feed
+            var feeds = from feedsDB in Context.Feed
                         select feedsDB;
             return feeds.ToList();
         }
 
         public List<SerieAlias> GetSerieAliases(Video video)
         {
-            var aliases = from aliasDB in db.SerieAlias
+            var aliases = from aliasDB in Context.SerieAlias
                           where aliasDB.nCdVideo == video.nCdVideo
                           select aliasDB;
             return aliases != null ? aliases.ToList() : null;
@@ -275,7 +273,7 @@ namespace MediaManager.Helpers
 
         public Serie GetSerieOuAnimePorIDApi(int IDApi)
         {
-            var seriesDB = (from serieDB in db.Serie
+            var seriesDB = (from serieDB in Context.Serie
                             where serieDB.nCdApi == IDApi
                             select serieDB);
             Serie serie = seriesDB.First();
@@ -289,9 +287,7 @@ namespace MediaManager.Helpers
             try
             {
                 // Verifica se existe série com nome igual, se tiver seta como melhor correspondencia e a retorna direto.
-                var series = from serieDB in db.Serie
-                             where serieDB.sDsTitulo == titulo
-                             select serieDB;
+                var series = Context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower());
                 if (series.Count() > 0)
                 {
                     levenshtein = 0;
@@ -300,13 +296,11 @@ namespace MediaManager.Helpers
                 }
 
                 // Verifica se existem séries que contenham o título citado e calcula o levenshtein.
-                series = from serieDB in db.Serie
-                         where serieDB.sDsTitulo.Contains(titulo)
-                         select serieDB;
+                series = Context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(titulo.ToLower()));
 
                 foreach (var serie in series)
                 {
-                    int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.sDsTitulo);
+                    int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
                     if (levensTemp < levenshtein)
                     {
                         levenshtein = levensTemp;
@@ -318,28 +312,27 @@ namespace MediaManager.Helpers
                 // (para evitar falsos positivos com palavras tipo "The") e calcula o levenshtein
                 if (titulo.Replace(".", " ").Replace("_", " ").Split(' ').Count() > 1)
                 {
-                    foreach (var item in titulo.Replace(".", " ").Replace("_", " ").Split(' '))
+                    foreach (var item in titulo.Replace(".", " ").Replace("_", " ").ToLower().Split(' '))
                     {
                         if (item.Length <= 3)
                         {
                             continue;
                         }
 
-                        series = from serieDB in db.Serie where serieDB.sDsTitulo.Contains(item) select serieDB;
+                        series = Context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(item));
                         foreach (var serie in series)
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, serie.sDsTitulo);
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
                             if (levensTemp < levenshtein)
                             {
                                 levenshtein = levensTemp;
                                 melhorCorrespondencia = serie;
                             }
                         }
-
-                        var aliases = from aliasDB in db.SerieAlias where aliasDB.sDsAlias.Contains(item) select aliasDB;
+                        var aliases = Context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower()));
                         foreach (var alias in aliases)
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo, alias.sDsAlias);
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), alias.sDsAlias.ToLower());
                             if (levensTemp < levenshtein)
                             {
                                 levenshtein = levensTemp;
@@ -362,7 +355,7 @@ namespace MediaManager.Helpers
         {
             if (!removerCaracteresEspeciais)
             {
-                var seriesDB = (from serieDB in db.Serie
+                var seriesDB = (from serieDB in Context.Serie
                                 where serieDB.sDsTitulo.Contains(titulo)
                                 select serieDB);
                 List<Serie> series = seriesDB.ToList();
@@ -370,7 +363,7 @@ namespace MediaManager.Helpers
             }
             else
             {
-                var seriesDB = (from serieDB in db.Serie
+                var seriesDB = (from serieDB in Context.Serie
                                 where serieDB.sDsTitulo.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim().Contains(titulo)
                                 select serieDB);
                 List<Serie> series = seriesDB.ToList();
@@ -385,7 +378,7 @@ namespace MediaManager.Helpers
         /// <returns>Retorna a série caso esta exista no banco, ou null caso não exista.</returns>
         public Serie GetSeriePorID(int IDBanco)
         {
-            var seriesDB = (from serieDB in db.Serie
+            var seriesDB = (from serieDB in Context.Serie
                             where serieDB.nCdVideo == IDBanco
                             select serieDB);
             Serie serie = seriesDB.First();
@@ -399,7 +392,7 @@ namespace MediaManager.Helpers
         /// <returns>Retorna um List<Serie> contendo todas as séries que tenham serie.isAnime == false ordenados pelo título.</returns>
         public List<Serie> GetSeries()
         {
-            var seriesDB = (from serieDB in db.Serie
+            var seriesDB = (from serieDB in Context.Serie
                             where !serieDB.bFlAnime
                             orderby serieDB.sDsTitulo
                             select serieDB);
@@ -415,7 +408,7 @@ namespace MediaManager.Helpers
 
         public List<Serie> GetSeriesComForeignKeys()
         {
-            var seriesDB = (from serieDB in db.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
+            var seriesDB = (from serieDB in Context.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
                             where !serieDB.bFlAnime
                             orderby serieDB.sDsTitulo
                             select serieDB);
@@ -430,7 +423,7 @@ namespace MediaManager.Helpers
 
         public List<Serie> GetSeriesEAnimes()
         {
-            var seriesDB = (from serieDB in db.Serie
+            var seriesDB = (from serieDB in Context.Serie
                             orderby serieDB.sDsTitulo
                             select serieDB);
             List<Serie> series = seriesDB.ToList();
@@ -445,7 +438,7 @@ namespace MediaManager.Helpers
 
         public List<Serie> GetSeriesEAnimesComForeignKeys()
         {
-            var seriesDB = (from serieDB in db.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
+            var seriesDB = (from serieDB in Context.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
                             orderby serieDB.sDsTitulo
                             select serieDB);
             List<Serie> series = seriesDB.ToList();
@@ -463,8 +456,8 @@ namespace MediaManager.Helpers
         {
             try
             {
-                db.Serie.Remove(serie);
-                db.SaveChanges();
+                Context.Serie.Remove(serie);
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime \"" + serie.sDsTitulo + "\"."); return false; }
@@ -476,9 +469,9 @@ namespace MediaManager.Helpers
             string sNmSerie = null;
             try
             {
-                var serie = db.Serie.Find(ID);
+                var serie = Context.Serie.Find(ID);
                 sNmSerie = serie.sDsTitulo;
-                db.Serie.Remove(serie);
+                Context.Serie.Remove(serie);
 
                 if (Directory.Exists(serie.sDsMetadata))
                 {
@@ -495,7 +488,7 @@ namespace MediaManager.Helpers
                     Directory.Delete(metaDir.FullName);
                 }
 
-                db.SaveChanges();
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime " + sNmSerie); return false; }
@@ -505,9 +498,9 @@ namespace MediaManager.Helpers
         {
             try
             {
-                db.SerieAlias.Attach(alias);
-                db.SerieAlias.Remove(alias);
-                db.SaveChanges();
+                Context.SerieAlias.Attach(alias);
+                Context.SerieAlias.Remove(alias);
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover o alias \"" + alias.sDsAlias + "\" do banco.", true); return false; }
@@ -518,7 +511,7 @@ namespace MediaManager.Helpers
             Episodio original = null;
             try
             {
-                original = db.Episodio.Find(atualizado.nCdEpisodio);
+                original = Context.Episodio.Find(atualizado.nCdEpisodio);
 
                 if (original != null)
                 {
@@ -540,7 +533,7 @@ namespace MediaManager.Helpers
                     //original.RatingCount = atualizado.RatingCount;
                     original.nNrTemporada = atualizado.nNrTemporada;
 
-                    db.SaveChanges();
+                    Context.SaveChanges();
                     return true;
                 }
                 else return false;
@@ -553,14 +546,14 @@ namespace MediaManager.Helpers
             try
             {
                 Episodio original;
-                original = db.Episodio.Find(atualizado.nCdEpisodio);
+                original = Context.Episodio.Find(atualizado.nCdEpisodio);
                 if (original != null)
                 {
                     original.sDsFilepathOriginal = atualizado.sDsFilepathOriginal;
                     original.sDsFilepath = atualizado.sDsFilepath;
                     original.bFlRenomeado = atualizado.bFlRenomeado;
                     original.nIdEstadoEpisodio = atualizado.nIdEstadoEpisodio;
-                    db.SaveChanges();
+                    Context.SaveChanges();
                     return true;
                 }
                 else return false;
@@ -572,11 +565,11 @@ namespace MediaManager.Helpers
         {
             foreach (var item in lstEpisodiosModificados)
             {
-                db.Episodio.Attach(item);
-                var entry = db.Entry(item);
+                Context.Episodio.Attach(item);
+                var entry = Context.Entry(item);
                 entry.State = System.Data.Entity.EntityState.Modified;
             }
-            db.SaveChanges();
+            Context.SaveChanges();
         }
 
         public async Task<bool> UpdateSerieAsync(Serie atualizado)
@@ -586,22 +579,22 @@ namespace MediaManager.Helpers
             Serie serieOld = new Serie();
             try
             {
-                original = db.Serie.Find(atualizado.nCdVideo);
+                original = Context.Serie.Find(atualizado.nCdVideo);
                 serieOld.Clone(original);
                 if (original.nCdApi != atualizado.nCdApi)
                     isDiferente = true;
 
                 if (original != null)
                 {
-                    db.Entry(original).CurrentValues.SetValues(atualizado);
+                    Context.Entry(original).CurrentValues.SetValues(atualizado);
                     if (isDiferente)
                     {
-                        db.Episodio.RemoveRange(db.Episodio.Where(x => x.nCdVideoAPI == serieOld.nCdApi));
-                        db.SerieAlias.RemoveRange(db.SerieAlias.Where(x => x.nCdVideo == atualizado.nCdVideo));
+                        Context.Episodio.RemoveRange(Context.Episodio.Where(x => x.nCdVideoAPI == serieOld.nCdApi));
+                        Context.SerieAlias.RemoveRange(Context.SerieAlias.Where(x => x.nCdVideo == atualizado.nCdVideo));
                         AddEpisodios(atualizado);
                         AddSerieAlias(atualizado);
                     }
-                    db.SaveChanges();
+                    Context.SaveChanges();
                 }
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar a série \"" + atualizado.sDsTitulo + "\" no banco.", true); return false; }
@@ -634,7 +627,7 @@ namespace MediaManager.Helpers
 
         public bool VerificarSeEpisodioJaFoiRenomeado(Episodio episodio)
         {
-            var episodios = from episodiosDB in db.Episodio
+            var episodios = from episodiosDB in Context.Episodio
                             where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
                             select episodiosDB;
             return episodios.Count() > 0 ? true : false;
@@ -642,13 +635,13 @@ namespace MediaManager.Helpers
 
         public bool VerificaSeSerieOuAnimeExiste(int IDApi)
         {
-            var series = from seriesDB in db.Serie where seriesDB.nCdApi == IDApi select seriesDB;
+            var series = from seriesDB in Context.Serie where seriesDB.nCdApi == IDApi select seriesDB;
             return series.Count() > 0 ? true : false;
         }
 
         public bool VerificaSeSerieOuAnimeExiste(string folderPath)
         {
-            var series = from serie in db.Serie
+            var series = from serie in Context.Serie
                          where serie.sDsPasta == folderPath
                          select serie;
             //var filmes = from filme in db.Filmes
@@ -663,9 +656,9 @@ namespace MediaManager.Helpers
             foreach (var item in atualizado.lstEpisodios)
             {
                 item.nCdVideo = atualizado.nCdVideo;
-                db.Episodio.Add(item);
+                Context.Episodio.Add(item);
             }
-            db.SaveChanges();
+            Context.SaveChanges();
             return true;
         }
 
@@ -673,8 +666,8 @@ namespace MediaManager.Helpers
         {
             try
             {
-                db.Feed.Add(feed);
-                db.SaveChanges();
+                Context.Feed.Add(feed);
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -688,8 +681,8 @@ namespace MediaManager.Helpers
         {
             try
             {
-                db.Feed.Remove(feed);
-                db.SaveChanges();
+                Context.Feed.Remove(feed);
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -708,11 +701,11 @@ namespace MediaManager.Helpers
                 foreach (var item in atualizado)
                 {
                     feed = item;
-                    db.Feed.Attach(item);
-                    var entry = db.Entry(item);
+                    Context.Feed.Attach(item);
+                    var entry = Context.Entry(item);
                     entry.State = System.Data.Entity.EntityState.Modified;
                 }
-                db.SaveChanges();
+                Context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -745,11 +738,11 @@ namespace MediaManager.Helpers
                                 episodio.bFlRenomeado = (episodio.sDsFilepath == Path.Combine(serie.sDsPasta, Helper.RenomearConformePreferencias(episodio)) + item.Extension);
 
                                 Episodio episodeDB = GetEpisode(serie.nCdVideo, episodio.nNrTemporada, episodio.nNrEpisodio);
-                                episodeDB = db.Episodio.Find(episodeDB.nCdEpisodio);
+                                episodeDB = Context.Episodio.Find(episodeDB.nCdEpisodio);
                                 episodeDB.sDsFilepath = episodio.sDsFilepath;
                                 episodeDB.bFlRenomeado = episodio.bFlRenomeado;
                                 episodeDB.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                                db.SaveChanges();
+                                Context.SaveChanges();
                             }
                         }
                     }

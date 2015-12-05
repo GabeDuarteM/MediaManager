@@ -72,7 +72,7 @@ namespace MediaManager.Commands
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
                 DBHelper DBHelper = new DBHelper();
 
-                if (episodiosVM.nIdEstadoEpisodioSelecionado != Helpers.Enums.EstadoEpisodio.Selecione)
+                if (episodiosVM.nIdEstadoEpisodioSelecionado != Enums.EstadoEpisodio.Selecione)
                 {
                     List<Episodio> lstEpisodiosModificados = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).ToList();
                     if (lstEpisodiosModificados.Count > 0)

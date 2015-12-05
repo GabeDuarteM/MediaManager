@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using MediaManager.Helpers;
 using MediaManager.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,178 +9,317 @@ namespace MediaManager.Tests
     [TestClass]
     public class TestesReconhecimentoDaSerie
     {
+        private static TestContext context;
+
+        [ClassInitialize()]
+        public static void PrepararMassaDeDados(TestContext testContext)
+        {
+            context = testContext;
+            TesteHelper.GerarMassaDeDados();
+        }
+
         [TestMethod]
         public void TestarSeriesRegexS00E00()
         {
-            //Helpers.Helper.RegexEpisodio regex = new Helpers.Helper.RegexEpisodio();
+            #region Preparações
 
-            //string filename = "Arrow.S04E01.Green.Arrow.1080p.WEB-DL.6CH.x265.HEVC-PSA".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //EpisodeToRename episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //Match match = regex.regex_S00E00.Match(episodio.Filename);
-            //var actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Arrow S04E01", actual);
+            Episodio episodio;
+            string nomeRenomeado;
+            string resultadoEsperado;
+            string formatoRenomeio = "Titulo ({Titulo}) - TituloEpisodio ({TituloEpisodio}) - Temporada ({Temporada}) - Episodio ({Episodio}) - Absoluto ({Absoluto}) - SxEE ({SxEE}) - S00E00 ({S00E00})";
 
-            /////
+            #endregion Preparações
 
-            //filename = "Arrow.S04E02.1080p.HDTV.X264-DIMENSION".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Arrow S04E02", actual);
+            #region Asserts
 
             /////
 
-            //filename = "Arrow.S04E01.HDTV.XviD-FUM[ettv]".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Arrow S04E01", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Arrow.S04E01.Green.Arrow.1080p.WEB-DL.6CH.x265.HEVC-PSA";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Arrow) - TituloEpisodio (Green Arrow) - Temporada (04) - Episodio (01) - Absoluto (70) - SxEE (4x01) - S00E00 (S04E01)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Better.Call.Saul.S01E10.720p.HDTV.X264-DIMENSION".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Better Call Saul S01E10", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Arrow.S04E02.1080p.HDTV.X264-DIMENSION";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Arrow) - TituloEpisodio (The Candidate) - Temporada (04) - Episodio (02) - Absoluto (71) - SxEE (4x02) - S00E00 (S04E02)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Falling Skies S05E07 720p WEB-DL x264-Belex - Dual Audio".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Falling Skies S05E07", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Arrow.S04E01.HDTV.XviD-FUM[ettv]";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Arrow) - TituloEpisodio (Green Arrow) - Temporada (04) - Episodio (01) - Absoluto (70) - SxEE (4x01) - S00E00 (S04E01)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Game.of.Thrones.S05E07.720p.HDTV.x264-IMMERSE".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Game of Thrones S05E07", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Better.Call.Saul.S01E10.720p.HDTV.X264-DIMENSION";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Better Call Saul) - TituloEpisodio (Marco) - Temporada (01) - Episodio (10) - Absoluto (10) - SxEE (1x10) - S00E00 (S01E10)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "game.of.thrones.s05e08.proper.720p.hdtv.x264-0sec".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("game of thrones S05E08", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Falling Skies S05E07 720p WEB-DL x264-Belex - Dual Audio";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Falling Skies) - TituloEpisodio (Everybody Has Their Reasons) - Temporada (05) - Episodio (07) - Absoluto (49) - SxEE (5x07) - S00E00 (S05E07)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Gotham.S01E20.Under.the.Knife.720p.WEB-DL.2CH.x265.HEVC-PSA".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Gotham S01E20", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Game.of.Thrones.S05E07.720p.HDTV.x264-IMMERSE";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Game of Thrones) - TituloEpisodio (The Gift) - Temporada (05) - Episodio (07) - Absoluto (47) - SxEE (5x07) - S00E00 (S05E07)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Gotham.S01E21.720p.HDTV.X264-DIMENSION".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Gotham S01E21", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "game.of.thrones.s05e08.proper.720p.hdtv.x264-0sec";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Game of Thrones) - TituloEpisodio (Hardhome) - Temporada (05) - Episodio (08) - Absoluto (48) - SxEE (5x08) - S00E00 (S05E08)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Gotham.S01E22.All.Happy.Families.Are.Alike.720p.WEB-DL.DD5.1.AAC2.0.H.264-YFN".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Gotham S01E22", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Gotham.S01E20.Under.the.Knife.720p.WEB-DL.2CH.x265.HEVC-PSA";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Gotham) - TituloEpisodio (Under the Knife) - Temporada (01) - Episodio (20) - Absoluto (20) - SxEE (1x20) - S00E00 (S01E20)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Marvel's.Agents.of.S.H.I.E.L.D.S02E21.S.O.S.Part.1.720p.WEB-DL.DD5.1.H.264-BS".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Marvels Agents of S H I E L D S02E21", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Gotham.S01E21.720p.HDTV.X264-DIMENSION";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Gotham) - TituloEpisodio (The Anvil or the Hammer) - Temporada (01) - Episodio (21) - Absoluto (21) - SxEE (1x21) - S00E00 (S01E21)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Marvel's.Agents.of.S.H.I.E.L.D.S03E01.Laws.of.Nature.720p.WEB-DL.DD5.1.H.264-CtrlHD".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Marvels Agents of S H I E L D S03E01", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Gotham.S01E22.All.Happy.Families.Are.Alike.720p.WEB-DL.DD5.1.AAC2.0.H.264-YFN";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Gotham) - TituloEpisodio (All Happy Families Are Alike) - Temporada (01) - Episodio (22) - Absoluto (22) - SxEE (1x22) - S00E00 (S01E22)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "Marvels.Daredevil.S01E07.Stick.1080p.NF.WEBRip.DD5.1.x264-NTb".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Marvels Daredevil S01E07", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Marvel's.Agents.of.S.H.I.E.L.D.S02E21.S.O.S.Part.1.720p.WEB-DL.DD5.1.H.264-BS";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Marvel's Agents of S.H.I.E.L.D.) - TituloEpisodio (S.O.S. (1)) - Temporada (02) - Episodio (21) - Absoluto (43) - SxEE (2x21) - S00E00 (S02E21)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "the.big.bang.theory.s09e01.720p.hdtv.hevc.x265.rmteam".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("the big bang theory S09E01", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Marvel's.Agents.of.S.H.I.E.L.D.S03E01.Laws.of.Nature.720p.WEB-DL.DD5.1.H.264-CtrlHD";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Marvel's Agents of S.H.I.E.L.D.) - TituloEpisodio (Laws of Nature) - Temporada (03) - Episodio (01) - Absoluto (45) - SxEE (3x01) - S00E00 (S03E01)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "The.Big.Bang.Theory.S08E19.The.Skywalker.Incursion.720p.WEB-DL.DD5.1.AAC2.0.H.264-YFN".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("The Big Bang Theory S08E19", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Marvels.Daredevil.S01E07.Stick.1080p.NF.WEBRip.DD5.1.x264-NTb";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Marvel's Daredevil) - TituloEpisodio (Stick) - Temporada (01) - Episodio (07) - Absoluto (07) - SxEE (1x07) - S00E00 (S01E07)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "The Flash S01E20 720p HDTV x264 AAC - Ozlem".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("The Flash S01E20", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "the.big.bang.theory.s09e01.720p.hdtv.hevc.x265.rmteam";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (The Big Bang Theory) - TituloEpisodio (The Matrimonial Momentum) - Temporada (09) - Episodio (01) - Absoluto (184) - SxEE (9x01) - S00E00 (S09E01)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "The.Flash.2014.S02E01.The.Man.Who.Saved.Central.City.720p.WEB-DL.DD5.1.H.264-CtrlHD".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("The Flash 2014 S02E01", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "The.Big.Bang.Theory.S08E19.The.Skywalker.Incursion.720p.WEB-DL.DD5.1.AAC2.0.H.264-YFN";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (The Big Bang Theory) - TituloEpisodio (The Skywalker Incursion) - Temporada (08) - Episodio (19) - Absoluto (178) - SxEE (8x19) - S00E00 (S08E19)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
 
-            //filename = "The.Following.S03E08.720p.HDTV.X264-DIMENSION".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("The Following S03E08", actual);
+            episodio = new Episodio();
+            episodio.sDsFilepath = "The Flash S01E20 720p HDTV x264 AAC - Ozlem";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (The Flash (2014)) - TituloEpisodio (The Trap) - Temporada (01) - Episodio (20) - Absoluto (20) - SxEE (1x20) - S00E00 (S01E20)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
 
             /////
-            //filename = "Under.the.Dome.S03E01E02.Move.On-But.Im.Not.720p.WEB-DL.DD5.1.H264-RARBG".Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-            //episodio = new EpisodeToRename() { Filename = filename };
-            //Assert.IsTrue(regex.regex_S00E00.IsMatch(episodio.Filename));
-            //match = regex.regex_S00E00.Match(episodio.Filename);
-            //actual = match.Groups["name"].Value.Trim() + " S" + match.Groups["season"].Value.Trim() + "E" + match.Groups["episodes"].Value.Trim();
-            //Assert.AreEqual("Under the Dome S03E01E02", actual);
+
+            episodio = new Episodio();
+            episodio.sDsFilepath = "The.Flash.2014.S02E01.The.Man.Who.Saved.Central.City.720p.WEB-DL.DD5.1.H.264-CtrlHD";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (The Flash (2014)) - TituloEpisodio (The Man Who Saved Central City) - Temporada (02) - Episodio (01) - Absoluto (24) - SxEE (2x01) - S00E00 (S02E01)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
+
+            /////
+
+            episodio = new Episodio();
+            episodio.sDsFilepath = "The.Following.S03E08.720p.HDTV.X264-DIMENSION";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (The Following) - TituloEpisodio (Flesh & Blood) - Temporada (03) - Episodio (08) - Absoluto () - SxEE (3x08) - S00E00 (S03E08)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
+
+            /////
+
+            episodio = new Episodio();
+            episodio.sDsFilepath = "Under.the.Dome.S03E01E02.Move.On-But.Im.Not.720p.WEB-DL.DD5.1.H264-RARBG";
+            if (episodio.IdentificarEpisodio())
+            {
+                nomeRenomeado = Helper.RenomearConformePreferencias(episodio, formatoRenomeio);
+                resultadoEsperado = "Titulo (Under the Dome) - TituloEpisodio (Move On & But I'm Not) - Temporada (03) - Episodio (01 & 02) - Absoluto (27 & 27) - SxEE (3x01x02) - S00E00 (S03E01E02)";
+                Assert.AreEqual(resultadoEsperado, nomeRenomeado);
+            }
+            else
+            {
+                throw new AssertFailedException("Não conseguiu identificar o episódio " + episodio.sDsFilepath);
+            }
+
+            /////
+
+            #endregion Asserts
         }
 
         [TestMethod]
