@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,29 @@ namespace MediaManager.Model
             sDsAlias = nomeAlias;
             nNrTemporada = 1;
             nNrEpisodio = 1;
+        }
+
+        public SerieAlias(SerieAlias serieAlias)
+        {
+            Clone(serieAlias);
+        }
+
+        public void Clone(object objOrigem)
+        {
+            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
+            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
+
+            foreach (PropertyInfo item in variaveisObjOrigem)
+            {
+                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
+
+                if (variavelIgual != null && variavelIgual.CanWrite)
+                {
+                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
+                }
+            }
+
+            return;
         }
     }
 }

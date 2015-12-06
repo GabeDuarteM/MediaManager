@@ -227,6 +227,11 @@ namespace MediaManager.Model
             lstIntEpisodiosAbsolutos = new List<int>();
         }
 
+        public Episodio(Episodio episodio)
+        {
+            Clone(episodio);
+        }
+
         public void Clone(object objOrigem)
         {
             PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
@@ -264,11 +269,11 @@ namespace MediaManager.Model
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     // Para quando se tem multi-episódios
-                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
                     nNrTemporada = int.Parse(match.Groups["season"].Value);
                     lstIntEpisodios = new List<int>();
 
-                    foreach (var item in match.Groups["episodes"].Value.Split(separador))
+                    foreach (var item in match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodios.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
                     }
@@ -291,11 +296,11 @@ namespace MediaManager.Model
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
 
                     // Para quando se tem multi-episódios
-                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
                     nNrTemporada = int.Parse(match.Groups["season"].Value);
                     lstIntEpisodios = new List<int>();
 
-                    foreach (var item in match.Groups["episodes"].Value.Split(separador))
+                    foreach (var item in match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodios.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
                     }
@@ -317,10 +322,10 @@ namespace MediaManager.Model
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     // Para quando se tem multi-episódios
-                    char separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(char) : match.Groups["separador"].Value.ToCharArray()[0];
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
                     lstIntEpisodiosAbsolutos = new List<int>();
 
-                    foreach (var item in match.Groups["episodes"].Value.Split(separador))
+                    foreach (var item in match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodiosAbsolutos.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
                     }

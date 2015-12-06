@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using MediaManager.Helpers;
 
@@ -40,6 +42,33 @@ namespace MediaManager.Model
 
         [NotMapped]
         public bool bFlSelecionado { get { return _bFlSelecionado; } set { _bFlSelecionado = value; OnPropertyChanged(); } }
+
+        public Feed()
+        {
+        }
+
+        public Feed(Feed feed)
+        {
+            Clone(feed);
+        }
+
+        public void Clone(object objOrigem)
+        {
+            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
+            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
+
+            foreach (PropertyInfo item in variaveisObjOrigem)
+            {
+                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
+
+                if (variavelIgual != null && variavelIgual.CanWrite)
+                {
+                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
+                }
+            }
+
+            return;
+        }
 
         #region INotifyPropertyChanged Members
 

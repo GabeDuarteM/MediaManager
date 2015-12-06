@@ -222,6 +222,11 @@ namespace MediaManager.Model
             _sDsImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";
         }
 
+        public Serie(Serie serie)
+        {
+            Clone(serie);
+        }
+
         public void SetDefaultFolderPath()
         {
             sDsPasta = (nIdTipoConteudo == Enums.TipoConteudo.Anime) ?
