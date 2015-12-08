@@ -148,6 +148,11 @@ namespace MediaManager.Model
         [XmlIgnore, NotMapped]
         public bool bFlSelecionado { get { return _bFlSelecionado; } set { _bFlSelecionado = value; OnPropertyChanged(); } }
 
+        private bool _bFlNaoEncontrado;
+
+        [XmlIgnore, NotMapped]
+        public bool bFlNaoEncontrado { get { return _bFlNaoEncontrado; } set { _bFlNaoEncontrado = value; OnPropertyChanged(); if (value == true) { sDsTitulo = "Sem resultados..."; sDsSinopse = "Sem resultados..."; } } }
+
         public Video()
         {
             _sDsImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";

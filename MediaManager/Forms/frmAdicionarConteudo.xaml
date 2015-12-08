@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmAdicionarConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Adicionar conteúdo - \{0\}}"
-        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/AdicionarConteudoViewModelSampleData.xaml}">
+        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/AdicionarConteudoViewModelSampleData.xaml}" Loaded="Window_Loaded">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -33,7 +33,7 @@
         </Image>
         <DockPanel Grid.Row="1" Grid.Column="1">
             <ComboBox ItemsSource="{Binding lstResultPesquisa, Mode=OneWay}" DisplayMemberPath="sDsTitulo" SelectedItem="{Binding oVideoSelecionado, Mode=TwoWay}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Margin="0,0,5,0" />
-            <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Click="btnConfig_Click">
+            <Button x:Name="btnConfig" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Command="{Binding CommandConfigurarConteudo}" CommandParameter="{Binding}">
                 <Image x:Name="imgGear" Height="15" Width="15" Source="/MediaManager;component/Resources/IMG_Gear.png" />
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Command="{Binding CommandAbrirEpisodios}" CommandParameter="{Binding}">
@@ -44,6 +44,6 @@
         </DockPanel>
         <TextBox Text="{Binding oVideoSelecionado.sDsSinopse, Mode=OneWay}" Margin="0,4,0,5" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" />
         <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10" Width="75" IsCancel="True" Grid.Row="3" Grid.Column="1" />
-        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,80,10" Width="75" Click="btnSalvar_Click" IsDefault="True" Grid.Row="3" Grid.Column="1" />
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,80,10" Width="75" Command="{Binding CommandSalvarConteudo}" CommandParameter="{Binding}" IsDefault="True" Grid.Row="3" Grid.Column="1" />
     </Grid>
 </Window>

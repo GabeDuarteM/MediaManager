@@ -168,7 +168,7 @@ namespace MediaManager.ViewModel
 
                 if (lstConteudos.Count == 0)
                 {
-                    Helper.MostrarMensagem("Nenhum novo conteúdo foi encontrado.", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                    Helper.MostrarMensagem("Nenhum novo conteúdo foi encontrado.", Enums.eTipoMensagem.Informativa);
                 }
 
                 //Conteudos.Clear();

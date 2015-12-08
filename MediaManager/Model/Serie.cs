@@ -87,47 +87,55 @@ namespace MediaManager.Model
             get { return _sDsImgPoster; }
             set
             {
-                if (value.StartsWith("http"))
+                try
                 {
-                    _sDsImgPoster = value;
-                    OnPropertyChanged();
-
-                    BitmapImage bmp = new BitmapImage(new Uri(value));
-                    bmp.DownloadCompleted += (s, e) =>
+                    if (value.StartsWith("http"))
                     {
-                        BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(bmp));
-                        using (MemoryStream ms = new MemoryStream())
+                        _sDsImgPoster = value;
+                        OnPropertyChanged();
+
+                        BitmapImage bmp = new BitmapImage(new Uri(value));
+                        bmp.DownloadCompleted += (s, e) =>
                         {
+                            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(bmp));
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                encoder.Save(ms);
+                                bCacheImgPoster = ms.ToArray();
+                            }
+                        };
+                    }
+                    else if (File.Exists(value))
+                    {
+                        _sDsImgPoster = value;
+                        OnPropertyChanged();
+                        bCacheImgPoster = (sDsImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                                                ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+                                                : File.ReadAllBytes(sDsImgPoster);
+                    }
+                    else
+                    {
+                        _sDsImgPoster = string.IsNullOrWhiteSpace(value) ?
+                            _sDsImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
+                            : Settings.Default.API_UrlTheTVDB + "/banners/" + value;
+                        OnPropertyChanged();
+                        MemoryStream ms = new MemoryStream();
+                        BitmapImage bmp = new BitmapImage(new Uri(sDsImgPoster));
+                        bmp.DownloadCompleted += (s, e) =>
+                        {
+                            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(bmp));
                             encoder.Save(ms);
                             bCacheImgPoster = ms.ToArray();
-                        }
-                    };
+                            ms.Close();
+                        };
+                    }
                 }
-                else if (File.Exists(value))
+                catch
                 {
-                    _sDsImgPoster = value;
-                    OnPropertyChanged();
-                    bCacheImgPoster = (sDsImgPoster == "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
-                                            ? (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                                            : File.ReadAllBytes(sDsImgPoster);
-                }
-                else
-                {
-                    _sDsImgPoster = string.IsNullOrWhiteSpace(value) ?
-                        _sDsImgPoster = ("pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png")
-                        : Settings.Default.API_UrlTheTVDB + "/banners/" + value;
-                    OnPropertyChanged();
-                    MemoryStream ms = new MemoryStream();
-                    BitmapImage bmp = new BitmapImage(new Uri(sDsImgPoster));
-                    bmp.DownloadCompleted += (s, e) =>
-                    {
-                        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(bmp));
-                        encoder.Save(ms);
-                        bCacheImgPoster = ms.ToArray();
-                        ms.Close();
-                    };
+                    _sDsImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
+                    bCacheImgPoster = (byte[])new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]));
                 }
             }
         }
@@ -210,11 +218,6 @@ namespace MediaManager.Model
 
         [XmlIgnore, NotMapped]
         public bool bFlEditado { get { return _bFlEditado; } set { _bFlEditado = value; OnPropertyChanged(); } }
-
-        private bool _bFlNaoEncontrado;
-
-        [XmlIgnore, NotMapped]
-        public bool bFlNaoEncontrado { get { return _bFlNaoEncontrado; } set { _bFlNaoEncontrado = value; OnPropertyChanged(); if (value == true) { sDsTitulo = "Sem resultados..."; sDsSinopse = "Sem resultados..."; } } }
 
         public Serie()
         {

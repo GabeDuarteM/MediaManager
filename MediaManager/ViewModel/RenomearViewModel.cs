@@ -67,7 +67,7 @@ namespace MediaManager.ViewModel
                     {
                         episodio.sDsFilepathOriginal = item.FullName;
                         episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);
-                        episodio.bFlRenomeado = true;
+                        //episodio.bFlRenomeado = true; // Habilitando a linha da problema no retorno dos arquivos renomeados via argumento (RenomearEpisodiosDosArgumentos())
                         lstEpisodios.Add(episodio);
                     }
                     else

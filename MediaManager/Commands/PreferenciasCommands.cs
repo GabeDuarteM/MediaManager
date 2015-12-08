@@ -192,8 +192,8 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
 
                     Properties.Settings.Default.Save();
 
-                    if (alterados.Count > 0 && Helper.MostrarMensagem("Deseja alterar também as pastas dos(as) " + Helper.ColocarVirgula(null, alterados) + " já cadastrados(as)?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question)
-                            == System.Windows.MessageBoxResult.Yes)
+                    if (alterados.Count > 0 && Helper.MostrarMensagem("Deseja alterar também as pastas dos(as) " + Helper.ColocarVirgula(null, alterados) + " já cadastrados(as)?", Enums.eTipoMensagem.QuestionamentoSimNao)
+                            == MessageBoxResult.Yes)
                     {
                         bFlAlterarPastas = true;
                     }

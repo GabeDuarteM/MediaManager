@@ -69,8 +69,7 @@ namespace MediaManager.Forms
                 conteudoAlterado.Clone(conteudo);
                 if (conteudoAlterado.bFlNaoEncontrado)
                     conteudoAlterado.sDsTitulo = Path.GetFileName(conteudoAlterado.sDsPasta);
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo, conteudoAlterado);
-                frmAdicionarConteudo.IsProcurarConteudo = true;
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo, conteudoAlterado, true);
                 frmAdicionarConteudo.ShowDialog(this);
                 if (frmAdicionarConteudo.DialogResult == true)
                 {

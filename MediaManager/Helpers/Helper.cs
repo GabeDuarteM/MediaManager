@@ -337,11 +337,38 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static MessageBoxResult MostrarMensagem(string mensagem, MessageBoxButton messageBoxButton = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.Error, string titulo = "")
+        public static MessageBoxResult MostrarMensagem(string mensagem, Enums.eTipoMensagem eTipoMensagem, string titulo = "")
         {
-            titulo = (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName;
+            switch (eTipoMensagem)
+            {
+                case Enums.eTipoMensagem.Alerta:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Warning);
 
-            return MessageBox.Show(mensagem, titulo, messageBoxButton, messageBoxImage);
+                case Enums.eTipoMensagem.AlertaSimNao:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                case Enums.eTipoMensagem.AlertaSimNaoCancela:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+
+                case Enums.eTipoMensagem.Informativa:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
+
+                case Enums.eTipoMensagem.QuestionamentoSimNao:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                case Enums.eTipoMensagem.QuestionamentoSimNaoCancela:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                case Enums.eTipoMensagem.Erro:
+                    return MessageBox.Show(mensagem, (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+
+                default:
+                    throw new ArgumentException("Enum incorreto.");
+            }
+
+            //titulo = (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName;
+
+            //return MessageBox.Show(mensagem, titulo, messageBoxButton, messageBoxImage);
         }
 
         /// <summary>

@@ -271,12 +271,19 @@ namespace MediaManager.Helpers
         {
             string responseData = null;
 
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            try
             {
-                using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
+                using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
                 {
-                    responseData = await response.Content.ReadAsStringAsync();
+                    using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
+                    {
+                        responseData = await response.Content.ReadAsStringAsync();
+                    }
                 }
+            }
+            catch
+            {
+                return new List<Serie>();
             }
 
             // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.

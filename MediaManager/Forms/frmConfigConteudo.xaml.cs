@@ -9,14 +9,13 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmConfigConteudo : Window
     {
-        public static ConfigurarConteudoViewModel ConfigurarConteudoVM { get; set; }
+        public ConfigurarConteudoViewModel ConfigurarConteudoVM { get; set; }
 
         public frmConfigConteudo(Video video)
         {
             InitializeComponent();
             ConfigurarConteudoVM = new ConfigurarConteudoViewModel(video);
-            ConfigurarConteudoVM.ActionDialogResult = new System.Action(() => DialogResult = true);
-            ConfigurarConteudoVM.ActionFechar = new System.Action(() => Close());
+            ConfigurarConteudoVM.ActionFechar = new System.Action(() => { DialogResult = true; Close(); });
             DataContext = ConfigurarConteudoVM;
         }
     }

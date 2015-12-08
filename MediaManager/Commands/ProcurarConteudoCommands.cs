@@ -22,7 +22,7 @@ namespace MediaManager.Commands
             {
                 return parameter is ProcurarConteudoViewModel
                     && (parameter as ProcurarConteudoViewModel).lstConteudos.Count > 0
-                    && (parameter as ProcurarConteudoViewModel).lstConteudos.Where(x => x.bFlSelecionado).Count() > 0;
+                    && (parameter as ProcurarConteudoViewModel).lstConteudos.Where(x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() > 0;
             }
 
             public void Execute(object parameter)
@@ -35,13 +35,13 @@ namespace MediaManager.Commands
                 {
                     DBHelper DBHelper = new DBHelper();
 
-                    if (ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado).Count() == 0)
-                    {
-                        Helper.MostrarMensagem("Para realizar a operação, selecione ao menos um registro.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    }
+                    //if (ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() == 0)
+                    //{
+                    //    Helper.MostrarMensagem("Para realizar a operação, selecione ao menos um registro.", Enums.eTipoMensagem.Alerta);
+                    //}
                     foreach (var item in ProcurarConteudoViewModel.lstConteudos)
                     {
-                        if (item.bFlSelecionado == true)
+                        if (item.bFlSelecionado && !item.bFlNaoEncontrado)
                         {
                             switch (item.nIdTipoConteudo)
                             {
@@ -81,7 +81,7 @@ namespace MediaManager.Commands
                         }
                     }
 
-                    Helper.MostrarMensagem("Séries inseridas com sucesso.", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Helper.MostrarMensagem("Séries inseridas com sucesso.", Enums.eTipoMensagem.Informativa);
                 };
 
                 frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted += (s, ev) =>

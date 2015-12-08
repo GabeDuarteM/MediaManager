@@ -97,7 +97,9 @@ namespace MediaManager.Forms
                 else
                 {
                     if (RenomearEpisodiosDosArgumentos(argsArray[i]))
+                    {
                         sucesso = true;
+                    }
                 }
             }
             return sucesso;
@@ -107,27 +109,31 @@ namespace MediaManager.Forms
         {
             try
             {
+                RenomearViewModel renomearVM = null;
                 if (Directory.Exists(arg))
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(arg);
-                    RenomearViewModel renomearVM = new RenomearViewModel(true, dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
-                    renomearVM.bFlSilencioso = true;
-                    if (renomearVM.CommandRenomear.CanExecute(renomearVM))
-                    {
-                        renomearVM.CommandRenomear.Execute(renomearVM);
-                    }
+                    renomearVM = new RenomearViewModel(true, dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
                 }
                 else if (File.Exists(arg))
                 {
                     IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
-                    RenomearViewModel renomearVM = new RenomearViewModel(true, arquivo);
-                    renomearVM.bFlSilencioso = true;
-                    if (renomearVM.CommandRenomear.CanExecute(renomearVM))
-                    {
-                        renomearVM.CommandRenomear.Execute(renomearVM);
-                    }
+                    renomearVM = new RenomearViewModel(true, arquivo);
                 }
-                return true;
+
+                renomearVM.bFlSilencioso = true;
+
+                foreach (var item in renomearVM.lstEpisodios)
+                {
+                    item.bFlSelecionado = true;
+                    item.bFlRenomeado = false; // Para quando o episódio ja tiver sido renomeado alguma vez o retorno funcionar corretamente.
+                }
+
+                if (renomearVM.CommandRenomear.CanExecute(renomearVM))
+                {
+                    renomearVM.CommandRenomear.Execute(renomearVM);
+                }
+                return renomearVM.lstEpisodios.All(x => x.bFlRenomeado == true);
             }
             catch (Exception e)
             {

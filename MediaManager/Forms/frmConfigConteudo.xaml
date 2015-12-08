@@ -32,16 +32,16 @@
                                        ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
                 <xctk:WatermarkTextBox MaxLength="4" Text="{Binding sNrEpisodio, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                                        ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
-                <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" />
-                <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" />
+                <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" CommandParameter="{Binding}" />
+                <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" CommandParameter="{Binding}" />
 
-                <DataGrid SelectedItem="{Binding oAliasSelecionado}" ItemsSource="{Binding oVideo.lstSerieAlias, Mode=TwoWay}"
+                <DataGrid SelectedItem="{Binding oAliasSelecionado}" ItemsSource="{Binding lstTempSerieAliases, Mode=TwoWay}"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column"
                           AlternationCount="2" AlternatingRowBackground="#FFDDDDDD"
                           HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" Margin="0,27.333,0,0">
 
                     <DataGrid.InputBindings>
-                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" />
+                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" CommandParameter="{Binding}" />
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding sDsAlias, Mode=OneWay}" Header="Alias" Width="10*" />

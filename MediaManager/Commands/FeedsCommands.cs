@@ -52,13 +52,13 @@ namespace MediaManager.Commands
                         feedAcima.nNrPrioridade++;
                         if (DBHelper.UpdateFeed(feed, feedAcima) == false)
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
                 else
                 {
-                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", messageBoxImage: MessageBoxImage.Warning);
+                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
                 }
                 //var feedsSelecionadosSeries = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nIdTipoConteudo == Helpers.Enums.ContentType.show);
                 //var feedsSelecionadosAnimes = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nIdTipoConteudo == Helpers.Enums.ContentType.anime);
@@ -103,13 +103,13 @@ namespace MediaManager.Commands
                         feedAbaixo.nNrPrioridade--;
                         if (DBHelper.UpdateFeed(feed, feedAbaixo) == false)
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
                 else
                 {
-                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", messageBoxImage: MessageBoxImage.Warning);
+                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
                 }
             }
         }

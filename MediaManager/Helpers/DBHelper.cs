@@ -195,11 +195,7 @@ namespace MediaManager.Helpers
 
         public List<Episodio> GetEpisodes(Video serie)
         {
-            var episodios = from episodiosDB in Context.Episodio
-                            where episodiosDB.nCdVideo == serie.nCdVideo
-                            select episodiosDB;
-            var lstEpisodios = episodios.ToList();
-            return lstEpisodios;
+            return Context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
         }
 
         public void AlterarPastaPadraoVideos(Enums.TipoConteudo nIdTipoConteudo, string sPasta)
@@ -504,6 +500,19 @@ namespace MediaManager.Helpers
                 return true;
             }
             catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover o alias \"" + alias.sDsAlias + "\" do banco.", true); return false; }
+        }
+
+        public bool RemoveSerieAlias(IList<SerieAlias> lstSerieAlias)
+        {
+            try
+            {
+                foreach (var item in lstSerieAlias)
+                {
+                    RemoveSerieAlias(item);
+                }
+                return true;
+            }
+            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover o alias do banco.", true); return false; }
         }
 
         public bool UpdateEpisodio(Episodio atualizado)

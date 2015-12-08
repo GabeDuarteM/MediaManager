@@ -42,7 +42,9 @@ namespace MediaManager.ViewModel
 
         public Video oVideo { get { return _oVideo; } set { _oVideo = value; OnPropertyChanged(); } }
 
-        public Action ActionDialogResult { get; set; }
+        private IList<SerieAlias> _lstTempSerieAliases;
+
+        public IList<SerieAlias> lstTempSerieAliases { get { return _lstTempSerieAliases; } set { _lstTempSerieAliases = value; OnPropertyChanged(); } }
 
         public Action ActionFechar { get; set; }
 
@@ -63,11 +65,22 @@ namespace MediaManager.ViewModel
             _nNrEpisodio = 1;
             this.oVideo.lstSerieAlias = Helper.PopularCampoSerieAlias(this.oVideo);
 
+            PopularListaTempSerieAlias();
+
             DoubleClickCommand = new ConfigurarConteudoCommands.DoubleClickNoGridAliasCommand();
             AddAlias = new ConfigurarConteudoCommands.AddAlias();
             RemoveAlias = new ConfigurarConteudoCommands.RemoveAlias();
             CommandSalvar = new ConfigurarConteudoCommands.CommandSalvar();
             CommandRemoverSerie = new ConfigurarConteudoCommands.CommandRemoverSerie();
+        }
+
+        private void PopularListaTempSerieAlias()
+        {
+            lstTempSerieAliases = new ObservableCollection<SerieAlias>();
+            foreach (var item in oVideo.lstSerieAlias)
+            {
+                lstTempSerieAliases.Add(item);
+            }
         }
 
         private int ValidarPossivelTexto(string valor, int valorAntigo)

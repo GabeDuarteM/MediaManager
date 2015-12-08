@@ -25,16 +25,17 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return true;
+                return parameter is ConfigurarConteudoViewModel;
             }
 
             public void Execute(object parameter)
             {
-                if (frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado != null)
+                var configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
+                if (configurarConteudoVM.oAliasSelecionado != null)
                 {
-                    frmConfigConteudo.ConfigurarConteudoVM.sDsAlias = frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado.sDsAlias;
-                    frmConfigConteudo.ConfigurarConteudoVM.nNrTemporada = frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado.nNrTemporada;
-                    frmConfigConteudo.ConfigurarConteudoVM.nNrEpisodio = frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado.nNrEpisodio;
+                    configurarConteudoVM.sDsAlias = configurarConteudoVM.oAliasSelecionado.sDsAlias;
+                    configurarConteudoVM.nNrTemporada = configurarConteudoVM.oAliasSelecionado.nNrTemporada;
+                    configurarConteudoVM.nNrEpisodio = configurarConteudoVM.oAliasSelecionado.nNrEpisodio;
                 }
             }
 
@@ -53,31 +54,35 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                if (!string.IsNullOrWhiteSpace(frmConfigConteudo.ConfigurarConteudoVM.sDsAlias) && frmConfigConteudo.ConfigurarConteudoVM.nNrTemporada >= 0 && frmConfigConteudo.ConfigurarConteudoVM.nNrEpisodio >= 0)
-                    return true;
-                else
-                    return false;
+                return parameter is ConfigurarConteudoViewModel && !string.IsNullOrWhiteSpace((parameter as ConfigurarConteudoViewModel).sDsAlias) &&
+                    (parameter as ConfigurarConteudoViewModel).nNrTemporada >= 0 && (parameter as ConfigurarConteudoViewModel).nNrEpisodio >= 0;
             }
 
             public void Execute(object parameter)
             {
-                SerieAlias alias = new SerieAlias(frmConfigConteudo.ConfigurarConteudoVM.sDsAlias);
+                var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
+
+                SerieAlias alias = new SerieAlias(ConfigurarConteudoVM.sDsAlias);
                 DBHelper DBHelper = new DBHelper();
 
-                alias.nNrTemporada = frmConfigConteudo.ConfigurarConteudoVM.nNrTemporada;
-                alias.nNrEpisodio = frmConfigConteudo.ConfigurarConteudoVM.nNrEpisodio;
-                if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0 && Directory.Exists(frmConfigConteudo.ConfigurarConteudoVM.oVideo.sDsMetadata)) // Verifica se existe a pasta para quando é edição de uma série não cair no if.
-                {
-                    alias.nCdVideo = frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo;
-                    DBHelper.AddSerieAlias(alias);
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
-                }
-                else
-                {
-                    if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias == null)
-                        frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>();
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Add(alias);
-                }
+                alias.nNrTemporada = ConfigurarConteudoVM.nNrTemporada;
+                alias.nNrEpisodio = ConfigurarConteudoVM.nNrEpisodio;
+                alias.nCdVideo = ConfigurarConteudoVM.oVideo.nCdVideo;
+
+                ConfigurarConteudoVM.lstTempSerieAliases.Add(alias);
+
+                //if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0 && Directory.Exists(frmConfigConteudo.ConfigurarConteudoVM.oVideo.sDsMetadata)) // Verifica se existe a pasta para quando é edição de uma série não cair no if.
+                //{
+                //    alias.nCdVideo = frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo;
+                //    DBHelper.AddSerieAlias(alias);
+                //    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
+                //}
+                //else
+                //{
+                //    if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias == null)
+                //        frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>();
+                //    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Add(alias);
+                //}
             }
 
             #endregion ICommand Members
@@ -95,25 +100,25 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                if (frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado != null)
-                    return true;
-                else
-                    return false;
+                return parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).oAliasSelecionado != null;
             }
 
             public void Execute(object parameter)
             {
-                if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0)
-                {
-                    DBHelper DBHelper = new DBHelper();
+                var configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
+                configurarConteudoVM.lstTempSerieAliases.Remove(configurarConteudoVM.oAliasSelecionado);
 
-                    DBHelper.RemoveSerieAlias(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
-                }
-                else
-                {
-                    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Remove(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
-                }
+                //if (frmConfigConteudo.ConfigurarConteudoVM.oVideo.nCdVideo > 0)
+                //{
+                //    DBHelper DBHelper = new DBHelper();
+
+                //    DBHelper.RemoveSerieAlias(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
+                //    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias = new ObservableCollection<SerieAlias>(DBHelper.GetSerieAliases(frmConfigConteudo.ConfigurarConteudoVM.oVideo));
+                //}
+                //else
+                //{
+                //    frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias.Remove(frmConfigConteudo.ConfigurarConteudoVM.oAliasSelecionado);
+                //}
             }
 
             #endregion ICommand Members
@@ -133,7 +138,7 @@ namespace MediaManager.Commands
                 if (parameter is ConfigurarConteudoViewModel)
                 {
                     ConfigurarConteudoViewModel configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
-                    configurarConteudoVM.ActionDialogResult();
+                    configurarConteudoVM.oVideo.lstSerieAlias = (ObservableCollection<SerieAlias>)configurarConteudoVM.lstTempSerieAliases;
                     configurarConteudoVM.ActionFechar();
                 }
             }
@@ -145,11 +150,7 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                if (parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).oVideo.nCdVideo > 0)
-                {
-                    return true;
-                }
-                else { return false; }
+                return parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).oVideo.nCdVideo > 0;
             }
 
             public void Execute(object parameter)

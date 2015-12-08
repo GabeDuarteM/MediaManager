@@ -54,5 +54,17 @@ namespace MediaManager.Helpers
             Desejado = 4,
             Ignorado = 5
         }
+
+        public enum eTipoMensagem
+        {
+            Padrao = 0,
+            Alerta = 1,
+            AlertaSimNao = 2,
+            AlertaSimNaoCancela = 3,
+            Informativa = 4,
+            QuestionamentoSimNao = 5,
+            QuestionamentoSimNaoCancela = 6,
+            Erro = 7
+        }
     }
 }

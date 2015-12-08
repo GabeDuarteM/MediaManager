@@ -16,9 +16,7 @@ namespace MediaManager.Forms
 
         public bool IsEdicao { get; set; }
 
-        public bool IsProcurarConteudo { get; set; }
-
-        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo)
+        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, bool bIsProcurarConteudo = false)
         {
             InitializeComponent();
 
@@ -32,38 +30,22 @@ namespace MediaManager.Forms
                 serie.sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText;
 
                 AdicionarConteudoViewModel = new AdicionarConteudoViewModel(serie, tipoConteudo);
+                AdicionarConteudoViewModel.bProcurarConteudo = bIsProcurarConteudo;
+                AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
             }
 
             DataContext = AdicionarConteudoViewModel;
         }
 
-        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, Video video)
+        public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, Video video, bool bIsProcurarConteudo = false)
         {
             InitializeComponent();
 
             AdicionarConteudoViewModel = new AdicionarConteudoViewModel(video, tipoConteudo);
+            AdicionarConteudoViewModel.bProcurarConteudo = bIsProcurarConteudo;
+            AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
 
             DataContext = AdicionarConteudoViewModel;
-        }
-
-        private void btnConfig_Click(object sender, RoutedEventArgs e)
-        {
-            Video serie = AdicionarConteudoViewModel.oVideoSelecionado;
-            frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoViewModel.oVideoSelecionado);
-            frmConfigConteudo.ShowDialog();
-            foreach (var item in AdicionarConteudoViewModel.lstResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
-            {
-                if (item.nCdApi == AdicionarConteudoViewModel.oVideoSelecionado.nCdApi)
-                {
-                    item.lstSerieAlias = frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias;
-                    //AdicionarConteudoViewModel.SelectedVideo.AliasNames = frmConfigConteudo.ConfigurarConteudoVM.Video.AliasNames;
-                    break;
-                }
-            }
-            if (frmConfigConteudo.ConfigurarConteudoVM.bFlAcaoRemover)
-            {
-                Close();
-            }
         }
 
         private void btnPasta_Click(object sender, RoutedEventArgs e)
@@ -79,134 +61,142 @@ namespace MediaManager.Forms
 
         private async void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if (AdicionarConteudoViewModel.oVideoSelecionado == null || AdicionarConteudoViewModel.oVideoSelecionado.sDsPasta == null)
-            {
-                Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
-            }
-            else if (IsProcurarConteudo)
-            {
-                DialogResult = true;
-            }
-            else
-            {
-                switch (AdicionarConteudoViewModel.nIdTipoConteudo)
-                {
-                    case Enums.TipoConteudo.Filme:
-                        //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
-                        //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
+            //if (AdicionarConteudoViewModel.oVideoSelecionado == null || AdicionarConteudoViewModel.oVideoSelecionado.sDsPasta == null)
+            //{
+            //    Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.", Enums.eTipoMensagem.Alerta);
+            //    return;
+            //}
+            //else if (IsProcurarConteudo)
+            //{
+            //    DialogResult = true;
+            //}
+            //else
+            //{
+            //    switch (AdicionarConteudoViewModel.nIdTipoConteudo)
+            //    {
+            //        case Enums.TipoConteudo.Filme:
+            //            //Filme filme = await Helper.API_GetFilmeInfoAsync(AdicionarConteudoViewModel.Video.Ids.slug);
+            //            //filme.FolderPath = AdicionarConteudoViewModel.Video.FolderPath;
 
-                        //if (IsEdicao)
-                        //{
-                        //    filme.ID = AdicionarConteudoViewModel.Video.ID;
-                        //    try { await DatabaseHelper.UpdateFilmeAsync(filme); }
-                        //    catch (Exception ex)
-                        //    {
-                        //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                        //        DialogResult = false;
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    try { await DatabaseHelper.AddFilmeAsync(filme); }
-                        //    catch (Exception ex)
-                        //    {
-                        //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                        //        DialogResult = false;
-                        //    }
-                        //}
-                        break;
+            //            //if (IsEdicao)
+            //            //{
+            //            //    filme.ID = AdicionarConteudoViewModel.Video.ID;
+            //            //    try { await DatabaseHelper.UpdateFilmeAsync(filme); }
+            //            //    catch (Exception ex)
+            //            //    {
+            //            //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+            //            //        DialogResult = false;
+            //            //    }
+            //            //}
+            //            //else
+            //            //{
+            //            //    try { await DatabaseHelper.AddFilmeAsync(filme); }
+            //            //    catch (Exception ex)
+            //            //    {
+            //            //        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+            //            //        DialogResult = false;
+            //            //    }
+            //            //}
+            //            break;
 
-                    case Enums.TipoConteudo.Série:
-                    case Enums.TipoConteudo.Anime:
-                        {
-                            Serie serie = null;
-                            DBHelper DBHelper = new DBHelper();
+            //        case Enums.TipoConteudo.Série:
+            //        case Enums.TipoConteudo.Anime:
+            //            {
+            //                Serie serie = null;
+            //                DBHelper DBHelper = new DBHelper();
 
-                            if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
-                            {
-                                serie = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
-                            }
-                            //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                            //{
-                            //    serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
-                            //    serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
-                            //}
+            //                if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
+            //                {
+            //                    serie = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
+            //                }
+            //                //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+            //                //{
+            //                //    serie = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+            //                //    serie.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+            //                //}
 
-                            serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
+            //                serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
 
-                            if (IsEdicao)
-                            {
-                                try
-                                {
-                                    await DBHelper.UpdateSerieAsync(serie);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.sDsTitulo);
-                                    DialogResult = false;
-                                }
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    await DBHelper.AddSerieAsync(serie);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.sDsTitulo);
-                                    DialogResult = false;
-                                }
-                            }
-                            break;
-                        }
+            //                if (IsEdicao)
+            //                {
+            //                    try
+            //                    {
+            //                        await DBHelper.UpdateSerieAsync(serie);
+            //                    }
+            //                    catch (Exception ex)
+            //                    {
+            //                        Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.sDsTitulo);
+            //                        DialogResult = false;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    try
+            //                    {
+            //                        await DBHelper.AddSerieAsync(serie);
+            //                    }
+            //                    catch (Exception ex)
+            //                    {
+            //                        Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.sDsTitulo);
+            //                        DialogResult = false;
+            //                    }
+            //                }
+            //                break;
+            //            }
 
-                    case Enums.TipoConteudo.AnimeFilmeSérie:
-                        {
-                            Serie anime = null;
-                            DBHelper DBHelper = new DBHelper();
+            //        case Enums.TipoConteudo.AnimeFilmeSérie:
+            //            {
+            //                Serie anime = null;
+            //                DBHelper DBHelper = new DBHelper();
 
-                            if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
-                                anime = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
-                            //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                            //{
-                            //    anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
-                            //    anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
-                            //}
+            //                if (AdicionarConteudoViewModel.oVideoSelecionado is Serie)
+            //                    anime = (Serie)AdicionarConteudoViewModel.oVideoSelecionado;
+            //                //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
+            //                //{
+            //                //    anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
+            //                //    anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
+            //                //}
 
-                            if (IsEdicao)
-                            {
-                                try { await DBHelper.UpdateSerieAsync(anime); }
-                                catch (Exception ex)
-                                {
-                                    Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                                    DialogResult = false;
-                                }
-                            }
-                            else
-                            {
-                                try { await DBHelper.AddSerieAsync(anime); }
-                                catch (Exception ex)
-                                {
-                                    Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
-                                    DialogResult = false;
-                                }
-                            }
-                            break;
-                        }
-                    default:
-                        break;
-                }
-                DialogResult = true;
-                Close();
-            }
+            //                if (IsEdicao)
+            //                {
+            //                    try { await DBHelper.UpdateSerieAsync(anime); }
+            //                    catch (Exception ex)
+            //                    {
+            //                        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+            //                        DialogResult = false;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    try { await DBHelper.AddSerieAsync(anime); }
+            //                    catch (Exception ex)
+            //                    {
+            //                        Console.Write(ex.Message + " Detalhes: " + ex.InnerException);
+            //                        DialogResult = false;
+            //                    }
+            //                }
+            //                break;
+            //            }
+            //        default:
+            //            break;
+            //    }
+            //    DialogResult = true;
+            //    Close();
+            //}
         }
 
         public void ShowDialog(Window owner)
         {
             Owner = owner;
             ShowDialog();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AdicionarConteudoViewModel.bFechar)
+            {
+                AdicionarConteudoViewModel.ActionClose(false);
+            }
         }
     }
 }

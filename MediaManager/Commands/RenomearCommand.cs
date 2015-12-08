@@ -37,6 +37,7 @@ namespace MediaManager.Commands
                         try
                         {
                             DBHelper DBHelper = new DBHelper();
+                            bool bCancelarOperacao = false;
 
                             if (item.bFlSelecionado)
                             {
@@ -50,33 +51,29 @@ namespace MediaManager.Commands
                                     Helper.LogMessage("Diretório \"" + Path.GetDirectoryName(item.sDsFilepath) + "\" criado.");
                                 }
 
-                                if (File.Exists(item.sDsFilepath) && !renomearVM.bFlSilencioso)
+                                if (File.Exists(item.sDsFilepath))
                                 {
-                                    if (MessageBox.Show("O arquivo " + item.sDsFilepath + " já existe. Você deseja sobrescrevê-lo pelo arquivo \"" + item.sDsFilepathOriginal + "\"?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                                    if (renomearVM.bFlSilencioso || (Helper.MostrarMensagem("O arquivo \"" + item.sDsFilepath + "\" já existe.\r\nDeseja sobrescrevê-lo pelo arquivo \"" + item.sDsFilepathOriginal + "\"?", Enums.eTipoMensagem.QuestionamentoSimNao) == MessageBoxResult.Yes))
                                     {
-                                        File.Delete(item.sDsFilepathOriginal);
-                                        if (Helper.RealizarPosProcessamento(item))
-                                        {
-                                            item.bFlRenomeado = true;
-                                            item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                                            DBHelper.UpdateEpisodioRenomeado(item);
-                                        }
-                                        else
-                                        {
-                                            Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepathOriginal), "Ocorreu um erro ao criar o HardLink.", true);
-                                        }
+                                        Helper.LogMessage("O arquivo \"" + item.sDsFilepath + "\" já existe e será substituído.");
+                                        File.Delete(item.sDsFilepath);
+                                    }
+                                    else
+                                    {
+                                        Helper.LogMessage("O arquivo \"" + item.sDsFilepath + "\" não foi renomeado.");
+                                        bCancelarOperacao = true;
                                     }
                                 }
-                                else
+                                if (!bCancelarOperacao && Helper.RealizarPosProcessamento(item))
                                 {
-                                    if (File.Exists(item.sDsFilepath))
-                                        File.Delete(item.sDsFilepath);
-                                    if (Helper.RealizarPosProcessamento(item))
-                                    {
-                                        item.bFlRenomeado = true;
-                                        item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                                        DBHelper.UpdateEpisodioRenomeado(item);
-                                    }
+                                    item.bFlRenomeado = true;
+                                    item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
+                                    DBHelper.UpdateEpisodioRenomeado(item);
+                                    Helper.LogMessage("O arquivo \"" + item.sDsFilepath + "\" foi renomeado com sucesso.");
+                                }
+                                else if (!bCancelarOperacao)
+                                {
+                                    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepathOriginal), "Ocorreu um erro no processo de " + ((Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
                                 }
                             }
                         }
@@ -85,6 +82,15 @@ namespace MediaManager.Commands
                             Helper.TratarException(e, "Ocorreu um erro ao renomear o episódio \"" + item.sDsFilepathOriginal + "\"");
                         }
                     }
+                    if (!renomearVM.bFlSilencioso && renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Any(x => !x.bFlRenomeado))
+                    {
+                        Helper.MostrarMensagem("Alguns arquivos não foram renomeados com sucesso, para mais detalhes verifique o log.", Enums.eTipoMensagem.Erro);
+                    }
+                    else if (!renomearVM.bFlSilencioso)
+                    {
+                        Helper.MostrarMensagem("Arquivos renomeados com sucesso.", Enums.eTipoMensagem.Informativa);
+                    }
+
                     if (renomearVM.ActionFechar != null)
                     {
                         renomearVM.ActionFechar();
