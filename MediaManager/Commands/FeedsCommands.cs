@@ -24,7 +24,7 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                return;
+                return; // TODO Criar tela de adição de feeds
             }
         }
 
@@ -50,7 +50,7 @@ namespace MediaManager.Commands
                         var feedAcima = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade--;
                         feedAcima.nNrPrioridade++;
-                        if (DBHelper.UpdateFeed(feed, feedAcima) == false)
+                        if (!DBHelper.UpdateFeed(feed, feedAcima))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
@@ -60,22 +60,6 @@ namespace MediaManager.Commands
                 {
                     Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
                 }
-                //var feedsSelecionadosSeries = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nIdTipoConteudo == Helpers.Enums.ContentType.show);
-                //var feedsSelecionadosAnimes = feedsVM.Feeds.Where(x => x.bFlSelecionado && x.nIdTipoConteudo == Helpers.Enums.ContentType.anime);
-                //var feedsAlterados = new List<Feed>();
-
-                //foreach (var item in feedsSelecionadosSeries)
-                //{
-                //    if (item.nNrPrioridade == 1)
-                //        continue;
-                //    var feedAcima = feedsVM.Feeds.Where(x => x.nIdTipoConteudo == Helpers.Enums.ContentType.show && x.nNrPrioridade == item.nNrPrioridade - 1).First();
-
-                //    if (feedAcima != null && !feedsAlterados.Contains(feedAcima))
-                //    {
-                //        feedsVM.Feeds.Where(x => x.nCdFeed == item.nCdFeed).First().nNrPrioridade++;
-                //        feedsVM.Feeds.Where(x => x.nCdFeed == feedAcima.nCdFeed).First().nNrPrioridade--;
-                //    }
-                //}
             }
         }
 
@@ -101,7 +85,7 @@ namespace MediaManager.Commands
                         var feedAbaixo = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
                         feed.nNrPrioridade++;
                         feedAbaixo.nNrPrioridade--;
-                        if (DBHelper.UpdateFeed(feed, feedAbaixo) == false)
+                        if (!DBHelper.UpdateFeed(feed, feedAbaixo))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
@@ -120,11 +104,19 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is FeedsViewModel && (parameter as FeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
             }
 
             public void Execute(object parameter)
             {
+                var feedsVM = parameter as FeedsViewModel;
+
+                if (Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?", Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
+                {
+                    DBHelper db = new DBHelper();
+
+                    db.RemoveFeed(feedsVM.lstFeeds.Where(x => x.bFlSelecionado));
+                }
             }
         }
 

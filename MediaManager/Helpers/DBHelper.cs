@@ -145,6 +145,24 @@ namespace MediaManager.Helpers
             return animes;
         }
 
+        public bool RemoveFeed(IEnumerable<Feed> lstFeeds)
+        {
+            DBHelper db = new DBHelper();
+            bool bRetorno = true;
+            foreach (var item in lstFeeds)
+            {
+                if (db.RemoveFeed(item) && bRetorno == true)
+                {
+                    bRetorno = true;
+                }
+                else
+                {
+                    bRetorno = false;
+                }
+            }
+            return bRetorno;
+        }
+
         public List<Serie> GetAnimesComForeignKeys()
         {
             var animesDB = (from animeDB in Context.Serie.Include(x => x.lstEpisodios).Include(x => x.lstSerieAlias)
