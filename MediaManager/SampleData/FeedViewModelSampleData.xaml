@@ -1,0 +1,5 @@
+﻿<ViewModel:FeedViewModel xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:Model="clr-namespace:MediaManager.Model" bAnime="True" bSerie="True" bFilme="False">
+	<ViewModel:FeedViewModel.oFeed>
+		<Model:Feed bFlSelecionado="True" nNrPrioridade="62" nIdTipoConteudo="Anime" nCdFeed="63" sDsFeed="Curabitur vestibulum maecenas nam" sDsTipoConteudo="Accumsan duis" sLkFeed="Cras_class_curae_praesent.com/feed/rss/aaa/sasa/svas.php/1/"/>
+	</ViewModel:FeedViewModel.oFeed>
+</ViewModel:FeedViewModel>
