@@ -12,10 +12,10 @@ namespace MediaManager.Tests
         [TestMethod]
         public void FeedsPrioridades()
         {
-            FeedsViewModel feedVM = new FeedsViewModel(new List<Feed>());
+            ListaFeedsViewModel feedVM = new ListaFeedsViewModel(new List<Feed>());
             feedVM.lstFeeds = new List<Feed>();
 
-            feedVM.CommandAumentarPrioridadeFeed = new Commands.FeedsCommands.CommandAumentarPrioridadeFeed();
+            feedVM.CommandAumentarPrioridadeFeed = new Commands.ListaFeedsCommands.CommandAumentarPrioridadeFeed();
             feedVM.CommandAumentarPrioridadeFeed.Execute(feedVM);
         }
     }

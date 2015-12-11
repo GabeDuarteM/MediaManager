@@ -155,11 +155,15 @@
     <Compile Include="Behaviors\PersistenciaGroupExpandedBehavior.cs" />
     <Compile Include="Commands\AdicionarConteudoCommands.cs" />
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
+    <Compile Include="Commands\FeedCommands.cs" />
     <Compile Include="Commands\PreferenciasCommands.cs" />
     <Compile Include="Commands\EpisodiosCommand.cs" />
-    <Compile Include="Commands\FeedsCommands.cs" />
+    <Compile Include="Commands\ListaFeedsCommands.cs" />
     <Compile Include="Commands\ProcurarConteudoCommands.cs" />
     <Compile Include="Commands\RenomearCommand.cs" />
+    <Compile Include="Forms\frmAdicionarFeed.xaml.cs">
+      <DependentUpon>frmAdicionarFeed.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmBarraProgresso.xaml.cs">
       <DependentUpon>frmBarraProgresso.xaml</DependentUpon>
     </Compile>
@@ -195,7 +199,8 @@
     <Compile Include="ViewModel\AdicionarConteudoViewModel.cs" />
     <Compile Include="ViewModel\ConfigurarConteudoViewModel.cs" />
     <Compile Include="ViewModel\EpisodiosViewModel.cs" />
-    <Compile Include="ViewModel\FeedsViewModel.cs" />
+    <Compile Include="ViewModel\FeedViewModel.cs" />
+    <Compile Include="ViewModel\ListaFeedsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PosterViewModel.cs" />
     <Compile Include="ViewModel\PreferenciasViewModel.cs" />
@@ -211,6 +216,10 @@
       <DependentUpon>frmRenomear.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Page Include="Forms\frmAdicionarFeed.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\frmBarraProgresso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -287,6 +296,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Model\Class Diagrams\FeedClassDiagram.cd" />
     <None Include="MediaManager_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\Settings.settings">

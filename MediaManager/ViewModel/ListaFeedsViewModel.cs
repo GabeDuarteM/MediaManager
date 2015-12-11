@@ -13,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class FeedsViewModel : INotifyPropertyChanged
+    public class ListaFeedsViewModel : INotifyPropertyChanged
     {
         private List<Feed> _lstFeeds;
 
@@ -39,7 +39,7 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSelecionarTodos { get; set; }
 
-        public FeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
+        public ListaFeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
         {
             DBHelper DBHelper = new DBHelper();
 
@@ -49,12 +49,12 @@ namespace MediaManager.ViewModel
             lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
             lstFeedsView.IsLiveSortingRequested = true;
             lstFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
-            CommandAdicionarFeed = new FeedsCommands.CommandAdicionarFeed();
-            CommandAumentarPrioridadeFeed = new FeedsCommands.CommandAumentarPrioridadeFeed();
-            CommandDiminuirPrioridadeFeed = new FeedsCommands.CommandDiminuirPrioridadeFeed();
-            CommandRemoverFeed = new FeedsCommands.CommandRemoverFeed();
-            CommandSelecionar = new FeedsCommands.CommandSelecionar();
-            CommandSelecionarTodos = new FeedsCommands.CommandSelecionarTodos();
+            CommandAdicionarFeed = new ListaFeedsCommands.CommandAdicionarFeed();
+            CommandAumentarPrioridadeFeed = new ListaFeedsCommands.CommandAumentarPrioridadeFeed();
+            CommandDiminuirPrioridadeFeed = new ListaFeedsCommands.CommandDiminuirPrioridadeFeed();
+            CommandRemoverFeed = new ListaFeedsCommands.CommandRemoverFeed();
+            CommandSelecionar = new ListaFeedsCommands.CommandSelecionar();
+            CommandSelecionarTodos = new ListaFeedsCommands.CommandSelecionarTodos();
             CommandSelecionar.Execute(this);
         }
 

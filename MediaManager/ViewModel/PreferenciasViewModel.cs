@@ -12,9 +12,9 @@ namespace MediaManager.ViewModel
 {
     public class PreferenciasViewModel : INotifyPropertyChanged
     {
-        private FeedsViewModel _oFeedsViewModel;
+        private ListaFeedsViewModel _oFeedsViewModel;
 
-        public FeedsViewModel oFeedsViewModel { get { return _oFeedsViewModel; } set { _oFeedsViewModel = value; OnPropertyChanged(); } }
+        public ListaFeedsViewModel oFeedsViewModel { get { return _oFeedsViewModel; } set { _oFeedsViewModel = value; OnPropertyChanged(); } }
 
         private string _sPastaSeries;
 
@@ -92,7 +92,7 @@ namespace MediaManager.ViewModel
 
         public PreferenciasViewModel()
         {
-            oFeedsViewModel = new FeedsViewModel();
+            oFeedsViewModel = new ListaFeedsViewModel();
             sFormatoParaAnimes = Properties.Settings.Default.pref_FormatoAnimes;
             sFormatoParaFilmes = Properties.Settings.Default.pref_FormatoFilmes;
             sFormatoParaSeries = Properties.Settings.Default.pref_FormatoSeries;

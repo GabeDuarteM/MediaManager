@@ -11,7 +11,7 @@ using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
 {
-    public class FeedsCommands
+    public class ListaFeedsCommands
     {
         public class CommandAdicionarFeed : ICommand
         {
@@ -19,7 +19,7 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is ListaFeedsViewModel;
             }
 
             public void Execute(object parameter)
@@ -34,12 +34,12 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is ListaFeedsViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as FeedsViewModel;
+                var feedsVM = parameter as ListaFeedsViewModel;
                 DBHelper DBHelper = new DBHelper();
 
                 if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
@@ -69,12 +69,12 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is ListaFeedsViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as FeedsViewModel;
+                var feedsVM = parameter as ListaFeedsViewModel;
                 DBHelper DBHelper = new DBHelper();
 
                 if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
@@ -104,12 +104,12 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel && (parameter as FeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
+                return parameter is ListaFeedsViewModel && (parameter as ListaFeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as FeedsViewModel;
+                var feedsVM = parameter as ListaFeedsViewModel;
 
                 if (Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?", Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
                 {
@@ -126,12 +126,12 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is ListaFeedsViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as FeedsViewModel;
+                var feedsVM = parameter as ListaFeedsViewModel;
                 int feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
                 if (feedsSelecionadosCount == feedsVM.lstFeeds.Count && feedsVM.lstFeeds.Count > 0)
                 {
@@ -154,12 +154,12 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is FeedsViewModel;
+                return parameter is ListaFeedsViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as FeedsViewModel;
+                var feedsVM = parameter as ListaFeedsViewModel;
                 if (feedsVM.bFlSelecionarTodos == true)
                 {
                     foreach (var feed in feedsVM.lstFeeds)
