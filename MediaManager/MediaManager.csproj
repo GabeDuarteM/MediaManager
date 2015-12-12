@@ -185,6 +185,7 @@
     <Compile Include="Model\Episodio.cs" />
     <Compile Include="Model\Feed.cs" />
     <Compile Include="Model\Filme.cs" />
+    <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\SerieAlias.cs" />
     <Compile Include="Model\SeriesData.cs" />
@@ -236,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Styles\IDataErrorValidationStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ControlPoster.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -300,7 +305,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="Model\Class Diagrams\FeedClassDiagram.cd" />
     <None Include="MediaManager_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\Settings.settings">
@@ -333,6 +337,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DELETE CONTENT.sql" />
+    <Resource Include="Resources\ICONE_Erro.png" />
     <Resource Include="Resources\ICONE_Mais.png" />
     <Resource Include="Resources\ICONE_Seta_Baixo.png" />
     <Resource Include="Resources\ICONE_Seta_Cima.png" />

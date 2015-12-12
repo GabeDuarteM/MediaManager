@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -86,13 +87,21 @@ namespace MediaManager.ViewModel
 
         public string sVisualizacaoFormatoParaAnimes { get { return _sVisualizacaoFormatoParaAnimes; } set { _sVisualizacaoFormatoParaAnimes = value; OnPropertyChanged(); } }
 
+        public Window Owner { get; set; }
+
         public ICommand CommandSalvar { get; set; }
 
         public Action ActionFechar { get; set; }
 
-        public PreferenciasViewModel()
+        public PreferenciasViewModel(Window owner = null)
         {
+            if (owner != null)
+            {
+                Owner = owner;
+            }
+
             oFeedsViewModel = new ListaFeedsViewModel();
+            oFeedsViewModel.Owner = Owner;
             sFormatoParaAnimes = Properties.Settings.Default.pref_FormatoAnimes;
             sFormatoParaFilmes = Properties.Settings.Default.pref_FormatoFilmes;
             sFormatoParaSeries = Properties.Settings.Default.pref_FormatoSeries;

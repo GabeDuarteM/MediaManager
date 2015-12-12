@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
+using MediaManager.Commands;
 using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class FeedViewModel : INotifyPropertyChanged
+    public class FeedViewModel : ModelBase
     {
         private Feed _oFeed;
 
@@ -17,34 +21,60 @@ namespace MediaManager.ViewModel
 
         private bool _bSerie;
 
-        public bool bSerie { get { return _bSerie; } set { _bSerie = value; OnPropertyChanged(); } }
+        public bool bSerie { get { return _bSerie; } set { _bSerie = value; OnPropertyChanged(); ValidarCampo(value); } }
 
         private bool _bAnime;
 
-        public bool bAnime { get { return _bAnime; } set { _bAnime = value; OnPropertyChanged(); } }
+        public bool bAnime { get { return _bAnime; } set { _bAnime = value; OnPropertyChanged(); ValidarCampo(value); } }
 
         private bool _bFilme;
 
-        public bool bFilme { get { return _bFilme; } set { _bFilme = value; OnPropertyChanged(); } }
+        public bool bFilme { get { return _bFilme; } set { _bFilme = value; OnPropertyChanged(); ValidarCampo(value); } }
+
+        public Action<bool> ActionFechar { get; set; }
+
+        public ICommand CommandSalvar { get; set; }
 
         public FeedViewModel()
         {
+            oFeed = new Feed();
+            CommandSalvar = new FeedCommands.CommandSalvar();
         }
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        public override bool ValidarCampo(object value = null, [CallerMemberName] string propertyName = "")
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
+            switch (propertyName)
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                case "bSerie":
+                case "bAnime":
+                case "bFilme":
+                    {
+                        if (!bSerie && !bAnime && !bFilme)
+                        {
+                            AddError("Pelo menos um tipo de conteúdo deve ser selecionado.", "bSerie");
+                            AddError("Pelo menos um tipo de conteúdo deve ser selecionado.", "bAnime");
+                            AddError("Pelo menos um tipo de conteúdo deve ser selecionado.", "bFilme");
+                            return false;
+                        }
+                        else
+                        {
+                            RemoveError("bSerie");
+                            RemoveError("bAnime");
+                            RemoveError("bFilme");
+                            return true;
+                        }
+                    }
+                default:
+                    return base.ValidarCampo(value, propertyName);
             }
         }
 
-        #endregion INotifyPropertyChanged Members
+        public override bool IsValid
+        {
+            get
+            {
+                return ValidarCampo(bSerie, "bSerie");
+            }
+        }
     }
 }

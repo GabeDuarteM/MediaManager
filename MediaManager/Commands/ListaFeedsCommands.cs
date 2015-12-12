@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.ViewModel;
@@ -24,7 +25,14 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                return; // TODO Criar tela de adição de feeds
+                ListaFeedsViewModel oListaFeedsVM = parameter as ListaFeedsViewModel;
+                frmAdicionarFeed frmAdicionarFeed = new frmAdicionarFeed();
+                frmAdicionarFeed.ShowDialog(oListaFeedsVM.Owner);
+
+                if (frmAdicionarFeed.DialogResult == true)
+                {
+                    oListaFeedsVM.AtualizarListaFeeds();
+                }
             }
         }
 
@@ -42,24 +50,41 @@ namespace MediaManager.Commands
                 var feedsVM = parameter as ListaFeedsViewModel;
                 DBHelper DBHelper = new DBHelper();
 
-                if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
+
+                foreach (var item in lstFeedsSelecionados)
                 {
-                    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
-                    if (feed != null)
+                    Feed oFeedAcima = feedsVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade - 1).FirstOrDefault();
+
+                    if (oFeedAcima != null)
                     {
-                        var feedAcima = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
-                        feed.nNrPrioridade--;
-                        feedAcima.nNrPrioridade++;
-                        if (!DBHelper.UpdateFeed(feed, feedAcima))
+                        item.nNrPrioridade--;
+                        oFeedAcima.nNrPrioridade++;
+                        if (!DBHelper.UpdateFeed(item, oFeedAcima))
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
-                else
-                {
-                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
-                }
+
+                //if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                //{
+                //    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade > 1).FirstOrDefault();
+                //    if (feed != null)
+                //    {
+                //        var feedAcima = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade - 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                //        feed.nNrPrioridade--;
+                //        feedAcima.nNrPrioridade++;
+                //        if (!DBHelper.UpdateFeed(feed, feedAcima))
+                //        {
+                //            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
+                //}
             }
         }
 
@@ -77,24 +102,41 @@ namespace MediaManager.Commands
                 var feedsVM = parameter as ListaFeedsViewModel;
                 DBHelper DBHelper = new DBHelper();
 
-                if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
+
+                foreach (var item in lstFeedsSelecionados)
                 {
-                    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.lstFeeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
-                    if (feed != null)
+                    Feed oFeedAbaixo = feedsVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade + 1).FirstOrDefault();
+
+                    if (oFeedAbaixo != null)
                     {
-                        var feedAbaixo = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
-                        feed.nNrPrioridade++;
-                        feedAbaixo.nNrPrioridade--;
-                        if (!DBHelper.UpdateFeed(feed, feedAbaixo))
+                        item.nNrPrioridade++;
+                        oFeedAbaixo.nNrPrioridade--;
+                        if (!DBHelper.UpdateFeed(item, oFeedAbaixo))
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
-                else
-                {
-                    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
-                }
+
+                //if (feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count() == 1)
+                //{
+                //    var feed = feedsVM.lstFeeds.Where(x => x.bFlSelecionado && x.nNrPrioridade < feedsVM.lstFeeds.Where(y => y.nIdTipoConteudo == x.nIdTipoConteudo).Count()).FirstOrDefault();
+                //    if (feed != null)
+                //    {
+                //        var feedAbaixo = feedsVM.lstFeeds.Where(x => x.nNrPrioridade == feed.nNrPrioridade + 1 && x.nIdTipoConteudo == feed.nIdTipoConteudo).FirstOrDefault();
+                //        feed.nNrPrioridade++;
+                //        feedAbaixo.nNrPrioridade--;
+                //        if (!DBHelper.UpdateFeed(feed, feedAbaixo))
+                //        {
+                //            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + feed.sDsFeed, Enums.eTipoMensagem.Erro);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    Helper.MostrarMensagem("Para realizar a operação, selecione somente um registro.", Enums.eTipoMensagem.Alerta);
+                //}
             }
         }
 
@@ -109,13 +151,14 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as ListaFeedsViewModel;
+                var oListaFeedsVM = parameter as ListaFeedsViewModel;
 
                 if (Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?", Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
                 {
                     DBHelper db = new DBHelper();
 
-                    db.RemoveFeed(feedsVM.lstFeeds.Where(x => x.bFlSelecionado));
+                    db.RemoveFeed(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado));
+                    oListaFeedsVM.AtualizarListaFeeds();
                 }
             }
         }

@@ -20,7 +20,7 @@ namespace MediaManager.Forms
         {
             InitializeComponent();
 
-            PreferenciasViewModel preferenciasVM = new PreferenciasViewModel();
+            PreferenciasViewModel preferenciasVM = new PreferenciasViewModel(this);
 
             DataContext = preferenciasVM;
 

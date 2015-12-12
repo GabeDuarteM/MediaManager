@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,8 +10,8 @@ using MediaManager.Helpers;
 
 namespace MediaManager.Model
 {
-    [System.Diagnostics.DebuggerDisplay("{sDsFeed} - {sDsTipoConteudo}")]
-    public class Feed : INotifyPropertyChanged
+    [System.Diagnostics.DebuggerDisplay("{sDsFeed} - {sDsTipoConteudo} - Prioridade: {nNrPrioridade}")]
+    public class Feed : ModelBase
     {
         private int _nCdFeed;
 
@@ -19,12 +21,12 @@ namespace MediaManager.Model
         private string _sDsFeed;
 
         [Required, Column(Order = 1)]
-        public string sDsFeed { get { return _sDsFeed; } set { _sDsFeed = value; OnPropertyChanged(); } }
+        public string sDsFeed { get { return _sDsFeed; } set { _sDsFeed = value; OnPropertyChanged(); ValidarCampo(value); } }
 
         private string _sLkFeed;
 
         [Required, Column(Order = 2)]
-        public string sLkFeed { get { return _sLkFeed; } set { _sLkFeed = value; OnPropertyChanged(); } }
+        public string sLkFeed { get { return _sLkFeed; } set { _sLkFeed = value; OnPropertyChanged(); ValidarCampo(value); } }
 
         private Enums.TipoConteudo _nIdTipoConteudo;
 
@@ -52,38 +54,12 @@ namespace MediaManager.Model
             Clone(feed);
         }
 
-        public void Clone(object objOrigem)
+        public override bool IsValid
         {
-            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
-            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
-
-            foreach (PropertyInfo item in variaveisObjOrigem)
+            get
             {
-                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
-
-                if (variavelIgual != null && variavelIgual.CanWrite)
-                {
-                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
-                }
-            }
-
-            return;
-        }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                return ValidarCampo(sDsFeed, "sDsFeed") & ValidarCampo(sLkFeed, "sLkFeed");
             }
         }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

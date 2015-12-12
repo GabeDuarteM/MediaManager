@@ -693,8 +693,20 @@ namespace MediaManager.Helpers
         {
             try
             {
-                Context.Feed.Add(feed);
+                var lstFeeds = Context.Feed.Where(x => x.nIdTipoConteudo == feed.nIdTipoConteudo).ToList();
+
+                // Para não interferir no CommandSalvar da tela de adicionar feed quando o feed vai ser adicionado a mais de um tipo de conteúdo
+                // (caso contrário nunca vai cair no if acima, pois a prioridade será != 0)
+                Feed feedClone = new Feed(feed);
+
+                if (feedClone.nNrPrioridade == 0)
+                {
+                    feedClone.nNrPrioridade = (lstFeeds.Count > 0) ? lstFeeds.Last().nNrPrioridade + 1 : 1;
+                }
+
+                Context.Feed.Add(feedClone);
                 Context.SaveChanges();
+
                 return true;
             }
             catch (Exception e)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -27,6 +28,8 @@ namespace MediaManager.ViewModel
 
         public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
 
+        public Window Owner { get; set; }
+
         public ICommand CommandAdicionarFeed { get; set; }
 
         public ICommand CommandAumentarPrioridadeFeed { get; set; }
@@ -41,9 +44,9 @@ namespace MediaManager.ViewModel
 
         public ListaFeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
         {
-            DBHelper DBHelper = new DBHelper();
+            DBHelper db = new DBHelper();
 
-            this.lstFeeds = (lstFeeds == null) ? this.lstFeeds = DBHelper.GetFeeds() : this.lstFeeds = lstFeeds;
+            this.lstFeeds = (lstFeeds == null) ? this.lstFeeds = db.GetFeeds() : this.lstFeeds = lstFeeds;
             lstFeedsView = new CollectionViewSource();
             lstFeedsView.Source = this.lstFeeds;
             lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
@@ -55,6 +58,18 @@ namespace MediaManager.ViewModel
             CommandRemoverFeed = new ListaFeedsCommands.CommandRemoverFeed();
             CommandSelecionar = new ListaFeedsCommands.CommandSelecionar();
             CommandSelecionarTodos = new ListaFeedsCommands.CommandSelecionarTodos();
+            CommandSelecionar.Execute(this);
+        }
+
+        public void AtualizarListaFeeds()
+        {
+            DBHelper db = new DBHelper();
+            lstFeeds = db.GetFeeds();
+            lstFeedsView = new CollectionViewSource();
+            lstFeedsView.Source = lstFeeds;
+            lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));
+            lstFeedsView.IsLiveSortingRequested = true;
+            lstFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
             CommandSelecionar.Execute(this);
         }
 

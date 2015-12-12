@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MediaManager.Commands;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
@@ -22,6 +24,18 @@ namespace MediaManager.Forms
         public frmAdicionarFeed()
         {
             InitializeComponent();
+
+            var oFeedVM = new FeedViewModel();
+
+            oFeedVM.ActionFechar = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
+
+            DataContext = oFeedVM;
+        }
+
+        public void ShowDialog(Window owner)
+        {
+            Owner = owner;
+            ShowDialog();
         }
     }
 }
