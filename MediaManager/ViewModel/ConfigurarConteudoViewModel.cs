@@ -14,7 +14,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class ConfigurarConteudoViewModel : INotifyPropertyChanged
+    public class ConfigurarConteudoViewModel : ModelBase
     {
         private string _sDsAlias;
 
@@ -91,21 +91,5 @@ namespace MediaManager.ViewModel
             }
             return valorAntigo;
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

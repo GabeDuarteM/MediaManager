@@ -13,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class RenomearViewModel : INotifyPropertyChanged
+    public class RenomearViewModel : ModelBase
     {
         public bool bFlSilencioso { get; set; }
 
@@ -84,21 +84,5 @@ namespace MediaManager.ViewModel
             //}
             this.lstEpisodios = new ObservableCollection<Episodio>(lstEpisodios);
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

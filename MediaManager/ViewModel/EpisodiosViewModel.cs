@@ -14,7 +14,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class EpisodiosViewModel : INotifyPropertyChanged
+    public class EpisodiosViewModel : ModelBase
     {
         private ICollectionView _lstEpisodiosView;
 
@@ -60,21 +60,5 @@ namespace MediaManager.ViewModel
             CommandSalvar = new EpisodiosCommand.CommandSalvar();
             CommandFechar = new EpisodiosCommand.CommandFechar();
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

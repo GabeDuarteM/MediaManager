@@ -11,7 +11,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class PosterViewModel : INotifyPropertyChanged
+    public class PosterViewModel : ModelBase
     {
         private Video _oPoster;
 
@@ -64,21 +64,5 @@ namespace MediaManager.ViewModel
                     break;
             }
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

@@ -209,10 +209,10 @@ namespace MediaManager.Model
         public string sDsStatus { get; set; }
 
         [XmlIgnore]
-        private string _sNmTitulo;
+        private string _sDsTitulo;
 
         [XmlElement("SeriesName", IsNullable = true), Column(Order = 1)]
-        public override string sDsTitulo { get { return _sNmTitulo; } set { _sNmTitulo = value; OnPropertyChanged(); } }
+        public override string sDsTitulo { get { return _sDsTitulo; } set { _sDsTitulo = value; OnPropertyChanged(); } }
 
         private bool _bFlEditado;
 

@@ -14,7 +14,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class ListaFeedsViewModel : INotifyPropertyChanged
+    public class ListaFeedsViewModel : ModelBase
     {
         private List<Feed> _lstFeeds;
 
@@ -72,21 +72,5 @@ namespace MediaManager.ViewModel
             lstFeedsView.GroupDescriptions.Add(new PropertyGroupDescription("sDsTipoConteudo"));
             CommandSelecionar.Execute(this);
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

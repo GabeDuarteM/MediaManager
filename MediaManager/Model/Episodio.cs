@@ -18,7 +18,7 @@ using MediaManager.Helpers;
 namespace MediaManager.Model
 {
     [DebuggerDisplay("{nNrTemporada}x{nNrEpisodio} ({nNrAbsoluto}) - {sDsEpisodio}")]
-    public class Episodio : INotifyPropertyChanged
+    public class Episodio : ModelBase
     {
         [XmlIgnore, NotMapped]
         private bool _bFlSelecionado;
@@ -230,24 +230,6 @@ namespace MediaManager.Model
         public Episodio(Episodio episodio)
         {
             Clone(episodio);
-        }
-
-        public void Clone(object objOrigem)
-        {
-            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
-            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
-
-            foreach (PropertyInfo item in variaveisObjOrigem)
-            {
-                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
-
-                if (variavelIgual != null && variavelIgual.CanWrite)
-                {
-                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
-                }
-            }
-
-            return;
         }
 
         public bool IdentificarEpisodio()
@@ -485,21 +467,5 @@ namespace MediaManager.Model
                 return false;
             }
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

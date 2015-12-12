@@ -17,7 +17,7 @@ using Ookii.Dialogs;
 
 namespace MediaManager.ViewModel
 {
-    public class AdicionarConteudoViewModel : INotifyPropertyChanged
+    public class AdicionarConteudoViewModel : ModelBase
     {
         private string sDsPastaEditar;
 
@@ -298,21 +298,5 @@ namespace MediaManager.ViewModel
             OnPropertyChanged("SelectedVideo");
             CommandManager.InvalidateRequerySuggested(); // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

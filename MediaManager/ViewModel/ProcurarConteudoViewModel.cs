@@ -13,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class ProcurarConteudoViewModel : INotifyPropertyChanged
+    public class ProcurarConteudoViewModel : ModelBase
     {
         private ObservableCollection<Video> _lstConteudos;
         public ObservableCollection<Video> lstConteudos { get { return _lstConteudos; } set { _lstConteudos = value; OnPropertyChanged(); } }
@@ -181,21 +181,5 @@ namespace MediaManager.ViewModel
             frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerAsync();
             frmBarraProgresso.ShowDialog(Owner);
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

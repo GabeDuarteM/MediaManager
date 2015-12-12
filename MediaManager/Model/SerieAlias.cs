@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MediaManager.Model
 {
     [DebuggerDisplay("{sDsAlias} {nNrTemporada}x{nNrEpisodio}")]
-    public class SerieAlias
+    public class SerieAlias : ModelBase
     {
         public string sDsAlias { get; set; }
 
@@ -42,24 +42,6 @@ namespace MediaManager.Model
         public SerieAlias(SerieAlias serieAlias)
         {
             Clone(serieAlias);
-        }
-
-        public void Clone(object objOrigem)
-        {
-            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
-            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
-
-            foreach (PropertyInfo item in variaveisObjOrigem)
-            {
-                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
-
-                if (variavelIgual != null && variavelIgual.CanWrite)
-                {
-                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
-                }
-            }
-
-            return;
         }
     }
 }

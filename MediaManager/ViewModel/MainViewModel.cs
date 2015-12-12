@@ -10,7 +10,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : ModelBase
     {
         private ObservableCollection<PosterViewModel> _lstAnimes;
         public ObservableCollection<PosterViewModel> lstAnimes { get { return _lstAnimes; } set { _lstAnimes = value; OnPropertyChanged(); } }
@@ -159,21 +159,5 @@ namespace MediaManager.ViewModel
                     throw new InvalidEnumArgumentException();
             }
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

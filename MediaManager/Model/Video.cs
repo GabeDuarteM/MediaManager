@@ -15,7 +15,7 @@ using MediaManager.Properties;
 namespace MediaManager.Model
 {
     [DebuggerDisplay("{nCdApi} - {sDsTitulo} - {sDsIdioma}")]
-    public abstract class Video : System.ComponentModel.INotifyPropertyChanged
+    public abstract class Video : ModelBase
     {
         private string _sAliases;
 
@@ -31,9 +31,6 @@ namespace MediaManager.Model
 
         [NotMapped, XmlIgnore]
         public virtual Enums.TipoConteudo nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; OnPropertyChanged(); } }
-
-        [NotMapped, XmlIgnore]
-        public virtual string sDsTipoConteudo { get { return nIdTipoConteudo.ToString(); } }
 
         [NotMapped, XmlIgnore]
         public Enums.Estado nIdEstado { get; set; }
@@ -159,24 +156,6 @@ namespace MediaManager.Model
             _sDsImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
         }
 
-        public void Clone(object objOrigem)
-        {
-            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
-            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
-
-            foreach (PropertyInfo item in variaveisObjOrigem)
-            {
-                PropertyInfo variavelIgual = variaveisObjAtual.FirstOrDefault(x => x.Name == item.Name && x.PropertyType == item.PropertyType);
-
-                if (variavelIgual != null && variavelIgual.CanWrite)
-                {
-                    variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
-                }
-            }
-
-            return;
-        }
-
         private void SetDefaultFolderPath()
         {
             switch (nIdTipoConteudo)
@@ -200,21 +179,5 @@ namespace MediaManager.Model
                     throw new System.ComponentModel.InvalidEnumArgumentException();
             }
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            System.ComponentModel.PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }

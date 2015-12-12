@@ -11,7 +11,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class PreferenciasViewModel : INotifyPropertyChanged
+    public class PreferenciasViewModel : ModelBase
     {
         private ListaFeedsViewModel _oFeedsViewModel;
 
@@ -190,21 +190,5 @@ namespace MediaManager.ViewModel
 
             return idiomas;
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion INotifyPropertyChanged Members
     }
 }
