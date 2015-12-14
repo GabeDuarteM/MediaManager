@@ -75,99 +75,198 @@
             <TabItem Header="Feeds">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="252*" />
-                        <RowDefinition Height="19*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" DockPanel.Dock="Top">
+                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandAdicionarFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandAumentarPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandDiminuirPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding oFeedsViewModel.CommandRemoverFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
+                            </Button>
+                        </StackPanel>
 
-                    <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                        <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
             IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
-                        <DataGrid.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
-                        </DataGrid.Resources>
-                        <DataGrid.CellStyle>
-                            <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="BorderThickness" Value="0" />
-                            </Style>
-                        </DataGrid.CellStyle>
-                        <DataGrid.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Path=Name}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GroupStyle.HeaderTemplate>
-                                <GroupStyle.ContainerStyle>
-                                    <Style TargetType="{x:Type GroupItem}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                    <Expander IsExpanded="True">
-                                                        <i:Interaction.Behaviors>
-                                                            <behaviors:PersistenciaGroupExpandedBehavior GroupName="{Binding Name}" />
-                                                        </i:Interaction.Behaviors>
-                                                        <Expander.Header>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding Path=Name}" />
-                                                                <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
-                                                            </StackPanel>
-                                                        </Expander.Header>
-                                                        <ItemsPresenter />
-                                                    </Expander>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </GroupStyle.ContainerStyle>
-                                <GroupStyle.Panel>
-                                    <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid, pois da erro quando tem GroupStyle. -->
-                                    <ItemsPanelTemplate>
-                                        <DataGridRowsPresenter />
-                                    </ItemsPanelTemplate>
-                                </GroupStyle.Panel>
-                            </GroupStyle>
-                        </DataGrid.GroupStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nome" Width="3*" Binding="{Binding sDsFeed}" />
-                            <DataGridTextColumn Header="URL" Width="5*" Binding="{Binding sLkFeed}" />
-                            <DataGridTextColumn Header="Tipo" Width="2*" Binding="{Binding nIdTipoConteudo}" />
-                            <DataGridTextColumn Header="Priorid." Width="*" Binding="{Binding nNrPrioridade}" />
-                            <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
+                            <DataGrid.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
+                            </DataGrid.Resources>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Path=Name}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Expander IsExpanded="True">
+                                                            <i:Interaction.Behaviors>
+                                                                <behaviors:PersistenciaGroupExpandedBehavior GroupName="{Binding Name}" />
+                                                            </i:Interaction.Behaviors>
+                                                            <Expander.Header>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
+                                                                </StackPanel>
+                                                            </Expander.Header>
+                                                            <ItemsPresenter />
+                                                        </Expander>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                    <GroupStyle.Panel>
+                                        <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid, pois da erro quando tem GroupStyle. -->
+                                        <ItemsPanelTemplate>
+                                            <DataGridRowsPresenter />
+                                        </ItemsPanelTemplate>
+                                    </GroupStyle.Panel>
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nome" Width="3*" Binding="{Binding sDsFeed}" />
+                                <DataGridTextColumn Header="URL" Width="5*" Binding="{Binding sLkFeed}" />
+                                <DataGridTextColumn Header="Priorid." Width="*" Binding="{Binding nNrPrioridade}" />
+                                <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
                                       IsChecked="{Binding DataContext.oFeedsViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Command="{Binding DataContext.oFeedsViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                       CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
                                       IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Command="{Binding DataContext.oFeedsViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                       CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,-1,0,0" Grid.Row="1">
-                        <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,-1,0" Command="{Binding oFeedsViewModel.CommandAdicionarFeed}" CommandParameter="{Binding oFeedsViewModel}">
-                            <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
-                        </Button>
-                        <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,-1,0" Command="{Binding oFeedsViewModel.CommandAumentarPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
-                            <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
-                        </Button>
-                        <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,-1,0" Command="{Binding oFeedsViewModel.CommandDiminuirPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
-                            <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
-                        </Button>
-                        <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding oFeedsViewModel.CommandRemoverFeed}" CommandParameter="{Binding oFeedsViewModel}">
-                            <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
-                        </Button>
-                    </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Feeds de pesquisa">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" DockPanel.Dock="Top">
+                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandAdicionarFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandAumentarPrioridadeFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandDiminuirPrioridadeFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
+                            </Button>
+                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding oListaFeedsPesquisaViewModel.CommandRemoverFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                                <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
+                            </Button>
+                        </StackPanel>
+
+                        <DataGrid ItemsSource="{Binding oListaFeedsPesquisaViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
+                            <DataGrid.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
+                            </DataGrid.Resources>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Path=Name}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Expander IsExpanded="True">
+                                                            <i:Interaction.Behaviors>
+                                                                <behaviors:PersistenciaGroupExpandedBehavior GroupName="{Binding Name}" />
+                                                            </i:Interaction.Behaviors>
+                                                            <Expander.Header>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
+                                                                </StackPanel>
+                                                            </Expander.Header>
+                                                            <ItemsPresenter />
+                                                        </Expander>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                    <GroupStyle.Panel>
+                                        <!-- Adicionado isto para que se possa ser utilizado o Width="*" no header do datagrid, pois da erro quando tem GroupStyle. -->
+                                        <ItemsPanelTemplate>
+                                            <DataGridRowsPresenter />
+                                        </ItemsPanelTemplate>
+                                    </GroupStyle.Panel>
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nome" Width="3*" Binding="{Binding sDsFeed}" />
+                                <DataGridTextColumn Header="URL" Width="5*" Binding="{Binding sLkFeed}" />
+                                <DataGridTextColumn Header="Priorid." Width="*" Binding="{Binding nNrPrioridade}" />
+                                <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
+                                          IsChecked="{Binding DataContext.oListaFeedsPesquisaViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                          CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                          CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
                 </Grid>
             </TabItem>
         </TabControl>

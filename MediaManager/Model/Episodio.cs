@@ -236,7 +236,7 @@ namespace MediaManager.Model
         {
             Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
-            var FilenameTratado = Path.GetFileNameWithoutExtension(sDsFilepath).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+            var FilenameTratado = Path.GetFileNameWithoutExtension(Helper.RetirarCaracteresInvalidos(sDsFilepath)).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
 
             if (oSerie == null)
             {

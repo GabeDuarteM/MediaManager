@@ -19,13 +19,13 @@ namespace MediaManager.Forms
     /// <summary>
     /// Interaction logic for frmAdicionarFeeds.xaml
     /// </summary>
-    public partial class frmAdicionarFeed : Window
+    public partial class frmAdicionarFeedPesquisa : Window
     {
-        public frmAdicionarFeed()
+        public frmAdicionarFeedPesquisa()
         {
             InitializeComponent();
 
-            var oFeedVM = new FeedViewModel(false);
+            var oFeedVM = new FeedViewModel(true);
 
             oFeedVM.ActionFechar = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
 

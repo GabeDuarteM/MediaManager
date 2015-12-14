@@ -234,6 +234,11 @@ namespace MediaManager.Helpers
             return RetirarCaracteresInvalidos(formato, false); // TODO Corrigir quando é anime o SxEE e o S00E00 para retornar o n do ep normal e não o absoluto.
         }
 
+        internal static void BaixarEpisodio(Episodio episodio, Uri link)
+        {
+            throw new NotImplementedException();
+        }
+
         public static string ColocarVirgula(string frase, List<string> adicional)
         {
             foreach (var item in adicional)

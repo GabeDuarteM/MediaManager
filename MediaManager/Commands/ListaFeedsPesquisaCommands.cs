@@ -12,7 +12,7 @@ using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
 {
-    public class ListaFeedsCommands
+    public class ListaFeedsPesquisaCommands
     {
         public class CommandAdicionarFeed : ICommand
         {
@@ -20,18 +20,18 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel;
+                return parameter is ListaFeedsPesquisaViewModel;
             }
 
             public void Execute(object parameter)
             {
-                ListaFeedsViewModel oListaFeedsVM = parameter as ListaFeedsViewModel;
-                frmAdicionarFeed frmAdicionarFeed = new frmAdicionarFeed();
-                frmAdicionarFeed.ShowDialog(oListaFeedsVM.Owner);
+                ListaFeedsPesquisaViewModel oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
+                frmAdicionarFeedPesquisa frmAdicionarFeedPesquisa = new frmAdicionarFeedPesquisa();
+                frmAdicionarFeedPesquisa.ShowDialog(oListaFeedsPesquisaVM.Owner);
 
-                if (frmAdicionarFeed.DialogResult == true)
+                if (frmAdicionarFeedPesquisa.DialogResult == true)
                 {
-                    oListaFeedsVM.AtualizarListaFeeds();
+                    oListaFeedsPesquisaVM.AtualizarListaFeeds();
                 }
             }
         }
@@ -42,27 +42,27 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel && (parameter as ListaFeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
+                return parameter is ListaFeedsPesquisaViewModel && (parameter as ListaFeedsPesquisaViewModel).lstFeeds.Any(x => x.bFlSelecionado);
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as ListaFeedsViewModel;
-                DBHelper DBHelper = new DBHelper();
+                var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
+                DBHelper db = new DBHelper();
 
-                var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
+                var lstFeedsSelecionados = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
 
                 foreach (var item in lstFeedsSelecionados)
                 {
-                    Feed oFeedAcima = feedsVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade - 1).FirstOrDefault();
+                    Feed oFeedAcima = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade - 1).FirstOrDefault();
 
                     if (oFeedAcima != null)
                     {
                         item.nNrPrioridade--;
                         oFeedAcima.nNrPrioridade++;
-                        if (!DBHelper.UpdateFeed(item, oFeedAcima))
+                        if (!db.UpdateFeed(item, oFeedAcima))
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed de pesquisa " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
@@ -75,27 +75,27 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel && (parameter as ListaFeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
+                return parameter is ListaFeedsPesquisaViewModel && (parameter as ListaFeedsPesquisaViewModel).lstFeeds.Any(x => x.bFlSelecionado);
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as ListaFeedsViewModel;
-                DBHelper DBHelper = new DBHelper();
+                var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
+                DBHelper db = new DBHelper();
 
-                var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
+                var lstFeedsSelecionados = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
 
                 foreach (var item in lstFeedsSelecionados)
                 {
-                    Feed oFeedAbaixo = feedsVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade + 1).FirstOrDefault();
+                    Feed oFeedAbaixo = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado && x.nNrPrioridade == item.nNrPrioridade + 1).FirstOrDefault();
 
                     if (oFeedAbaixo != null)
                     {
                         item.nNrPrioridade++;
                         oFeedAbaixo.nNrPrioridade--;
-                        if (!DBHelper.UpdateFeed(item, oFeedAbaixo))
+                        if (!db.UpdateFeed(item, oFeedAbaixo))
                         {
-                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
+                            Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed de pesquisa " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
@@ -108,19 +108,19 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel && (parameter as ListaFeedsViewModel).lstFeeds.Any(x => x.bFlSelecionado);
+                return parameter is ListaFeedsPesquisaViewModel && (parameter as ListaFeedsPesquisaViewModel).lstFeeds.Any(x => x.bFlSelecionado);
             }
 
             public void Execute(object parameter)
             {
-                var oListaFeedsVM = parameter as ListaFeedsViewModel;
+                var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
 
                 if (Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?", Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
                 {
                     DBHelper db = new DBHelper();
 
-                    db.RemoveFeed(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado));
-                    oListaFeedsVM.AtualizarListaFeeds();
+                    db.RemoveFeed(oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado));
+                    oListaFeedsPesquisaVM.AtualizarListaFeeds();
                 }
             }
         }
@@ -131,24 +131,24 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel;
+                return parameter is ListaFeedsPesquisaViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as ListaFeedsViewModel;
-                int feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
-                if (feedsSelecionadosCount == feedsVM.lstFeeds.Count && feedsVM.lstFeeds.Count > 0)
+                var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
+                int feedsSelecionadosCount = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
+                if (feedsSelecionadosCount == oListaFeedsPesquisaVM.lstFeeds.Count && oListaFeedsPesquisaVM.lstFeeds.Count > 0)
                 {
-                    feedsVM.bFlSelecionarTodos = true;
+                    oListaFeedsPesquisaVM.bFlSelecionarTodos = true;
                 }
                 else if (feedsSelecionadosCount == 0)
                 {
-                    feedsVM.bFlSelecionarTodos = false;
+                    oListaFeedsPesquisaVM.bFlSelecionarTodos = false;
                 }
                 else if (feedsSelecionadosCount > 0)
                 {
-                    feedsVM.bFlSelecionarTodos = null;
+                    oListaFeedsPesquisaVM.bFlSelecionarTodos = null;
                 }
             }
         }
@@ -159,23 +159,23 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ListaFeedsViewModel;
+                return parameter is ListaFeedsPesquisaViewModel;
             }
 
             public void Execute(object parameter)
             {
-                var feedsVM = parameter as ListaFeedsViewModel;
-                if (feedsVM.bFlSelecionarTodos == true)
+                var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
+                if (oListaFeedsPesquisaVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var feed in feedsVM.lstFeeds)
+                    foreach (var feed in oListaFeedsPesquisaVM.lstFeeds)
                     {
                         feed.bFlSelecionado = true;
                     }
                 }
                 else
                 {
-                    feedsVM.bFlSelecionarTodos = false;
-                    foreach (var feed in feedsVM.lstFeeds)
+                    oListaFeedsPesquisaVM.bFlSelecionarTodos = false;
+                    foreach (var feed in oListaFeedsPesquisaVM.lstFeeds)
                     {
                         feed.bFlSelecionado = false;
                     }

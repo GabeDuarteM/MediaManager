@@ -17,7 +17,7 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
 
 
 
-/* DELETE ALL TABLES
+/* DELETE ALL TABLES 
 /*Disable Constraints & Triggers*/
 exec sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
 exec sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER ALL'

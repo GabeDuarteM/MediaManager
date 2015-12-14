@@ -90,6 +90,8 @@ namespace MediaManager.Migrations
                         sLkFeed = c.String(nullable: false),
                         nIdTipoConteudo = c.Int(nullable: false),
                         nNrPrioridade = c.Int(nullable: false),
+                        bIsFeedPesquisa = c.Boolean(nullable: false),
+                        sDsTagPesquisa = c.String(),
                     })
                 .PrimaryKey(t => t.nCdFeed);
             

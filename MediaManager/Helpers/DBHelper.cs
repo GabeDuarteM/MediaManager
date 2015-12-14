@@ -693,7 +693,7 @@ namespace MediaManager.Helpers
         {
             try
             {
-                var lstFeeds = Context.Feed.Where(x => x.nIdTipoConteudo == feed.nIdTipoConteudo).ToList();
+                var lstFeeds = Context.Feed.Where(x => x.nIdTipoConteudo == feed.nIdTipoConteudo && x.bIsFeedPesquisa == feed.bIsFeedPesquisa).ToList();
 
                 // Para não interferir no CommandSalvar da tela de adicionar feed quando o feed vai ser adicionado a mais de um tipo de conteúdo
                 // (caso contrário nunca vai cair no if acima, pois a prioridade será != 0)
@@ -754,7 +754,7 @@ namespace MediaManager.Helpers
             }
         }
 
-        private bool VerificaEpisodiosNoDiretorio(Serie serie)
+        public bool VerificaEpisodiosNoDiretorio(Video serie)
         {
             try
             {
@@ -769,7 +769,7 @@ namespace MediaManager.Helpers
                         {
                             Episodio episodio = new Episodio();
                             episodio.sDsFilepath = item.FullName;
-                            episodio.oSerie = serie;
+                            episodio.oSerie = (Serie)serie;
 
                             if (episodio.IdentificarEpisodio())
                             {

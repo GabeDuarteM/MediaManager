@@ -35,9 +35,12 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSalvar { get; set; }
 
-        public FeedViewModel()
+        public FeedViewModel(bool bIsFeedPesquisa)
         {
             oFeed = new Feed();
+
+            oFeed.bIsFeedPesquisa = bIsFeedPesquisa;
+
             CommandSalvar = new FeedCommands.CommandSalvar();
         }
 

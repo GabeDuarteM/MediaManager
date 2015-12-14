@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class ListaFeedsViewModel : ModelBase, IListaFeedsViewModel
+    public class ListaFeedsPesquisaViewModel : ModelBase, IListaFeedsViewModel
     {
         private List<Feed> _lstFeeds;
 
@@ -42,22 +41,21 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSelecionarTodos { get; set; }
 
-        public ListaFeedsViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
+        public ListaFeedsPesquisaViewModel(List<Feed> lstFeeds = null /* Teste unitário ¬¬ */)
         {
-            CommandAdicionarFeed = new ListaFeedsCommands.CommandAdicionarFeed();
-            CommandAumentarPrioridadeFeed = new ListaFeedsCommands.CommandAumentarPrioridadeFeed();
-            CommandDiminuirPrioridadeFeed = new ListaFeedsCommands.CommandDiminuirPrioridadeFeed();
-            CommandRemoverFeed = new ListaFeedsCommands.CommandRemoverFeed();
-            CommandSelecionar = new ListaFeedsCommands.CommandSelecionar();
-            CommandSelecionarTodos = new ListaFeedsCommands.CommandSelecionarTodos();
+            CommandAdicionarFeed = new ListaFeedsPesquisaCommands.CommandAdicionarFeed();
+            CommandAumentarPrioridadeFeed = new ListaFeedsPesquisaCommands.CommandAumentarPrioridadeFeed();
+            CommandDiminuirPrioridadeFeed = new ListaFeedsPesquisaCommands.CommandDiminuirPrioridadeFeed();
+            CommandRemoverFeed = new ListaFeedsPesquisaCommands.CommandRemoverFeed();
+            CommandSelecionar = new ListaFeedsPesquisaCommands.CommandSelecionar();
+            CommandSelecionarTodos = new ListaFeedsPesquisaCommands.CommandSelecionarTodos();
             AtualizarListaFeeds(lstFeeds);
         }
 
         public void AtualizarListaFeeds(List<Feed> lstFeeds = null)
         {
             DBHelper db = new DBHelper();
-
-            this.lstFeeds = (lstFeeds == null) ? db.GetFeeds().Where(x => !x.bIsFeedPesquisa).ToList() : lstFeeds;
+            this.lstFeeds = (lstFeeds == null) ? db.GetFeeds().Where(x => x.bIsFeedPesquisa).ToList() : lstFeeds;
             lstFeedsView = new CollectionViewSource();
             lstFeedsView.Source = this.lstFeeds;
             lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));

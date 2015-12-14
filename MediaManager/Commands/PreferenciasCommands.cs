@@ -43,7 +43,7 @@ exec sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER ALL'
 /*Reset Identity on tables with identity column*/
 exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1 BEGIN DBCC CHECKIDENT (''?'',RESEED,0) END'");
                     }
-                    frmMain.MainVM.AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie);
+                    frmMain.MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
                 }
             }
         }
@@ -213,7 +213,7 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                             DBHelper.AlterarPastaPadraoVideos(Enums.TipoConteudo.Série, preferenciasVM.sPastaSeries);
                         }
 
-                        frmMain.MainVM.AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie);
+                        frmMain.MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
                     }
 
                     if (preferenciasVM.ActionFechar != null)

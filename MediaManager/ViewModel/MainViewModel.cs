@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Properties;
 
 namespace MediaManager.ViewModel
 {
@@ -37,15 +40,112 @@ namespace MediaManager.ViewModel
             }
         }
 
+        public static Dictionary<string, string> Argumentos { get; private set; }
+
         public Window Owner { get; set; }
 
         public MainViewModel(Window owner = null, ICollection<Serie> animes = null, ICollection<Serie> filmes = null, ICollection<Serie> series = null)
         {
             Owner = owner;
-            AtualizarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, animes, filmes, series);
         }
 
-        public void AtualizarConteudo(Enums.TipoConteudo nIdTipoConteudo, ICollection<Serie> lstAnimes = null, ICollection<Serie> lstFilmes = null, ICollection<Serie> lstSeries = null)
+        /// <summary>
+        /// Retorna true caso haja arquivos a serem renomeados, para que o resto da aplicação não seja carregada.
+        /// </summary>
+        /// <returns></returns>
+        public bool TratarArgumentos()
+        {
+            Argumentos = new Dictionary<string, string>();
+
+            // Usa o Skip pois o primeiro sempre vai ser o caminho do executável.
+            string[] argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            bool sucesso = false;
+            string argsString = null;
+
+            foreach (var item in argsArray)
+            {
+                if (argsString == null)
+                    argsString += "\"" + item + "\"";
+                else
+                    argsString += ", " + item;
+            }
+            if (argsString != null)
+                Helper.LogMessage("Aplicação iniciada com os seguintes argumentos: " + argsString);
+
+            for (int i = 0; i < argsArray.Length; i++)
+            {
+                if (argsArray[i].StartsWith("-"))
+                {
+                    string arg = argsArray[i].Replace("-", "");
+                    if (argsArray.Length > i + 1 && !argsArray[i + 1].StartsWith("-"))
+                    {
+                        try { Argumentos.Add(arg, argsArray[i + 1]); }
+                        catch (Exception e)
+                        {
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                            return true;
+                        }
+                        i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
+                    }
+                    else
+                    {
+                        try { Argumentos.Add(arg, null); }
+                        catch (Exception e)
+                        {
+                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (RenomearEpisodiosDosArgumentos(argsArray[i]))
+                    {
+                        sucesso = true;
+                    }
+                }
+            }
+            return sucesso;
+        }
+
+        private bool RenomearEpisodiosDosArgumentos(string arg)
+        {
+            try
+            {
+                RenomearViewModel renomearVM = null;
+                if (Directory.Exists(arg))
+                {
+                    DirectoryInfo dirInfo = new DirectoryInfo(arg);
+                    renomearVM = new RenomearViewModel(true, dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
+                }
+                else if (File.Exists(arg))
+                {
+                    IEnumerable<FileInfo> arquivo = new FileInfo[1] { new FileInfo(arg) };
+                    renomearVM = new RenomearViewModel(true, arquivo);
+                }
+
+                renomearVM.bFlSilencioso = true;
+
+                foreach (var item in renomearVM.lstEpisodios)
+                {
+                    item.bFlSelecionado = true;
+                    item.bFlRenomeado = false; // Para quando o episódio ja tiver sido renomeado alguma vez o retorno funcionar corretamente.
+                }
+
+                if (renomearVM.CommandRenomear.CanExecute(renomearVM))
+                {
+                    renomearVM.CommandRenomear.Execute(renomearVM);
+                }
+                return renomearVM.lstEpisodios.All(x => x.bFlRenomeado == true);
+            }
+            catch (Exception e)
+            {
+                Helper.TratarException(e, "Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " + arg);
+                return true; // Retorna true para não continuar a executar a aplicação.
+            }
+        }
+
+        public void AtualizarPosters(Enums.TipoConteudo nIdTipoConteudo)
         {
             switch (nIdTipoConteudo)
             {
@@ -69,12 +169,12 @@ namespace MediaManager.ViewModel
                     }
                 case Enums.TipoConteudo.Série:
                     {
-                        this.lstSeries = new ObservableCollection<PosterViewModel>();
+                        lstSeries = new ObservableCollection<PosterViewModel>();
                         DBHelper DBHelper = new DBHelper();
 
-                        lstSeries = (lstSeries != null) ? lstSeries : DBHelper.GetSeriesComForeignKeys();
+                        var lstSeriesDB = DBHelper.GetSeriesComForeignKeys();
 
-                        foreach (var item in lstSeries)
+                        foreach (var item in lstSeriesDB)
                         {
                             var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                             item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
@@ -84,17 +184,16 @@ namespace MediaManager.ViewModel
                             _lstSeries.Add(posterVM);
                         }
 
-                        this.lstSeries = _lstSeries;
                         break;
                     }
                 case Enums.TipoConteudo.Anime:
                     {
-                        this.lstAnimes = new ObservableCollection<PosterViewModel>();
+                        lstAnimes = new ObservableCollection<PosterViewModel>();
                         DBHelper DBHelper = new DBHelper();
 
-                        lstAnimes = (lstAnimes != null) ? lstAnimes : DBHelper.GetAnimesComForeignKeys();
+                        var lstAnimesDB = DBHelper.GetAnimesComForeignKeys();
 
-                        foreach (var item in lstAnimes)
+                        foreach (var item in lstAnimesDB)
                         {
                             var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                             item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
@@ -104,22 +203,21 @@ namespace MediaManager.ViewModel
                             _lstAnimes.Add(posterVM);
                         }
 
-                        this.lstAnimes = _lstAnimes;
                         break;
                     }
                 case Enums.TipoConteudo.AnimeFilmeSérie:
                     {
-                        this.lstSeries = new ObservableCollection<PosterViewModel>();
-                        this.lstAnimes = new ObservableCollection<PosterViewModel>();
+                        lstSeries = new ObservableCollection<PosterViewModel>();
+                        lstAnimes = new ObservableCollection<PosterViewModel>();
                         //Filmes = new ObservableCollection<PosterViewModel>();
 
                         DBHelper DBHelper = new DBHelper();
 
-                        lstSeries = (lstSeries != null) ? lstSeries : DBHelper.GetSeriesComForeignKeys();
-                        lstAnimes = (lstAnimes != null) ? lstAnimes : DBHelper.GetAnimesComForeignKeys();
+                        var lstSeriesDB = DBHelper.GetSeriesComForeignKeys();
+                        var lstAnimesDB = DBHelper.GetAnimesComForeignKeys();
                         //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
-                        foreach (var item in lstSeries)
+                        foreach (var item in lstSeriesDB)
                         {
                             var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                             item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
@@ -129,7 +227,7 @@ namespace MediaManager.ViewModel
                             _lstSeries.Add(posterVM);
                         }
 
-                        foreach (var item in lstAnimes)
+                        foreach (var item in lstAnimesDB)
                         {
                             var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                             item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
@@ -148,15 +246,82 @@ namespace MediaManager.ViewModel
                         //    _filmes.Add(posterVM);
                         //}
 
-                        this.lstSeries = _lstSeries;
-                        this.lstAnimes = _lstAnimes;
-                        //Filmes = _filmes;
                         break;
                     }
                 case Enums.TipoConteudo.Selecione:
                     throw new InvalidEnumArgumentException();
                 default:
                     throw new InvalidEnumArgumentException();
+            }
+        }
+
+        public void CriarTimerAtualizacaoConteudo()
+        {
+            Timer timerAtualizarConteudo = new Timer();
+
+            timerAtualizarConteudo.Tick += (s, e) => { AtualizarConteudo(); };
+            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000; // em milisegundos
+            timerAtualizarConteudo.Start();
+
+            AtualizarConteudo();
+
+            //APIRequests.GetAtualizacoes();
+        }
+
+        public void AtualizarConteudo()
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += async (s, e) =>
+            {
+                ProcurarNovosEpisodiosBaixados();
+
+                //AlterarStatusEpisodios();
+
+                ProcurarEpisodiosParaBaixar();
+
+                await APIRequests.GetAtualizacoes();
+            };
+
+            worker.RunWorkerAsync();
+        }
+
+        private void ProcurarEpisodiosParaBaixar()
+        {
+            DBHelper db = new DBHelper();
+
+            var lstFeeds = db.GetFeeds().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade);
+
+            foreach (var item in lstFeeds)
+            {
+                var rss = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
+
+                foreach (var itemRss in rss.Channel.Items)
+                {
+                    Episodio episodio = new Episodio();
+                    episodio.sDsFilepath = itemRss.Title;
+
+                    if (episodio.IdentificarEpisodio() && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
+                    {
+                        Helper.BaixarEpisodio(episodio, itemRss.Link);
+                    }
+                }
+            }
+        }
+
+        private void AlterarStatusEpisodios()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ProcurarNovosEpisodiosBaixados()
+        {
+            var series = lstAnimesESeries.ToList();
+            DBHelper db = new DBHelper();
+
+            foreach (var serie in series)
+            {
+                db.VerificaEpisodiosNoDiretorio(serie.oPoster);
             }
         }
     }

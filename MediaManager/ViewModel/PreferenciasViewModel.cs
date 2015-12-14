@@ -17,6 +17,10 @@ namespace MediaManager.ViewModel
 
         public ListaFeedsViewModel oFeedsViewModel { get { return _oFeedsViewModel; } set { _oFeedsViewModel = value; OnPropertyChanged(); } }
 
+        private ListaFeedsPesquisaViewModel _oListaFeedsPesquisaViewModel;
+
+        public ListaFeedsPesquisaViewModel oListaFeedsPesquisaViewModel { get { return _oListaFeedsPesquisaViewModel; } set { _oListaFeedsPesquisaViewModel = value; OnPropertyChanged(); } }
+
         private string _sPastaSeries;
 
         public string sPastaSeries { get { return _sPastaSeries; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Série, value); _sPastaSeries = value; OnPropertyChanged(); } }
@@ -102,6 +106,8 @@ namespace MediaManager.ViewModel
 
             oFeedsViewModel = new ListaFeedsViewModel();
             oFeedsViewModel.Owner = Owner;
+            oListaFeedsPesquisaViewModel = new ListaFeedsPesquisaViewModel();
+            oListaFeedsPesquisaViewModel.Owner = Owner;
             sFormatoParaAnimes = Properties.Settings.Default.pref_FormatoAnimes;
             sFormatoParaFilmes = Properties.Settings.Default.pref_FormatoFilmes;
             sFormatoParaSeries = Properties.Settings.Default.pref_FormatoSeries;

@@ -13,7 +13,7 @@ namespace MediaManager.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201512030200010_init"; }
+            get { return "201512121039483_init"; }
         }
         
         string IMigrationMetadata.Source

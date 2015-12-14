@@ -45,6 +45,14 @@ namespace MediaManager.Model
         [NotMapped]
         public bool bFlSelecionado { get { return _bFlSelecionado; } set { _bFlSelecionado = value; OnPropertyChanged(); } }
 
+        private bool _bIsFeedPesquisa;
+
+        public bool bIsFeedPesquisa { get { return _bIsFeedPesquisa; } set { _bIsFeedPesquisa = value; OnPropertyChanged(); } }
+
+        private string _sDsTagPesquisa;
+
+        public string sDsTagPesquisa { get { return _sDsTagPesquisa; } set { _sDsTagPesquisa = value; OnPropertyChanged(); ValidarCampo(value); } }
+
         public Feed()
         {
         }
@@ -58,7 +66,7 @@ namespace MediaManager.Model
         {
             get
             {
-                return ValidarCampo(sDsFeed, "sDsFeed") & ValidarCampo(sLkFeed, "sLkFeed");
+                return ValidarCampo(sDsFeed, "sDsFeed") & ValidarCampo(sLkFeed, "sLkFeed") & ((bIsFeedPesquisa == true) ? ValidarCampo(sDsTagPesquisa, "sDsTagPesquisa") : true);
             }
         }
     }

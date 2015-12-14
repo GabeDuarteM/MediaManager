@@ -57,7 +57,7 @@ namespace MediaManager.ViewModel
                         frmAdicionarConteudo.Owner = Owner;
                         frmAdicionarConteudo.ShowDialog();
 
-                        frmMain.MainVM.AtualizarConteudo(oPoster.nIdTipoConteudo);
+                        frmMain.MainVM.AtualizarPosters(oPoster.nIdTipoConteudo);
                         break;
                     }
                 default:
