@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -26,24 +28,23 @@ namespace MediaManager.Commands
 
                 if (FeedVM.oFeed.IsValid & FeedVM.IsValid)
                 {
-                    DBHelper db = new DBHelper();
-
+                    FeedsService feedsService = App.Container.Resolve<FeedsService>();
                     if (FeedVM.bAnime)
                     {
                         FeedVM.oFeed.nIdTipoConteudo = Enums.TipoConteudo.Anime;
-                        db.AddFeed(FeedVM.oFeed);
+                        feedsService.Adicionar(FeedVM.oFeed);
                     }
 
                     if (FeedVM.bSerie)
                     {
                         FeedVM.oFeed.nIdTipoConteudo = Enums.TipoConteudo.Série;
-                        db.AddFeed(FeedVM.oFeed);
+                        feedsService.Adicionar(FeedVM.oFeed);
                     }
 
                     if (FeedVM.bFilme)
                     {
                         FeedVM.oFeed.nIdTipoConteudo = Enums.TipoConteudo.Filme;
-                        db.AddFeed(FeedVM.oFeed);
+                        feedsService.Adicionar(FeedVM.oFeed);
                     }
                     FeedVM.ActionFechar(true);
                 }

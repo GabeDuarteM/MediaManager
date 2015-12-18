@@ -6,14 +6,16 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Commands;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 
 namespace MediaManager.ViewModel
 {
-    public class ProcurarConteudoViewModel : ModelBase
+    public class ProcurarConteudoViewModel : ViewModelBase
     {
         private ObservableCollection<Video> _lstConteudos;
         public ObservableCollection<Video> lstConteudos { get { return _lstConteudos; } set { _lstConteudos = value; OnPropertyChanged(); } }
@@ -51,7 +53,8 @@ namespace MediaManager.ViewModel
             frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (sender, e) =>
             {
                 ObservableCollection<Video> conteudos = new ObservableCollection<Video>();
-                DBHelper DBHelper = new DBHelper();
+
+                SeriesService seriesService = App.Container.Resolve<SeriesService>();
 
                 switch (contentType)
                 {
@@ -67,7 +70,7 @@ namespace MediaManager.ViewModel
                             {
                                 frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
-                                if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
+                                if (!seriesService.VerificarSeExiste(dir.FullName))
                                 {
                                     List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
                                     if (lstSeries.Count == 0)
@@ -78,7 +81,7 @@ namespace MediaManager.ViewModel
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (lstSeries.Count > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(lstSeries[0].nCdApi))
+                                    else if (lstSeries.Count > 0 && !seriesService.VerificarSeExiste(lstSeries[0].nCdApi))
                                     {
                                         Serie conteudo = lstSeries[0];
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Série;
@@ -110,7 +113,7 @@ namespace MediaManager.ViewModel
                             {
                                 frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
-                                if (!DBHelper.VerificaSeSerieOuAnimeExiste(dir.FullName))
+                                if (!seriesService.VerificarSeExiste(dir.FullName))
                                 {
                                     List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
                                     if (lstSeries == null || lstSeries.Count == 0)
@@ -121,7 +124,7 @@ namespace MediaManager.ViewModel
                                         conteudo.bFlNaoEncontrado = true;
                                         conteudos.Add(conteudo);
                                     }
-                                    else if (lstSeries.Count > 0 && !DBHelper.VerificaSeSerieOuAnimeExiste(lstSeries[0].nCdApi))
+                                    else if (lstSeries.Count > 0 && !seriesService.VerificarSeExiste(lstSeries[0].nCdApi))
                                     {
                                         Serie conteudo = lstSeries[0];
                                         conteudo.nIdTipoConteudo = Enums.TipoConteudo.Anime;

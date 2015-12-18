@@ -8,9 +8,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Autofac;
 using Ionic.Zip;
 using MediaManager.Model;
 using MediaManager.Properties;
+using MediaManager.Services;
 
 namespace MediaManager.Helpers
 {
@@ -93,9 +95,11 @@ namespace MediaManager.Helpers
             XmlNodeList nodesEpisodios = xml.SelectNodes("/Data/Episode");
             XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
-            DBHelper DBHelper = new DBHelper();
-            List<Serie> lstSeriesAnimes = DBHelper.GetSeriesEAnimes();
-            List<Episodio> lstEpisodios = DBHelper.GetEpisodes();
+            SeriesService seriesService = App.Container.Resolve<SeriesService>();
+            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
+
+            List<Serie> lstSeriesAnimes = seriesService.GetSeriesEAnimes();
+            List<Episodio> lstEpisodios = episodiosService.GetLista();
             List<string> lstSeriesAnimesIDApi = new List<string>();
             List<string> lstEpisodiosIDApi = new List<string>();
             foreach (var item in lstSeriesAnimes)
@@ -111,16 +115,16 @@ namespace MediaManager.Helpers
             {
                 if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("id").InnerText))
                 {
-                    int IDApi = 0;
-                    int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
+                    int nCdApi = 0;
+                    int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
 
-                    Serie serieDB = DBHelper.GetSerieOuAnimePorIDApi(IDApi);
+                    Serie serieDB = seriesService.GetPorCodigoApi(nCdApi);
 
                     //data.Series[0].Episodes = new List<Episode>(data.Episodes);
 
                     if (int.Parse(serieDB.sNrUltimaAtualizacao) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
-                        Serie serie = await GetSerieInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                        Serie serie = await GetSerieInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
 
                         serie.nCdVideo = serieDB.nCdVideo;
                         serie.sDsPasta = serieDB.sDsPasta;
@@ -129,30 +133,30 @@ namespace MediaManager.Helpers
                         serie.sDsTitulo = serieDB.sDsTitulo;
                         serie.sAliases = serieDB.sAliases;
 
-                        await DBHelper.UpdateSerieAsync(serie);
+                        await seriesService.UpdateAsync(serie);
                     }
                 }
             }
 
             foreach (XmlNode item in nodesEpisodios)
             {
-                int IDApi = 0;
-                int.TryParse(item.SelectSingleNode("id").InnerText, out IDApi);
-                if (lstEpisodiosIDApi.Contains(IDApi + ""))
+                int nCdApi = 0;
+                int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
+                if (lstEpisodiosIDApi.Contains(nCdApi + ""))
                 {
-                    Episodio episodioDB = DBHelper.GetEpisode(IDApi);
+                    Episodio episodioDB = episodiosService.GetPorCodigoAPI(nCdApi);
 
                     if (int.Parse(episodioDB.sNrUltimaAtualizacao) < int.Parse(item.SelectSingleNode("time").InnerText))
                     {
-                        Episodio episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
+                        Episodio episodio = await GetEpisodeInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
                         episodio.nCdEpisodio = episodioDB.nCdEpisodio;
-                        DBHelper.UpdateEpisodio(episodio);
+                        episodiosService.Update(episodio);
                     }
                 }
                 else if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
                 {
-                    Episodio episodio = await GetEpisodeInfoAsync(IDApi, Settings.Default.pref_IdiomaPesquisa);
-                    DBHelper.AddEpisodio(episodio);
+                    Episodio episodio = await GetEpisodeInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
+                    episodiosService.Adicionar(episodio);
                 }
             }
 

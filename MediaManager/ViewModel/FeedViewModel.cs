@@ -13,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class FeedViewModel : ModelBase
+    public class FeedViewModel : ViewModelBase
     {
         private Feed _oFeed;
 

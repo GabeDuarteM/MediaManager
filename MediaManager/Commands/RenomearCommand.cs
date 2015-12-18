@@ -4,7 +4,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -36,7 +38,7 @@ namespace MediaManager.Commands
                     {
                         try
                         {
-                            DBHelper DBHelper = new DBHelper();
+                            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
                             bool bCancelarOperacao = false;
 
                             if (item.bFlSelecionado)
@@ -68,7 +70,7 @@ namespace MediaManager.Commands
                                 {
                                     item.bFlRenomeado = true;
                                     item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
-                                    DBHelper.UpdateEpisodioRenomeado(item);
+                                    episodiosService.UpdateEpisodioRenomeado(item);
                                     Helper.LogMessage("O arquivo \"" + item.sDsFilepath + "\" foi renomeado com sucesso.");
                                 }
                                 else if (!bCancelarOperacao)

@@ -14,7 +14,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class EpisodiosViewModel : ModelBase
+    public class EpisodiosViewModel : ViewModelBase
     {
         private ICollectionView _lstEpisodiosView;
 

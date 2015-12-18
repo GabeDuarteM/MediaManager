@@ -13,7 +13,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class RenomearViewModel : ModelBase
+    public class RenomearViewModel : ViewModelBase
     {
         public bool bFlSilencioso { get; set; }
 

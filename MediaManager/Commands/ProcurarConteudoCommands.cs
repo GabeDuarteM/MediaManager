@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -33,8 +35,7 @@ namespace MediaManager.Commands
                 frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Salvando...";
                 frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (s, ev) =>
                 {
-                    DBHelper DBHelper = new DBHelper();
-
+                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
                     //if (ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() == 0)
                     //{
                     //    Helper.MostrarMensagem("Para realizar a operação, selecione ao menos um registro.", Enums.eTipoMensagem.Alerta);
@@ -57,13 +58,13 @@ namespace MediaManager.Commands
                                             serie.sAliases = item.sAliases;
                                             serie.lstSerieAlias = item.lstSerieAlias;
                                             serie.sDsTitulo = item.sDsTitulo;
-                                            DBHelper.AddSerie(serie);
+                                            seriesService.Adicionar(serie);
                                             frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
                                         }
                                         else
                                         {
                                             frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.sDsTitulo + "...";
-                                            DBHelper.AddSerie((Serie)item);
+                                            seriesService.Adicionar((Serie)item);
                                             frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
                                         }
                                         break;

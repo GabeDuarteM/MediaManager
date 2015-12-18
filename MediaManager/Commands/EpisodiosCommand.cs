@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -70,7 +72,8 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 EpisodiosViewModel episodiosVM = parameter as EpisodiosViewModel;
-                DBHelper DBHelper = new DBHelper();
+
+                EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
                 if (episodiosVM.nIdEstadoEpisodioSelecionado != Enums.EstadoEpisodio.Selecione)
                 {
@@ -82,7 +85,7 @@ namespace MediaManager.Commands
                             item.nIdEstadoEpisodio = episodiosVM.nIdEstadoEpisodioSelecionado;
                         }
 
-                        DBHelper.UpdateListaEpisodios(lstEpisodiosModificados);
+                        episodiosService.Update(lstEpisodiosModificados.ToArray());
                     }
                 }
             }

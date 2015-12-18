@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Commands;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 
 namespace MediaManager.ViewModel
 {
-    public class ListaFeedsViewModel : ModelBase, IListaFeedsViewModel
+    public class ListaFeedsViewModel : ViewModelBase, IListaFeedsViewModel
     {
         private List<Feed> _lstFeeds;
 
@@ -55,9 +57,9 @@ namespace MediaManager.ViewModel
 
         public void AtualizarListaFeeds(List<Feed> lstFeeds = null)
         {
-            DBHelper db = new DBHelper();
+            FeedsService feedsService = App.Container.Resolve<FeedsService>();
 
-            this.lstFeeds = (lstFeeds == null) ? db.GetFeeds().Where(x => !x.bIsFeedPesquisa).ToList() : lstFeeds;
+            this.lstFeeds = (lstFeeds == null) ? feedsService.GetLista().Where(x => !x.bIsFeedPesquisa).ToList() : lstFeeds;
             lstFeedsView = new CollectionViewSource();
             lstFeedsView.Source = this.lstFeeds;
             lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));

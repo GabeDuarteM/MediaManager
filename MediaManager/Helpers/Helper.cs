@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -54,7 +55,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens.", true); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens."); return false; }
         }
 
         public static bool DownloadImages(Video video, Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
@@ -85,7 +86,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens.", true); return false; }
+            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens."); return false; }
         }
 
         public static string ListToString(IList<string> lista)

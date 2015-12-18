@@ -1,29 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using Moq;
 
-namespace MediaManager.Tests
+namespace MediaManager.Tests.Preparacoes
 {
-    public class TesteHelper
+    public class MockContext : IContext
     {
-        public static List<Serie> lstSeries { get; set; }
-        public static List<Episodio> lstEpisodios { get; set; }
-        public static List<Feed> lstFeeds { get; set; }
-        public static List<SerieAlias> lstSerieAlias { get; set; }
+        public virtual DbSet<Episodio> Episodio { get; set; }
 
-        private static List<Serie> lstSeriesBackup { get; set; }
-        private static List<Episodio> lstEpisodiosBackup { get; set; }
-        private static List<Feed> lstFeedsBackup { get; set; }
-        private static List<SerieAlias> lstSerieAliasBackup { get; set; }
+        public virtual DbSet<Serie> Serie { get; set; }
 
-        public static Mock<Context> GerarMassaDeDados()
+        public virtual DbSet<SerieAlias> SerieAlias { get; set; }
+
+        public virtual DbSet<Feed> Feed { get; set; }
+
+        public virtual IContext Context { get; set; }
+
+        private List<Serie> lstSeries;
+        private List<Episodio> lstEpisodios;
+        private List<Feed> lstFeeds;
+        private List<SerieAlias> lstSerieAlias;
+
+        private List<Serie> lstSeriesBackup;
+        private List<Episodio> lstEpisodiosBackup;
+        private List<Feed> lstFeedsBackup;
+        private List<SerieAlias> lstSerieAliasBackup;
+
+        public MockContext()
+        {
+            GerarMassaDeDados();
+        }
+
+        public void GerarMassaDeDados()
         {
             List<int> lstIntIdsSeries = new List<int>() { 257655, 273181, 205281, 121361, 274431, 281485, 263365, 281662, 268592, 80379, 279121, 258744, 153021,
                                                           264492, 267440, 289679, 88031, 295068, 289882, 114801, 79151, 85249, 295224, 249827, 79824, 278155, 81797,
@@ -43,6 +61,7 @@ namespace MediaManager.Tests
                 new Feed() { nCdFeed = 9, bFlSelecionado = true, nIdTipoConteudo = Enums.TipoConteudo.Série, nNrPrioridade = 4 },
                 new Feed() { nCdFeed = 10, bFlSelecionado = false, nIdTipoConteudo = Enums.TipoConteudo.Série, nNrPrioridade = 5 }
             };
+
             foreach (var item in lstIntIdsSeries)
             {
                 var serie = APIRequests.GetSerieInfoAsync(item, "en").Result;
@@ -75,7 +94,7 @@ namespace MediaManager.Tests
                 new SerieAlias() { nCdAlias = 11, sDsAlias = "Dragonball Kai", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 88031).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 88031) },
                 new SerieAlias() { nCdAlias = 12, sDsAlias = "Dragonball Z Kai", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 88031).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 88031) },
                 new SerieAlias() { nCdAlias = 13, sDsAlias = "Dragon Ball Chou", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 295068).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 295068) },
-                new SerieAlias() { nCdAlias = 14, sDsAlias = "Fairy Tail S2", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 114801).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 114801) },
+                new SerieAlias() { nCdAlias = 14, sDsAlias = "Fairy Tail S2", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 114801).nCdVideo, nNrTemporada = 5, oSerie = lstSeries.First(x => x.nCdApi == 114801) },
                 new SerieAlias() { nCdAlias = 15, sDsAlias = "Fate Stay Night", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 79151).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 79151) },
                 new SerieAlias() { nCdAlias = 16, sDsAlias = "Full Metal Alchemist Brotherhood", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 85249).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 85249) },
                 new SerieAlias() { nCdAlias = 17, sDsAlias = "Full Metal Alchemist: Brotherhood", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 85249).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 85249) },
@@ -94,102 +113,144 @@ namespace MediaManager.Tests
                 new SerieAlias() { nCdAlias = 30, sDsAlias = "DanMachi", nNrEpisodio = 1, nCdVideo = lstSeries.First(x => x.nCdApi == 289882).nCdVideo, nNrTemporada = 1, oSerie = lstSeries.First(x => x.nCdApi == 289882) }
             };
 
-            lstSeriesBackup = new List<Serie>(lstSeries.ConvertAll(x => new Serie(x)));
-            lstEpisodiosBackup = new List<Episodio>(lstEpisodios.ConvertAll(x => new Episodio(x)));
-            lstFeedsBackup = new List<Feed>(lstFeeds.ConvertAll(x => new Feed(x)));
-            lstSerieAliasBackup = new List<SerieAlias>(lstSerieAlias.ConvertAll(x => new SerieAlias(x)));
-
             var mockSetSerie = new Mock<DbSet<Serie>>();
             mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Provider).Returns(lstSeries.AsQueryable().Provider);
             mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Expression).Returns(lstSeries.AsQueryable().Expression);
             mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.ElementType).Returns(lstSeries.AsQueryable().ElementType);
-            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.GetEnumerator()).Returns(lstSeries.AsQueryable().GetEnumerator());
+            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.GetEnumerator()).Returns(() => lstSeries.AsQueryable().GetEnumerator());
 
             var mockSetEpisodio = new Mock<DbSet<Episodio>>();
             mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Provider).Returns(lstEpisodios.AsQueryable().Provider);
             mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Expression).Returns(lstEpisodios.AsQueryable().Expression);
             mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.ElementType).Returns(lstEpisodios.AsQueryable().ElementType);
-            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.GetEnumerator()).Returns(lstEpisodios.AsQueryable().GetEnumerator());
+            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.GetEnumerator()).Returns(() => lstEpisodios.AsQueryable().GetEnumerator());
 
             var mockSetFeed = new Mock<DbSet<Feed>>();
             mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Provider).Returns(lstFeeds.AsQueryable().Provider);
             mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Expression).Returns(lstFeeds.AsQueryable().Expression);
             mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.ElementType).Returns(lstFeeds.AsQueryable().ElementType);
-            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.GetEnumerator()).Returns(lstFeeds.AsQueryable().GetEnumerator());
+            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.GetEnumerator()).Returns(() => lstFeeds.AsQueryable().GetEnumerator());
 
             var mockSetSerieAlias = new Mock<DbSet<SerieAlias>>();
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.Provider).Returns(lstSerieAlias.AsQueryable().Provider);
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.Expression).Returns(lstSerieAlias.AsQueryable().Expression);
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.ElementType).Returns(lstSerieAlias.AsQueryable().ElementType);
-            mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.GetEnumerator()).Returns(lstSerieAlias.AsQueryable().GetEnumerator());
+            mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.GetEnumerator()).Returns(() => lstSerieAlias.AsQueryable().GetEnumerator());
 
-            var mockContext = new Mock<Context>();
+            Mock<Context> mockContext = new Mock<Context>();
             mockContext.Setup(x => x.Serie).Returns(mockSetSerie.Object);
             mockContext.Setup(x => x.Episodio).Returns(mockSetEpisodio.Object);
             mockContext.Setup(x => x.Feed).Returns(mockSetFeed.Object);
             mockContext.Setup(x => x.SerieAlias).Returns(mockSetSerieAlias.Object);
 
-            DBHelper.Context = mockContext.Object;
+            Episodio = mockSetEpisodio.Object;
+            Serie = mockSetSerie.Object;
+            Feed = mockSetFeed.Object;
+            SerieAlias = mockSetSerieAlias.Object;
 
-            var DbHelper = new DBHelper();
+            lstSeriesBackup = new List<Serie>();
+            lstEpisodiosBackup = new List<Episodio>();
+            lstFeedsBackup = new List<Feed>();
+            lstSerieAliasBackup = new List<SerieAlias>();
 
-            foreach (var item in lstSeries)
-            {
-                DbHelper.AddSerie(item);
-                foreach (var episodio in lstEpisodios.Where(x => x.nCdVideoAPI == item.nCdApi))
-                {
-                    episodio.oSerie = item;
-                    DbHelper.AddEpisodio(episodio);
-                }
-            }
-
-            foreach (var item in lstFeeds)
-            {
-                DbHelper.AddFeed(item);
-            }
-            mockContext.Verify(x => x.SaveChanges());
-
-            return mockContext;
+            lstSeries.ForEach(x => lstSeriesBackup.Add(new Serie(x)));
+            lstEpisodios.ForEach(x => lstEpisodiosBackup.Add(new Episodio(x)));
+            lstFeeds.ForEach(x => lstFeedsBackup.Add(new Feed(x)));
+            lstSerieAlias.ForEach(x => lstSerieAliasBackup.Add(new SerieAlias(x)));
         }
 
-        public static void RestaurarMassaDadosOriginal()
+        public void ResetarTodosDados()
         {
-            lstSeries = new List<Serie>(lstSeriesBackup.ConvertAll(x => new Serie(x)));
-            lstEpisodios = new List<Episodio>(lstEpisodiosBackup.ConvertAll(x => new Episodio(x)));
-            lstFeeds = new List<Feed>(lstFeedsBackup.ConvertAll(x => new Feed(x)));
-            lstSerieAlias = new List<SerieAlias>(lstSerieAliasBackup.ConvertAll(x => new SerieAlias(x)));
+            ResetarSeries();
+            ResetarEpisodios();
+            ResetarFeeds();
+            ResetarSerieAlias();
+        }
 
-            var mockSetSerie = new Mock<DbSet<Serie>>();
-            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Provider).Returns(lstSeries.AsQueryable().Provider);
-            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Expression).Returns(lstSeries.AsQueryable().Expression);
-            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.ElementType).Returns(lstSeries.AsQueryable().ElementType);
-            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.GetEnumerator()).Returns(lstSeries.AsQueryable().GetEnumerator());
-
-            var mockSetEpisodio = new Mock<DbSet<Episodio>>();
-            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Provider).Returns(lstEpisodios.AsQueryable().Provider);
-            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Expression).Returns(lstEpisodios.AsQueryable().Expression);
-            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.ElementType).Returns(lstEpisodios.AsQueryable().ElementType);
-            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.GetEnumerator()).Returns(lstEpisodios.AsQueryable().GetEnumerator());
-
-            var mockSetFeed = new Mock<DbSet<Feed>>();
-            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Provider).Returns(lstFeeds.AsQueryable().Provider);
-            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Expression).Returns(lstFeeds.AsQueryable().Expression);
-            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.ElementType).Returns(lstFeeds.AsQueryable().ElementType);
-            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.GetEnumerator()).Returns(lstFeeds.AsQueryable().GetEnumerator());
+        public void ResetarSerieAlias()
+        {
+            lstSerieAlias = new List<SerieAlias>();
+            lstSerieAliasBackup.ForEach(x => lstSerieAlias.Add(new SerieAlias(x)));
 
             var mockSetSerieAlias = new Mock<DbSet<SerieAlias>>();
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.Provider).Returns(lstSerieAlias.AsQueryable().Provider);
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.Expression).Returns(lstSerieAlias.AsQueryable().Expression);
             mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.ElementType).Returns(lstSerieAlias.AsQueryable().ElementType);
-            mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.GetEnumerator()).Returns(lstSerieAlias.AsQueryable().GetEnumerator());
+            mockSetSerieAlias.As<IQueryable<SerieAlias>>().Setup(m => m.GetEnumerator()).Returns(() => lstSerieAlias.AsQueryable().GetEnumerator());
 
-            var mockContext = new Mock<Context>();
-            mockContext.Setup(x => x.Serie).Returns(mockSetSerie.Object);
-            mockContext.Setup(x => x.Episodio).Returns(mockSetEpisodio.Object);
-            mockContext.Setup(x => x.Feed).Returns(mockSetFeed.Object);
-            mockContext.Setup(x => x.SerieAlias).Returns(mockSetSerieAlias.Object);
+            SerieAlias = mockSetSerieAlias.Object;
+        }
 
-            DBHelper.Context = mockContext.Object;
+        public void ResetarFeeds()
+        {
+            lstFeeds = new List<Feed>();
+            lstFeedsBackup.ForEach(x => lstFeeds.Add(new Feed(x)));
+
+            var mockSetFeed = new Mock<DbSet<Feed>>();
+            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Provider).Returns(lstFeeds.AsQueryable().Provider);
+            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.Expression).Returns(lstFeeds.AsQueryable().Expression);
+            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.ElementType).Returns(lstFeeds.AsQueryable().ElementType);
+            mockSetFeed.As<IQueryable<Feed>>().Setup(m => m.GetEnumerator()).Returns(() => lstFeeds.AsQueryable().GetEnumerator());
+
+            Feed = mockSetFeed.Object;
+        }
+
+        public void ResetarEpisodios()
+        {
+            lstEpisodios = new List<Episodio>();
+            lstEpisodiosBackup.ForEach(x => lstEpisodios.Add(new Episodio(x)));
+
+            var mockSetEpisodio = new Mock<DbSet<Episodio>>();
+            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Provider).Returns(lstEpisodios.AsQueryable().Provider);
+            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.Expression).Returns(lstEpisodios.AsQueryable().Expression);
+            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.ElementType).Returns(lstEpisodios.AsQueryable().ElementType);
+            mockSetEpisodio.As<IQueryable<Episodio>>().Setup(m => m.GetEnumerator()).Returns(() => lstEpisodios.AsQueryable().GetEnumerator());
+
+            Episodio = mockSetEpisodio.Object;
+        }
+
+        public void ResetarSeries()
+        {
+            lstSeries = new List<Serie>();
+            lstSeriesBackup.ForEach(x => lstSeries.Add(new Serie(x)));
+
+            var mockSetSerie = new Mock<DbSet<Serie>>();
+            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Provider).Returns(lstSeries.AsQueryable().Provider);
+            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.Expression).Returns(lstSeries.AsQueryable().Expression);
+            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.ElementType).Returns(lstSeries.AsQueryable().ElementType);
+            mockSetSerie.As<IQueryable<Serie>>().Setup(m => m.GetEnumerator()).Returns(() => lstSeries.AsQueryable().GetEnumerator());
+
+            Serie = mockSetSerie.Object;
+        }
+
+        public int SaveChanges()
+        {
+            return 0;
+        }
+
+        public DbSet<TEntity> Set<TEntity>() where TEntity : class
+        {
+            return null;
+        }
+
+        public DbSet Set(Type entityType)
+        {
+            return null;
+        }
+
+        public IEnumerable<DbEntityValidationResult> GetValidationErrors()
+        {
+            return null;
+        }
+
+        public DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+        {
+            return null;
+        }
+
+        public DbEntityEntry Entry(object entity)
+        {
+            return null;
         }
     }
 }

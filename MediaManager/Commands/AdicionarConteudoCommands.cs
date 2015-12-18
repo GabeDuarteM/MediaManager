@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -37,6 +39,8 @@ namespace MediaManager.Commands
 
         public class CommandConfigurarConteudo : ICommand
         {
+            private object db;
+
             public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
 
             public bool CanExecute(object parameter)
@@ -55,15 +59,16 @@ namespace MediaManager.Commands
                 if (frmConfigConteudo.DialogResult == true && AdicionarConteudoVM.oVideoSelecionado.nCdVideo > 0)
                 {
                     //AdicionarConteudoVM.lstResultPesquisa.First(x => x.nCdApi == AdicionarConteudoVM.oVideoSelecionado.nCdApi).lstSerieAlias = frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias;
-                    DBHelper db = new DBHelper();
-                    var lstSerieAliasOriginal = db.GetSerieAliases(AdicionarConteudoVM.oVideoSelecionado);
+                    SerieAliasService serieAliasService = App.Container.Resolve<SerieAliasService>();
+
+                    var lstSerieAliasOriginal = serieAliasService.GetLista(AdicionarConteudoVM.oVideoSelecionado);
 
                     foreach (var item in AdicionarConteudoVM.oVideoSelecionado.lstSerieAlias.Where(x => x.nCdAlias == 0))
                     {
-                        db.AddSerieAlias(item);
+                        serieAliasService.Adicionar(item);
                     }
 
-                    db.RemoveSerieAlias(lstSerieAliasOriginal.Where(x => !AdicionarConteudoVM.oVideoSelecionado.lstSerieAlias.Contains(x)).ToList());
+                    serieAliasService.Remover(lstSerieAliasOriginal.Where(x => !AdicionarConteudoVM.oVideoSelecionado.lstSerieAlias.Contains(x)).ToArray());
                 }
                 //foreach (var item in AdicionarConteudoVM.lstResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
                 //{
@@ -105,7 +110,7 @@ namespace MediaManager.Commands
                 }
                 else
                 {
-                    DBHelper db = new DBHelper();
+                    SeriesService serieService = App.Container.Resolve<SeriesService>();
                     switch (adicionarConteudoVM.nIdTipoConteudo)
                     {
                         case Enums.TipoConteudo.Filme:
@@ -115,7 +120,6 @@ namespace MediaManager.Commands
                         case Enums.TipoConteudo.Anime:
                             {
                                 Serie serie = null;
-                                DBHelper DBHelper = new DBHelper();
 
                                 serie = (Serie)adicionarConteudoVM.oVideoSelecionado;
 
@@ -125,7 +129,7 @@ namespace MediaManager.Commands
                                 {
                                     try
                                     {
-                                        await db.UpdateSerieAsync(serie);
+                                        await serieService.UpdateAsync(serie);
                                     }
                                     catch (Exception ex)
                                     {
@@ -137,7 +141,7 @@ namespace MediaManager.Commands
                                 {
                                     try
                                     {
-                                        await db.AddSerieAsync(serie);
+                                        await serieService.AdicionarAsync(serie);
                                     }
                                     catch (Exception ex)
                                     {
@@ -151,19 +155,13 @@ namespace MediaManager.Commands
                         case Enums.TipoConteudo.AnimeFilmeSérie:
                             {
                                 Serie anime = null;
-                                DBHelper DBHelper = new DBHelper();
 
                                 if (adicionarConteudoVM.oVideoSelecionado is Serie)
                                     anime = (Serie)adicionarConteudoVM.oVideoSelecionado;
-                                //else if (AdicionarConteudoViewModel.SelectedVideo is PosterGrid)
-                                //{
-                                //    anime = DBHelper.GetSeriePorID(AdicionarConteudoViewModel.SelectedVideo.IDBanco);
-                                //    anime.FolderPath = AdicionarConteudoViewModel.SelectedVideo.FolderPath;
-                                //}
 
                                 if (adicionarConteudoVM.oVideoSelecionado.nCdVideo > 0)
                                 {
-                                    try { await DBHelper.UpdateSerieAsync(anime); }
+                                    try { await serieService.UpdateAsync(anime); }
                                     catch (Exception ex)
                                     {
                                         Helper.TratarException(ex, "Ocorreu um erro ao atualizar o conteúdo.");
@@ -172,7 +170,7 @@ namespace MediaManager.Commands
                                 }
                                 else
                                 {
-                                    try { await DBHelper.AddSerieAsync(anime); }
+                                    try { await serieService.AdicionarAsync(anime); }
                                     catch (Exception ex)
                                     {
                                         Helper.TratarException(ex, "Ocorreu um erro ao incluir o conteúdo.");

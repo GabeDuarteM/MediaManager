@@ -14,7 +14,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class ConfigurarConteudoViewModel : ModelBase
+    public class ConfigurarConteudoViewModel : ViewModelBase
     {
         private string _sDsAlias;
 

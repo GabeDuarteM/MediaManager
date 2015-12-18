@@ -11,7 +11,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class PreferenciasViewModel : ModelBase
+    public class PreferenciasViewModel : ViewModelBase
     {
         private ListaFeedsViewModel _oFeedsViewModel;
 

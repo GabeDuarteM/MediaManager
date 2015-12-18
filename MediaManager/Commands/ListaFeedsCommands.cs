@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -48,7 +50,8 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
-                DBHelper DBHelper = new DBHelper();
+
+                FeedsService feedsService = App.Container.Resolve<FeedsService>();
 
                 var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
 
@@ -60,7 +63,7 @@ namespace MediaManager.Commands
                     {
                         item.nNrPrioridade--;
                         oFeedAcima.nNrPrioridade++;
-                        if (!DBHelper.UpdateFeed(item, oFeedAcima))
+                        if (!feedsService.Update(item, oFeedAcima))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
@@ -81,8 +84,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
-                DBHelper DBHelper = new DBHelper();
-
+                FeedsService feedsService = App.Container.Resolve<FeedsService>();
                 var lstFeedsSelecionados = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
 
                 foreach (var item in lstFeedsSelecionados)
@@ -93,7 +95,7 @@ namespace MediaManager.Commands
                     {
                         item.nNrPrioridade++;
                         oFeedAbaixo.nNrPrioridade--;
-                        if (!DBHelper.UpdateFeed(item, oFeedAbaixo))
+                        if (!feedsService.Update(item, oFeedAbaixo))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed, Enums.eTipoMensagem.Erro);
                         }
@@ -117,9 +119,9 @@ namespace MediaManager.Commands
 
                 if (Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?", Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
                 {
-                    DBHelper db = new DBHelper();
+                    FeedsService feedsService = App.Container.Resolve<FeedsService>();
 
-                    db.RemoveFeed(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado));
+                    feedsService.Remover(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado).ToArray());
                     oListaFeedsVM.AtualizarListaFeeds();
                 }
             }

@@ -7,13 +7,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Forms;
+using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.Properties;
+using MediaManager.Services;
 
 namespace MediaManager.ViewModel
 {
-    public class MainViewModel : ModelBase
+    public class MainViewModel : ViewModelBase
     {
         private ObservableCollection<PosterViewModel> _lstAnimes;
         public ObservableCollection<PosterViewModel> lstAnimes { get { return _lstAnimes; } set { _lstAnimes = value; OnPropertyChanged(); } }
@@ -169,10 +171,11 @@ namespace MediaManager.ViewModel
                     }
                 case Enums.TipoConteudo.Série:
                     {
-                        lstSeries = new ObservableCollection<PosterViewModel>();
-                        DBHelper DBHelper = new DBHelper();
+                        SeriesService seriesService = App.Container.Resolve<SeriesService>();
 
-                        var lstSeriesDB = DBHelper.GetSeriesComForeignKeys();
+                        lstSeries = new ObservableCollection<PosterViewModel>();
+
+                        var lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
 
                         foreach (var item in lstSeriesDB)
                         {
@@ -188,10 +191,10 @@ namespace MediaManager.ViewModel
                     }
                 case Enums.TipoConteudo.Anime:
                     {
+                        SeriesService seriesService = App.Container.Resolve<SeriesService>();
                         lstAnimes = new ObservableCollection<PosterViewModel>();
-                        DBHelper DBHelper = new DBHelper();
 
-                        var lstAnimesDB = DBHelper.GetAnimesComForeignKeys();
+                        var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
 
                         foreach (var item in lstAnimesDB)
                         {
@@ -207,14 +210,14 @@ namespace MediaManager.ViewModel
                     }
                 case Enums.TipoConteudo.AnimeFilmeSérie:
                     {
+                        SeriesService seriesService = App.Container.Resolve<SeriesService>();
+
                         lstSeries = new ObservableCollection<PosterViewModel>();
                         lstAnimes = new ObservableCollection<PosterViewModel>();
                         //Filmes = new ObservableCollection<PosterViewModel>();
 
-                        DBHelper DBHelper = new DBHelper();
-
-                        var lstSeriesDB = DBHelper.GetSeriesComForeignKeys();
-                        var lstAnimesDB = DBHelper.GetAnimesComForeignKeys();
+                        var lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
+                        var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
                         //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
                         foreach (var item in lstSeriesDB)
@@ -248,8 +251,6 @@ namespace MediaManager.ViewModel
 
                         break;
                     }
-                case Enums.TipoConteudo.Selecione:
-                    throw new InvalidEnumArgumentException();
                 default:
                     throw new InvalidEnumArgumentException();
             }
@@ -288,24 +289,31 @@ namespace MediaManager.ViewModel
 
         private void ProcurarEpisodiosParaBaixar()
         {
-            DBHelper db = new DBHelper();
-
-            var lstFeeds = db.GetFeeds().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade);
-
-            foreach (var item in lstFeeds)
+            try
             {
-                var rss = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
+                FeedsService feedsService = App.Container.Resolve<FeedsService>();
 
-                foreach (var itemRss in rss.Channel.Items)
+                var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade);
+
+                foreach (var item in lstFeeds)
                 {
-                    Episodio episodio = new Episodio();
-                    episodio.sDsFilepath = itemRss.Title;
+                    var rss = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
 
-                    if (episodio.IdentificarEpisodio() && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
+                    foreach (var itemRss in rss.Channel.Items)
                     {
-                        Helper.BaixarEpisodio(episodio, itemRss.Link);
+                        Episodio episodio = new Episodio();
+                        episodio.sDsFilepath = itemRss.Title;
+
+                        if (episodio.IdentificarEpisodio() && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
+                        {
+                            Helper.BaixarEpisodio(episodio, itemRss.Link);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Helper.TratarException(e, "Ocorreu um erro ao procurar os episódios para baixar.");
             }
         }
 
@@ -317,11 +325,11 @@ namespace MediaManager.ViewModel
         private void ProcurarNovosEpisodiosBaixados()
         {
             var series = lstAnimesESeries.ToList();
-            DBHelper db = new DBHelper();
+            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
             foreach (var serie in series)
             {
-                db.VerificaEpisodiosNoDiretorio(serie.oPoster);
+                episodiosService.VerificaEpisodiosNoDiretorio(serie.oPoster);
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
@@ -13,7 +15,7 @@ namespace MediaManager.Forms
         public frmEpisodios(Video serie)
         {
             InitializeComponent();
-            EpisodiosViewModel episodiosVM = new EpisodiosViewModel(new DBHelper().GetEpisodes(serie));
+            EpisodiosViewModel episodiosVM = new EpisodiosViewModel(App.Container.Resolve<EpisodiosService>().GetLista(serie));
             episodiosVM.ActionFechar = new System.Action(() => Close());
             DataContext = episodiosVM;
         }

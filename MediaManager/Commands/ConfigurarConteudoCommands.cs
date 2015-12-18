@@ -3,10 +3,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.Properties;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -63,7 +65,6 @@ namespace MediaManager.Commands
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
 
                 SerieAlias alias = new SerieAlias(ConfigurarConteudoVM.sDsAlias);
-                DBHelper DBHelper = new DBHelper();
 
                 alias.nNrTemporada = ConfigurarConteudoVM.nNrTemporada;
                 alias.nNrEpisodio = ConfigurarConteudoVM.nNrEpisodio;
@@ -158,9 +159,9 @@ namespace MediaManager.Commands
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                 if (MessageBox.Show("Você realmente deseja remover " + (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    DBHelper DBHelper = new DBHelper();
+                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
 
-                    DBHelper.RemoverSerieOuAnimePorID(ConfigurarConteudoVM.oVideo.nCdVideo);
+                    seriesService.Remover(ConfigurarConteudoVM.oVideo.nCdVideo);
                     ConfigurarConteudoVM.bFlAcaoRemover = true;
                     ConfigurarConteudoVM.ActionFechar();
                 }

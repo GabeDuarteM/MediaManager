@@ -17,7 +17,7 @@ using Ookii.Dialogs;
 
 namespace MediaManager.ViewModel
 {
-    public class AdicionarConteudoViewModel : ModelBase
+    public class AdicionarConteudoViewModel : ViewModelBase
     {
         private string sDsPastaEditar;
 

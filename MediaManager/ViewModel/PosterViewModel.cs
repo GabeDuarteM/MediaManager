@@ -11,7 +11,7 @@ using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
-    public class PosterViewModel : ModelBase
+    public class PosterViewModel : ViewModelBase
     {
         private Video _oPoster;
 

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
+using MediaManager.Services;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Commands
@@ -158,7 +160,7 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                 if (parameter is PreferenciasViewModel)
                 {
                     PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    DBHelper DBHelper = new DBHelper();
+                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
 
                     Properties.Settings.Default.pref_FormatoAnimes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaAnimes) ? preferenciasVM.sFormatoParaAnimes : "{Titulo} - {Absoluto} - {TituloEpisodio}";
                     Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaFilmes) ? preferenciasVM.sFormatoParaFilmes : "{Titulo} ({Ano})";
@@ -202,15 +204,15 @@ exec sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity''
                     {
                         if (alterados.Contains("animes"))
                         {
-                            DBHelper.AlterarPastaPadraoVideos(Enums.TipoConteudo.Anime, preferenciasVM.sPastaAnimes);
+                            seriesService.AlterarPastaPadraoVideos(Enums.TipoConteudo.Anime, preferenciasVM.sPastaAnimes);
                         }
                         if (alterados.Contains("filmes"))
                         {
-                            DBHelper.AlterarPastaPadraoVideos(Enums.TipoConteudo.Filme, preferenciasVM.sPastaFilmes);
+                            seriesService.AlterarPastaPadraoVideos(Enums.TipoConteudo.Filme, preferenciasVM.sPastaFilmes);
                         }
                         if (alterados.Contains("séries"))
                         {
-                            DBHelper.AlterarPastaPadraoVideos(Enums.TipoConteudo.Série, preferenciasVM.sPastaSeries);
+                            seriesService.AlterarPastaPadraoVideos(Enums.TipoConteudo.Série, preferenciasVM.sPastaSeries);
                         }
 
                         frmMain.MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);

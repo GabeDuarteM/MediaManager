@@ -13,7 +13,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Services;
 
 namespace MediaManager.Model
 {
@@ -236,7 +238,7 @@ namespace MediaManager.Model
         {
             Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
 
-            var FilenameTratado = Path.GetFileNameWithoutExtension(Helper.RetirarCaracteresInvalidos(sDsFilepath)).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+            var FilenameTratado = Helper.RetirarCaracteresInvalidos(Path.GetFileNameWithoutExtension(sDsFilepath)).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
 
             if (oSerie == null)
             {
@@ -330,19 +332,21 @@ namespace MediaManager.Model
 
         private bool SetarAtributosEpisodioIdentificado()
         {
-            DBHelper DBHelper = new DBHelper();
+            SerieAliasService serieAliasService = App.Container.Resolve<SerieAliasService>();
+            SeriesService seriesService = App.Container.Resolve<SeriesService>();
+            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
-            List<SerieAlias> lstAlias = DBHelper.GetAllAliases();
+            List<SerieAlias> lstAlias = serieAliasService.GetLista();
             SerieAlias alias = lstAlias.FirstOrDefault(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo);
 
             if (alias != null)
             {
-                oSerie = DBHelper.GetSeriePorID(alias.nCdVideo);
+                oSerie = seriesService.Get(alias.nCdVideo);
             }
 
             if (oSerie.nCdVideo == 0)
             {
-                var oSerieTemp = DBHelper.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
+                var oSerieTemp = seriesService.GetSerieOuAnimePorLevenshtein(oSerie.sDsTitulo);
 
                 if (oSerieTemp != null)
                 {
@@ -352,7 +356,7 @@ namespace MediaManager.Model
 
             if (oSerie.nCdVideo > 0)
             {
-                List<Episodio> lstEpisodios = DBHelper.GetEpisodes(oSerie);
+                List<Episodio> lstEpisodios = episodiosService.GetLista(oSerie);
 
                 if (alias != null)
                 {
