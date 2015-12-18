@@ -184,10 +184,6 @@
     </Compile>
     <Compile Include="Helpers\APIRequests.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Migrations\201512121039483_init.cs" />
-    <Compile Include="Migrations\201512121039483_init.Designer.cs">
-      <DependentUpon>201512121039483_init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Episodio.cs" />
@@ -318,9 +314,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201512121039483_init.resx">
-      <DependentUpon>201512121039483_init.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
