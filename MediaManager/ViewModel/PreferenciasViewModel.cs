@@ -136,7 +136,7 @@ namespace MediaManager.ViewModel
         {
             Episodio episodioVisualizacao = new Episodio()
             {
-                oSerie = new Serie() { sDsTitulo = "Exemplo de título" },
+                oSerie = new Serie() { sDsTitulo = "Exemplo de título", sFormatoRenomeioPersonalizado = sFormato },
                 sDsEpisodio = "Título do episódio",
                 nNrTemporada = 3,
                 lstIntEpisodios = new List<int>() { 5 },
@@ -150,11 +150,11 @@ namespace MediaManager.ViewModel
                     break;
 
                 case Enums.TipoConteudo.Série:
-                    sVisualizacaoFormatoParaSeries = Helper.RenomearConformePreferencias(episodioVisualizacao, sFormato);
+                    sVisualizacaoFormatoParaSeries = Helper.RenomearConformePreferencias(episodioVisualizacao);
                     break;
 
                 case Enums.TipoConteudo.Anime:
-                    sVisualizacaoFormatoParaAnimes = Helper.RenomearConformePreferencias(episodioVisualizacao, sFormato);
+                    sVisualizacaoFormatoParaAnimes = Helper.RenomearConformePreferencias(episodioVisualizacao);
                     break;
 
                 default:

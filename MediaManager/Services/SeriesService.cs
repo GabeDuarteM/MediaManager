@@ -132,13 +132,13 @@ namespace MediaManager.Services
 
                     if (original != null)
                     {
-                        _context.Entry(original).CurrentValues.SetValues(obj);
+                        _context.Entry(original).CurrentValues.SetValues(serie);
                         if (isDiferente)
                         {
                             _context.Episodio.RemoveRange(_context.Episodio.Where(x => x.nCdVideoAPI == serieOld.nCdApi));
                             _context.SerieAlias.RemoveRange(_context.SerieAlias.Where(x => x.nCdVideo == serie.nCdVideo));
-                            App.Container.Resolve<EpisodiosService>().Adicionar(obj);
-                            App.Container.Resolve<SerieAliasService>().Adicionar(obj);
+                            App.Container.Resolve<EpisodiosService>().Adicionar(serie);
+                            App.Container.Resolve<SerieAliasService>().Adicionar(serie);
                         }
                         _context.SaveChanges();
                     }

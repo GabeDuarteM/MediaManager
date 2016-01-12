@@ -304,9 +304,9 @@ namespace MediaManager.ViewModel
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
-                        if (episodio.IdentificarEpisodio() && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
+                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo /*&& episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado*/)
                         {
-                            Helper.BaixarEpisodio(episodio, itemRss.Link);
+                            episodio.BaixarEpisodio(itemRss.Link.ToString());
                         }
                     }
                 }

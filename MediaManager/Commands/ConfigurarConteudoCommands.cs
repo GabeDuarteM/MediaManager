@@ -140,6 +140,13 @@ namespace MediaManager.Commands
                 {
                     ConfigurarConteudoViewModel configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                     configurarConteudoVM.oVideo.lstSerieAlias = (ObservableCollection<SerieAlias>)configurarConteudoVM.lstTempSerieAliases;
+                    configurarConteudoVM.oVideo.sFormatoRenomeioPersonalizado = configurarConteudoVM.sFormatoRenomeioPersonalizado;
+
+                    if (configurarConteudoVM.oVideo is Serie)
+                    {
+                        (configurarConteudoVM.oVideo as Serie).bIsParado = configurarConteudoVM.bIsParado;
+                    }
+
                     configurarConteudoVM.ActionFechar();
                 }
             }

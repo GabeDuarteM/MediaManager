@@ -31,7 +31,7 @@ namespace MediaManager.Commands
             {
                 ProcurarConteudoViewModel ProcurarConteudoViewModel = parameter as ProcurarConteudoViewModel;
                 frmBarraProgresso frmBarraProgresso = new frmBarraProgresso();
-                frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = ProcurarConteudoViewModel.lstConteudos.Count;
+                frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado).Count();
                 frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Salvando...";
                 frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (s, ev) =>
                 {
@@ -49,23 +49,30 @@ namespace MediaManager.Commands
                                 case Enums.TipoConteudo.Série:
                                 case Enums.TipoConteudo.Anime:
                                     {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando \"" + item.sDsTitulo + "\" (" + (frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual + 1) + "/" + frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo + ")...";
+
                                         if (item.nIdEstado != Enums.Estado.Completo)
                                         {
-                                            frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.sDsTitulo + "...";
                                             Serie serie = APIRequests.GetSerieInfoAsync(item.nCdApi, Properties.Settings.Default.pref_IdiomaPesquisa).Result;
                                             serie.nIdTipoConteudo = item.nIdTipoConteudo;
                                             serie.sDsPasta = item.sDsPasta;
                                             serie.sAliases = item.sAliases;
                                             serie.lstSerieAlias = item.lstSerieAlias;
                                             serie.sDsTitulo = item.sDsTitulo;
+                                            serie.SetEstadoEpisodio();
                                             seriesService.Adicionar(serie);
-                                            frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
                                         }
                                         else
                                         {
-                                            frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando " + item.sDsTitulo + "...";
+                                            (item as Serie).SetEstadoEpisodio();
                                             seriesService.Adicionar((Serie)item);
-                                            frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+                                        }
+
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+
+                                        if (frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual == frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo)
+                                        {
+                                            frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Concluído.";
                                         }
                                         break;
                                     }

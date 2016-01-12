@@ -22,6 +22,10 @@ namespace MediaManager.ViewModel
 
         public string sNrTemporada { get { return nNrTemporada >= 0 ? "S" + _nNrTemporada.ToString("00") : "S"; } set { _nNrTemporada = ValidarPossivelTexto(value, _nNrTemporada); OnPropertyChanged("nNrTemporada"); } }
 
+        private string _sFormatoRenomeioPersonalizado;
+
+        public string sFormatoRenomeioPersonalizado { get { return _sFormatoRenomeioPersonalizado; } set { _sFormatoRenomeioPersonalizado = value; OnPropertyChanged(); } }
+
         private int _nNrTemporada;
 
         public int nNrTemporada { get { return _nNrTemporada; } set { _nNrTemporada = value; OnPropertyChanged(); OnPropertyChanged("sNrTemporada"); } }
@@ -33,6 +37,10 @@ namespace MediaManager.ViewModel
         public int nNrEpisodio { get { return _nNrEpisodio; } set { _nNrEpisodio = value; OnPropertyChanged(); OnPropertyChanged("sNrEpisodio"); } }
 
         public bool bFlAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
+
+        private bool _bIsParado;
+
+        public bool bIsParado { get { return _bIsParado; } set { _bIsParado = value; OnPropertyChanged(); } }
 
         private SerieAlias _oAliasSelecionado;
 
@@ -64,6 +72,13 @@ namespace MediaManager.ViewModel
             _nNrTemporada = 1;
             _nNrEpisodio = 1;
             this.oVideo.lstSerieAlias = Helper.PopularCampoSerieAlias(this.oVideo);
+
+            if (oVideo is Serie)
+            {
+                bIsParado = (oVideo as Serie).bIsParado;
+            }
+
+            sFormatoRenomeioPersonalizado = oVideo.sFormatoRenomeioPersonalizado;
 
             PopularListaTempSerieAlias();
 

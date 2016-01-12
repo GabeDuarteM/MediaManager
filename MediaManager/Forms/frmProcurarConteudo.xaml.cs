@@ -76,6 +76,7 @@ namespace MediaManager.Forms
                     Video video = frmAdicionarConteudo.AdicionarConteudoViewModel.oVideoSelecionado;
                     conteudo.Clone(video);
                     conteudo.bFlSelecionado = true;
+                    ProcurarConteudoViewModel.CommandSelecionar.Execute(ProcurarConteudoViewModel);
                     //if
                     //int i;
                     //for (i = 0; i < ProcurarConteudoViewModel.Conteudos.Count; i++)

@@ -67,7 +67,7 @@ namespace MediaManager.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (AdicionarConteudoViewModel.bFechar)
+            if (AdicionarConteudoViewModel != null && AdicionarConteudoViewModel.bFechar)
             {
                 AdicionarConteudoViewModel.ActionClose(false);
             }

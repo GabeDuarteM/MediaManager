@@ -4,10 +4,12 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:helper="clr-namespace:MediaManager.Helpers"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaManager.Forms.frmConfigConteudo"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" x:Class="MediaManager.Forms.frmConfigConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Configurar conteúdo - \{0\}}"
         Height="350.275"
-        Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData /SampleData/ConfigurarConteudoViewModelSampleData.xaml}">
+        Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -23,7 +25,11 @@
             <RowDefinition Height="29*" />
             <RowDefinition Height="6*" />
         </Grid.RowDefinitions>
-        <xctk:WatermarkTextBox Watermark="Formato de renomeio customizado...(Ainda não funfa :))" ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,0,0" Grid.Column="1" Grid.ColumnSpan="2" />
+        <xctk:WatermarkTextBox Text="{Binding sFormatoRenomeioPersonalizado}" Watermark="Formato de renomeio customizado..." ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,5,0" Grid.Column="1" />
+        <StackPanel Orientation="Horizontal" Margin="5,8,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2">
+            <CheckBox IsChecked="{Binding bIsParado}" VerticalAlignment="Center" />
+            <Label Content="Não procurar novos EP" VerticalAlignment="Center" />
+        </StackPanel>
         <GroupBox Header="Alias" Margin="1,36.96,0,-0.315" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid Margin="0,1.12,1,0.667">
                 <xctk:WatermarkTextBox Text="{Binding sDsAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..."

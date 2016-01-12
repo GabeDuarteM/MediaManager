@@ -28,7 +28,11 @@ namespace MediaManager.Migrations
             //  new Person { FullName = "Rowan Miller" }
             //);
             //
+            SeedPublic(context);
+        }
 
+        public static void SeedPublic(Context context)
+        {
             context.Feed.AddOrUpdate(x => x.nCdFeed,
             new Feed() { bIsFeedPesquisa = false, nCdFeed = 1, nIdTipoConteudo = Helpers.Enums.TipoConteudo.Série, nNrPrioridade = 1, sDsFeed = "Kickass Séries 720p", sDsTagPesquisa = null, sLkFeed = "http://kat.cr/usearch/720%20category%3Atv/?rss=1" },
             new Feed() { bIsFeedPesquisa = false, nCdFeed = 2, nIdTipoConteudo = Helpers.Enums.TipoConteudo.Série, nNrPrioridade = 2, sDsFeed = "Torrentz Séries 720p", sDsTagPesquisa = null, sLkFeed = "https://torrentz.eu/feed?q=tv+720" },

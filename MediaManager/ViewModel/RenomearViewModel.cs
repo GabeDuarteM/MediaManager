@@ -63,7 +63,8 @@ namespace MediaManager.ViewModel
                 {
                     Episodio episodio = new Episodio();
                     episodio.sDsFilepath = item.FullName;
-                    if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() && !episodio.bFlRenomeado) || (bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio()))
+                    if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() && !episodio.bFlRenomeado && episodio.nIdEstadoEpisodio != Enums.EstadoEpisodio.Arquivado)
+                        || (bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio()))
                     {
                         episodio.sDsFilepathOriginal = item.FullName;
                         episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);

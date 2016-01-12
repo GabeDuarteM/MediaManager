@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmAdicionarConteudo"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Adicionar conteúdo - \{0\}}"
-        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/AdicionarConteudoViewModelSampleData.xaml}" Loaded="Window_Loaded">
+        Height="507" Width="829" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>

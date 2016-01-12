@@ -252,6 +252,8 @@ namespace MediaManager.Model
                     var match = regexes.regex_S00E00.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
+
                     // Para quando se tem multi-episódios
                     string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
                     nNrTemporada = int.Parse(match.Groups["season"].Value);
@@ -278,6 +280,7 @@ namespace MediaManager.Model
                     var match = regexes.regex_0x00.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
 
                     // Para quando se tem multi-episódios
                     string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
@@ -305,6 +308,8 @@ namespace MediaManager.Model
                     var match = regexes.regex_Fansub0000.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+                    oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
+
                     // Para quando se tem multi-episódios
                     string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value) ? default(string[]) : new string[1] { match.Groups["separador"].Value };
                     lstIntEpisodiosAbsolutos = new List<int>();
@@ -337,7 +342,7 @@ namespace MediaManager.Model
             EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
             List<SerieAlias> lstAlias = serieAliasService.GetLista();
-            SerieAlias alias = lstAlias.FirstOrDefault(x => x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim() == oSerie.sDsTitulo);
+            SerieAlias alias = lstAlias.FirstOrDefault(x => Regex.Replace(x.sDsAlias.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim(), @"[^a-zA-Z0-9\s]", "") == oSerie.sDsTitulo);
 
             if (alias != null)
             {
@@ -366,7 +371,14 @@ namespace MediaManager.Model
                     if (nNrAbsoluto > 0)
                     {
                         primeiroEpisodioAbsolutoAlias = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == alias.nNrTemporada && x.nNrEpisodio == alias.nNrEpisodio);
-                        episodio = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == primeiroEpisodioAbsolutoAlias.nNrAbsoluto + nNrAbsoluto - 1);
+                        if (primeiroEpisodioAbsolutoAlias != null)
+                        {
+                            episodio = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == primeiroEpisodioAbsolutoAlias.nNrAbsoluto + nNrAbsoluto - 1);
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
@@ -392,13 +404,16 @@ namespace MediaManager.Model
                         {
                             episodio.lstIntEpisodiosAbsolutos[i] = (int)primeiroEpisodioAbsolutoAlias.nNrAbsoluto + episodio.lstIntEpisodiosAbsolutos[i] - 1;
                             episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == episodio.lstIntEpisodiosAbsolutos[i]);
-                            episodio.lstIntEpisodios.Add(episodioTemp.nNrEpisodio);
+                            if (episodioTemp != null)
+                            {
+                                episodio.lstIntEpisodios.Add(episodioTemp.nNrEpisodio);
+                            }
                         }
                         else
                         {
                             episodio.lstIntEpisodios[i] = alias.nNrEpisodio + lstIntEpisodios[i] - 1;
                             episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == episodio.lstIntEpisodios[i]); // TODO Testar pra ver se funfa
-                            if (episodioTemp.nNrAbsoluto != null)
+                            if (episodioTemp != null && episodioTemp.nNrAbsoluto != null)
                             {
                                 episodio.lstIntEpisodiosAbsolutos.Add((int)episodioTemp.nNrAbsoluto);
                             }
@@ -446,12 +461,15 @@ namespace MediaManager.Model
                         if (nNrAbsoluto > 0)
                         {
                             episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrAbsoluto == episodio.lstIntEpisodiosAbsolutos[i]);
-                            episodio.lstIntEpisodios.Add(episodioTemp.nNrEpisodio);
+                            if (episodioTemp != null)
+                            {
+                                episodio.lstIntEpisodios.Add(episodioTemp.nNrEpisodio);
+                            }
                         }
                         else
                         {
                             episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == nNrTemporada && x.nNrEpisodio == episodio.lstIntEpisodios[i]); // TODO Testar pra ver se funfa
-                            if (episodioTemp.nNrAbsoluto != null)
+                            if (episodioTemp != null && episodioTemp.nNrAbsoluto != null)
                             {
                                 episodio.lstIntEpisodiosAbsolutos.Add((int)episodioTemp.nNrAbsoluto);
                             }
@@ -470,6 +488,14 @@ namespace MediaManager.Model
             {
                 return false;
             }
+        }
+
+        public bool BaixarEpisodio(string link)
+        {
+            if (Regex.IsMatch(link, @"magnet:\?"))
+            {
+            }
+            return false;
         }
     }
 }

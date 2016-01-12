@@ -24,6 +24,8 @@ namespace MediaManager
 
             Container = builder.Build();
 
+            System.AppDomain.CurrentDomain.SetData("DataDirectory", System.AppDomain.CurrentDomain.BaseDirectory);
+
             base.OnStartup(e);
         }
     }

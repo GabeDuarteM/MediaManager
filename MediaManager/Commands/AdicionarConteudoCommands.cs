@@ -129,6 +129,7 @@ namespace MediaManager.Commands
                                 {
                                     try
                                     {
+                                        serie.SetEstadoEpisodio();
                                         await serieService.UpdateAsync(serie);
                                     }
                                     catch (Exception ex)
@@ -141,6 +142,7 @@ namespace MediaManager.Commands
                                 {
                                     try
                                     {
+                                        serie.SetEstadoEpisodio();
                                         await serieService.AdicionarAsync(serie);
                                     }
                                     catch (Exception ex)
@@ -161,7 +163,11 @@ namespace MediaManager.Commands
 
                                 if (adicionarConteudoVM.oVideoSelecionado.nCdVideo > 0)
                                 {
-                                    try { await serieService.UpdateAsync(anime); }
+                                    try
+                                    {
+                                        anime.SetEstadoEpisodio();
+                                        await serieService.UpdateAsync(anime);
+                                    }
                                     catch (Exception ex)
                                     {
                                         Helper.TratarException(ex, "Ocorreu um erro ao atualizar o conteúdo.");
@@ -170,7 +176,11 @@ namespace MediaManager.Commands
                                 }
                                 else
                                 {
-                                    try { await serieService.AdicionarAsync(anime); }
+                                    try
+                                    {
+                                        anime.SetEstadoEpisodio();
+                                        await serieService.AdicionarAsync(anime);
+                                    }
                                     catch (Exception ex)
                                     {
                                         Helper.TratarException(ex, "Ocorreu um erro ao incluir o conteúdo.");

@@ -150,6 +150,10 @@ namespace MediaManager.Model
         [XmlIgnore, NotMapped]
         public bool bFlNaoEncontrado { get { return _bFlNaoEncontrado; } set { _bFlNaoEncontrado = value; OnPropertyChanged(); if (value == true) { sDsTitulo = "Sem resultados..."; sDsSinopse = "Sem resultados..."; } } }
 
+        private string _sFormatoRenomeioPersonalizado;
+
+        public string sFormatoRenomeioPersonalizado { get { return _sFormatoRenomeioPersonalizado; } set { _sFormatoRenomeioPersonalizado = value; OnPropertyChanged(); } }
+
         public Video()
         {
             _sDsImgFanart = "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png";

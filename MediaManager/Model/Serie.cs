@@ -219,6 +219,10 @@ namespace MediaManager.Model
         [XmlIgnore, NotMapped]
         public bool bFlEditado { get { return _bFlEditado; } set { _bFlEditado = value; OnPropertyChanged(); } }
 
+        private bool _bIsParado;
+
+        public bool bIsParado { get { return _bIsParado; } set { _bIsParado = value; OnPropertyChanged(); } }
+
         public Serie()
         {
             _sDsImgPoster = "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png";
@@ -235,6 +239,20 @@ namespace MediaManager.Model
             sDsPasta = (nIdTipoConteudo == Enums.TipoConteudo.Anime) ?
                 Path.Combine(Settings.Default.pref_PastaAnimes, Helper.RetirarCaracteresInvalidos(sDsTitulo))
                 : Path.Combine(Settings.Default.pref_PastaSeries, Helper.RetirarCaracteresInvalidos(sDsTitulo));
+        }
+
+        public void SetEstadoEpisodio()
+        {
+            if (!bIsParado)
+            {
+                lstEpisodios.ForEach(x =>
+                {
+                    if (x.tDtEstreia > DateTime.Now && x.nIdEstadoEpisodio != Enums.EstadoEpisodio.Baixado)
+                    {
+                        x.nIdEstadoEpisodio = Enums.EstadoEpisodio.Desejado;
+                    }
+                });
+            }
         }
     }
 }

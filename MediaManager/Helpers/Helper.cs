@@ -134,9 +134,15 @@ namespace MediaManager.Helpers
             }
         }
 
-        public static string RenomearConformePreferencias(Episodio episodio, string formato = null)
+        public static string RenomearConformePreferencias(Episodio episodio)
         {
-            if (formato == null)
+            string formato = "";
+
+            if (!string.IsNullOrWhiteSpace(episodio.oSerie.sFormatoRenomeioPersonalizado))
+            {
+                formato = episodio.oSerie.sFormatoRenomeioPersonalizado;
+            }
+            else
             {
                 switch (episodio.nIdTipoConteudo)
                 {
