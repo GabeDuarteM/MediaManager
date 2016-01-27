@@ -15,8 +15,12 @@ namespace MediaManager.Forms
 
         public frmMain()
         {
-            //Teste();
-            //TESTCopiarEstruturaDePastas();
+#if DEBUG
+
+            Teste();
+            TESTCopiarEstruturaDePastas();
+
+#endif
 
             MainVM = new MainViewModel(owner: this);
 
@@ -35,29 +39,37 @@ namespace MediaManager.Forms
             MainVM.CriarTimerAtualizacaoConteudo();
         }
 
+#if DEBUG
+
         private void Teste() // TODO Apagar método.
         {
         }
 
-        //private void TESTCopiarEstruturaDePastas()
-        //{
-        //    var pastaOrigem = "D:\\Videos";
-        //    var pastaDestino = "D:\\Videos Dummy";
+#endif
 
-        //    DirectoryInfo a = new DirectoryInfo(pastaOrigem);
-        //    foreach (var item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
-        //    {
-        //        var pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
-        //        if (!Directory.Exists(pastaTemp))
-        //            Directory.CreateDirectory(pastaTemp);
-        //    }
-        //    foreach (var item in a.EnumerateFiles("*", SearchOption.AllDirectories))
-        //    {
-        //        var arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
-        //        if (!File.Exists(arquivoTemp))
-        //            File.Create(arquivoTemp);
-        //    }
-        //}
+#if DEBUG
+
+        private void TESTCopiarEstruturaDePastas()
+        {
+            var pastaOrigem = "D:\\Videos";
+            var pastaDestino = "D:\\Videos Dummy";
+
+            DirectoryInfo a = new DirectoryInfo(pastaOrigem);
+            foreach (var item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
+            {
+                var pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
+                if (!Directory.Exists(pastaTemp))
+                    Directory.CreateDirectory(pastaTemp);
+            }
+            foreach (var item in a.EnumerateFiles("*", SearchOption.AllDirectories))
+            {
+                var arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
+                if (!File.Exists(arquivoTemp))
+                    File.Create(arquivoTemp);
+            }
+        }
+
+#endif
 
         #region [ MenuItems ]
 

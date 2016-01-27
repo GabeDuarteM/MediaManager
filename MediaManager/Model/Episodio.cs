@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml.Serialization;
 using Autofac;
 using MediaManager.Helpers;
@@ -143,7 +144,10 @@ namespace MediaManager.Model
         public DateTime? tDtEstreia
         {
             get { return _sDtEstreia != "" ? DateTime.Parse(_sDtEstreia) : default(DateTime?); }
-            set { _sDtEstreia = value.ToString(); }
+            set
+            {
+                _sDtEstreia = value.ToString();
+            }
         }
 
         [XmlIgnore, Key, Column(Order = 0)]
@@ -224,7 +228,7 @@ namespace MediaManager.Model
 
         public Episodio()
         {
-            nIdEstadoEpisodio = Enums.EstadoEpisodio.Ignorado;
+            nIdEstadoEpisodio = Enums.EstadoEpisodio.Novo;
             lstIntEpisodios = new List<int>();
             lstIntEpisodiosAbsolutos = new List<int>();
         }
@@ -490,10 +494,68 @@ namespace MediaManager.Model
             }
         }
 
-        public bool BaixarEpisodio(string link)
+        public bool EncaminharParaDownload(string link, string nomeEpisodio)
         {
-            if (Regex.IsMatch(link, @"magnet:\?"))
+            var path = Properties.Settings.Default.pref_PastaBlackhole;
+            if (!string.IsNullOrWhiteSpace(path))
             {
+                if (!nomeEpisodio.EndsWith(".torrent"))
+                {
+                    nomeEpisodio += ".torrent";
+                }
+
+                Regex rgxHash = new Regex(@"magnet:.*?btih:(.*?)(?:&|$)");
+                Regex rgxTitulo = new Regex(@"magnet:.*?[?:&]dn=(.*?)(?:&|$)");
+
+                string fileName = null;
+                string sLinkCache = null;
+
+                try
+                {
+                    if (rgxHash.IsMatch(link))
+                    {
+                        var hash = rgxHash.Match(link).Groups[1].Value.ToUpper();
+
+                        sLinkCache = @"http://torcache.net/torrent/" + hash + ".torrent";
+
+                        if (rgxTitulo.IsMatch(link))
+                        {
+                            var sTituloTorrent = rgxTitulo.Match(link).Groups[1].Value;
+                            fileName = HttpUtility.UrlDecode(sTituloTorrent);
+                            if (!fileName.EndsWith(".torrent"))
+                            {
+                                fileName += ".torrent";
+                            }
+                        }
+                    }
+
+                    using (Helper.MyWebClient wc = new Helper.MyWebClient())
+                    {
+                        var data = Helper.Retry(() => wc.DownloadData(sLinkCache ?? link), TimeSpan.FromSeconds(3), 5);
+
+                        // Try to extract the filename from the Content-Disposition header
+                        if (string.IsNullOrWhiteSpace(fileName) && !string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
+                        {
+                            fileName = wc.ResponseHeaders["Content-Disposition"].Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "");
+                        }
+
+                        var torrentPath = Path.Combine(path, fileName ?? nomeEpisodio);
+
+                        if (File.Exists(torrentPath))
+                        {
+                            File.Delete(torrentPath);
+                        }
+
+                        File.WriteAllBytes(torrentPath, data);
+
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Helper.TratarException(e, "Ocorreu um erro ao baixar o episódio do link \"" + link + "\"");
+                    return false;
+                }
             }
             return false;
         }

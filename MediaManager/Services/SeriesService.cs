@@ -172,11 +172,6 @@ namespace MediaManager.Services
             return true;
         }
 
-        /// <summary>
-        /// Não testado.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public bool Update(params Serie[] obj)
         {
             bool retorno = true;

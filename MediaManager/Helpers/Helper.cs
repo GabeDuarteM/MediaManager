@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -508,13 +509,59 @@ namespace MediaManager.Helpers
         public class RegexEpisodio
         {
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
-            public Regex regex_S00E00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
+            public Regex regex_S00E00 { get; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/8
-            public Regex regex_Fansub0000 { get; set; } = new Regex(@"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)");
+            public Regex regex_Fansub0000 { get; } = new Regex(@"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)");
 
             // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/4
-            public Regex regex_0x00 { get; set; } = new Regex(@"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
+            public Regex regex_0x00 { get; } = new Regex(@"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
+        }
+
+        /// <summary>
+        /// Tenta executar novamente o método caso haja algum exception.
+        /// </summary>
+        /// <param name="action">Método</param>
+        /// <param name="retryInterval">Intervalo de execução entre os métodos</param>
+        /// <param name="retryCount">Número de tentativas de execução do método</param>
+        public static void Retry(Action action, TimeSpan retryInterval, int retryCount = 3)
+        {
+            Retry<object>(() =>
+            {
+                action();
+                return null;
+            }, retryInterval, retryCount);
+        }
+
+        public static T Retry<T>(Func<T> action, TimeSpan retryInterval, int retryCount = 3)
+        {
+            var exceptions = new List<Exception>();
+
+            for (int retry = 0; retry < retryCount; retry++)
+            {
+                try
+                {
+                    if (retry > 0)
+                        System.Threading.Thread.Sleep(retryInterval); // TODO adicionar o Using pro thread
+                    return action();
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
+            }
+
+            throw new AggregateException(exceptions);
+        }
+
+        public class MyWebClient : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                HttpWebRequest request = base.GetWebRequest(address) as HttpWebRequest;
+                request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                return request;
+            }
         }
 
         #region [ APIs trakt ]
@@ -564,218 +611,6 @@ namespace MediaManager.Helpers
             }
             return JsonConvert.DeserializeObject<UserInfo>(responseData);
         }
-
-        #region [ OLD API Methods ]
-
-        //public static List<Search> API_PesquisarConteudo(string query, string type)
-        //{
-        //    var request = WebRequest.Create(settings.APIBaseUrl + "/search?query=" + query + "&type=" + type) as System.Net.HttpWebRequest;
-        //    request.KeepAlive = true;
-
-        //    request.Method = "GET";
-
-        //    request.Headers.Add("trakt-api-version", "2");
-
-        //    request.Headers.Add("trakt-api-key", "");
-
-        //    request.ContentType = "application/json";
-
-        //    string responseContent = null;
-
-        //    using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //    {
-        //        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //        {
-        //            responseContent = reader.ReadToEnd();
-        //            var searchResults = JsonConvert.DeserializeObject<List<Search>>(responseContent);
-        //            return searchResults;
-        //        }
-        //    }
-        //}
-
-        //public static Serie API_GetSerieInfo(string slugTrakt)
-        //{
-        //    var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + slugTrakt + "?extended=full,images") as System.Net.HttpWebRequest;
-        //    request.KeepAlive = true;
-
-        //    request.Method = "GET";
-
-        //    request.ContentType = "application/json";
-
-        //    request.Headers.Add("trakt-api-version", "2");
-
-        //    request.Headers.Add("trakt-api-key", "");
-
-        //    string responseContent = null;
-
-        //    using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //    {
-        //        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //        {
-        //            responseContent = reader.ReadToEnd();
-        //            var searchResults = JsonConvert.DeserializeObject<Serie>(responseContent);
-        //            return searchResults;
-        //        }
-        //    }
-        //}
-
-        //public static Serie API_GetSerieSinopse(string slugTrakt)
-        //{
-        //    try
-        //    {
-        //        var request = WebRequest.Create(settings.APIBaseUrl + "/shows/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;
-        //        request.KeepAlive = true;
-
-        //        request.Method = "GET";
-
-        //        request.ContentType = "application/json";
-
-        //        request.Headers.Add("trakt-api-version", "2");
-
-        //        request.Headers.Add("trakt-api-key", "");
-
-        //        string responseContent = null;
-
-        //        using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //        {
-        //            using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //            {
-        //                responseContent = reader.ReadToEnd();
-        //                var searchResults = JsonConvert.DeserializeObject<List<Serie>>(responseContent);
-        //                return searchResults[0];
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public static Filme API_GetFilmeInfo(string slugTrakt)
-        //{
-        //    var request = WebRequest.Create(settings.APIBaseUrl + "/movies/" + slugTrakt + "?extended=full,images") as System.Net.HttpWebRequest;
-        //    request.KeepAlive = true;
-
-        //    request.Method = "GET";
-
-        //    request.ContentType = "application/json";
-
-        //    request.Headers.Add("trakt-api-version", "2");
-
-        //    request.Headers.Add("trakt-api-key", "");
-
-        //    string responseContent = null;
-
-        //    using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //    {
-        //        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //        {
-        //            responseContent = reader.ReadToEnd();
-        //            var searchResults = JsonConvert.DeserializeObject<Filme>(responseContent);
-        //            return searchResults;
-        //        }
-        //    }
-        //}
-
-        //public static Filme API_GetFilmeSinopse(string slugTrakt)
-        //{
-        //    try
-        //    {
-        //        var request = WebRequest.Create(settings.APIBaseUrl + "/movies/" + slugTrakt + "/translations/pt") as System.Net.HttpWebRequest;
-        //        request.KeepAlive = true;
-
-        //        request.Method = "GET";
-
-        //        request.ContentType = "application/json";
-
-        //        request.Headers.Add("trakt-api-version", "2");
-
-        //        request.Headers.Add("trakt-api-key", "");
-
-        //        string responseContent = null;
-
-        //        using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //        {
-        //            using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //            {
-        //                responseContent = reader.ReadToEnd();
-        //                var searchResults = JsonConvert.DeserializeObject<List<Filme>>(responseContent);
-        //                return searchResults[0];
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public static UserAuth API_GetAccessToken(string code)
-        //{
-        //    var request = WebRequest.Create(settings.APIBaseUrl + "/oauth/token") as System.Net.HttpWebRequest;
-        //    request.ContentType = "application/json";
-        //    request.Method = "POST";
-        //    request.KeepAlive = true;
-
-        //    string responseContent = null;
-        //    UserAuth auth = null;
-
-        //    var streamWriter = new StreamWriter(request.GetRequestStream());
-
-        //    var json = "{\"code\": \"" + code + "\", \"client_id\": \"" + settings.ClientID + "\", \"client_secret\": \"" + settings.ClientSecret + "\", \"redirect_uri\": \"" + settings.CallbackUrl + "\", \"grant_type\": \"authorization_code\"}";
-
-        //    streamWriter.Write(json);
-        //    streamWriter.Flush();
-        //    streamWriter.Close();
-
-        //    using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //    {
-        //        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //        {
-        //            responseContent = reader.ReadToEnd();
-        //            auth = JsonConvert.DeserializeObject<UserAuth>(responseContent);
-        //        }
-        //    }
-
-        //    return auth;
-        //}
-
-        ///// <summary>
-        ///// Pega as configurações da conta no trakt.tv.
-        ///// </summary>
-        ///// <returns>Objeto com todas as configurações</returns>
-        //public static UserInfo API_GetUserSettings()
-        //{
-        //    var request = WebRequest.Create(settings.APIBaseUrl + "/users/settings") as System.Net.HttpWebRequest;
-        //    request.KeepAlive = true;
-
-        //    request.Method = "GET";
-
-        //    request.ContentType = "application/json";
-
-        //    request.Headers.Add("authorization", "Bearer " + settings.user_accessToken);
-
-        //    request.Headers.Add("trakt-api-version", "2");
-
-        //    request.Headers.Add("trakt-api-key", settings.ClientID);
-
-        //    string responseContent = null;
-
-        //    UserInfo user = null;
-
-        //    using (var response = request.GetResponse() as System.Net.HttpWebResponse)
-        //    {
-        //        using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-        //        {
-        //            responseContent = reader.ReadToEnd();
-        //            user = JsonConvert.DeserializeObject<UserInfo>(responseContent);
-        //        }
-        //    }
-        //    return user;
-        //}
-
-        #endregion [ OLD API Methods ]
 
         #endregion [ APIs trakt ]
     }

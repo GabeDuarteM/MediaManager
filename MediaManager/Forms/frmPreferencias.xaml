@@ -8,7 +8,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmPreferencias"
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Preferências - \{0\}}"
-        Height="383" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Height="433" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -25,30 +25,58 @@
                         <ColumnDefinition Width="10*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="5" />
-                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="30" />
                         <RowDefinition Height="5" />
-                        <RowDefinition Height="22*" />
+                        <RowDefinition Height="30" />
                         <RowDefinition Height="10" />
                     </Grid.RowDefinitions>
                     <GroupBox Header="Pastas" Margin="-2,10,10,0" Grid.Column="1" Grid.ColumnSpan="5" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                         <Grid>
-                            <Label Content="Séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" />
-                            <Label Content="Filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,10,10" />
-                            <Label Content="Animes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,72,10,10" />
-                            <Label Content="Downloads:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,103,10,10" />
-                            <xctk:WatermarkTextBox Text="{Binding sPastaSeries}" Watermark="Selecione a pasta onde estão armazenadas as séries..." HorizontalAlignment="Left" Height="23" Margin="87,14,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
-                            <xctk:WatermarkTextBox Text="{Binding sPastaFilmes}" Watermark="Selecione a pasta onde estão armazenados os filmes..." HorizontalAlignment="Left" Height="23" Margin="87,45,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
-                            <xctk:WatermarkTextBox Text="{Binding sPastaAnimes}" Watermark="Selecione a pasta onde estão armazenados os animes..." HorizontalAlignment="Left" Height="23" Margin="87,76,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
-                            <xctk:WatermarkTextBox Text="{Binding sPastaDownloads}" Watermark="Selecione a pasta onde estão armazenados os downloads..." HorizontalAlignment="Left" Height="23" Margin="87,107,10,10" TextWrapping="NoWrap" VerticalAlignment="Top" Width="422" />
-                            <Button Content="..." ToolTip="Selecionar..." Margin="508,14,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaSeries}" CommandParameter="{Binding}" />
-                            <Button Content="..." ToolTip="Selecionar..." Margin="508,45,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaFilmes}" CommandParameter="{Binding}" />
-                            <Button Content="..." ToolTip="Selecionar..." Margin="508,76,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" />
-                            <Button Content="..." ToolTip="Selecionar..." Margin="508,107,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" />
-                            <Label Content="Procurar por novos conteúdos a cada" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,134,10,0" />
-                            <xctk:IntegerUpDown Text="{Binding nIntervaloDeProcuraConteudoNovo}" Margin="10,137,270,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Minimum="10" Maximum="99999" RenderTransformOrigin="0.5,0.5" />
-                            <Label Content="minutos. (min. 10)" HorizontalAlignment="Right" VerticalAlignment="Top" Height="26" Margin="10,134,165,0" />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="5" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="5" />
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Séries:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" />
+                            <xctk:WatermarkTextBox VerticalAlignment="Center" Text="{Binding sPastaSeries}" Watermark="Selecione a pasta onde estão armazenadas as séries..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="1" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaSeries}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="1" />
+
+                            <Label Content="Filmes:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" />
+                            <xctk:WatermarkTextBox VerticalAlignment="Center" Text="{Binding sPastaFilmes}" Watermark="Selecione a pasta onde estão armazenados os filmes..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaFilmes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="2" />
+
+                            <Label Content="Animes:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
+                            <xctk:WatermarkTextBox VerticalAlignment="Center" Text="{Binding sPastaAnimes}" Watermark="Selecione a pasta onde estão armazenados os animes..." Height="23" TextWrapping="NoWrap"  Grid.Row="3" Grid.Column="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="3" Grid.Column="3" />
+
+                            <Label Content="Downloads:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                            <xctk:WatermarkTextBox VerticalAlignment="Center" Text="{Binding sPastaDownloads}" Watermark="Selecione a pasta onde estão armazenados os downloads..." Height="23" TextWrapping="NoWrap" Grid.Row="4" Grid.Column="2" />
+                            <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="4" Grid.Column="3" />
+
+                            <Label Content="Torrent blackhole:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
+                            <xctk:WatermarkTextBox VerticalAlignment="Center" Text="{Binding sPastaBlackhole}" Watermark="Selecione a pasta onde serão armazenados os arquivos '.torrent'..." Height="23" TextWrapping="NoWrap" Grid.Row="5" Grid.Column="2" />
+                            <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaBlackhole}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="5" Grid.Column="3" />
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
+                                <Label Content="Procurar por novos conteúdos a cada " VerticalAlignment="Center" />
+                                <xctk:IntegerUpDown Text="{Binding nIntervaloDeProcuraConteudoNovo}" VerticalAlignment="Center" Width="67" Minimum="10" Maximum="99999" />
+                                <Label Content="minutos." VerticalAlignment="Center" Height="26" />
+                            </StackPanel>
                         </Grid>
                     </GroupBox>
                     <Label Content="Idioma de pesquisa:" Grid.Column="1" Grid.Row="2" />

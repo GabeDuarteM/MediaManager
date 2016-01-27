@@ -268,5 +268,17 @@ namespace MediaManager.Properties {
                 this["pref_MetodoDeProcessamento"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pref_PastaBlackhole {
+            get {
+                return ((string)(this["pref_PastaBlackhole"]));
+            }
+            set {
+                this["pref_PastaBlackhole"] = value;
+            }
+        }
     }
 }

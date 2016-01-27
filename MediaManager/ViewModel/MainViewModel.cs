@@ -277,7 +277,7 @@ namespace MediaManager.ViewModel
             {
                 ProcurarNovosEpisodiosBaixados();
 
-                //AlterarStatusEpisodios();
+                AlterarStatusEpisodios();
 
                 ProcurarEpisodiosParaBaixar();
 
@@ -292,8 +292,9 @@ namespace MediaManager.ViewModel
             try
             {
                 FeedsService feedsService = App.Container.Resolve<FeedsService>();
+                EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
-                var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade);
+                var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade).ToList();
 
                 foreach (var item in lstFeeds)
                 {
@@ -304,9 +305,13 @@ namespace MediaManager.ViewModel
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
-                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo /*&& episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado*/)
+                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo /* HACK && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado*/)
                         {
-                            episodio.BaixarEpisodio(itemRss.Link.ToString());
+                            if (episodio.EncaminharParaDownload(itemRss.Link.ToString(), episodio.oSerie.sDsTitulo + " " + episodio.nNrTemporada + "x" + episodio.nNrEpisodio))
+                            {
+                                episodio.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixando;
+                                episodiosService.UpdateEstadoEpisodio(episodio);
+                            }
                         }
                     }
                 }
@@ -319,7 +324,37 @@ namespace MediaManager.ViewModel
 
         private void AlterarStatusEpisodios()
         {
-            throw new NotImplementedException();
+            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
+            SeriesService seriesService = App.Container.Resolve<SeriesService>();
+
+            var lstEpisodios = episodiosService.GetLista();
+            var lstEpisodiosDesejar = lstEpisodios.Where(x => x.tDtEstreia > DateTime.Now && x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Novo).ToList();
+            var lstEpisodiosBaixados = lstEpisodios.Where(x => x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Baixado).ToList();
+            var lstAlterados = new List<Episodio>();
+
+            if (lstEpisodiosBaixados.Count > 0 || lstEpisodiosDesejar.Count > 0)
+            {
+                foreach (var item in lstEpisodiosDesejar)
+                {
+                    var serie = seriesService.Get(item.nCdVideo);
+                    if (!serie.bIsParado)
+                    {
+                        item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Desejado;
+                        lstAlterados.Add(item);
+                    }
+                }
+
+                foreach (var item in lstEpisodiosBaixados)
+                {
+                    if (!File.Exists(item.sDsFilepath))
+                    {
+                        item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Arquivado;
+                        lstAlterados.Add(item);
+                    }
+                }
+
+                episodiosService.UpdateEstadoEpisodio(lstAlterados.ToArray());
+            }
         }
 
         private void ProcurarNovosEpisodiosBaixados()

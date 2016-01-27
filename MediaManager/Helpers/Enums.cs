@@ -52,7 +52,8 @@ namespace MediaManager.Helpers
             Baixado = 2,
             Baixando = 3,
             Desejado = 4,
-            Ignorado = 5
+            Ignorado = 5,
+            Novo = 6
         }
 
         public enum eTipoMensagem

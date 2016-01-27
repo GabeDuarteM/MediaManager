@@ -85,7 +85,7 @@ namespace MediaManager.Commands
                             item.nIdEstadoEpisodio = episodiosVM.nIdEstadoEpisodioSelecionado;
                         }
 
-                        episodiosService.Update(lstEpisodiosModificados.ToArray());
+                        episodiosService.UpdateEstadoEpisodio(lstEpisodiosModificados.ToArray());
                     }
                 }
             }

@@ -245,11 +245,24 @@ namespace MediaManager.Model
         {
             if (!bIsParado)
             {
+                //var oUltimoEpBaixado = lstEpisodios.LastOrDefault(x => x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Baixado);
+
+                //if (oUltimoEpBaixado != null)
+                //{
+                //    lstEpisodios
+                //        .Where(x => x.nNrTemporada >= oUltimoEpBaixado.nNrTemporada && x.nNrEpisodio > oUltimoEpBaixado.nNrEpisodio).ToList()
+                //        .ForEach(x => x.nIdEstadoEpisodio = Enums.EstadoEpisodio.Desejado);
+                //}
+
                 lstEpisodios.ForEach(x =>
                 {
-                    if (x.tDtEstreia > DateTime.Now && x.nIdEstadoEpisodio != Enums.EstadoEpisodio.Baixado)
+                    if (x.tDtEstreia > DateTime.Now)
                     {
                         x.nIdEstadoEpisodio = Enums.EstadoEpisodio.Desejado;
+                    }
+                    else if (x.tDtEstreia != null)
+                    {
+                        x.nIdEstadoEpisodio = Enums.EstadoEpisodio.Ignorado;
                     }
                 });
             }

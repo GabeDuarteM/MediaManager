@@ -1,17 +1,22 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace MediaManager.Model
 {
     public class Context : DbContext, IContext
     {
-        public Context() : base("DB_MediaManager")
+        public Context() : base(GetConnectionStringName())
         {
-            //if (!System.IO.File.Exists(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "DB_MediaManager.mdf")))
-            //{
-            //    Database.Delete();
-            //    Database.Create();
-            //    Migrations.Configuration.SeedPublic(this);
-            //}
+        }
+
+        private static string GetConnectionStringName()
+        {
+#if DEBUG
+            return "DB_MediaManager_Debug";
+#else
+            return "DB_MediaManager";
+#endif
         }
 
         public virtual DbSet<Episodio> Episodio { get; set; }

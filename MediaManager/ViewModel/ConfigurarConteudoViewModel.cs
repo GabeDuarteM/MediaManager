@@ -40,7 +40,7 @@ namespace MediaManager.ViewModel
 
         private bool _bIsParado;
 
-        public bool bIsParado { get { return _bIsParado; } set { _bIsParado = value; OnPropertyChanged(); } }
+        public bool bIsParado { get { return _bIsParado; } set { _bIsParado = value; OnPropertyChanged(); } } // TODO Adicionar comando também na label, não só no check
 
         private SerieAlias _oAliasSelecionado;
 

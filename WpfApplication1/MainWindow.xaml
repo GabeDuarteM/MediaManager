@@ -7,10 +7,10 @@
         xmlns:controls="clr-namespace:WpfApplication1;assembly=WpfApplication1"
         xmlns:ViewModels="clr-namespace:WpfApplication1.ViewModels" x:Class="WpfApplication1.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300" WindowStartupLocation="CenterScreen">
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-        <Label Content="Nome:" />
-        <ComboBox IsEditable="True" x:Name="tbxNome" Text="{Binding NewGreeting, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="150" />
-        <Button Command="{Binding UpdateCommand}" x:Name="btSalvar" Content="Salvar" HorizontalAlignment="Right" />
-    </StackPanel>
+        Title="MainWindow" Height="350" Width="200" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto">
+            <TextBlock Text="Very looooong text" FontSize="30" />
+        </ScrollViewer>
+    </Grid>
 </Window>

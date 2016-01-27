@@ -100,20 +100,10 @@ namespace MediaManager.Helpers
 
             List<Serie> lstSeriesAnimes = seriesService.GetSeriesEAnimes();
             List<Episodio> lstEpisodios = episodiosService.GetLista();
-            List<string> lstSeriesAnimesIDApi = new List<string>();
-            List<string> lstEpisodiosIDApi = new List<string>();
-            foreach (var item in lstSeriesAnimes)
-            {
-                lstSeriesAnimesIDApi.Add(item.nCdApi + "");
-            }
-            foreach (var item in lstEpisodios)
-            {
-                lstEpisodiosIDApi.Add(item.nCdEpisodioAPI + "");
-            }
 
             foreach (XmlNode item in nodesSeries)
             {
-                if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("id").InnerText))
+                if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("id").InnerText))
                 {
                     int nCdApi = 0;
                     int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
@@ -142,7 +132,7 @@ namespace MediaManager.Helpers
             {
                 int nCdApi = 0;
                 int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
-                if (lstEpisodiosIDApi.Contains(nCdApi + ""))
+                if (lstEpisodios.Select(x => x.nCdEpisodioAPI.ToString()).Contains(nCdApi + ""))
                 {
                     Episodio episodioDB = episodiosService.GetPorCodigoAPI(nCdApi);
 
@@ -153,7 +143,7 @@ namespace MediaManager.Helpers
                         episodiosService.Update(episodio);
                     }
                 }
-                else if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
+                else if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("Series").InnerText))
                 {
                     Episodio episodio = await GetEpisodeInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
                     episodiosService.Adicionar(episodio);
@@ -164,7 +154,7 @@ namespace MediaManager.Helpers
             {
                 if ((item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Fanart.ToString().ToLower() || item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Poster.ToString().ToLower()))
                 {
-                    if (lstSeriesAnimesIDApi.Contains(item.SelectSingleNode("Series").InnerText))
+                    if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("Series").InnerText))
                     {
                         var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
                         var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" + item.SelectSingleNode("path").InnerText;

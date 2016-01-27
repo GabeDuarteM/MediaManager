@@ -121,7 +121,28 @@ namespace MediaManager.Commands
                 {
                     FeedsService feedsService = App.Container.Resolve<FeedsService>();
 
+                    var lstTipoConteudoSelecionado = new List<Enums.TipoConteudo>();
+                    lstTipoConteudoSelecionado = oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado).Select(x => x.nIdTipoConteudo).Distinct().ToList();
+
                     feedsService.Remover(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado).ToArray());
+
+                    var lstFeeds = feedsService.GetLista().Where(x => lstTipoConteudoSelecionado.Contains(x.nIdTipoConteudo) && !x.bIsFeedPesquisa).ToList();
+
+                    // Arrumar a prioridade
+                    for (int i = 0; i < lstFeeds.Count - 1; i++)
+                    {
+                        if (i == 0 && lstFeeds[i].nNrPrioridade != 1)
+                        {
+                            lstFeeds[i].nNrPrioridade = 1;
+                        }
+
+                        if (lstFeeds[i].nNrPrioridade + 1 != lstFeeds[i + 1].nNrPrioridade)
+                        {
+                            lstFeeds[i + 1].nNrPrioridade = lstFeeds[i].nNrPrioridade + 1;
+                            feedsService.Update(lstFeeds[i + 1]);
+                        }
+                    }
+
                     oListaFeedsVM.AtualizarListaFeeds();
                 }
             }

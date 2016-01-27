@@ -45,6 +45,12 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandEscolherPastaDownloads { get; set; }
 
+        private string _sPastaBlackhole;
+
+        public string sPastaBlackhole { get { return _sPastaBlackhole; } set { _sPastaBlackhole = value; OnPropertyChanged(); } }
+
+        public ICommand CommandEscolherPastaBlackhole { get; set; }
+
         private int _nIntervaloDeProcuraConteudoNovo;
 
         public int nIntervaloDeProcuraConteudoNovo { get { return _nIntervaloDeProcuraConteudoNovo; } set { _nIntervaloDeProcuraConteudoNovo = value; OnPropertyChanged(); } }
@@ -117,13 +123,15 @@ namespace MediaManager.ViewModel
             nIdMetodoDeProcessamentoSelecionado = (Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento;
             nIntervaloDeProcuraConteudoNovo = Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo;
             sPastaAnimes = Properties.Settings.Default.pref_PastaAnimes;
-            sPastaDownloads = Properties.Settings.Default.pref_PastaDownloads;
             sPastaFilmes = Properties.Settings.Default.pref_PastaFilmes;
             sPastaSeries = Properties.Settings.Default.pref_PastaSeries;
+            sPastaDownloads = Properties.Settings.Default.pref_PastaDownloads;
+            sPastaBlackhole = Properties.Settings.Default.pref_PastaBlackhole;
             CommandEscolherPastaAnimes = new PreferenciasCommands.CommandEscolherPastaAnimes();
-            CommandEscolherPastaDownloads = new PreferenciasCommands.CommandEscolherPastaDownloads();
             CommandEscolherPastaFilmes = new PreferenciasCommands.CommandEscolherPastaFilmes();
             CommandEscolherPastaSeries = new PreferenciasCommands.CommandEscolherPastaSeries();
+            CommandEscolherPastaDownloads = new PreferenciasCommands.CommandEscolherPastaDownloads();
+            CommandEscolherPastaBlackhole = new PreferenciasCommands.CommandEscolherPastaBlackhole();
             CommandLimparBancoDeDados = new PreferenciasCommands.CommandLimparBancoDeDados();
             CommandSalvar = new PreferenciasCommands.CommandSalvar();
         }

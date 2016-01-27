@@ -310,5 +310,15 @@ namespace MediaManager.Services
             }
             return true;
         }
+
+        public void UpdateEstadoEpisodio(params Episodio[] atualizados)
+        {
+            foreach (var item in atualizados)
+            {
+                var original = _context.Episodio.Find(item.nCdEpisodio);
+                original.nIdEstadoEpisodio = item.nIdEstadoEpisodio;
+            }
+            _context.SaveChanges();
+        }
     }
 }
