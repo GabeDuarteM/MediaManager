@@ -280,5 +280,17 @@ namespace MediaManager.Properties {
                 this["pref_PastaBlackhole"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prefJsonPrioridadeQualidade {
+            get {
+                return ((string)(this["prefJsonPrioridadeQualidade"]));
+            }
+            set {
+                this["prefJsonPrioridadeQualidade"] = value;
+            }
+        }
     }
 }

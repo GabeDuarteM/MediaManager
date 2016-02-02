@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DummyClass.cs" />
     <Compile Include="Preparacoes\MockContext.cs" />
     <Compile Include="Preparacoes\Startup.cs" />
     <Compile Include="Testes\TestesReconhecimentoDaSerie.cs" />

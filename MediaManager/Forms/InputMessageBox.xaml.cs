@@ -53,7 +53,7 @@ namespace ConfigurableInputMessageBox
     /// Height = Altura da janela.
     /// Width = Largura da janela.
     /// InputText = Texto informado no input da janela.
-    /// Message = Mensagem informativa da janela (Exemplo: "Informe um valor..."). Esta mensagem é exibida como Watermark da caixa de texto.
+    /// Message = Mensagem informativa da janela (Exemplo: "Informe um valor..."). Esta mensagem é exibida como Placeholder da caixa de texto.
     /// ValidationMessage = Mensagem a ser exibida quando o input não está preenchido.
     ///
     /// </summary>

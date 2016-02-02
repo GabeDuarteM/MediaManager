@@ -74,5 +74,8 @@
     <Setting Name="pref_PastaBlackhole" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="prefJsonPrioridadeQualidade" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

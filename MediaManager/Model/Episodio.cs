@@ -226,6 +226,8 @@ namespace MediaManager.Model
 
         public string sDsFilenameRenomeado { get { return Path.GetFileName(sDsFilepath); } }
 
+        public Enums.eQualidadeDownload eQualidadeDownload { get; set; }
+
         public Episodio()
         {
             nIdEstadoEpisodio = Enums.EstadoEpisodio.Novo;

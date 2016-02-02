@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:gc="clr-namespace:GabrielControls;assembly=GabrielControls"
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:helper="clr-namespace:MediaManager.Helpers"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,7 @@
         Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Configurar conteúdo - \{0\}}"
         Height="350.275"
         Width="415" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -25,21 +26,21 @@
             <RowDefinition Height="29*" />
             <RowDefinition Height="6*" />
         </Grid.RowDefinitions>
-        <xctk:WatermarkTextBox Text="{Binding sFormatoRenomeioPersonalizado}" Watermark="Formato de renomeio customizado..." ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,5,0" Grid.Column="1" />
+        <gc:TextBoxPlaceholder Text="{Binding sFormatoRenomeioPersonalizado}" Placeholder="Formato de renomeio customizado..." ToolTip="Formato de renomeio customizado..." VerticalAlignment="Top" Margin="1,10,5,0" Grid.Column="1" />
         <StackPanel Orientation="Horizontal" Margin="5,8,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2">
             <CheckBox IsChecked="{Binding bIsParado}" VerticalAlignment="Center" />
             <Label Content="Não procurar novos EP" VerticalAlignment="Center" />
         </StackPanel>
         <GroupBox Header="Alias" Margin="1,36.96,0,-0.315" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid Margin="0,1.12,1,0.667">
-                <xctk:WatermarkTextBox Text="{Binding sDsAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Watermark="Nome alternativo..."
+                <gc:TextBoxPlaceholder Text="{Binding sDsAlias, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Placeholder="Nome alternativo..."
                                        ToolTip="Nomes alternativos..." VerticalAlignment="Top" Margin="0,0,115.667,0" />
-                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding sNrTemporada, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                <gc:TextBoxPlaceholder Placeholder="S00" MaxLength="4" Text="{Binding sNrTemporada, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                                        ToolTip="Temporada na qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,81.671,0" HorizontalAlignment="Right" Width="34.996" />
-                <xctk:WatermarkTextBox MaxLength="4" Text="{Binding sNrEpisodio, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                <gc:TextBoxPlaceholder Placeholder="E00" MaxLength="4" Text="{Binding sNrEpisodio, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                                        ToolTip="Episódio no qual este alias se inicia..." VerticalAlignment="Top" Margin="0,-0.041,48.334,0" HorizontalAlignment="Right" Width="34.004" />
-                <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding AddAlias}" CommandParameter="{Binding}" />
-                <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="21.919" Command="{Binding RemoveAlias}" CommandParameter="{Binding}" />
+                <Button Content="+" ToolTip="Adicionar nome alternativo..." Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="23" Command="{Binding AddAlias}" CommandParameter="{Binding}" />
+                <Button Content="-" ToolTip="Remover nome alternativo..." HorizontalAlignment="Right" VerticalAlignment="Top" Width="25" Height="23" Command="{Binding RemoveAlias}" CommandParameter="{Binding}" />
 
                 <DataGrid SelectedItem="{Binding oAliasSelecionado}" ItemsSource="{Binding lstTempSerieAliases, Mode=TwoWay}"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column"

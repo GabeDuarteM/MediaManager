@@ -51,12 +51,12 @@ namespace MediaManager.Forms
         private void btnPasta_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
-            dialog.SelectedPath = tbxPasta.Text;
+            //dialog.SelectedPath = tbxPasta.Text;
 
-            if ((bool)dialog.ShowDialog())
-            {
-                tbxPasta.Text = dialog.SelectedPath;
-            }
+            //if ((bool)dialog.ShowDialog())
+            //{
+            //    tbxPasta.Text = dialog.SelectedPath;
+            //}
         }
 
         public void ShowDialog(Window owner)

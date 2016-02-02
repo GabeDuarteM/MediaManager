@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using MediaManager.Helpers;
 using MediaManager.ViewModel;
@@ -43,6 +44,27 @@ namespace MediaManager.Forms
 
         private void Teste() // TODO Apagar método.
         {
+            //var lst = new System.Collections.Generic.List<object>();
+            //var prioridade = 1;
+            //foreach (var item in Enum.GetValues(typeof(Enums.eQualidadeDownload)).Cast<Enums.eQualidadeDownload>())
+            //{
+            //    if (item == Enums.eQualidadeDownload.Padrao)
+            //    {
+            //        continue;
+            //    }
+
+            //    dynamic jobj = new Newtonsoft.Json.Linq.JObject();
+            //    jobj.Qualidade = item.GetDescricao();
+            //    jobj.Prioridade = prioridade;
+            //    lst.Add(jobj);
+            //    prioridade++;
+            //}
+
+            //var a = Newtonsoft.Json.JsonConvert.SerializeObject(lst);
+            //Properties.Settings.Default.prefJsonPrioridadeQualidade = "[ { \"Qualidade\": \"WEB - DL FullHD\", \"Prioridade\": 3 }, { \"Qualidade\": \"FullHD\", \"Prioridade\": 4 }, { \"Qualidade\": \"WEB - DL HD\", \"Prioridade\": 1 }, { \"Qualidade\": \"HD\", \"Prioridade\": 2 }, { \"Qualidade\": \"SD\", \"Prioridade\": 5 } ]";
+            //var b = Properties.Settings.Default.prefJsonPrioridadeQualidade;
+            //Properties.Settings.Default.Save();
+            //var lst = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<dynamic>>(b).OrderBy(x => x.Prioridade).ToList();
         }
 
 #endif

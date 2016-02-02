@@ -294,6 +294,8 @@ namespace MediaManager.ViewModel
                 FeedsService feedsService = App.Container.Resolve<FeedsService>();
                 EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
+                List<Tuple<Episodio, string>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, string>>();
+
                 var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade).ToList();
 
                 foreach (var item in lstFeeds)
@@ -305,7 +307,7 @@ namespace MediaManager.ViewModel
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
-                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo /* HACK && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado*/)
+                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
                         {
                             if (episodio.EncaminharParaDownload(itemRss.Link.ToString(), episodio.oSerie.sDsTitulo + " " + episodio.nNrTemporada + "x" + episodio.nNrEpisodio))
                             {
