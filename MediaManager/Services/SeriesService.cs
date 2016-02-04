@@ -278,11 +278,11 @@ namespace MediaManager.Services
         public Serie GetSerieOuAnimePorLevenshtein(string titulo)
         {
             Serie melhorCorrespondencia = null;
-            int levenshtein = int.MaxValue;
+            int levenshtein = 10;
             try
             {
                 // Verifica se existe série com nome igual, se tiver seta como melhor correspondencia e a retorna direto.
-                var series = _context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower());
+                var series = _context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower()).ToList();
                 if (series.Count() > 0)
                 {
                     levenshtein = 0;
@@ -291,7 +291,7 @@ namespace MediaManager.Services
                 }
 
                 // Verifica se existem séries que contenham o título citado e calcula o levenshtein.
-                series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(titulo.ToLower()));
+                series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(titulo.ToLower())).ToList();
 
                 foreach (var serie in series)
                 {
@@ -314,7 +314,7 @@ namespace MediaManager.Services
                             continue;
                         }
 
-                        series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(item));
+                        series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(item)).ToList();
                         foreach (var serie in series)
                         {
                             int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
@@ -324,7 +324,7 @@ namespace MediaManager.Services
                                 melhorCorrespondencia = serie;
                             }
                         }
-                        var aliases = _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower()));
+                        var aliases = _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower())).ToList();
                         foreach (var alias in aliases)
                         {
                             int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), alias.sDsAlias.ToLower());

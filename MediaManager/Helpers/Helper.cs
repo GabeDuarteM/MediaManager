@@ -509,13 +509,17 @@ namespace MediaManager.Helpers
         public class RegexEpisodio
         {
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
-            public Regex regex_S00E00 { get; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
+            public static Regex regex_S00E00 { get; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/8
-            public Regex regex_Fansub0000 { get; } = new Regex(@"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)");
+            public static Regex regex_Fansub0000 { get; } = new Regex(@"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)");
 
             // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/4
-            public Regex regex_0x00 { get; } = new Regex(@"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
+            public static Regex regex_0x00 { get; } = new Regex(@"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
+
+            public static Regex regex_Qualidades { get; } = new Regex(@".*?(720p|1280x720|960x720|1080p|1920x1080|480p)");
+
+            public static Regex regex_QualidadesProblematicas { get; } = new Regex(@".*?(720|1080|480|HDTV)");
         }
 
         /// <summary>

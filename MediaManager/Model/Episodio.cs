@@ -242,10 +242,6 @@ namespace MediaManager.Model
 
         public bool IdentificarEpisodio()
         {
-            Helper.RegexEpisodio regexes = new Helper.RegexEpisodio();
-
-            var FilenameTratado = Helper.RetirarCaracteresInvalidos(Path.GetFileNameWithoutExtension(sDsFilepath)).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
-
             if (oSerie == null)
             {
                 oSerie = new Serie();
@@ -253,9 +249,13 @@ namespace MediaManager.Model
 
             try
             {
-                if (regexes.regex_S00E00.IsMatch(FilenameTratado))
+                sDsFilepath = Helper.RetirarCaracteresInvalidos(sDsFilepath, false);
+
+                var FilenameTratado = Path.GetFileNameWithoutExtension(sDsFilepath).Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
+
+                if (Helper.RegexEpisodio.regex_S00E00.IsMatch(FilenameTratado))
                 {
-                    var match = regexes.regex_S00E00.Match(FilenameTratado);
+                    var match = Helper.RegexEpisodio.regex_S00E00.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
@@ -281,9 +281,9 @@ namespace MediaManager.Model
 
                     return retorno;
                 }
-                else if (regexes.regex_0x00.IsMatch(FilenameTratado)) // TODO Fazer funcionar com alias
+                else if (Helper.RegexEpisodio.regex_0x00.IsMatch(FilenameTratado)) // TODO Fazer funcionar com alias
                 {
-                    var match = regexes.regex_0x00.Match(FilenameTratado);
+                    var match = Helper.RegexEpisodio.regex_0x00.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
@@ -309,9 +309,9 @@ namespace MediaManager.Model
 
                     return retorno;
                 }
-                else if (regexes.regex_Fansub0000.IsMatch(FilenameTratado))
+                else if (Helper.RegexEpisodio.regex_Fansub0000.IsMatch(FilenameTratado))
                 {
-                    var match = regexes.regex_Fansub0000.Match(FilenameTratado);
+                    var match = Helper.RegexEpisodio.regex_Fansub0000.Match(FilenameTratado);
                     var sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo = match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", ""); // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
@@ -496,16 +496,12 @@ namespace MediaManager.Model
             }
         }
 
-        public bool EncaminharParaDownload(string link, string nomeEpisodio)
+        public bool EncaminharParaDownload(string link)
         {
             var path = Properties.Settings.Default.pref_PastaBlackhole;
+            var nomeEpisodio = $"{oSerie.sDsTitulo} {nNrTemporada}x{nNrEpisodio}.torrent";
             if (!string.IsNullOrWhiteSpace(path))
             {
-                if (!nomeEpisodio.EndsWith(".torrent"))
-                {
-                    nomeEpisodio += ".torrent";
-                }
-
                 Regex rgxHash = new Regex(@"magnet:.*?btih:(.*?)(?:&|$)");
                 Regex rgxTitulo = new Regex(@"magnet:.*?[?:&]dn=(.*?)(?:&|$)");
 

@@ -5,13 +5,16 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
+using Argotic.Syndication;
 using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.Properties;
 using MediaManager.Services;
+using Newtonsoft.Json;
 
 namespace MediaManager.ViewModel
 {
@@ -294,27 +297,85 @@ namespace MediaManager.ViewModel
                 FeedsService feedsService = App.Container.Resolve<FeedsService>();
                 EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
 
-                List<Tuple<Episodio, string>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, string>>();
+                List<Tuple<Episodio, RssItem>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
 
                 var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade).ToList();
+                // HACK
+                string sEp = "";
+                // HACK
 
                 foreach (var item in lstFeeds)
                 {
-                    var rss = Argotic.Syndication.RssFeed.Create(new Uri(item.sLkFeed));
+                    var rss = RssFeed.Create(new Uri(item.sLkFeed));
 
                     foreach (var itemRss in rss.Channel.Items)
                     {
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
+                        // HACK
+
+                        //sEp += itemRss.Title + "\r\n";
+
+                        //File.WriteAllText(@"D:\Documentos\.Episodios.txt", sEp.Trim());
+
+                        // HACK
+
                         if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
                         {
-                            if (episodio.EncaminharParaDownload(itemRss.Link.ToString(), episodio.oSerie.sDsTitulo + " " + episodio.nNrTemporada + "x" + episodio.nNrEpisodio))
+                            if (!episodio.oSerie.bIsParado && (string.IsNullOrWhiteSpace(Path.GetExtension(itemRss.Title)) || Settings.Default.ExtensoesRenomeioPermitidas.Contains(Path.GetExtension(itemRss.Title))))
                             {
-                                episodio.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixando;
-                                episodiosService.UpdateEstadoEpisodio(episodio);
+                                lstEpisodiosParaBaixar.Add(new Tuple<Episodio, RssItem>(episodio, itemRss));
                             }
                         }
+                    }
+                }
+
+                List<dynamic> Qualidades = new List<dynamic>((IEnumerable<dynamic>)JsonConvert.DeserializeObject(Settings.Default.prefJsonPrioridadeQualidade))
+                    .OrderBy(x => x.Prioridade).ToList();
+
+                List<Tuple<Episodio, RssItem, Enums.eQualidadeDownload>> lstEpisodiosComQualidades = new List<Tuple<Episodio, RssItem, Enums.eQualidadeDownload>>();
+
+                var lstParaDownload = new List<RssItem>();
+
+                foreach (var item in lstEpisodiosParaBaixar)
+                {
+                    var rgxQualidade = Helper.RegexEpisodio.regex_Qualidades.Match(item.Item2.Title);
+
+                    Enums.eQualidadeDownload enumQualidade = Enums.eQualidadeDownload.Padrao;
+
+                    if (!rgxQualidade.Success)
+                    {
+                        rgxQualidade = Helper.RegexEpisodio.regex_QualidadesProblematicas.Match(item.Item2.Title);
+                        if (!rgxQualidade.Success)
+                        {
+                            enumQualidade = Enums.eQualidadeDownload.SD;
+                        }
+                    }
+
+                    if (enumQualidade == Enums.eQualidadeDownload.Padrao)
+                    {
+                        enumQualidade = new List<Enums.eQualidadeDownload>((IEnumerable<Enums.eQualidadeDownload>)Enum.GetValues(typeof(Enums.eQualidadeDownload)))
+                            .Where(x => x.GetDescricao().Contains(rgxQualidade.Groups[1]?.Value))
+                            .FirstOrDefault();
+                    }
+
+                    var oEpisodioIgual = lstEpisodiosComQualidades.Where(x => x.Item1.nCdEpisodio == item.Item1.nCdEpisodio).FirstOrDefault();
+                    var qualidadePrioridadeEpisodio = Qualidades.Where(x => x.Qualidade == enumQualidade.ToString()).First();
+
+                    if (oEpisodioIgual == null || qualidadePrioridadeEpisodio.Prioridade < Qualidades.FirstOrDefault(x => x.Qualidade == oEpisodioIgual?.Item3.ToString())?.Prioridade)
+                    {
+                        lstEpisodiosComQualidades.Add(new Tuple<Episodio, RssItem, Enums.eQualidadeDownload>(item.Item1, item.Item2, enumQualidade));
+                        lstEpisodiosComQualidades.Remove(oEpisodioIgual);
+                    }
+
+                }
+                foreach (var item in lstEpisodiosComQualidades)
+                {
+                    if (item.Item1.EncaminharParaDownload(item.Item2.Link.ToString()))
+                    {
+                        item.Item1.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixando;
+                        episodiosService.UpdateEstadoEpisodio(item.Item1);
                     }
                 }
             }

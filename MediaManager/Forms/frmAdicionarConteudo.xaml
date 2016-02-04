@@ -1,8 +1,8 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
         xmlns:properties="clr-namespace:MediaManager.Properties"
+        xmlns:gc="clr-namespace:GabrielControls;assembly=GabrielControls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
@@ -40,7 +40,7 @@ Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFo
             <Button HorizontalAlignment="Left" VerticalAlignment="Top"  Height="22" Width="25" Margin="0,0,5,0" Command="{Binding CommandAbrirEpisodios}" CommandParameter="{Binding}">
                 <Image Height="15" Width="15" Source="/MediaManager;component/Resources/ICONE_TV.png" Margin="0,0,0,1" />
             </Button>
-            <!--<gc:TextBoxPlaceholder Name="tbxPasta" Text="{Binding oVideoSelecionado.sDsPasta, Mode=TwoWay}" Placeholder="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" Height="22" Width="463" />-->
+            <gc:TextBoxPlaceholder Name="tbxPasta" Text="{Binding oVideoSelecionado.sDsPasta, Mode=TwoWay}" Placeholder="Pasta..." ToolTip="Pasta..." VerticalAlignment="Top" Height="22" Width="463" />
             <Button x:Name="btnPasta" Content="..." ToolTip="Selecionar..." HorizontalAlignment="Left" VerticalAlignment="Top" Height="22" Width="25" Click="btnPasta_Click" Margin="-1,0,0,0" />
         </DockPanel>
         <TextBox Text="{Binding oVideoSelecionado.sDsSinopse, Mode=OneWay}" Margin="0,4,0,5" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Grid.Row="2" Grid.Column="1" />

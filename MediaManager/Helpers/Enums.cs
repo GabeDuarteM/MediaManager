@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MediaManager.Helpers
@@ -107,20 +108,14 @@ namespace MediaManager.Helpers
             [Description("Padrão")]
             Padrao = 0,
 
-            [Description("WEB-DL FullHD")]
-            WebDL_FullHD = 1,
+            [Description("1080p|1080|1920x1080")]
+            FullHD = 1,
 
-            [Description("FullHD")]
-            FullHD = 2,
+            [Description("720p|720|1280x720|960x720")]
+            HD = 2,
 
-            [Description("WEB-DL HD")]
-            WebDL_HD = 3,
-
-            [Description("HD")]
-            HD = 4,
-
-            [Description("SD")]
-            SD = 5
+            [Description("480p|480|854x480|HDTV")]
+            SD = 3
         }
 
         public static string GetDescricao(this Enum tipoEnum)
