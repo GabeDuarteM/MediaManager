@@ -304,9 +304,6 @@ namespace MediaManager.ViewModel
                 List<Tuple<Episodio, RssItem>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
 
                 var lstFeeds = feedsService.GetLista().Where(x => !x.bIsFeedPesquisa && (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime)).OrderBy(x => x.nNrPrioridade).ToList();
-                // HACK
-                string sEp = "";
-                // HACK
 
                 foreach (var item in lstFeeds)
                 {
@@ -324,14 +321,6 @@ namespace MediaManager.ViewModel
                     {
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
-
-                        // HACK
-
-                        //sEp += itemRss.Title + "\r\n";
-
-                        //File.WriteAllText(@"D:\Documentos\.Episodios.txt", sEp.Trim());
-
-                        // HACK
 
                         if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
                         {

@@ -53,23 +53,23 @@
                             </Grid.RowDefinitions>
 
                             <Label Content="Séries:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaSeries}" Placeholder="Selecione a pasta onde estão armazenadas as séries..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="1" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaSeries, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenadas as séries..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="1" />
                             <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaSeries}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="1" />
 
                             <Label Content="Filmes:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaFilmes}" Placeholder="Selecione a pasta onde estão armazenados os filmes..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="2" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaFilmes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os filmes..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="2" />
                             <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaFilmes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="2" />
 
                             <Label Content="Animes:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaAnimes}" Placeholder="Selecione a pasta onde estão armazenados os animes..." Height="23" TextWrapping="NoWrap"  Grid.Row="3" Grid.Column="2" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaAnimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os animes..." Height="23" TextWrapping="NoWrap"  Grid.Row="3" Grid.Column="2" />
                             <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="3" Grid.Column="3" />
 
                             <Label Content="Downloads:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaDownloads}" Placeholder="Selecione a pasta onde estão armazenados os downloads..." Height="23" TextWrapping="NoWrap" Grid.Row="4" Grid.Column="2" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaDownloads, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os downloads..." Height="23" TextWrapping="NoWrap" Grid.Row="4" Grid.Column="2" />
                             <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="4" Grid.Column="3" />
 
                             <Label Content="Torrent blackhole:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaBlackhole}" Placeholder="Selecione a pasta onde serão armazenados os arquivos '.torrent'..." Height="23" TextWrapping="NoWrap" Grid.Row="5" Grid.Column="2" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaBlackhole, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde serão armazenados os arquivos '.torrent'..." Height="23" TextWrapping="NoWrap" Grid.Row="5" Grid.Column="2" />
                             <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaBlackhole}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="5" Grid.Column="3" />
 
                             <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">

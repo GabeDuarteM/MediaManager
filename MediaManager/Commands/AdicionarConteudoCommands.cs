@@ -125,7 +125,7 @@ namespace MediaManager.Commands
 
                                 serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
 
-                                if (serie.nCdVideo > 0) // TODO TEstar bem, antes tinha um IsEdicao vindo do frmAdicionarConteudo.xaml.cs
+                                if (serie.nCdVideo > 0)
                                 {
                                     try
                                     {
