@@ -134,7 +134,7 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        Helper.TratarException(ex, "Ocorreu um erro ao atualizar a série " + serie.sDsTitulo);
+                                        new MediaManagerException(ex).TratarException($"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
                                         adicionarConteudoVM.ActionClose(false);
                                     }
                                 }
@@ -147,7 +147,7 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        Helper.TratarException(ex, "Ocorreu um erro ao incluir a série " + serie.sDsTitulo);
+                                        new MediaManagerException(ex).TratarException($"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
                                         adicionarConteudoVM.ActionClose(false);
                                     }
                                 }
@@ -170,7 +170,7 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        Helper.TratarException(ex, "Ocorreu um erro ao atualizar o conteúdo.");
+                                        new MediaManagerException(ex).TratarException("Ocorreu um erro ao atualizar o conteúdo.");
                                         adicionarConteudoVM.ActionClose(false);
                                     }
                                 }
@@ -183,7 +183,7 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        Helper.TratarException(ex, "Ocorreu um erro ao incluir o conteúdo.");
+                                        new MediaManagerException(ex).TratarException("Ocorreu um erro ao incluir o conteúdo.");
                                         adicionarConteudoVM.ActionClose(false);
                                     }
                                 }

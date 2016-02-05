@@ -38,14 +38,14 @@ namespace MediaManager.Services
                             _context.Episodio.Add(episodio);
                         }
                     }
-                    catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o episódio com o ID " + episodio.nCdEpisodioAPI + " ao banco.", true); return false; }
+                    catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o episódio com o ID " + episodio.nCdEpisodioAPI + " ao banco.", true); return false; }
                 }
                 _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao adicionar episódios.");
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar episódios.");
                 return false;
             }
         }
@@ -66,7 +66,7 @@ namespace MediaManager.Services
                     }
                     catch (Exception e)
                     {
-                        Helper.TratarException(e, "Ocorreu um erro ao salvar os episódios de " + serie.sDsTitulo);
+                        new MediaManagerException(e).TratarException("Ocorreu um erro ao salvar os episódios de " + serie.sDsTitulo);
                         return false;
                     }
                 }
@@ -76,7 +76,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao adicionar episódios.");
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar episódios.");
                 return false;
             }
         }
@@ -92,7 +92,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao retornar o episódio com o código " + ID);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio com o código " + ID);
                 return null;
             }
         }
@@ -108,7 +108,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao retornar o episódio " + nNrEpisodio + " da temporada " + nNrTemporada + " do vídeo de ID " + nCdVideo);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio " + nNrEpisodio + " da temporada " + nNrTemporada + " do vídeo de ID " + nCdVideo);
                 return null;
             }
         }
@@ -171,7 +171,7 @@ namespace MediaManager.Services
                         }
                         else return false;
                     }
-                    catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar o episódio de ID " + episodio.nCdEpisodio); return false; }
+                    catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o episódio de ID " + episodio.nCdEpisodio); return false; }
                 }
                 _context.SaveChanges();
                 return true;
@@ -185,7 +185,7 @@ namespace MediaManager.Services
                     frase += "\"" + item.sDsFilepath + "\", ";
                 }
 
-                Helper.TratarException(e, frase.Remove(frase.Length - 3));
+                new MediaManagerException(e).TratarException(frase.Remove(frase.Length - 3));
                 return false;
             }
         }
@@ -222,7 +222,7 @@ namespace MediaManager.Services
                 }
                 else return false;
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar o episódio de ID " + atualizado.nCdEpisodioAPI + " no banco.", true); return false; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o episódio de ID " + atualizado.nCdEpisodioAPI + " no banco.", true); return false; }
         }
 
         public bool VerificarSeEpisodioJaFoiRenomeado(Episodio episodio)
@@ -236,7 +236,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao verificar se o episódio \"" + episodio.sDsFilepath + "\" ja foi renomeado.");
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao verificar se o episódio \"" + episodio.sDsFilepath + "\" ja foi renomeado.");
                 return false;
             }
         }
@@ -289,7 +289,7 @@ namespace MediaManager.Services
                     }
                 }
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.sDsTitulo + "\".", true); return false; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.sDsTitulo + "\".", true); return false; }
             return true;
         }
 
@@ -304,7 +304,7 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    Helper.TratarException(e, "Ocorreu um erro ao remover o episódio \"" + episodio.sDsFilepath + "\"");
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o episódio \"" + episodio.sDsFilepath + "\"");
                     return false;
                 }
             }

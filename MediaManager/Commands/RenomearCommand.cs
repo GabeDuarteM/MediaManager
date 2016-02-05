@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Model;
 using MediaManager.Services;
 using MediaManager.ViewModel;
 
@@ -75,13 +76,14 @@ namespace MediaManager.Commands
                                 }
                                 else if (!bCancelarOperacao)
                                 {
-                                    Helper.TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepathOriginal), "Ocorreu um erro no processo de " + ((Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
+                                    new MediaManagerException(new Exception($"Código: {Marshal.GetLastWin32Error()}{Environment.NewLine}Arquivo: {item.sDsFilepathOriginal}."))
+                                        .TratarException("Ocorreu um erro no processo de " + ((Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Helper.TratarException(e, "Ocorreu um erro ao renomear o episódio \"" + item.sDsFilepathOriginal + "\"");
+                            new MediaManagerException(e).TratarException($"Ocorreu um erro ao renomear o episódio \"{item.sDsFilepathOriginal}\".");
                         }
                     }
                     if (!renomearVM.bFlSilencioso && renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Any(x => !x.bFlRenomeado))
@@ -100,7 +102,7 @@ namespace MediaManager.Commands
                 }
                 catch (Exception e)
                 {
-                    Helper.TratarException(e, "Ocorreu um erro ao renomear o episódio");
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao renomear o episódio");
                 }
             }
         }

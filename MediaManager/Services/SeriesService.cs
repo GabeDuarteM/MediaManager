@@ -36,7 +36,7 @@ namespace MediaManager.Services
 
                     App.Container.Resolve<EpisodiosService>().VerificaEpisodiosNoDiretorio(serie);
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
             }
             return true;
         }
@@ -57,7 +57,7 @@ namespace MediaManager.Services
 
                     App.Container.Resolve<EpisodiosService>().VerificaEpisodiosNoDiretorio(serie);
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
             }
             return true;
         }
@@ -71,7 +71,7 @@ namespace MediaManager.Services
                     _context.Serie.Remove(serie);
                     _context.SaveChanges();
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao deletar a série ou anime \"" + serie.sDsTitulo + "\"."); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao deletar a série ou anime \"" + serie.sDsTitulo + "\"."); return false; }
             }
             return true;
         }
@@ -107,7 +107,7 @@ namespace MediaManager.Services
 
                     _context.SaveChanges();
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover a série ou anime " + sNmSerie); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao remover a série ou anime " + sNmSerie); return false; }
             }
             return true;
         }
@@ -143,7 +143,7 @@ namespace MediaManager.Services
                         _context.SaveChanges();
                     }
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao atualizar a série \"" + serie.sDsTitulo + "\" no banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar a série \"" + serie.sDsTitulo + "\" no banco.", true); return false; }
 
                 if (isDiferente || serieOld.sDsMetadata != serie.sDsMetadata) // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
                 {
@@ -337,7 +337,7 @@ namespace MediaManager.Services
                     }
                 }
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
             return melhorCorrespondencia;
         }
 

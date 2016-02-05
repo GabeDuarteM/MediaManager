@@ -87,7 +87,7 @@ namespace MediaManager.ViewModel
                         try { Argumentos.Add(arg, argsArray[i + 1]); }
                         catch (Exception e)
                         {
-                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                            new MediaManagerException(e).TratarException("Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
                             return true;
                         }
                         i++; // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
@@ -97,7 +97,7 @@ namespace MediaManager.ViewModel
                         try { Argumentos.Add(arg, null); }
                         catch (Exception e)
                         {
-                            Helper.TratarException(e, "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                            new MediaManagerException(e).TratarException("Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
                             return true;
                         }
                     }
@@ -145,7 +145,7 @@ namespace MediaManager.ViewModel
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " + arg);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " + arg);
                 return true; // Retorna true para não continuar a executar a aplicação.
             }
         }
@@ -292,10 +292,14 @@ namespace MediaManager.ViewModel
 
         private void ProcurarEpisodiosParaBaixar()
         {
+            FeedsService feedsService = null;
+            EpisodiosService episodiosService = null;
+            RssFeed rss = null;
+
             try
             {
-                FeedsService feedsService = App.Container.Resolve<FeedsService>();
-                EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
+                feedsService = App.Container.Resolve<FeedsService>();
+                episodiosService = App.Container.Resolve<EpisodiosService>();
 
                 List<Tuple<Episodio, RssItem>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
 
@@ -306,7 +310,15 @@ namespace MediaManager.ViewModel
 
                 foreach (var item in lstFeeds)
                 {
-                    var rss = RssFeed.Create(new Uri(item.sLkFeed));
+                    try
+                    {
+                        rss = RssFeed.Create(new Uri(item.sLkFeed));
+                    }
+                    catch (Exception ex)
+                    {
+                        new MediaManagerException(ex).TratarException($"Ocorreu um erro ao abrir o feed \"{item.sDsFeed}\" (URL: \"{item.sLkFeed}\").");
+                        continue;
+                    }
 
                     foreach (var itemRss in rss.Channel.Items)
                     {
@@ -368,7 +380,6 @@ namespace MediaManager.ViewModel
                         lstEpisodiosComQualidades.Add(new Tuple<Episodio, RssItem, Enums.eQualidadeDownload>(item.Item1, item.Item2, enumQualidade));
                         lstEpisodiosComQualidades.Remove(oEpisodioIgual);
                     }
-
                 }
                 foreach (var item in lstEpisodiosComQualidades)
                 {
@@ -381,7 +392,7 @@ namespace MediaManager.ViewModel
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao procurar os episódios para baixar.");
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao procurar os episódios para baixar.");
             }
         }
 

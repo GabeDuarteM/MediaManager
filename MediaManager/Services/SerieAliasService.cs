@@ -26,7 +26,7 @@ namespace MediaManager.Services
                     _context.SerieAlias.Add(alias);
                     _context.SaveChanges();
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias \"" + alias.sDsAlias + "\" ao banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao adicionar o alias \"{alias.sDsAlias}\" ao banco.", true); return false; }
             }
             return true;
         }
@@ -47,7 +47,7 @@ namespace MediaManager.Services
                     }
                     _context.SaveChanges();
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao adicionar o alias padrão do video \"" + video.sDsTitulo + "\" ao banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao adicionar o alias padrão do video \"{video.sDsTitulo}\" ao banco.", true); return false; }
             }
             return true;
         }
@@ -59,7 +59,7 @@ namespace MediaManager.Services
                 SerieAlias oAlias = _context.SerieAlias.Where(x => x.nCdAlias == ID).FirstOrDefault();
                 return oAlias;
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao retornar o alias com o id " + ID); return null; }
+            catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao retornar o alias com o id \"{ID}\" "); return null; }
         }
 
         public List<SerieAlias> GetLista()
@@ -69,11 +69,7 @@ namespace MediaManager.Services
                 List<SerieAlias> lstAlias = _context.SerieAlias.ToList();
                 return (lstAlias != null) ? lstAlias : new List<SerieAlias>();
             }
-            catch (Exception e)
-            {
-                Helper.TratarException(e, "Ocorreu um erro ao retornar a lista de alias.");
-                return new List<SerieAlias>();
-            }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar a lista de alias."); return new List<SerieAlias>(); }
         }
 
         public List<SerieAlias> GetLista(Video video)
@@ -83,11 +79,7 @@ namespace MediaManager.Services
                 List<SerieAlias> lstAlias = _context.SerieAlias.Where(x => x.nCdVideo == video.nCdVideo).ToList();
                 return (lstAlias != null) ? lstAlias : new List<SerieAlias>();
             }
-            catch (Exception e)
-            {
-                Helper.TratarException(e, "Ocorreu um erro ao retornar a lista de alias de " + video.sDsTitulo);
-                return new List<SerieAlias>();
-            }
+            catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao retornar a lista de alias de \"{video.sDsTitulo}\""); return new List<SerieAlias>(); }
         }
 
         public bool Remover(params SerieAlias[] obj)
@@ -100,7 +92,7 @@ namespace MediaManager.Services
                     _context.SerieAlias.Remove(alias);
                     _context.SaveChanges();
                 }
-                catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao remover o alias \"" + alias.sDsAlias + "\" do banco.", true); return false; }
+                catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao remover o alias \"{alias.sDsAlias}\" do banco.", true); return false; }
             }
             return true;
         }
@@ -114,11 +106,7 @@ namespace MediaManager.Services
                     var oAliasDB = _context.SerieAlias.Find(oAlias.nCdAlias);
                     _context.Entry(oAliasDB).CurrentValues.SetValues(oAlias);
                 }
-                catch (Exception e)
-                {
-                    Helper.TratarException(e, "Ocorreu um erro ao atualizar o alias " + oAlias.sDsAlias);
-                    return false;
-                }
+                catch (Exception e) { new MediaManagerException(e).TratarException($"Ocorreu um erro ao atualizar o alias \"{oAlias.sDsAlias}\""); return false; }
             }
             _context.SaveChanges();
             return true;

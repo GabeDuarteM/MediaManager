@@ -39,7 +39,7 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    Helper.TratarException(e, "Ocorreu um erro ao adicionar o feed " + feed.sDsFeed, true);
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o feed " + feed.sDsFeed, true);
                     return false;
                 }
             }
@@ -54,7 +54,7 @@ namespace MediaManager.Services
                 Feed oFeed = _context.Feed.Where(x => x.nCdFeed == ID).FirstOrDefault();
                 return oFeed;
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao pesquisar o feed de código " + ID); return null; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar o feed de código " + ID); return null; }
         }
 
         public List<Feed> GetLista()
@@ -67,7 +67,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao retornar a lista de feeds."); return null;
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar a lista de feeds."); return null;
             }
         }
 
@@ -84,7 +84,7 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    Helper.TratarException(e, "Ocorreu um erro ao remover o feed " + feed.sDsFeed, true);
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o feed " + feed.sDsFeed, true);
                     return false;
                 }
             }
@@ -109,7 +109,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                Helper.TratarException(e, "Ocorreu um erro ao atualizar o feed " + feed.sDsFeed, true);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o feed " + feed.sDsFeed, true);
                 return false;
             }
         }

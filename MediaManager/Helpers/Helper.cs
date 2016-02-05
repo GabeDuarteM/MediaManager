@@ -56,7 +56,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens."); return false; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao realizar o download das imagens."); return false; }
         }
 
         public static bool DownloadImages(Video video, Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
@@ -87,7 +87,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao realizar o download das imagens."); return false; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao realizar o download das imagens."); return false; }
         }
 
         public static string ListToString(IList<string> lista)
@@ -118,7 +118,7 @@ namespace MediaManager.Helpers
                     {
                         if (CreateHardLink(item.sDsFilepath, item.sDsFilepathOriginal, IntPtr.Zero))
                             return true;
-                        else { TratarException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepath), "Ocorreu um erro ao criar o " + Settings.Default.pref_MetodoDeProcessamento.ToString()); return false; }
+                        else { new MediaManagerException(new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepath)).TratarException("Ocorreu um erro ao criar o " + Settings.Default.pref_MetodoDeProcessamento.ToString()); return false; }
                     }
                 case Enums.MetodoDeProcessamento.Copiar:
                     {
@@ -127,10 +127,10 @@ namespace MediaManager.Helpers
                             File.Copy(item.sDsFilepathOriginal, item.sDsFilepath);
                             return true;
                         }
-                        catch (Exception e) { TratarException(e, "Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
+                        catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao criar o " + ((Enums.MetodoDeProcessamento)Settings.Default.pref_MetodoDeProcessamento).ToString(), true); return false; }
                     }
                 default:
-                    TratarException(new ArgumentException("Método de processamento não reconhecido ou inválido."), "Ocorreu um erro ao realizar o pós processamento.", true);
+                    new MediaManagerException(new ArgumentException("Método de processamento não reconhecido ou inválido.")).TratarException("Ocorreu um erro ao realizar o pós processamento.", true);
                     return false;
             }
         }
@@ -159,7 +159,7 @@ namespace MediaManager.Helpers
                         break;
 
                     default:
-                        TratarException(new ArgumentException("Episodio informado é de um tipo inválido."), IsSilencioso: true);
+                        new MediaManagerException(new ArgumentException("Episodio informado é de um tipo inválido.")).TratarException(bIsSilencioso: true);
                         return null;
                 }
             }
@@ -267,30 +267,30 @@ namespace MediaManager.Helpers
             return frase;
         }
 
-        public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = true)
-        {
-            if (mensagem.Last() != '.')
-            {
-                mensagem += ".";
-            }
-            if (!string.IsNullOrWhiteSpace(exception.Message))
-            {
-                mensagem += "\r\nDetalhes: " + exception.Message;
-            }
-            if (exception.StackTrace != null)
-            {
-                mensagem += "\r\nStackTrace: " + exception.StackTrace;
-            }
+        //public static void TratarException(Exception exception, string mensagem = "Ocorreu um erro na aplicação.", bool IsSilencioso = true)
+        //{
+        //    if (mensagem.Last() != '.')
+        //    {
+        //        mensagem += ".";
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(exception.Message))
+        //    {
+        //        mensagem += "\r\nDetalhes: " + exception.Message;
+        //    }
+        //    if (exception.StackTrace != null)
+        //    {
+        //        mensagem += "\r\nStackTrace: " + exception.StackTrace;
+        //    }
 
-            if (IsSilencioso)
-            {
-                LogMessage(mensagem);
-            }
-            else
-            {
-                MessageBox.Show(mensagem, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //    if (IsSilencioso)
+        //    {
+        //        LogMessage(mensagem);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show(mensagem, Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
 
         public static int CalcularAlgoritimoLevenshtein(string origem, string destino)
         {
@@ -345,7 +345,7 @@ namespace MediaManager.Helpers
             }
             catch (Exception e)
             {
-                TratarException(e, "Ocorreu um erro ao ordenar a lista utilizando o algorítimo levenshtein.", true);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao ordenar a lista utilizando o algorítimo levenshtein.", true);
                 return null;
             }
         }
@@ -392,6 +392,10 @@ namespace MediaManager.Helpers
         public static bool LogMessage(string message)
         {
             string logPath = null;
+            string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
+            string espacamento = "## " + new string(' ', data.Length - 3);
+            string logLine = null;
+
             // O Try abaixo é só para evitar erros ao rodar os testes unitários.
             try
             {
@@ -401,19 +405,19 @@ namespace MediaManager.Helpers
             {
                 return false;
             }
-            string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
-            string logLine = null;
             message = message.Trim();
             if (message.LastOrDefault() != '.')
                 message += ".";
 
             if (!File.Exists(logPath))
-                logLine = "####################################################################################################\r\n" +
-                          "########################################### " + settings.AppName + " ##########################################\r\n" +
-                          "####################################################################################################\r\n\r\n" +
-                          data + message;
+                logLine =
+$@"####################################################################################################
+########################################### {settings.AppName} ##########################################
+####################################################################################################
+##
+{data}{message.Replace(Environment.NewLine, Environment.NewLine + espacamento)}";
             else
-                logLine = data + message;
+                logLine = "## " + Environment.NewLine + data + message.Replace(Environment.NewLine, Environment.NewLine + espacamento);
 
             try
             {
@@ -423,7 +427,7 @@ namespace MediaManager.Helpers
                 }
                 return true;
             }
-            catch (Exception e) { TratarException(e, "Ocorreu um erro ao registrar a mensagem no log.", false); return false; }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao registrar a mensagem no log.", false); return false; }
         }
 
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)

@@ -337,7 +337,7 @@ namespace MediaManager.Model
                     return retorno;
                 }
             }
-            catch (Exception e) { Helper.TratarException(e, "Ocorreu um erro ao reconhecer o episódio " + sDsFilepath, true); }
+            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao reconhecer o episódio " + sDsFilepath, true); }
             return false;
         }
 
@@ -551,7 +551,7 @@ namespace MediaManager.Model
                 }
                 catch (Exception e)
                 {
-                    Helper.TratarException(e, "Ocorreu um erro ao baixar o episódio do link \"" + link + "\"");
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao baixar o episódio do link \"" + link + "\"");
                     return false;
                 }
             }
