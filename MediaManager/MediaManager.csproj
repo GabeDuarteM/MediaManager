@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>017E0B18744BB30887409EB6AC148FCA14A421F6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AB3757E4D095E07C7638E102760D4F789C94BE3A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>MediaManager_TemporaryKey.pfx</ManifestKeyFile>
@@ -186,6 +186,7 @@
     <Compile Include="Model\IContext.cs" />
     <Compile Include="Model\MediaManagerException.cs" />
     <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\QualidadeDownload.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\SerieAlias.cs" />
     <Compile Include="Model\SeriesData.cs" />
@@ -314,6 +315,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="MediaManager_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

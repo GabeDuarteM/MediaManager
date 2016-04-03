@@ -272,6 +272,7 @@ namespace MediaManager.ViewModel
             //APIRequests.GetAtualizacoes();
         }
 
+        // TODO Chamar GetAtualizacoes antes de procurar episodios para baixar
         public void AtualizarConteudo()
         {
             BackgroundWorker worker = new BackgroundWorker();
@@ -322,7 +323,7 @@ namespace MediaManager.ViewModel
                         Episodio episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
-                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado)
+                        if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo /* HACK && episodio.nIdEstadoEpisodio == Enums.EstadoEpisodio.Desejado*/)
                         {
                             if (!episodio.oSerie.bIsParado && (string.IsNullOrWhiteSpace(Path.GetExtension(itemRss.Title)) || Settings.Default.ExtensoesRenomeioPermitidas.Contains(Path.GetExtension(itemRss.Title))))
                             {
