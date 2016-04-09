@@ -114,14 +114,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GabrielControls.dll" size="17920">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GabrielControls.dll" size="17408">
       <assemblyIdentity name="GabrielControls" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jOQHQ0nthsXajHfr4oWjLZYbDknd4tJzX173ww0qtYE=</dsig:DigestValue>
+        <dsig:DigestValue>qomk+YEc9jIeHdy6sCBJoX8E+xzJVjHWDjOrH6dj2pA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -138,14 +138,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MediaManager.exe" size="334280">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MediaManager.exe" size="335816">
       <assemblyIdentity name="MediaManager" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>6US+5wTybgFQWHdGTDLNJ0UcsvhG6SKpWP/lvKCJLVw=</dsig:DigestValue>
+        <dsig:DigestValue>/tf7P4k/M85VdKAazJwSu5SBUn4YnQRKsDvPmsexhL4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

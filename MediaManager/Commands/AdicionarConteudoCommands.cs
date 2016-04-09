@@ -37,8 +37,6 @@ namespace MediaManager.Commands
 
         public class CommandConfigurarConteudo : ICommand
         {
-            private object db;
-
             public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
 
             public bool CanExecute(object parameter)
@@ -191,6 +189,29 @@ namespace MediaManager.Commands
                             break;
                     }
                     adicionarConteudoVM.ActionClose(true);
+                }
+            }
+        }
+
+        public class CommandEscolherPasta : ICommand
+        {
+            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+
+            public bool CanExecute(object parameter)
+            {
+                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null &&
+                    ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo ||
+                    (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+            }
+
+            public void Execute(object parameter)
+            {
+                AdicionarConteudoViewModel adicionarConteudoVM = parameter as AdicionarConteudoViewModel;
+                Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                folderDialog.SelectedPath = adicionarConteudoVM?.oVideoSelecionado.sDsPasta;
+                if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    adicionarConteudoVM.oVideoSelecionado.sDsPasta = folderDialog.SelectedPath;
                 }
             }
         }

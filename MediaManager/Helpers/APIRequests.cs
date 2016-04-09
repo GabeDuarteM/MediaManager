@@ -255,7 +255,7 @@ namespace MediaManager.Helpers
             foreach (var item in data.Series)
             {
                 item.nIdEstado = Enums.Estado.Completo;
-                item.lstEpisodios = new List<Episodio>(data.Episodios);
+                item.lstEpisodios = (data.Episodios != null) ? new List<Episodio>(data.Episodios) : new List<Episodio>();
             }
 
             return data.Series.FirstOrDefault();

@@ -53,11 +53,14 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandSalvarConteudo { get; set; }
 
+        public ICommand CommandEscolherPasta { get; set; }
+
         public AdicionarConteudoViewModel(Video video, Enums.TipoConteudo tipoConteudo)
         {
             CommandAbrirEpisodios = new AdicionarConteudoCommands.CommandAbrirEpisodios();
             CommandConfigurarConteudo = new AdicionarConteudoCommands.CommandConfigurarConteudo();
             CommandSalvarConteudo = new AdicionarConteudoCommands.CommandSalvarConteudo();
+            CommandEscolherPasta = new AdicionarConteudoCommands.CommandEscolherPasta();
             nIdTipoConteudo = tipoConteudo;
             //Data = new SeriesData();
             lstVideosQuaseCompletos = new List<Video>();
