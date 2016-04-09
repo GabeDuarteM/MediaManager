@@ -33,6 +33,16 @@ namespace MediaManager.Forms
             InitializeComponent();
 
             DataContext = MainVM;
+
+            VerificaPreferenciasPreenchidas();
+        }
+
+        private void VerificaPreferenciasPreenchidas()
+        {
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoAnimes) || string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoSeries) || string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoFilmes))
+            {
+                new Commands.PreferenciasCommands.CommandSalvar().Execute(new PreferenciasViewModel());
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -98,25 +108,40 @@ namespace MediaManager.Forms
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Anime);
-            frmAdicionarConteudo.ShowDialog(this);
-            if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarPosters(Enums.TipoConteudo.Anime);
+            if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
+            {
+                frmAdicionarConteudo.ShowDialog(this);
+                if (frmAdicionarConteudo.DialogResult == true)
+                {
+                    MainVM.AtualizarPosters(Enums.TipoConteudo.Anime);
+                }
+            }
         }
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Filme);
-            frmAdicionarConteudo.ShowDialog(this);
-            if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarPosters(Enums.TipoConteudo.Filme);
+            if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
+            {
+                frmAdicionarConteudo.ShowDialog(this);
+                if (frmAdicionarConteudo.DialogResult == true)
+                {
+                    MainVM.AtualizarPosters(Enums.TipoConteudo.Filme);
+                }
+            }
         }
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
             frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Série);
-            frmAdicionarConteudo.ShowDialog(this);
-            if (frmAdicionarConteudo.DialogResult == true)
-                MainVM.AtualizarPosters(Enums.TipoConteudo.Série);
+            if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
+            {
+                frmAdicionarConteudo.ShowDialog(this);
+                if (frmAdicionarConteudo.DialogResult == true)
+                {
+                    MainVM.AtualizarPosters(Enums.TipoConteudo.Série);
+                }
+            }
         }
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)

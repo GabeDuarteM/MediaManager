@@ -33,6 +33,11 @@ namespace MediaManager.Forms
                 AdicionarConteudoViewModel.bProcurarConteudo = bIsProcurarConteudo;
                 AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
             }
+            else
+            {
+                Close();
+                return;
+            }
 
             DataContext = AdicionarConteudoViewModel;
         }

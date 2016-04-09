@@ -283,7 +283,7 @@ namespace MediaManager.ViewModel
 
                 AlterarStatusEpisodios();
 
-                ProcurarEpisodiosParaBaixar();
+                //ProcurarEpisodiosParaBaixar();
 
                 await APIRequests.GetAtualizacoes();
             };

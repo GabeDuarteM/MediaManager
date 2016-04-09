@@ -21,11 +21,9 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel &&
-                                    ((parameter as AdicionarConteudoViewModel).nIdTipoConteudo == Helpers.Enums.TipoConteudo.Anime
-                                    || (parameter as AdicionarConteudoViewModel).nIdTipoConteudo == Helpers.Enums.TipoConteudo.Série) &&
-                    ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo ||
-                    (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+                AdicionarConteudoViewModel adicionarConteudoVM = parameter as AdicionarConteudoViewModel;
+                return parameter is AdicionarConteudoViewModel && (adicionarConteudoVM.nIdTipoConteudo == Helpers.Enums.TipoConteudo.Anime || adicionarConteudoVM.nIdTipoConteudo == Helpers.Enums.TipoConteudo.Série)
+                    && adicionarConteudoVM.oVideoSelecionado != null && (adicionarConteudoVM.oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo || adicionarConteudoVM.oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)

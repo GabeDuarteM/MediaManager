@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using MediaManager.Model;
@@ -550,7 +551,7 @@ $@"#############################################################################
                 try
                 {
                     if (retry > 0)
-                        System.Threading.Thread.Sleep(retryInterval); // TODO adicionar o Using pro thread
+                        Thread.Sleep(retryInterval);
                     return action();
                 }
                 catch (Exception ex)

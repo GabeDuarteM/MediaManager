@@ -418,7 +418,7 @@ namespace MediaManager.Model
                         else
                         {
                             episodio.lstIntEpisodios[i] = alias.nNrEpisodio + lstIntEpisodios[i] - 1;
-                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == episodio.lstIntEpisodios[i]); // TODO Testar pra ver se funfa
+                            episodioTemp = lstEpisodios.FirstOrDefault(x => x.nNrTemporada == episodio.nNrTemporada && x.nNrEpisodio == episodio.lstIntEpisodios[i]); 
                             if (episodioTemp != null && episodioTemp.nNrAbsoluto != null)
                             {
                                 episodio.lstIntEpisodiosAbsolutos.Add((int)episodioTemp.nNrAbsoluto);

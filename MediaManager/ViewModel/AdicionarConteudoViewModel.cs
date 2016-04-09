@@ -39,7 +39,7 @@ namespace MediaManager.ViewModel
 
         private Video _oVideoSelecionado;
 
-        public Video oVideoSelecionado { get { return _oVideoSelecionado; } set { var oVideoSelecionadoTemp = _oVideoSelecionado; _oVideoSelecionado = value; OnPropertyChanged(); AlterarVideoAsync(oVideoSelecionadoTemp); } }
+        public Video oVideoSelecionado { get { return _oVideoSelecionado; } set { var oVideoSelecionadoTemp = _oVideoSelecionado; _oVideoSelecionado = value; AlterarVideoAsync(oVideoSelecionadoTemp); OnPropertyChanged(); } }
 
         public bool bProcurarConteudo { get; set; }
 
@@ -91,7 +91,6 @@ namespace MediaManager.ViewModel
 
             if (video.nIdTipoConteudo == Enums.TipoConteudo.Série || video.nIdTipoConteudo == Enums.TipoConteudo.Anime)
             {
-                //SeriesData data = new SeriesData();
                 List<Serie> lstSeries = new List<Serie>();
 
                 if ((video is Serie && !(video as Serie).bFlNaoEncontrado) || !(video is Serie))
@@ -241,8 +240,15 @@ namespace MediaManager.ViewModel
                 }
                 else
                 {
-                    _oVideoSelecionado = lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionadoTemp.nCdApi).First();
-                    OnPropertyChanged("oVideoSelecionado");
+                    _oVideoSelecionado = lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionadoTemp?.nCdApi).FirstOrDefault();
+                    if (oVideoSelecionado == null)
+                    {
+                        ActionClose(false);
+                    }
+                    else
+                    {
+                        OnPropertyChanged(nameof(oVideoSelecionado));
+                    }
                     return;
                 }
             }
@@ -252,7 +258,7 @@ namespace MediaManager.ViewModel
                     .Where(x => x.nCdApi == oVideoSelecionado.nCdApi && (x.nIdEstado == Enums.Estado.Completo || x.nIdEstado == Enums.Estado.CompletoSemForeignKeys)).ToList()
                     .ForEach(x =>
                     {
-                        _oVideoSelecionado = x; OnPropertyChanged("oVideoSelecionado"); return;
+                        _oVideoSelecionado = x; OnPropertyChanged(nameof(oVideoSelecionado)); return;
                     });
                 //foreach (var item in listaVideosQuaseCompletos)
                 //{
@@ -295,7 +301,7 @@ namespace MediaManager.ViewModel
 
             lstVideosQuaseCompletos.Add(serie);
             _oVideoSelecionado = serie;
-            OnPropertyChanged("SelectedVideo");
+            OnPropertyChanged(nameof(oVideoSelecionado));
             CommandManager.InvalidateRequerySuggested(); // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
         }
     }

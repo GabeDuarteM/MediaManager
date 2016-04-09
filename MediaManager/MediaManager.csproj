@@ -95,7 +95,7 @@
     </Reference>
     <Reference Include="GabrielControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Users\Gabriel\Source\Workspaces\GabrielControls\bin\Release\GabrielControls.dll</HintPath>
+      <HintPath>..\..\GabrielControls\bin\Release\GabrielControls.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>C:\Users\Gabriel\Desktop\Ionic.Zip.dll</HintPath>

@@ -154,14 +154,17 @@ namespace MediaManager.ViewModel
             switch (nIdTipoConteudo)
             {
                 case Enums.TipoConteudo.Filme:
+                    episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Filme;
                     sVisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)"; // TODO Visualizacao Filmes
                     break;
 
                 case Enums.TipoConteudo.Série:
+                    episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Série;
                     sVisualizacaoFormatoParaSeries = Helper.RenomearConformePreferencias(episodioVisualizacao);
                     break;
 
                 case Enums.TipoConteudo.Anime:
+                    episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Anime;
                     sVisualizacaoFormatoParaAnimes = Helper.RenomearConformePreferencias(episodioVisualizacao);
                     break;
 

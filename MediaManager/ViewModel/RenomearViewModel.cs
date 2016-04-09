@@ -42,8 +42,10 @@ namespace MediaManager.ViewModel
             //lstEpisodiosView.SortDescriptions.Add(new SortDescription("oSerie.sDsTitulo", ListSortDirection.Ascending));
             //lstEpisodiosView.IsLiveSortingRequested = true;
 
-            if (arquivos == null)
+            if (arquivos != null)
+            {
                 arquivos = new DirectoryInfo(Properties.Settings.Default.pref_PastaDownloads).EnumerateFiles("*.*", SearchOption.AllDirectories);
+            }
             Carregar(arquivos, bFlConsiderarArquivosJaRenomeados);
             CommandSelecionar.Execute(this);
         }
@@ -56,24 +58,26 @@ namespace MediaManager.ViewModel
             string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
             List<Episodio> lstEpisodios = new List<Episodio>();
             List<Episodio> lstEpisodiosNaoEncontrados = new List<Episodio>();
-
-            foreach (var item in arquivos)
+            if (arquivos != null)
             {
-                if (extensoesPermitidas.Contains(item.Extension))
+                foreach (var item in arquivos)
                 {
-                    Episodio episodio = new Episodio();
-                    episodio.sDsFilepath = item.FullName;
-                    if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() && !episodio.bFlRenomeado && episodio.nIdEstadoEpisodio != Enums.EstadoEpisodio.Arquivado)
-                        || (bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio()))
+                    if (extensoesPermitidas.Contains(item.Extension))
                     {
-                        episodio.sDsFilepathOriginal = item.FullName;
-                        episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);
-                        //episodio.bFlRenomeado = true; // Habilitando a linha da problema no retorno dos arquivos renomeados via argumento (RenomearEpisodiosDosArgumentos())
-                        lstEpisodios.Add(episodio);
-                    }
-                    else
-                    {
-                        lstEpisodiosNaoEncontrados.Add(episodio);
+                        Episodio episodio = new Episodio();
+                        episodio.sDsFilepath = item.FullName;
+                        if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() && !episodio.bFlRenomeado && episodio.nIdEstadoEpisodio != Enums.EstadoEpisodio.Arquivado)
+                            || (bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio()))
+                        {
+                            episodio.sDsFilepathOriginal = item.FullName;
+                            episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta, Helper.RenomearConformePreferencias(episodio) + item.Extension);
+                            //episodio.bFlRenomeado = true; // Habilitando a linha da problema no retorno dos arquivos renomeados via argumento (RenomearEpisodiosDosArgumentos())
+                            lstEpisodios.Add(episodio);
+                        }
+                        else
+                        {
+                            lstEpisodiosNaoEncontrados.Add(episodio);
+                        }
                     }
                 }
             }
