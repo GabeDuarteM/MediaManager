@@ -1,5 +1,4 @@
-﻿using Autofac;
-using MediaManager.Helpers;
+﻿using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.Tests.Preparacoes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

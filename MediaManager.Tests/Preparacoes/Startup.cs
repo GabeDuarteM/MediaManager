@@ -1,9 +1,6 @@
-﻿using System.Data.Common;
-using Autofac;
+﻿using Autofac;
 using MediaManager.Model;
 using MediaManager.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace MediaManager.Tests.Preparacoes
 {

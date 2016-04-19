@@ -51,12 +51,8 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NMemory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a46696d54971e6d, processorArchitecture=MSIL">
-      <HintPath>..\packages\NMemory.1.0.1\lib\net45\NMemory.dll</HintPath>
+      <HintPath>..\packages\NMemory.1.1.2\lib\net45\NMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
@@ -84,7 +80,6 @@
   <ItemGroup>
     <Compile Include="Preparacoes\DbFactory.cs" />
     <Compile Include="Model\EpisodioTests.cs" />
-    <Compile Include="Preparacoes\MockContext.cs" />
     <Compile Include="Preparacoes\Startup.cs" />
     <Compile Include="Services\QualidadeDownloadServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
