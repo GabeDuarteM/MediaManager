@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
@@ -13,95 +10,40 @@ namespace MediaManager.ViewModel
 {
     public class PreferenciasViewModel : ViewModelBase
     {
-        private ListaFeedsViewModel _oFeedsViewModel;
-
-        public ListaFeedsViewModel oFeedsViewModel { get { return _oFeedsViewModel; } set { _oFeedsViewModel = value; OnPropertyChanged(); } }
-
-        private ListaFeedsPesquisaViewModel _oListaFeedsPesquisaViewModel;
-
-        public ListaFeedsPesquisaViewModel oListaFeedsPesquisaViewModel { get { return _oListaFeedsPesquisaViewModel; } set { _oListaFeedsPesquisaViewModel = value; OnPropertyChanged(); } }
-
-        private string _sPastaSeries;
-
-        public string sPastaSeries { get { return _sPastaSeries; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Série, value); _sPastaSeries = value; OnPropertyChanged(); } }
-
-        public ICommand CommandEscolherPastaSeries { get; set; }
-
-        private string _sPastaFilmes;
-
-        public string sPastaFilmes { get { return _sPastaFilmes; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Filme, value); _sPastaFilmes = value; OnPropertyChanged(); } }
-
-        public ICommand CommandEscolherPastaFilmes { get; set; }
-
-        private string _sPastaAnimes;
-
-        public string sPastaAnimes { get { return _sPastaAnimes; } set { PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Anime, value); _sPastaAnimes = value; OnPropertyChanged(); } }
-
-        public ICommand CommandEscolherPastaAnimes { get; set; }
-
-        private string _sPastaDownloads;
-
-        public string sPastaDownloads { get { return _sPastaDownloads; } set { _sPastaDownloads = value; OnPropertyChanged(); } }
-
-        public ICommand CommandEscolherPastaDownloads { get; set; }
-
-        private string _sPastaBlackhole;
-
-        public string sPastaBlackhole { get { return _sPastaBlackhole; } set { _sPastaBlackhole = value; OnPropertyChanged(); } }
-
-        public ICommand CommandEscolherPastaBlackhole { get; set; }
-
-        private int _nIntervaloDeProcuraConteudoNovo;
-
-        public int nIntervaloDeProcuraConteudoNovo { get { return _nIntervaloDeProcuraConteudoNovo; } set { _nIntervaloDeProcuraConteudoNovo = value; OnPropertyChanged(); } }
+        private Array _ArrayMetodosDeProcessamento;
 
         private Dictionary<string, string> _DictIdiomaPesquisa;
 
-        public Dictionary<string, string> DictIdiomaPesquisa { get { return _DictIdiomaPesquisa; } set { _DictIdiomaPesquisa = value; OnPropertyChanged(); } }
-
-        private string _sIdiomaSelecionado;
-
-        public string sIdiomaSelecionado { get { return _sIdiomaSelecionado; } set { _sIdiomaSelecionado = value; OnPropertyChanged(); } }
-
-        private Array _ArrayMetodosDeProcessamento;
-
-        public Array ArrayMetodosDeProcessamento { get { return _ArrayMetodosDeProcessamento; } set { _ArrayMetodosDeProcessamento = value; OnPropertyChanged(); } }
-
         private Enums.MetodoDeProcessamento _nIdMetodoDeProcessamentoSelecionado;
 
-        public Enums.MetodoDeProcessamento nIdMetodoDeProcessamentoSelecionado { get { return _nIdMetodoDeProcessamentoSelecionado; } set { _nIdMetodoDeProcessamentoSelecionado = value; OnPropertyChanged(); } }
+        private int _nIntervaloDeProcuraConteudoNovo;
+        private ListaFeedsViewModel _oFeedsViewModel;
 
-        public ICommand CommandLimparBancoDeDados { get; set; }
-
-        private string _sFormatoParaSeries;
-
-        public string sFormatoParaSeries { get { return _sFormatoParaSeries; } set { _sFormatoParaSeries = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Série); } }
-
-        private string _sFormatoParaFilmes;
-
-        public string sFormatoParaFilmes { get { return _sFormatoParaFilmes; } set { _sFormatoParaFilmes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Filme); } }
+        private ListaFeedsPesquisaViewModel _oListaFeedsPesquisaViewModel;
 
         private string _sFormatoParaAnimes;
 
-        public string sFormatoParaAnimes { get { return _sFormatoParaAnimes; } set { _sFormatoParaAnimes = value; OnPropertyChanged(); AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Anime); } }
+        private string _sFormatoParaFilmes;
 
-        private string _sVisualizacaoFormatoParaSeries;
+        private string _sFormatoParaSeries;
 
-        public string sVisualizacaoFormatoParaSeries { get { return _sVisualizacaoFormatoParaSeries; } set { _sVisualizacaoFormatoParaSeries = value; OnPropertyChanged(); } }
+        private string _sIdiomaSelecionado;
 
-        private string _sVisualizacaoFormatoParaFilmes;
+        private string _sPastaAnimes;
 
-        public string sVisualizacaoFormatoParaFilmes { get { return _sVisualizacaoFormatoParaFilmes; } set { _sVisualizacaoFormatoParaFilmes = value; OnPropertyChanged(); } }
+        private string _sPastaBlackhole;
+
+        private string _sPastaDownloads;
+
+        private string _sPastaFilmes;
+
+        private string _sPastaSeries;
 
         private string _sVisualizacaoFormatoParaAnimes;
 
-        public string sVisualizacaoFormatoParaAnimes { get { return _sVisualizacaoFormatoParaAnimes; } set { _sVisualizacaoFormatoParaAnimes = value; OnPropertyChanged(); } }
+        private string _sVisualizacaoFormatoParaFilmes;
 
-        public Window Owner { get; set; }
-
-        public ICommand CommandSalvar { get; set; }
-
-        public Action ActionFechar { get; set; }
+        private string _sVisualizacaoFormatoParaSeries;
 
         public PreferenciasViewModel(Window owner = null)
         {
@@ -120,7 +62,8 @@ namespace MediaManager.ViewModel
             DictIdiomaPesquisa = SetarIdiomas();
             sIdiomaSelecionado = Properties.Settings.Default.pref_IdiomaPesquisa;
             ArrayMetodosDeProcessamento = Enum.GetValues(typeof(Enums.MetodoDeProcessamento));
-            nIdMetodoDeProcessamentoSelecionado = (Enums.MetodoDeProcessamento)Properties.Settings.Default.pref_MetodoDeProcessamento;
+            nIdMetodoDeProcessamentoSelecionado =
+                (Enums.MetodoDeProcessamento) Properties.Settings.Default.pref_MetodoDeProcessamento;
             nIntervaloDeProcuraConteudoNovo = Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo;
             sPastaAnimes = Properties.Settings.Default.pref_PastaAnimes;
             sPastaFilmes = Properties.Settings.Default.pref_PastaFilmes;
@@ -136,6 +79,210 @@ namespace MediaManager.ViewModel
             CommandSalvar = new PreferenciasCommands.CommandSalvar();
         }
 
+        public ListaFeedsViewModel oFeedsViewModel
+        {
+            get { return _oFeedsViewModel; }
+            set
+            {
+                _oFeedsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ListaFeedsPesquisaViewModel oListaFeedsPesquisaViewModel
+        {
+            get { return _oListaFeedsPesquisaViewModel; }
+            set
+            {
+                _oListaFeedsPesquisaViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string sPastaSeries
+        {
+            get { return _sPastaSeries; }
+            set
+            {
+                PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Série, value);
+                _sPastaSeries = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandEscolherPastaSeries { get; set; }
+
+        public string sPastaFilmes
+        {
+            get { return _sPastaFilmes; }
+            set
+            {
+                PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Filme, value);
+                _sPastaFilmes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandEscolherPastaFilmes { get; set; }
+
+        public string sPastaAnimes
+        {
+            get { return _sPastaAnimes; }
+            set
+            {
+                PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo.Anime, value);
+                _sPastaAnimes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandEscolherPastaAnimes { get; set; }
+
+        public string sPastaDownloads
+        {
+            get { return _sPastaDownloads; }
+            set
+            {
+                _sPastaDownloads = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandEscolherPastaDownloads { get; set; }
+
+        public string sPastaBlackhole
+        {
+            get { return _sPastaBlackhole; }
+            set
+            {
+                _sPastaBlackhole = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandEscolherPastaBlackhole { get; set; }
+
+        public int nIntervaloDeProcuraConteudoNovo
+        {
+            get { return _nIntervaloDeProcuraConteudoNovo; }
+            set
+            {
+                _nIntervaloDeProcuraConteudoNovo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Dictionary<string, string> DictIdiomaPesquisa
+        {
+            get { return _DictIdiomaPesquisa; }
+            set
+            {
+                _DictIdiomaPesquisa = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string sIdiomaSelecionado
+        {
+            get { return _sIdiomaSelecionado; }
+            set
+            {
+                _sIdiomaSelecionado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Array ArrayMetodosDeProcessamento
+        {
+            get { return _ArrayMetodosDeProcessamento; }
+            set
+            {
+                _ArrayMetodosDeProcessamento = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Enums.MetodoDeProcessamento nIdMetodoDeProcessamentoSelecionado
+        {
+            get { return _nIdMetodoDeProcessamentoSelecionado; }
+            set
+            {
+                _nIdMetodoDeProcessamentoSelecionado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand CommandLimparBancoDeDados { get; set; }
+
+        public string sFormatoParaSeries
+        {
+            get { return _sFormatoParaSeries; }
+            set
+            {
+                _sFormatoParaSeries = value;
+                OnPropertyChanged();
+                AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Série);
+            }
+        }
+
+        public string sFormatoParaFilmes
+        {
+            get { return _sFormatoParaFilmes; }
+            set
+            {
+                _sFormatoParaFilmes = value;
+                OnPropertyChanged();
+                AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Filme);
+            }
+        }
+
+        public string sFormatoParaAnimes
+        {
+            get { return _sFormatoParaAnimes; }
+            set
+            {
+                _sFormatoParaAnimes = value;
+                OnPropertyChanged();
+                AlterarVisualizacaoFormato(value, Enums.TipoConteudo.Anime);
+            }
+        }
+
+        public string sVisualizacaoFormatoParaSeries
+        {
+            get { return _sVisualizacaoFormatoParaSeries; }
+            set
+            {
+                _sVisualizacaoFormatoParaSeries = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string sVisualizacaoFormatoParaFilmes
+        {
+            get { return _sVisualizacaoFormatoParaFilmes; }
+            set
+            {
+                _sVisualizacaoFormatoParaFilmes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string sVisualizacaoFormatoParaAnimes
+        {
+            get { return _sVisualizacaoFormatoParaAnimes; }
+            set
+            {
+                _sVisualizacaoFormatoParaAnimes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Window Owner { get; set; }
+
+        public ICommand CommandSalvar { get; set; }
+
+        public Action ActionFechar { get; set; }
+
         private void PerguntarAlterarParaTodosVideosExistentes(Enums.TipoConteudo nIdTipoConteudo, string valor)
         {
         }
@@ -144,18 +291,19 @@ namespace MediaManager.ViewModel
         {
             Episodio episodioVisualizacao = new Episodio()
             {
-                oSerie = new Serie() { sDsTitulo = "Exemplo de título", sFormatoRenomeioPersonalizado = sFormato },
+                oSerie = new Serie() {sDsTitulo = "Exemplo de título", sFormatoRenomeioPersonalizado = sFormato},
                 sDsEpisodio = "Título do episódio",
                 nNrTemporada = 3,
-                lstIntEpisodios = new List<int>() { 5 },
-                lstIntEpisodiosAbsolutos = new List<int>() { 25 }
+                lstIntEpisodios = new List<int>() {5},
+                lstIntEpisodiosAbsolutos = new List<int>() {25}
             };
 
             switch (nIdTipoConteudo)
             {
                 case Enums.TipoConteudo.Filme:
                     episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Filme;
-                    sVisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)"; // TODO Visualizacao Filmes
+                    sVisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)";
+                        // TODO Visualizacao Filmes
                     break;
 
                 case Enums.TipoConteudo.Série:
@@ -174,7 +322,8 @@ namespace MediaManager.ViewModel
         }
 
         /// <summary>
-        /// Idiomas do TheTVDB. Segundo eles isso é tão dificil de ser alterado que pode ser hardcoded. Para verificar o xml com os idiomas a url é http://thetvdb.com/api/{APIKey}/languages.xml
+        ///     Idiomas do TheTVDB. Segundo eles isso é tão dificil de ser alterado que pode ser hardcoded. Para verificar o xml
+        ///     com os idiomas a url é http://thetvdb.com/api/{APIKey}/languages.xml
         /// </summary>
         /// <returns></returns>
         private Dictionary<string, string> SetarIdiomas()

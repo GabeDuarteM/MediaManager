@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
@@ -12,6 +9,17 @@ namespace MediaManager.Behaviors
 {
     internal class PersistenciaGroupExpandedBehavior : Behavior<Expander>
     {
+        #region Public Properties
+
+        public object GroupName
+        {
+            get { return (object) GetValue(GroupNameProperty); }
+
+            set { SetValue(GroupNameProperty, value); }
+        }
+
+        #endregion Public Properties
+
         #region Static Fields
 
         public static readonly DependencyProperty GroupNameProperty = DependencyProperty.Register(
@@ -29,51 +37,34 @@ namespace MediaManager.Behaviors
 
         #endregion Static Fields
 
-        #region Public Properties
-
-        public object GroupName
-        {
-            get
-            {
-                return (object)this.GetValue(GroupNameProperty);
-            }
-
-            set
-            {
-                this.SetValue(GroupNameProperty, value);
-            }
-        }
-
-        #endregion Public Properties
-
         #region Methods
 
         protected override void OnAttached()
         {
             base.OnAttached();
 
-            bool? expanded = this.GetExpandedState();
+            bool? expanded = GetExpandedState();
 
             if (expanded != null)
             {
-                this.AssociatedObject.IsExpanded = expanded.Value;
+                AssociatedObject.IsExpanded = expanded.Value;
             }
 
-            this.AssociatedObject.Expanded += this.OnExpanded;
-            this.AssociatedObject.Collapsed += this.OnCollapsed;
+            AssociatedObject.Expanded += OnExpanded;
+            AssociatedObject.Collapsed += OnCollapsed;
         }
 
         protected override void OnDetaching()
         {
-            this.AssociatedObject.Expanded -= this.OnExpanded;
-            this.AssociatedObject.Collapsed -= this.OnCollapsed;
+            AssociatedObject.Expanded -= OnExpanded;
+            AssociatedObject.Collapsed -= OnCollapsed;
 
             base.OnDetaching();
         }
 
         private ItemsControl FindItemsControl()
         {
-            DependencyObject current = this.AssociatedObject;
+            DependencyObject current = AssociatedObject;
 
             while (current != null && !(current is ItemsControl))
             {
@@ -90,19 +81,19 @@ namespace MediaManager.Behaviors
 
         private bool? GetExpandedState()
         {
-            var dict = this.GetExpandedStateStore();
+            var dict = GetExpandedStateStore();
 
-            if (!dict.ContainsKey(this.GroupName))
+            if (!dict.ContainsKey(GroupName))
             {
                 return null;
             }
 
-            return dict[this.GroupName];
+            return dict[GroupName];
         }
 
         private IDictionary<object, bool> GetExpandedStateStore()
         {
-            ItemsControl itemsControl = this.FindItemsControl();
+            ItemsControl itemsControl = FindItemsControl();
 
             if (itemsControl == null)
             {
@@ -110,7 +101,7 @@ namespace MediaManager.Behaviors
                     "Behavior needs to be attached to an Expander that is contained inside an ItemsControl");
             }
 
-            var dict = (IDictionary<object, bool>)itemsControl.GetValue(ExpandedStateStoreProperty);
+            var dict = (IDictionary<object, bool>) itemsControl.GetValue(ExpandedStateStoreProperty);
 
             if (dict == null)
             {
@@ -123,19 +114,19 @@ namespace MediaManager.Behaviors
 
         private void OnCollapsed(object sender, RoutedEventArgs e)
         {
-            this.SetExpanded(false);
+            SetExpanded(false);
         }
 
         private void OnExpanded(object sender, RoutedEventArgs e)
         {
-            this.SetExpanded(true);
+            SetExpanded(true);
         }
 
         private void SetExpanded(bool expanded)
         {
-            var dict = this.GetExpandedStateStore();
+            var dict = GetExpandedStateStore();
 
-            dict[this.GroupName] = expanded;
+            dict[GroupName] = expanded;
         }
 
         #endregion Methods

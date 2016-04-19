@@ -1,28 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmBarraProgresso.xaml
+    ///     Interaction logic for frmBarraProgresso.xaml
     /// </summary>
     public partial class frmBarraProgresso : Window
     {
-        public BarraProgressoViewModel BarraProgressoViewModel { get; set; }
-
         public frmBarraProgresso()
         {
             InitializeComponent();
@@ -34,6 +21,8 @@ namespace MediaManager.Forms
             DataContext = BarraProgressoViewModel;
         }
 
+        public BarraProgressoViewModel BarraProgressoViewModel { get; set; }
+
         public void ShowDialog(Window owner)
         {
             Owner = owner;
@@ -43,42 +32,75 @@ namespace MediaManager.Forms
 
     public class BarraProgressoViewModel : INotifyPropertyChanged
     {
-        private string _sDsTarefa;
+        private double _dNrProgressoAtual;
 
-        public string sDsTarefa { get { return _sDsTarefa; } set { _sDsTarefa = value; OnPropertyChanged(); } }
+        private double _dNrProgressoMaximo;
+        private string _sDsTarefa;
 
         private string _sDsTexto;
 
-        public string sDsTexto { get { return _sDsTexto; } set { _sDsTexto = value; OnPropertyChanged(); } }
+        public BarraProgressoViewModel()
+        {
+            Worker = new BackgroundWorker();
+            Worker.RunWorkerCompleted += (s, e) => { ActionFechar(); };
+        }
 
-        public int nPcProgressoAtual { get { return (int)((dNrProgressoAtual / dNrProgressoMaximo) * 100); } }
+        public string sDsTarefa
+        {
+            get { return _sDsTarefa; }
+            set
+            {
+                _sDsTarefa = value;
+                OnPropertyChanged();
+            }
+        }
 
-        private double _dNrProgressoAtual;
+        public string sDsTexto
+        {
+            get { return _sDsTexto; }
+            set
+            {
+                _sDsTexto = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public double dNrProgressoAtual { get { return _dNrProgressoAtual; } set { _dNrProgressoAtual = value; OnPropertyChanged(); OnPropertyChanged("nPcProgressoAtual"); } }
+        public int nPcProgressoAtual
+        {
+            get { return (int) (dNrProgressoAtual/dNrProgressoMaximo*100); }
+        }
 
-        private double _dNrProgressoMaximo;
+        public double dNrProgressoAtual
+        {
+            get { return _dNrProgressoAtual; }
+            set
+            {
+                _dNrProgressoAtual = value;
+                OnPropertyChanged();
+                OnPropertyChanged("nPcProgressoAtual");
+            }
+        }
 
-        public double dNrProgressoMaximo { get { return _dNrProgressoMaximo; } set { _dNrProgressoMaximo = value; OnPropertyChanged(); OnPropertyChanged("nPcProgressoAtual"); } }
+        public double dNrProgressoMaximo
+        {
+            get { return _dNrProgressoMaximo; }
+            set
+            {
+                _dNrProgressoMaximo = value;
+                OnPropertyChanged();
+                OnPropertyChanged("nPcProgressoAtual");
+            }
+        }
 
         public BackgroundWorker Worker { get; set; }
 
         public Action ActionFechar { get; set; }
 
-        public BarraProgressoViewModel()
-        {
-            Worker = new BackgroundWorker();
-            Worker.RunWorkerCompleted += (s, e) =>
-            {
-                ActionFechar();
-            };
-        }
-
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
 

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
@@ -16,55 +11,20 @@ namespace MediaManager.ViewModel
 {
     public class ConfigurarConteudoViewModel : ViewModelBase
     {
-        private string _sDsAlias;
-
-        public string sDsAlias { get { return _sDsAlias; } set { _sDsAlias = value; OnPropertyChanged(); } }
-
-        public string sNrTemporada { get { return nNrTemporada >= 0 ? "S" + _nNrTemporada.ToString("00") : "S"; } set { _nNrTemporada = ValidarPossivelTexto(value, _nNrTemporada); OnPropertyChanged("nNrTemporada"); } }
-
-        private string _sFormatoRenomeioPersonalizado;
-
-        public string sFormatoRenomeioPersonalizado { get { return _sFormatoRenomeioPersonalizado; } set { _sFormatoRenomeioPersonalizado = value; OnPropertyChanged(); } }
-
-        private int _nNrTemporada;
-
-        public int nNrTemporada { get { return _nNrTemporada; } set { _nNrTemporada = value; OnPropertyChanged(); OnPropertyChanged("sNrTemporada"); } }
-
-        public string sNrEpisodio { get { return nNrEpisodio >= 0 ? "E" + _nNrEpisodio.ToString("00") : "E"; } set { _nNrEpisodio = ValidarPossivelTexto(value, _nNrEpisodio); OnPropertyChanged("nNrEpisodio"); } }
-
-        private int _nNrEpisodio;
-
-        public int nNrEpisodio { get { return _nNrEpisodio; } set { _nNrEpisodio = value; OnPropertyChanged(); OnPropertyChanged("sNrEpisodio"); } }
-
-        public bool bFlAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
-
         private bool _bIsParado;
-
-        public bool bIsParado { get { return _bIsParado; } set { _bIsParado = value; OnPropertyChanged(); } } // TODO Adicionar comando também na label, não só no check
-
-        private SerieAlias _oAliasSelecionado;
-
-        public SerieAlias oAliasSelecionado { get { return _oAliasSelecionado; } set { _oAliasSelecionado = value; OnPropertyChanged(); } }
-
-        private Video _oVideo;
-
-        public Video oVideo { get { return _oVideo; } set { _oVideo = value; OnPropertyChanged(); } }
 
         private IList<SerieAlias> _lstTempSerieAliases;
 
-        public IList<SerieAlias> lstTempSerieAliases { get { return _lstTempSerieAliases; } set { _lstTempSerieAliases = value; OnPropertyChanged(); } }
+        private int _nNrEpisodio;
 
-        public Action ActionFechar { get; set; }
+        private int _nNrTemporada;
 
-        public ICommand DoubleClickCommand { get; set; }
+        private SerieAlias _oAliasSelecionado;
 
-        public ICommand AddAlias { get; set; }
+        private Video _oVideo;
+        private string _sDsAlias;
 
-        public ICommand RemoveAlias { get; set; }
-
-        public ICommand CommandSalvar { get; set; }
-
-        public ICommand CommandRemoverSerie { get; set; }
+        private string _sFormatoRenomeioPersonalizado;
 
         public ConfigurarConteudoViewModel(Video oVideo)
         {
@@ -88,6 +48,122 @@ namespace MediaManager.ViewModel
             CommandSalvar = new ConfigurarConteudoCommands.CommandSalvar();
             CommandRemoverSerie = new ConfigurarConteudoCommands.CommandRemoverSerie();
         }
+
+        public string sDsAlias
+        {
+            get { return _sDsAlias; }
+            set
+            {
+                _sDsAlias = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string sNrTemporada
+        {
+            get { return nNrTemporada >= 0 ? "S" + _nNrTemporada.ToString("00") : "S"; }
+            set
+            {
+                _nNrTemporada = ValidarPossivelTexto(value, _nNrTemporada);
+                OnPropertyChanged("nNrTemporada");
+            }
+        }
+
+        public string sFormatoRenomeioPersonalizado
+        {
+            get { return _sFormatoRenomeioPersonalizado; }
+            set
+            {
+                _sFormatoRenomeioPersonalizado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int nNrTemporada
+        {
+            get { return _nNrTemporada; }
+            set
+            {
+                _nNrTemporada = value;
+                OnPropertyChanged();
+                OnPropertyChanged("sNrTemporada");
+            }
+        }
+
+        public string sNrEpisodio
+        {
+            get { return nNrEpisodio >= 0 ? "E" + _nNrEpisodio.ToString("00") : "E"; }
+            set
+            {
+                _nNrEpisodio = ValidarPossivelTexto(value, _nNrEpisodio);
+                OnPropertyChanged("nNrEpisodio");
+            }
+        }
+
+        public int nNrEpisodio
+        {
+            get { return _nNrEpisodio; }
+            set
+            {
+                _nNrEpisodio = value;
+                OnPropertyChanged();
+                OnPropertyChanged("sNrEpisodio");
+            }
+        }
+
+        public bool bFlAcaoRemover { get; set; } // Para poder fechar as outras janelas ao remover.
+
+        public bool bIsParado
+        {
+            get { return _bIsParado; }
+            set
+            {
+                _bIsParado = value;
+                OnPropertyChanged();
+            }
+        } // TODO Adicionar comando também na label, não só no check
+
+        public SerieAlias oAliasSelecionado
+        {
+            get { return _oAliasSelecionado; }
+            set
+            {
+                _oAliasSelecionado = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Video oVideo
+        {
+            get { return _oVideo; }
+            set
+            {
+                _oVideo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IList<SerieAlias> lstTempSerieAliases
+        {
+            get { return _lstTempSerieAliases; }
+            set
+            {
+                _lstTempSerieAliases = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Action ActionFechar { get; set; }
+
+        public ICommand DoubleClickCommand { get; set; }
+
+        public ICommand AddAlias { get; set; }
+
+        public ICommand RemoveAlias { get; set; }
+
+        public ICommand CommandSalvar { get; set; }
+
+        public ICommand CommandRemoverSerie { get; set; }
 
         private void PopularListaTempSerieAlias()
         {

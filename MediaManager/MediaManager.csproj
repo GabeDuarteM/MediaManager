@@ -199,10 +199,12 @@
     </Compile>
     <Compile Include="Commands\EdicaoPosterCommand.cs" />
     <Compile Include="Services\FeedsService.cs" />
-    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IRepositorio.cs" />
     <Compile Include="Services\EpisodiosService.cs" />
+    <Compile Include="Services\QualidadeDownloadService.cs" />
     <Compile Include="Services\SerieAliasService.cs" />
     <Compile Include="Services\SeriesService.cs" />
+    <Compile Include="Services\RepositorioBase.cs" />
     <Compile Include="ViewModel\AdicionarConteudoViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ConfigurarConteudoViewModel.cs" />

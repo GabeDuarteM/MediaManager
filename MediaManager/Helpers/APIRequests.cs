@@ -18,7 +18,7 @@ namespace MediaManager.Helpers
 {
     public class APIRequests
     {
-        public async static Task<bool> GetAtualizacoes()
+        public static async Task<bool> GetAtualizacoes()
         {
             if (Settings.Default.API_UltimaDataAtualizacaoTVDB == default(DateTime))
             {
@@ -33,7 +33,8 @@ namespace MediaManager.Helpers
             string xmlString = null;
             // RandomNum para não dar problema ao excluir um arquivo ainda sendo utilizado.
             var randomNum = new Random().Next(1, 55555);
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
 
             if (dias == 0)
             {
@@ -143,7 +144,9 @@ namespace MediaManager.Helpers
                         episodiosService.Update(episodio);
                     }
                 }
-                else if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("Series").InnerText))
+                else if (
+                    lstSeriesAnimes.Select(x => x.nCdApi.ToString())
+                        .Contains(item.SelectSingleNode("Series").InnerText))
                 {
                     Episodio episodio = await GetEpisodeInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
                     episodiosService.Adicionar(episodio);
@@ -152,20 +155,24 @@ namespace MediaManager.Helpers
 
             foreach (XmlNode item in nodesBanners)
             {
-                if ((item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Fanart.ToString().ToLower() || item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Poster.ToString().ToLower()))
+                if (item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Fanart.ToString().ToLower() ||
+                    item.SelectSingleNode("type").InnerText == Enums.TipoImagem.Poster.ToString().ToLower())
                 {
-                    if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("Series").InnerText))
+                    if (
+                        lstSeriesAnimes.Select(x => x.nCdApi.ToString())
+                            .Contains(item.SelectSingleNode("Series").InnerText))
                     {
                         var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
-                        var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" + item.SelectSingleNode("path").InnerText;
+                        var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" +
+                                        item.SelectSingleNode("path").InnerText;
                         var tipo = item.SelectSingleNode("type").InnerText;
                         if (tipo == Enums.TipoImagem.Fanart.ToString().ToLower())
                         {
                             using (Context db = new Context())
                             {
                                 var serie = (from series in db.Serie
-                                             where series.nCdApi == IDApi
-                                             select series).First();
+                                    where series.nCdApi == IDApi
+                                    select series).First();
                                 if (urlImagem != serie.sDsImgFanart)
                                 {
                                     serie.sDsImgFanart = urlImagem;
@@ -179,8 +186,8 @@ namespace MediaManager.Helpers
                             using (Context db = new Context())
                             {
                                 var serie = (from series in db.Serie
-                                             where series.nCdApi == IDApi
-                                             select series).First();
+                                    where series.nCdApi == IDApi
+                                    select series).First();
                                 if (urlImagem != serie.sDsImgPoster)
                                 {
                                     serie.sDsImgPoster = urlImagem;
@@ -198,13 +205,14 @@ namespace MediaManager.Helpers
             return true;
         }
 
-        public async static Task<Serie> GetSerieInfoAsync(int IDTvdb, string lang)
+        public static async Task<Serie> GetSerieInfoAsync(int IDTvdb, string lang)
         {
             string xmlString = null;
             Random rnd = new Random();
             var randomNum = rnd.Next(1, 55555);
             // Para evitar erros de arquivos sendo utilizados ao excluir.
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
             try
             {
                 if (File.Exists(path))
@@ -217,7 +225,10 @@ namespace MediaManager.Helpers
                 }
                 using (WebClient wc = new WebClient())
                 {
-                    await wc.DownloadFileTaskAsync(new Uri(Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/series/" + IDTvdb + "/all/" + lang + ".zip"), path);
+                    await
+                        wc.DownloadFileTaskAsync(
+                            new Uri(Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB +
+                                    "/series/" + IDTvdb + "/all/" + lang + ".zip"), path);
                 }
 
                 using (ZipFile zip = ZipFile.Read(path))
@@ -249,25 +260,25 @@ namespace MediaManager.Helpers
 
             using (var reader = new StringReader(xmlString))
             {
-                data = (SeriesData)serializer.Deserialize(reader);
+                data = (SeriesData) serializer.Deserialize(reader);
             }
 
             foreach (var item in data.Series)
             {
                 item.nIdEstado = Enums.Estado.Completo;
-                item.lstEpisodios = (data.Episodios != null) ? new List<Episodio>(data.Episodios) : new List<Episodio>();
+                item.lstEpisodios = data.Episodios != null ? new List<Episodio>(data.Episodios) : new List<Episodio>();
             }
 
             return data.Series.FirstOrDefault();
         }
 
-        public async static Task<List<Serie>> GetSeriesAsync(string query)
+        public static async Task<List<Serie>> GetSeriesAsync(string query)
         {
             string responseData = null;
 
             try
             {
-                using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+                using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
                 {
                     using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
                     {
@@ -281,14 +292,15 @@ namespace MediaManager.Helpers
             }
 
             // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.
-            responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)", "<Language>$1</Language>");
+            responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)",
+                "<Language>$1</Language>");
 
             SeriesData data = new SeriesData();
             XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {
-                data = (SeriesData)serializer.Deserialize(reader);
+                data = (SeriesData) serializer.Deserialize(reader);
             }
 
             List<Serie> series = new List<Serie>();
@@ -312,7 +324,7 @@ namespace MediaManager.Helpers
         {
             string responseData = null;
 
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
             {
                 using (var response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query).Result)
                 {
@@ -321,14 +333,15 @@ namespace MediaManager.Helpers
             }
 
             // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.
-            responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)", "<Language>$1</Language>");
+            responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)",
+                "<Language>$1</Language>");
 
             SeriesData data = new SeriesData();
             XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {
-                data = (SeriesData)serializer.Deserialize(reader);
+                data = (SeriesData) serializer.Deserialize(reader);
             }
 
             List<Serie> series = new List<Serie>();
@@ -374,9 +387,13 @@ namespace MediaManager.Helpers
         {
             string responseData = null;
 
-            using (var httpClient = new HttpClient { BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB) })
+            using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
             {
-                using (var response = await httpClient.GetAsync("/api/" + Settings.Default.API_KeyTheTVDB + "/episodes/" + IDApi + "/" + Settings.Default.pref_IdiomaPesquisa + ".xml"))
+                using (
+                    var response =
+                        await
+                            httpClient.GetAsync("/api/" + Settings.Default.API_KeyTheTVDB + "/episodes/" + IDApi + "/" +
+                                                Settings.Default.pref_IdiomaPesquisa + ".xml"))
                 {
                     responseData = await response.Content.ReadAsStringAsync();
                 }
@@ -387,7 +404,7 @@ namespace MediaManager.Helpers
 
             using (var reader = new StringReader(responseData))
             {
-                var data = (SeriesData)serializer.Deserialize(reader);
+                var data = (SeriesData) serializer.Deserialize(reader);
                 episode = data.Episodios[0];
             }
             return episode;

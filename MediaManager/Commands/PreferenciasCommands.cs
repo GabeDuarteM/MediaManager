@@ -27,7 +27,11 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                if (MessageBox.Show("Ao realizar esta ação, todas as informações armazenadas sobre o conteúdo que você possui serão apagadas (entretanto todos os arquivos de vídeo que você possui permanecerá intacto). Você realmente deseja realizar esta ação?", Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (
+                    MessageBox.Show(
+                        "Ao realizar esta ação, todas as informações armazenadas sobre o conteúdo que você possui serão apagadas (entretanto todos os arquivos de vídeo que você possui permanecerá intacto). Você realmente deseja realizar esta ação?",
+                        Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                    MessageBoxResult.Yes)
                 {
                     using (Model.Context db = new Model.Context())
                     {
@@ -58,7 +62,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandEscolherPastaAnimes : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -82,7 +90,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandEscolherPastaFilmes : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -106,7 +118,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandEscolherPastaSeries : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -130,7 +146,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandEscolherPastaDownloads : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -154,7 +174,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandEscolherPastaBlackhole : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -175,7 +199,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
         public class CommandSalvar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -187,14 +215,25 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
                 PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
                 SeriesService seriesService = App.Container.Resolve<SeriesService>();
 
-                Properties.Settings.Default.pref_FormatoAnimes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaAnimes) ? preferenciasVM.sFormatoParaAnimes : "{Titulo} - {Absoluto} - {TituloEpisodio}";
-                Properties.Settings.Default.pref_FormatoFilmes = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaFilmes) ? preferenciasVM.sFormatoParaFilmes : "{Titulo} ({Ano})";
-                Properties.Settings.Default.pref_FormatoSeries = !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaSeries) ? preferenciasVM.sFormatoParaSeries : "{Titulo} - {SxEE} - {TituloEpisodio}";
+                Properties.Settings.Default.pref_FormatoAnimes =
+                    !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaAnimes)
+                        ? preferenciasVM.sFormatoParaAnimes
+                        : "{Titulo} - {Absoluto} - {TituloEpisodio}";
+                Properties.Settings.Default.pref_FormatoFilmes =
+                    !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaFilmes)
+                        ? preferenciasVM.sFormatoParaFilmes
+                        : "{Titulo} ({Ano})";
+                Properties.Settings.Default.pref_FormatoSeries =
+                    !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaSeries)
+                        ? preferenciasVM.sFormatoParaSeries
+                        : "{Titulo} - {SxEE} - {TituloEpisodio}";
                 Properties.Settings.Default.pref_IdiomaPesquisa = preferenciasVM.sIdiomaSelecionado;
-                Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo = preferenciasVM.nIntervaloDeProcuraConteudoNovo;
+                Properties.Settings.Default.pref_IntervaloDeProcuraConteudoNovo =
+                    preferenciasVM.nIntervaloDeProcuraConteudoNovo;
                 Properties.Settings.Default.pref_PastaDownloads = preferenciasVM.sPastaDownloads;
                 Properties.Settings.Default.pref_PastaBlackhole = preferenciasVM.sPastaBlackhole;
-                Properties.Settings.Default.pref_MetodoDeProcessamento = (int)preferenciasVM.nIdMetodoDeProcessamentoSelecionado;
+                Properties.Settings.Default.pref_MetodoDeProcessamento =
+                    (int) preferenciasVM.nIdMetodoDeProcessamentoSelecionado;
 
                 List<string> alterados = new List<string>();
                 bool bFlAlterarPastas = false;
@@ -220,8 +259,11 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
                 Properties.Settings.Default.Save();
 
-                if (alterados.Count > 0 && Helper.MostrarMensagem("Deseja alterar também as pastas dos(as) " + Helper.ColocarVirgula(null, alterados) + " já cadastrados(as)?", Enums.eTipoMensagem.QuestionamentoSimNao)
-                        == MessageBoxResult.Yes)
+                if (alterados.Count > 0 &&
+                    Helper.MostrarMensagem(
+                        "Deseja alterar também as pastas dos(as) " + Helper.ColocarVirgula(null, alterados) +
+                        " já cadastrados(as)?", Enums.eTipoMensagem.QuestionamentoSimNao)
+                    == MessageBoxResult.Yes)
                 {
                     bFlAlterarPastas = true;
                 }

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
 using System.Windows;
-using MediaManager.Helpers;
-using MediaManager.Model;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmPreferencias.xaml
+    ///     Interaction logic for frmPreferencias.xaml
     /// </summary>
     public partial class frmPreferencias : Window
     {
@@ -33,9 +28,10 @@ namespace MediaManager.Forms
             ShowDialog();
         }
 
-        //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
-        //{
         //    if (btnLoginTrakt.Content.Equals("Entrar"))
+        //{
+
+        //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
         //    {
         //        // TODO Login em outras máquinas (Não está localizando a página localhost p/ fazer login).
         //        var url = "http://trakt.tv/oauth/authorize?client_id=bde862fb343e4249fff7af52459e5af3428d471e8bbd584db6355d2b1812aa60&redirect_uri=http%3A%2F%2Flocalhost%3A51038%2FTraktLogin.aspx&response_type=code";

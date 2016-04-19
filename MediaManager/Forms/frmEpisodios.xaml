@@ -1,15 +1,15 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MediaManager.Forms"
-        xmlns:properties="clr-namespace:MediaManager.Properties"
-        xmlns:ViewModel="clr-namespace:MediaManager.ViewModel"
-        x:Class="MediaManager.Forms.frmEpisodios"
-        mc:Ignorable="d"
-        Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Episódios - \{0\}}"
-        Height="463" Width="785" ResizeMode="NoResize">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:MediaManager.Forms"
+    xmlns:properties="clr-namespace:MediaManager.Properties"
+    xmlns:ViewModel="clr-namespace:MediaManager.ViewModel"
+    x:Class="MediaManager.Forms.frmEpisodios"
+    mc:Ignorable="d"
+    Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Episódios - \{0\}}"
+    Height="463" Width="785" ResizeMode="NoResize">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -25,9 +25,13 @@
             <RowDefinition Height="379*" />
             <RowDefinition Height="45*" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding lstEpisodiosView, Mode=TwoWay}"
-                  Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
+        <DataGrid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding lstEpisodiosView, Mode=TwoWay}"
+                  Margin="0,0,0,5" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2"
+                  AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD"
+                  VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True">
 
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -54,7 +58,8 @@
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="Temporada " />
                                                         <TextBlock Text="{Binding Path=Name}" />
-                                                        <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} Episódios'}" />
+                                                        <TextBlock
+                                                            Text="{Binding Path=ItemCount, StringFormat=' | {0} Episódios'}" />
                                                     </StackPanel>
                                                 </Expander.Header>
                                                 <ItemsPresenter />
@@ -99,9 +104,14 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Grid.Row="2" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Marcar itens como:" Height="26" Width="111" d:IsLocked="True" />
-        <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Height="23" Width="150" ItemsSource="{Binding ArrayEstadoEpisodio}" SelectedItem="{Binding nIdEstadoEpisodioSelecionado}" d:IsLocked="True" />
-        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Salvar" Width="75" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
-        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Content="Fechar" Width="75" Command="{Binding CommandFechar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
+        <Label Grid.Row="2" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Content="Marcar itens como:" Height="26" Width="111" d:IsLocked="True" />
+        <ComboBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0"
+                  Height="23" Width="150" ItemsSource="{Binding ArrayEstadoEpisodio}"
+                  SelectedItem="{Binding nIdEstadoEpisodioSelecionado}" d:IsLocked="True" />
+        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Salvar" Width="75"
+                Command="{Binding CommandSalvar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
+        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Content="Fechar" Width="75"
+                Command="{Binding CommandFechar}" CommandParameter="{Binding}" Margin="0,11" d:IsLocked="True" />
     </Grid>
 </Window>

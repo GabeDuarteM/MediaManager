@@ -8,14 +8,10 @@ using MediaManager.ViewModel;
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmAdicionarSerie.xaml
+    ///     Interaction logic for frmAdicionarSerie.xaml
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
-        public AdicionarConteudoViewModel AdicionarConteudoViewModel { get; set; }
-
-        public bool IsEdicao { get; set; }
-
         public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, bool bIsProcurarConteudo = false)
         {
             InitializeComponent();
@@ -31,7 +27,11 @@ namespace MediaManager.Forms
 
                 AdicionarConteudoViewModel = new AdicionarConteudoViewModel(serie, tipoConteudo);
                 AdicionarConteudoViewModel.bProcurarConteudo = bIsProcurarConteudo;
-                AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
+                AdicionarConteudoViewModel.ActionClose = dialogResult =>
+                {
+                    DialogResult = dialogResult;
+                    Close();
+                };
             }
             else
             {
@@ -48,10 +48,18 @@ namespace MediaManager.Forms
 
             AdicionarConteudoViewModel = new AdicionarConteudoViewModel(video, tipoConteudo);
             AdicionarConteudoViewModel.bProcurarConteudo = bIsProcurarConteudo;
-            AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
+            AdicionarConteudoViewModel.ActionClose = new Action<bool>((dialogResult) =>
+            {
+                DialogResult = dialogResult;
+                Close();
+            });
 
             DataContext = AdicionarConteudoViewModel;
         }
+
+        public AdicionarConteudoViewModel AdicionarConteudoViewModel { get; set; }
+
+        public bool IsEdicao { get; set; }
 
         private void btnPasta_Click(object sender, RoutedEventArgs e)
         {

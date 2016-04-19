@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac;
 using MediaManager.Forms;
@@ -17,54 +15,68 @@ namespace MediaManager.Commands
     {
         public class CommandAbrirEpisodios : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVM = parameter as AdicionarConteudoViewModel;
-                return parameter is AdicionarConteudoViewModel && (adicionarConteudoVM.nIdTipoConteudo == Helpers.Enums.TipoConteudo.Anime || adicionarConteudoVM.nIdTipoConteudo == Helpers.Enums.TipoConteudo.Série)
-                    && adicionarConteudoVM.oVideoSelecionado != null && (adicionarConteudoVM.oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo || adicionarConteudoVM.oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                return parameter is AdicionarConteudoViewModel &&
+                       (adicionarConteudoVm.nIdTipoConteudo == Enums.TipoConteudo.Anime ||
+                        adicionarConteudoVm.nIdTipoConteudo == Enums.TipoConteudo.Série)
+                       && adicionarConteudoVm.oVideoSelecionado != null &&
+                       (adicionarConteudoVm.oVideoSelecionado.nIdEstado == Enums.Estado.Completo ||
+                        adicionarConteudoVm.oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel AdicionarConteudoVM = parameter as AdicionarConteudoViewModel;
+                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
-                frmEpisodios frmEpisodios = new frmEpisodios(AdicionarConteudoVM.oVideoSelecionado);
+                var frmEpisodios = new frmEpisodios(adicionarConteudoVm.oVideoSelecionado);
                 frmEpisodios.Show();
             }
         }
 
         public class CommandConfigurarConteudo : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null &&
-                    ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo ||
-                    (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+                return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null
+                    && (((AdicionarConteudoViewModel)parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
+                    || ((AdicionarConteudoViewModel)parameter).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel AdicionarConteudoVM = parameter as AdicionarConteudoViewModel;
+                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
-                frmConfigConteudo frmConfigConteudo = new frmConfigConteudo(AdicionarConteudoVM.oVideoSelecionado);
+                var frmConfigConteudo = new frmConfigConteudo(adicionarConteudoVm.oVideoSelecionado);
                 frmConfigConteudo.ShowDialog();
-                if (frmConfigConteudo.DialogResult == true && AdicionarConteudoVM.oVideoSelecionado.nCdVideo > 0)
+                if (frmConfigConteudo.DialogResult == true && adicionarConteudoVm.oVideoSelecionado.nCdVideo > 0)
                 {
                     //AdicionarConteudoVM.lstResultPesquisa.First(x => x.nCdApi == AdicionarConteudoVM.oVideoSelecionado.nCdApi).lstSerieAlias = frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias;
-                    SerieAliasService serieAliasService = App.Container.Resolve<SerieAliasService>();
+                    var serieAliasService = App.Container.Resolve<SerieAliasService>();
 
-                    var lstSerieAliasOriginal = serieAliasService.GetLista(AdicionarConteudoVM.oVideoSelecionado);
+                    var lstSerieAliasOriginal = serieAliasService.GetLista(adicionarConteudoVm.oVideoSelecionado);
 
-                    foreach (var item in AdicionarConteudoVM.oVideoSelecionado.lstSerieAlias.Where(x => x.nCdAlias == 0))
+                    foreach (SerieAlias item in adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Where(x => x.nCdAlias == 0))
                     {
                         serieAliasService.Adicionar(item);
                     }
 
-                    serieAliasService.Remover(lstSerieAliasOriginal.Where(x => !AdicionarConteudoVM.oVideoSelecionado.lstSerieAlias.Contains(x)).ToArray());
+                    serieAliasService.Remover(
+                        lstSerieAliasOriginal.Where(
+                            x => !adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Contains(x)).ToArray());
                 }
                 //foreach (var item in AdicionarConteudoVM.lstResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
                 //{
@@ -77,37 +89,44 @@ namespace MediaManager.Commands
                 //}
                 if (frmConfigConteudo.ConfigurarConteudoVM.bFlAcaoRemover)
                 {
-                    AdicionarConteudoVM.ActionClose(true);
+                    adicionarConteudoVm.ActionClose(true);
                 }
             }
         }
 
         public class CommandSalvarConteudo : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null && ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo || (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+                return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null 
+                    && (((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
+                    || ((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
             }
 
             public async void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVM = parameter as AdicionarConteudoViewModel;
+                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
-                if (adicionarConteudoVM.oVideoSelecionado == null || adicionarConteudoVM.oVideoSelecionado.sDsPasta == null)
+                if (adicionarConteudoVm.oVideoSelecionado?.sDsPasta == null)
                 {
-                    Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.", Enums.eTipoMensagem.Alerta);
+                    Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.",
+                        Enums.eTipoMensagem.Alerta);
                     return;
                 }
-                else if (adicionarConteudoVM.bProcurarConteudo)
+                else if (adicionarConteudoVm.bProcurarConteudo)
                 {
-                    adicionarConteudoVM.ActionClose(true);
+                    adicionarConteudoVm.ActionClose(true);
                 }
                 else
                 {
                     SeriesService serieService = App.Container.Resolve<SeriesService>();
-                    switch (adicionarConteudoVM.nIdTipoConteudo)
+                    switch (adicionarConteudoVm.nIdTipoConteudo)
                     {
                         case Enums.TipoConteudo.Filme:
                             break;
@@ -117,7 +136,7 @@ namespace MediaManager.Commands
                             {
                                 Serie serie = null;
 
-                                serie = (Serie)adicionarConteudoVM.oVideoSelecionado;
+                                serie = (Serie)adicionarConteudoVm.oVideoSelecionado;
 
                                 serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
 
@@ -130,8 +149,9 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        new MediaManagerException(ex).TratarException($"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
-                                        adicionarConteudoVM.ActionClose(false);
+                                        new MediaManagerException(ex).TratarException(
+                                            $"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
+                                        adicionarConteudoVm.ActionClose(false);
                                     }
                                 }
                                 else
@@ -143,8 +163,9 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        new MediaManagerException(ex).TratarException($"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
-                                        adicionarConteudoVM.ActionClose(false);
+                                        new MediaManagerException(ex).TratarException(
+                                            $"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
+                                        adicionarConteudoVm.ActionClose(false);
                                     }
                                 }
                                 break;
@@ -154,10 +175,10 @@ namespace MediaManager.Commands
                             {
                                 Serie anime = null;
 
-                                if (adicionarConteudoVM.oVideoSelecionado is Serie)
-                                    anime = (Serie)adicionarConteudoVM.oVideoSelecionado;
+                                if (adicionarConteudoVm.oVideoSelecionado is Serie)
+                                    anime = (Serie)adicionarConteudoVm.oVideoSelecionado;
 
-                                if (adicionarConteudoVM.oVideoSelecionado.nCdVideo > 0)
+                                if (adicionarConteudoVm.oVideoSelecionado.nCdVideo > 0)
                                 {
                                     try
                                     {
@@ -166,8 +187,9 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        new MediaManagerException(ex).TratarException("Ocorreu um erro ao atualizar o conteúdo.");
-                                        adicionarConteudoVM.ActionClose(false);
+                                        new MediaManagerException(ex).TratarException(
+                                            "Ocorreu um erro ao atualizar o conteúdo.");
+                                        adicionarConteudoVm.ActionClose(false);
                                     }
                                 }
                                 else
@@ -179,39 +201,49 @@ namespace MediaManager.Commands
                                     }
                                     catch (Exception ex)
                                     {
-                                        new MediaManagerException(ex).TratarException("Ocorreu um erro ao incluir o conteúdo.");
-                                        adicionarConteudoVM.ActionClose(false);
+                                        new MediaManagerException(ex).TratarException(
+                                            "Ocorreu um erro ao incluir o conteúdo.");
+                                        adicionarConteudoVm.ActionClose(false);
                                     }
                                 }
                                 break;
                             }
-                        default:
+                        case Enums.TipoConteudo.Selecione:
                             break;
+                        case Enums.TipoConteudo.Episódio:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
-                    adicionarConteudoVM.ActionClose(true);
+                    adicionarConteudoVm.ActionClose(true);
                 }
             }
         }
 
         public class CommandEscolherPasta : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null &&
-                    ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.Completo ||
-                    (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Helpers.Enums.Estado.CompletoSemForeignKeys);
+                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null && ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.Completo || (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVM = parameter as AdicionarConteudoViewModel;
-                Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
-                folderDialog.SelectedPath = adicionarConteudoVM?.oVideoSelecionado.sDsPasta;
+                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+
+                Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog
+                {
+                    SelectedPath = adicionarConteudoVm?.oVideoSelecionado.sDsPasta
+                };
                 if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    adicionarConteudoVM.oVideoSelecionado.sDsPasta = folderDialog.SelectedPath;
+                    adicionarConteudoVm.oVideoSelecionado.sDsPasta = folderDialog.SelectedPath;
                 }
             }
         }

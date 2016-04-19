@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac;
 using MediaManager.Helpers;
@@ -16,7 +14,11 @@ namespace MediaManager.Commands
     {
         public class CommandSelecionarTodos : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -46,7 +48,11 @@ namespace MediaManager.Commands
 
         public class CommandFechar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -62,7 +68,11 @@ namespace MediaManager.Commands
 
         public class CommandSalvar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -77,7 +87,8 @@ namespace MediaManager.Commands
 
                 if (episodiosVM.nIdEstadoEpisodioSelecionado != Enums.EstadoEpisodio.Selecione)
                 {
-                    List<Episodio> lstEpisodiosModificados = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).ToList();
+                    List<Episodio> lstEpisodiosModificados =
+                        episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).ToList();
                     if (lstEpisodiosModificados.Count > 0)
                     {
                         foreach (var item in lstEpisodiosModificados)
@@ -93,7 +104,11 @@ namespace MediaManager.Commands
 
         public class CommandIsSelected : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {

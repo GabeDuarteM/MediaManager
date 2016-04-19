@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using MediaManager.Helpers;
@@ -11,9 +10,9 @@ using MediaManager.Model;
 
 namespace MediaManager.Services
 {
-    public class SeriesService : IService<Serie>
+    public class SeriesService : IRepositorio<Serie>
     {
-        private IContext _context;
+        private readonly IContext _context;
 
         public SeriesService(IContext context)
         {
@@ -36,9 +35,68 @@ namespace MediaManager.Services
 
                     App.Container.Resolve<EpisodiosService>().VerificaEpisodiosNoDiretorio(serie);
                 }
-                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
+                catch (Exception e)
+                {
+                    new MediaManagerException(e).TratarException(
+                        "Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true);
+                    return false;
+                }
             }
             return true;
+        }
+
+        public bool Remover(params Serie[] series)
+        {
+            foreach (var serie in series)
+            {
+                try
+                {
+                    _context.Serie.Remove(serie);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao deletar a série ou anime \"" +
+                                                                 serie.sDsTitulo + "\".");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool Update(params Serie[] obj)
+        {
+            bool retorno = true;
+            foreach (var serie in obj)
+            {
+                if (!UpdateAsync(serie).Result && retorno)
+                {
+                    retorno = false;
+                }
+            }
+            return retorno;
+        }
+
+        public Serie Get(int id)
+        {
+            Serie serie = _context.Serie.Where(x => x.nCdVideo == id).FirstOrDefault();
+            serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
+            serie.nIdTipoConteudo = serie.bFlAnime ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
+
+            return serie;
+        }
+
+        public List<Serie> GetLista()
+        {
+            List<Serie> lstSeries = _context.Serie.ToList();
+
+            lstSeries.ForEach(serie =>
+            {
+                serie.nIdTipoConteudo = serie.bFlAnime ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
+                serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
+            });
+
+            return lstSeries;
         }
 
         public async Task<bool> AdicionarAsync(params Serie[] series)
@@ -57,21 +115,12 @@ namespace MediaManager.Services
 
                     App.Container.Resolve<EpisodiosService>().VerificaEpisodiosNoDiretorio(serie);
                 }
-                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true); return false; }
-            }
-            return true;
-        }
-
-        public bool Remover(params Serie[] series)
-        {
-            foreach (var serie in series)
-            {
-                try
+                catch (Exception e)
                 {
-                    _context.Serie.Remove(serie);
-                    _context.SaveChanges();
+                    new MediaManagerException(e).TratarException(
+                        "Ocorreu um erro ao adicionar a série \"" + serie.sDsTitulo + "\" ao banco.", true);
+                    return false;
                 }
-                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao deletar a série ou anime \"" + serie.sDsTitulo + "\"."); return false; }
             }
             return true;
         }
@@ -107,7 +156,12 @@ namespace MediaManager.Services
 
                     _context.SaveChanges();
                 }
-                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao remover a série ou anime " + sNmSerie); return false; }
+                catch (Exception e)
+                {
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover a série ou anime " +
+                                                                 sNmSerie);
+                    return false;
+                }
             }
             return true;
         }
@@ -143,13 +197,19 @@ namespace MediaManager.Services
                         _context.SaveChanges();
                     }
                 }
-                catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar a série \"" + serie.sDsTitulo + "\" no banco.", true); return false; }
+                catch (Exception e)
+                {
+                    new MediaManagerException(e).TratarException(
+                        "Ocorreu um erro ao atualizar a série \"" + serie.sDsTitulo + "\" no banco.", true);
+                    return false;
+                }
 
-                if (isDiferente || serieOld.sDsMetadata != serie.sDsMetadata) // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
+                if (isDiferente || serieOld.sDsMetadata != serie.sDsMetadata)
+                    // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
                 {
                     if (Directory.Exists(serieOld.sDsMetadata))
                     {
-                        DirectoryInfo metaDir = new DirectoryInfo(serieOld.sDsMetadata);
+                        var metaDir = new DirectoryInfo(serieOld.sDsMetadata);
 
                         foreach (FileInfo file in metaDir.GetFiles())
                         {
@@ -166,23 +226,12 @@ namespace MediaManager.Services
                         Directory.CreateDirectory(serie.sDsMetadata);
 
                     if (!await Helper.DownloadImagesAsync(serie))
-                    { return false; }
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
-        }
-
-        public bool Update(params Serie[] obj)
-        {
-            bool retorno = true;
-            foreach (var serie in obj)
-            {
-                if (!UpdateAsync(serie).Result && retorno)
-                {
-                    retorno = false;
-                }
-            }
-            return retorno;
         }
 
         public List<Serie> GetListaSeries()
@@ -190,39 +239,17 @@ namespace MediaManager.Services
             List<Serie> lstSeries = _context.Serie.Where(x => !x.bFlAnime).OrderBy(x => x.sDsTitulo).ToList();
             lstSeries.ForEach(serie =>
             {
-                serie.nIdTipoConteudo = (serie.bFlAnime) ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
+                serie.nIdTipoConteudo = serie.bFlAnime ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
                 serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
             });
 
             return lstSeries;
-        }
-
-        public Serie Get(int nCdVideo)
-        {
-            Serie serie = _context.Serie.Where(x => x.nCdVideo == nCdVideo).FirstOrDefault();
-            serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
-            serie.nIdTipoConteudo = (serie.bFlAnime) ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
-
-            return serie;
         }
 
         public Serie GetPorCodigoApi(int nCdApi)
         {
             Serie serie = _context.Serie.Where(x => x.nCdApi == nCdApi).First();
             return serie;
-        }
-
-        public List<Serie> GetLista()
-        {
-            List<Serie> lstSeries = _context.Serie.ToList();
-
-            lstSeries.ForEach(serie =>
-            {
-                serie.nIdTipoConteudo = (serie.bFlAnime) ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
-                serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
-            });
-
-            return lstSeries;
         }
 
         public List<Serie> GetListaSeriesComForeignKeys()
@@ -236,7 +263,7 @@ namespace MediaManager.Services
 
             lstSeries.ForEach(x =>
             {
-                x.nIdTipoConteudo = (x.bFlAnime) ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
+                x.nIdTipoConteudo = x.bFlAnime ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
                 x.nIdEstado = Enums.Estado.Completo;
             });
 
@@ -249,7 +276,7 @@ namespace MediaManager.Services
 
             animes.ForEach(anime =>
             {
-                anime.nIdTipoConteudo = (anime.bFlAnime) ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
+                anime.nIdTipoConteudo = anime.bFlAnime ? Enums.TipoConteudo.Anime : Enums.TipoConteudo.Série;
                 anime.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
             });
 
@@ -267,7 +294,8 @@ namespace MediaManager.Services
 
             lstAnimes.ForEach(anime =>
             {
-                anime.nIdTipoConteudo = anime.bFlAnime == true ? Enums.TipoConteudo.Anime
+                anime.nIdTipoConteudo = anime.bFlAnime == true
+                    ? Enums.TipoConteudo.Anime
                     : Enums.TipoConteudo.Série;
                 anime.nIdEstado = Enums.Estado.Completo;
             });
@@ -317,17 +345,20 @@ namespace MediaManager.Services
                         series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(item)).ToList();
                         foreach (var serie in series)
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
+                                serie.sDsTitulo.ToLower());
                             if (levensTemp < levenshtein)
                             {
                                 levenshtein = levensTemp;
                                 melhorCorrespondencia = serie;
                             }
                         }
-                        var aliases = _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower())).ToList();
+                        var aliases =
+                            _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower())).ToList();
                         foreach (var alias in aliases)
                         {
-                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), alias.sDsAlias.ToLower());
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
+                                alias.sDsAlias.ToLower());
                             if (levensTemp < levenshtein)
                             {
                                 levenshtein = levensTemp;
@@ -337,14 +368,23 @@ namespace MediaManager.Services
                     }
                 }
             }
-            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true); return null; }
+            catch (Exception e)
+            {
+                new MediaManagerException(e).TratarException(
+                    "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" + titulo + "\" no banco.", true);
+                return null;
+            }
             return melhorCorrespondencia;
         }
 
         public List<Serie> GetSerieOuAnimePorTitulo(string titulo, bool removerCaracteresEspeciais)
         {
             List<Serie> lstSeries = _context.Serie
-                .Where(x => (removerCaracteresEspeciais) ? x.sDsTitulo.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim().Contains(titulo) : x.sDsTitulo.Contains(titulo))
+                .Where(
+                    x =>
+                        removerCaracteresEspeciais
+                            ? x.sDsTitulo.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim().Contains(titulo)
+                            : x.sDsTitulo.Contains(titulo))
                 .ToList();
             return lstSeries;
         }
@@ -373,16 +413,16 @@ namespace MediaManager.Services
             {
                 case Enums.TipoConteudo.Série:
                 case Enums.TipoConteudo.Anime:
+                {
+                    var lstSeries = _context.Serie.Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
+                    foreach (var item in lstSeries)
                     {
-                        var lstSeries = _context.Serie.Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
-                        foreach (var item in lstSeries)
-                        {
-                            var sPastaItem = Path.GetDirectoryName(item.sDsPasta);
-                            item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
-                        }
-                        _context.SaveChanges();
-                        break;
+                        var sPastaItem = Path.GetDirectoryName(item.sDsPasta);
+                        item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
                     }
+                    _context.SaveChanges();
+                    break;
+                }
 
                 default:
                     break;
@@ -399,7 +439,7 @@ namespace MediaManager.Services
         {
             List<Serie> lstSerie = _context.Serie.Where(x => x.sDsPasta == sDsPasta).ToList();
 
-            return (lstSerie.Count() > 0) ? true : false;
+            return lstSerie.Count() > 0 ? true : false;
         }
     }
 }

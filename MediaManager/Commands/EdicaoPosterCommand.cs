@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using MediaManager.ViewModel;
 
@@ -9,7 +6,7 @@ namespace MediaManager.Commands
 {
     public class EdicaoPosterCommand : ICommand
     {
-        private PosterViewModel _posterVM;
+        private readonly PosterViewModel _posterVM;
 
         public EdicaoPosterCommand(PosterViewModel posterVM)
         {
@@ -18,7 +15,11 @@ namespace MediaManager.Commands
 
         #region ICommand Members
 
-        public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public bool CanExecute(object parameter)
         {

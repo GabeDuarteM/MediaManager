@@ -138,14 +138,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MediaManager.exe" size="335816">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MediaManager.exe" size="336328">
       <assemblyIdentity name="MediaManager" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/tf7P4k/M85VdKAazJwSu5SBUn4YnQRKsDvPmsexhL4=</dsig:DigestValue>
+        <dsig:DigestValue>G57j+jKskCz6mb30HTTqDijPJV1I+Ql2ue0fHkwmZcI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

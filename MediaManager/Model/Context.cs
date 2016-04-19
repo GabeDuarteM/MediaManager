@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 
 namespace MediaManager.Model
 {
@@ -10,6 +9,22 @@ namespace MediaManager.Model
         {
         }
 
+        // Unit testing
+        public Context(DbConnection connection)
+            : base(connection, true)
+        {
+        }
+
+        public DbSet<Episodio> Episodio { get; set; }
+
+        public DbSet<Serie> Serie { get; set; }
+
+        public DbSet<SerieAlias> SerieAlias { get; set; }
+
+        public DbSet<Feed> Feed { get; set; }
+
+        public DbSet<QualidadeDownload> QualidadeDownload { get; set; }
+
         private static string GetConnectionStringName()
         {
 #if DEBUG
@@ -18,13 +33,5 @@ namespace MediaManager.Model
             return "DB_MediaManager";
 #endif
         }
-
-        public virtual DbSet<Episodio> Episodio { get; set; }
-
-        public virtual DbSet<Serie> Serie { get; set; }
-
-        public virtual DbSet<SerieAlias> SerieAlias { get; set; }
-
-        public virtual DbSet<Feed> Feed { get; set; }
     }
 }

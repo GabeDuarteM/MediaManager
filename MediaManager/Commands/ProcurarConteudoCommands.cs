@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Autofac;
 using MediaManager.Forms;
@@ -18,20 +14,27 @@ namespace MediaManager.Commands
     {
         public class CommandAdicionar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
                 return parameter is ProcurarConteudoViewModel
-                    && (parameter as ProcurarConteudoViewModel).lstConteudos.Count > 0
-                    && (parameter as ProcurarConteudoViewModel).lstConteudos.Where(x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() > 0;
+                       && (parameter as ProcurarConteudoViewModel).lstConteudos.Count > 0
+                       &&
+                       (parameter as ProcurarConteudoViewModel).lstConteudos.Where(
+                           x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() > 0;
             }
 
             public void Execute(object parameter)
             {
                 ProcurarConteudoViewModel ProcurarConteudoViewModel = parameter as ProcurarConteudoViewModel;
                 frmBarraProgresso frmBarraProgresso = new frmBarraProgresso();
-                frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado).Count();
+                frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo =
+                    ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado).Count();
                 frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Salvando...";
                 frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (s, ev) =>
                 {
@@ -48,34 +51,46 @@ namespace MediaManager.Commands
                             {
                                 case Enums.TipoConteudo.Série:
                                 case Enums.TipoConteudo.Anime:
+                                {
+                                    frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando \"" + item.sDsTitulo +
+                                                                                         "\" (" +
+                                                                                         (frmBarraProgresso
+                                                                                             .BarraProgressoViewModel
+                                                                                             .dNrProgressoAtual + 1) +
+                                                                                         "/" +
+                                                                                         frmBarraProgresso
+                                                                                             .BarraProgressoViewModel
+                                                                                             .dNrProgressoMaximo +
+                                                                                         ")...";
+
+                                    if (item.nIdEstado != Enums.Estado.Completo)
                                     {
-                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando \"" + item.sDsTitulo + "\" (" + (frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual + 1) + "/" + frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo + ")...";
-
-                                        if (item.nIdEstado != Enums.Estado.Completo)
-                                        {
-                                            Serie serie = APIRequests.GetSerieInfoAsync(item.nCdApi, Properties.Settings.Default.pref_IdiomaPesquisa).Result;
-                                            serie.nIdTipoConteudo = item.nIdTipoConteudo;
-                                            serie.sDsPasta = item.sDsPasta;
-                                            serie.sAliases = item.sAliases;
-                                            serie.lstSerieAlias = item.lstSerieAlias;
-                                            serie.sDsTitulo = item.sDsTitulo;
-                                            serie.SetEstadoEpisodio();
-                                            seriesService.Adicionar(serie);
-                                        }
-                                        else
-                                        {
-                                            (item as Serie).SetEstadoEpisodio();
-                                            seriesService.Adicionar((Serie)item);
-                                        }
-
-                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
-
-                                        if (frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual == frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo)
-                                        {
-                                            frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Concluído.";
-                                        }
-                                        break;
+                                        Serie serie =
+                                            APIRequests.GetSerieInfoAsync(item.nCdApi,
+                                                Properties.Settings.Default.pref_IdiomaPesquisa).Result;
+                                        serie.nIdTipoConteudo = item.nIdTipoConteudo;
+                                        serie.sDsPasta = item.sDsPasta;
+                                        serie.sAliases = item.sAliases;
+                                        serie.lstSerieAlias = item.lstSerieAlias;
+                                        serie.sDsTitulo = item.sDsTitulo;
+                                        serie.SetEstadoEpisodio();
+                                        seriesService.Adicionar(serie);
                                     }
+                                    else
+                                    {
+                                        (item as Serie).SetEstadoEpisodio();
+                                        seriesService.Adicionar((Serie) item);
+                                    }
+
+                                    frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual++;
+
+                                    if (frmBarraProgresso.BarraProgressoViewModel.dNrProgressoAtual ==
+                                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo)
+                                    {
+                                        frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Concluído.";
+                                    }
+                                    break;
+                                }
                                 case Enums.TipoConteudo.Filme:
                                     // TODO Fazer funfar
                                     //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
@@ -92,10 +107,8 @@ namespace MediaManager.Commands
                     Helper.MostrarMensagem("Séries inseridas com sucesso.", Enums.eTipoMensagem.Informativa);
                 };
 
-                frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted += (s, ev) =>
-                {
-                    ProcurarConteudoViewModel.ActionFechar();
-                };
+                frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted +=
+                    (s, ev) => { ProcurarConteudoViewModel.ActionFechar(); };
                 frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerAsync();
                 frmBarraProgresso.ShowDialog(ProcurarConteudoViewModel.Owner);
             }
@@ -103,7 +116,11 @@ namespace MediaManager.Commands
 
         public class CommandSelecionar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -114,7 +131,8 @@ namespace MediaManager.Commands
             {
                 var procurarConteudoVM = parameter as ProcurarConteudoViewModel;
                 int conteudosSelecionadosCount = procurarConteudoVM.lstConteudos.Where(x => x.bFlSelecionado).Count();
-                if (conteudosSelecionadosCount == procurarConteudoVM.lstConteudos.Count && procurarConteudoVM.lstConteudos.Count > 0)
+                if (conteudosSelecionadosCount == procurarConteudoVM.lstConteudos.Count &&
+                    procurarConteudoVM.lstConteudos.Count > 0)
                 {
                     procurarConteudoVM.bFlSelecionarTodos = true;
                 }
@@ -131,7 +149,11 @@ namespace MediaManager.Commands
 
         public class CommandSelecionarTodos : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {

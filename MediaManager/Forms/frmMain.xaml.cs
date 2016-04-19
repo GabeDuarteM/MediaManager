@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using MediaManager.Helpers;
 using MediaManager.ViewModel;
@@ -8,12 +7,10 @@ using MediaManager.ViewModel;
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class frmMain : Window
     {
-        public static MainViewModel MainVM { get; private set; }
-
         public frmMain()
         {
 #if DEBUG
@@ -23,7 +20,7 @@ namespace MediaManager.Forms
 
 #endif
 
-            MainVM = new MainViewModel(owner: this);
+            MainVM = new MainViewModel(this);
 
             if (MainVM.TratarArgumentos())
                 Environment.Exit(0);
@@ -37,9 +34,13 @@ namespace MediaManager.Forms
             VerificaPreferenciasPreenchidas();
         }
 
+        public static MainViewModel MainVM { get; private set; }
+
         private void VerificaPreferenciasPreenchidas()
         {
-            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoAnimes) || string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoSeries) || string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoFilmes))
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoAnimes) ||
+                string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoSeries) ||
+                string.IsNullOrWhiteSpace(Properties.Settings.Default.pref_FormatoFilmes))
             {
                 new Commands.PreferenciasCommands.CommandSalvar().Execute(new PreferenciasViewModel());
             }

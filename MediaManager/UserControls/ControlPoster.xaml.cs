@@ -3,7 +3,7 @@
 namespace MediaManager.UserControls
 {
     /// <summary>
-    /// Interaction logic for Poster.xaml
+    ///     Interaction logic for Poster.xaml
     /// </summary>
     public partial class ControlPoster : UserControl
     {

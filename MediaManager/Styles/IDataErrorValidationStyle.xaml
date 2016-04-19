@@ -5,7 +5,9 @@
             <Setter.Value>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Image Source="/MediaManager;component/Resources/ICONE_Erro.png" Margin="-25,0,0,0" DockPanel.Dock="Right" Width="16" Height="16" ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                        <Image Source="/MediaManager;component/Resources/ICONE_Erro.png" Margin="-25,0,0,0"
+                               DockPanel.Dock="Right" Width="16" Height="16"
+                               ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
                         <AdornedElementPlaceholder Name="customAdorner" />
                     </DockPanel>
                 </ControlTemplate>
@@ -24,7 +26,8 @@
             <Trigger Property="Validation.HasError" Value="True">
                 <Setter Property="Background" Value="#ffe5e5" />
                 <Setter Property="BorderBrush" Value="Red" />
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
             </Trigger>
         </Style.Triggers>
     </Style>

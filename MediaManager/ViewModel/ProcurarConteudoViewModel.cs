@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Autofac;
@@ -17,12 +16,41 @@ namespace MediaManager.ViewModel
 {
     public class ProcurarConteudoViewModel : ViewModelBase
     {
-        private ObservableCollection<Video> _lstConteudos;
-        public ObservableCollection<Video> lstConteudos { get { return _lstConteudos; } set { _lstConteudos = value; OnPropertyChanged(); } }
-
         private bool? _bFlSelecionarTodos;
+        private ObservableCollection<Video> _lstConteudos;
 
-        public bool? bFlSelecionarTodos { get { return _bFlSelecionarTodos; } set { _bFlSelecionarTodos = value; OnPropertyChanged(); } }
+        public ProcurarConteudoViewModel(Enums.TipoConteudo tipoConteudo = Enums.TipoConteudo.Selecione,
+            Window owner = null)
+        {
+            lstConteudos = new ObservableCollection<Video>();
+            lstConteudos.Add(new Serie {sDsTitulo = "Carregando...", sDsPasta = "Carregando...", bFlSelecionado = false});
+            Owner = owner;
+            CommandAdicionar = new ProcurarConteudoCommands.CommandAdicionar();
+            CommandSelecionar = new ProcurarConteudoCommands.CommandSelecionar();
+            CommandSelecionarTodos = new ProcurarConteudoCommands.CommandSelecionarTodos();
+            LoadConteudos(tipoConteudo);
+            CommandSelecionar.Execute(this);
+        }
+
+        public ObservableCollection<Video> lstConteudos
+        {
+            get { return _lstConteudos; }
+            set
+            {
+                _lstConteudos = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool? bFlSelecionarTodos
+        {
+            get { return _bFlSelecionarTodos; }
+            set
+            {
+                _bFlSelecionarTodos = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand CommandAdicionar { get; set; }
 
@@ -33,18 +61,6 @@ namespace MediaManager.ViewModel
         public Action ActionFechar { get; set; }
 
         public Window Owner { get; set; }
-
-        public ProcurarConteudoViewModel(Enums.TipoConteudo tipoConteudo = Enums.TipoConteudo.Selecione, Window owner = null)
-        {
-            lstConteudos = new ObservableCollection<Video>();
-            lstConteudos.Add(new Serie { sDsTitulo = "Carregando...", sDsPasta = "Carregando...", bFlSelecionado = false });
-            Owner = owner;
-            CommandAdicionar = new ProcurarConteudoCommands.CommandAdicionar();
-            CommandSelecionar = new ProcurarConteudoCommands.CommandSelecionar();
-            CommandSelecionarTodos = new ProcurarConteudoCommands.CommandSelecionarTodos();
-            LoadConteudos(tipoConteudo);
-            CommandSelecionar.Execute(this);
-        }
 
         public void LoadConteudos(Enums.TipoConteudo contentType)
         {
@@ -62,7 +78,12 @@ namespace MediaManager.ViewModel
                         DirectoryInfo[] dirSeries = Helper.retornarDiretoriosSeries();
                         DirectoryInfo[] dirAnimes = Helper.retornarDiretoriosAnimes();
                         DirectoryInfo[] dirFilmes = Helper.retornarDiretoriosFilmes();
-                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = ((dirSeries != null) ? dirSeries.Length : 0) + ((dirAnimes != null) ? dirAnimes.Length : 0) + ((dirFilmes != null) ? dirFilmes.Length : 0);
+                        frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = (dirSeries != null
+                            ? dirSeries.Length
+                            : 0) + (dirAnimes != null ? dirAnimes.Length : 0) +
+                                                                                       (dirFilmes != null
+                                                                                           ? dirFilmes.Length
+                                                                                           : 0);
 
                         if (dirSeries != null)
                         {

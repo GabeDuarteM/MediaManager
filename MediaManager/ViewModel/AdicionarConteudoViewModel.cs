@@ -1,45 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using ConfigurableInputMessageBox;
 using MediaManager.Commands;
 using MediaManager.Helpers;
 using MediaManager.Model;
-using Ookii.Dialogs;
 
 namespace MediaManager.ViewModel
 {
     public class AdicionarConteudoViewModel : ViewModelBase
     {
-        private string sDsPastaEditar;
+        private readonly Video oVideoBuscaPersonalizada;
 
-        private int nCdVideo;
-
-        private Video oVideoBuscaPersonalizada;
-
-        private Video oVideoCarregando;
-
-        public IList<Video> lstVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
+        private readonly Video oVideoCarregando;
 
         private IList<Video> _lstResultPesquisa;
 
-        public IList<Video> lstResultPesquisa { get { return _lstResultPesquisa; } set { _lstResultPesquisa = value; OnPropertyChanged(); } }
-
-        private Enums.TipoConteudo _nIdTipoConteudo;
-
-        public Enums.TipoConteudo nIdTipoConteudo { get { return _nIdTipoConteudo; } set { _nIdTipoConteudo = value; } }
-
         private Video _oVideoSelecionado;
 
-        public Video oVideoSelecionado { get { return _oVideoSelecionado; } set { var oVideoSelecionadoTemp = _oVideoSelecionado; _oVideoSelecionado = value; AlterarVideoAsync(oVideoSelecionadoTemp); OnPropertyChanged(); } }
+        public IList<Video> lstVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
+
+        private int nCdVideo;
+        private string sDsPastaEditar;
+
+        public AdicionarConteudoViewModel(Video video, Enums.TipoConteudo tipoConteudo)
+        {
+            CommandAbrirEpisodios = new AdicionarConteudoCommands.CommandAbrirEpisodios();
+            CommandConfigurarConteudo = new AdicionarConteudoCommands.CommandConfigurarConteudo();
+            CommandSalvarConteudo = new AdicionarConteudoCommands.CommandSalvarConteudo();
+            CommandEscolherPasta = new AdicionarConteudoCommands.CommandEscolherPasta();
+            nIdTipoConteudo = tipoConteudo;
+            //Data = new SeriesData();
+            lstVideosQuaseCompletos = new List<Video>();
+            lstResultPesquisa = new ObservableCollection<Video>();
+            oVideoBuscaPersonalizada = new Serie()
+            {
+                sDsTitulo = "Busca personalizada...",
+                sDsSinopse = "Carregando sinopse..."
+            };
+            oVideoCarregando = new Serie() {sDsTitulo = "Carregando...", sDsSinopse = "Carregando sinopse..."};
+
+            getResultPesquisaAsync(video);
+        }
+
+        public IList<Video> lstResultPesquisa
+        {
+            get { return _lstResultPesquisa; }
+            set
+            {
+                _lstResultPesquisa = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Enums.TipoConteudo nIdTipoConteudo { get; set; }
+
+        public Video oVideoSelecionado
+        {
+            get { return _oVideoSelecionado; }
+            set
+            {
+                var oVideoSelecionadoTemp = _oVideoSelecionado;
+                _oVideoSelecionado = value;
+                AlterarVideoAsync(oVideoSelecionadoTemp);
+                OnPropertyChanged();
+            }
+        }
 
         public bool bProcurarConteudo { get; set; }
 
@@ -55,34 +84,22 @@ namespace MediaManager.ViewModel
 
         public ICommand CommandEscolherPasta { get; set; }
 
-        public AdicionarConteudoViewModel(Video video, Enums.TipoConteudo tipoConteudo)
-        {
-            CommandAbrirEpisodios = new AdicionarConteudoCommands.CommandAbrirEpisodios();
-            CommandConfigurarConteudo = new AdicionarConteudoCommands.CommandConfigurarConteudo();
-            CommandSalvarConteudo = new AdicionarConteudoCommands.CommandSalvarConteudo();
-            CommandEscolherPasta = new AdicionarConteudoCommands.CommandEscolherPasta();
-            nIdTipoConteudo = tipoConteudo;
-            //Data = new SeriesData();
-            lstVideosQuaseCompletos = new List<Video>();
-            lstResultPesquisa = new ObservableCollection<Video>();
-            oVideoBuscaPersonalizada = new Serie() { sDsTitulo = "Busca personalizada...", sDsSinopse = "Carregando sinopse..." };
-            oVideoCarregando = new Serie() { sDsTitulo = "Carregando...", sDsSinopse = "Carregando sinopse..." };
-
-            getResultPesquisaAsync(video);
-        }
-
         private async void getResultPesquisaAsync(Video video)
         {
             lstResultPesquisa.Clear();
 
-            if (video.nCdApi != 0 && (video.nIdEstado == Enums.Estado.Completo || video.nIdEstado == Enums.Estado.CompletoSemForeignKeys))
+            if (video.nCdApi != 0 &&
+                (video.nIdEstado == Enums.Estado.Completo || video.nIdEstado == Enums.Estado.CompletoSemForeignKeys))
             {
                 lstVideosQuaseCompletos.Add(video);
                 lstResultPesquisa.Add(video);
             }
 
             lstResultPesquisa.Add(oVideoCarregando);
-            oVideoSelecionado = (video.nIdEstado == Enums.Estado.Completo || video.nIdEstado == Enums.Estado.CompletoSemForeignKeys) ? video : oVideoCarregando;
+            oVideoSelecionado = video.nIdEstado == Enums.Estado.Completo ||
+                                video.nIdEstado == Enums.Estado.CompletoSemForeignKeys
+                ? video
+                : oVideoCarregando;
             var lstResultPesquisaTemp = new List<Video>();
 
             // Guarda as informações abaixo para caso for realizada uma Busca personalizada.
@@ -103,24 +120,30 @@ namespace MediaManager.ViewModel
                 }
                 else if (video is Serie && (video as Serie).bFlNaoEncontrado)
                 {
-                    InputMessageBox InputMessageBox = new InputMessageBox(inputType.SemResultados);
-                    InputMessageBox.InputViewModel.Properties.InputText = video.sDsTitulo;
-                    InputMessageBox.ShowDialog();
-                    if (InputMessageBox.DialogResult == true)
+                    InputMessageBox inputMessageBox = new InputMessageBox(inputType.SemResultados);
+                    inputMessageBox.InputViewModel.Properties.InputText = video.sDsTitulo;
+                    inputMessageBox.ShowDialog();
+                    if (inputMessageBox.DialogResult == true)
                     {
-                        lstSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                        lstSeries =
+                            await APIRequests.GetSeriesAsync(inputMessageBox.InputViewModel.Properties.InputText);
                     }
 
                     while (lstSeries.Count == 0)
                     {
-                        if (Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?", Enums.eTipoMensagem.QuestionamentoSimNao, "Nenhum resultado encontrado") == MessageBoxResult.Yes)
+                        if (
+                            Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?",
+                                Enums.eTipoMensagem.QuestionamentoSimNao, "Nenhum resultado encontrado") ==
+                            MessageBoxResult.Yes)
                         {
-                            InputMessageBox = new InputMessageBox(inputType.SemResultados);
-                            InputMessageBox.InputViewModel.Properties.InputText = video.sDsTitulo;
-                            InputMessageBox.ShowDialog();
-                            if (InputMessageBox.DialogResult == true)
+                            inputMessageBox = new InputMessageBox(inputType.SemResultados);
+                            inputMessageBox.InputViewModel.Properties.InputText = video.sDsTitulo;
+                            inputMessageBox.ShowDialog();
+                            if (inputMessageBox.DialogResult == true)
                             {
-                                lstSeries = await APIRequests.GetSeriesAsync(InputMessageBox.InputViewModel.Properties.InputText);
+                                lstSeries =
+                                    await
+                                        APIRequests.GetSeriesAsync(inputMessageBox.InputViewModel.Properties.InputText);
                             }
                         }
                         else // TODO Fechar tela ao entrar no else
@@ -137,8 +160,9 @@ namespace MediaManager.ViewModel
 
                     if (!bFlAdicionado)
                     {
-                        item.nCdVideo = (nCdVideo != 0) ? nCdVideo : video.nCdVideo;
-                        item.sDsSinopse = oVideoCarregando.sDsSinopse; // Seta como default e será carregado quando e se for selecionado no combo.
+                        item.nCdVideo = nCdVideo != 0 ? nCdVideo : video.nCdVideo;
+                        item.sDsSinopse = oVideoCarregando.sDsSinopse;
+                            // Seta como default e será carregado quando e se for selecionado no combo.
                         item.sDsPasta = null;
 
                         lstResultPesquisaTemp.Add(item);
@@ -150,9 +174,12 @@ namespace MediaManager.ViewModel
             lstResultPesquisa.Remove(oVideoCarregando);
             lstResultPesquisaTemp.ForEach(x => lstResultPesquisa.Add(x));
 
-            oVideoSelecionado = (video.nCdApi != 0 && lstResultPesquisa.Where(x => x.nCdApi == video.nCdApi).Count() > 0) ? lstResultPesquisa.Where(x => x.nCdApi == video.nCdApi).First() : lstResultPesquisa[0];
+            oVideoSelecionado = video.nCdApi != 0 && lstResultPesquisa.Any(x => x.nCdApi == video.nCdApi)
+                ? lstResultPesquisa.First(x => x.nCdApi == video.nCdApi)
+                : lstResultPesquisa[0];
         }
 
+/*
         private async void getResultPesquisaAsync(string title)
         {
             lstResultPesquisa.Clear();
@@ -224,10 +251,13 @@ namespace MediaManager.ViewModel
             lstResultPesquisaTemp.ForEach(x => lstResultPesquisa.Add(x));
             oVideoSelecionado = lstResultPesquisa[0];
         }
+*/
 
         private async void AlterarVideoAsync(Video oVideoSelecionadoTemp)
         {
-            if (oVideoSelecionado == null || oVideoSelecionado == oVideoCarregando || oVideoSelecionado.nIdEstado == Enums.Estado.Completo || oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys)
+            if (oVideoSelecionado == null || oVideoSelecionado == oVideoCarregando ||
+                oVideoSelecionado.nIdEstado == Enums.Estado.Completo ||
+                oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys)
             {
                 return;
             }
@@ -238,12 +268,13 @@ namespace MediaManager.ViewModel
                 inputMessageBox.ShowDialog();
                 if (inputMessageBox.DialogResult == true)
                 {
-                    getResultPesquisaAsync(new Serie() { sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText });
+                    getResultPesquisaAsync(new Serie() {sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText});
                     return;
                 }
                 else
                 {
-                    _oVideoSelecionado = lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionadoTemp?.nCdApi).FirstOrDefault();
+                    _oVideoSelecionado =
+                        lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionadoTemp?.nCdApi).FirstOrDefault();
                     if (oVideoSelecionado == null)
                     {
                         ActionClose(false);
@@ -258,10 +289,16 @@ namespace MediaManager.ViewModel
             else if (lstVideosQuaseCompletos != null && lstVideosQuaseCompletos.Count > 0)
             {
                 lstVideosQuaseCompletos
-                    .Where(x => x.nCdApi == oVideoSelecionado.nCdApi && (x.nIdEstado == Enums.Estado.Completo || x.nIdEstado == Enums.Estado.CompletoSemForeignKeys)).ToList()
+                    .Where(
+                        x =>
+                            x.nCdApi == oVideoSelecionado.nCdApi &&
+                            (x.nIdEstado == Enums.Estado.Completo || x.nIdEstado == Enums.Estado.CompletoSemForeignKeys))
+                    .ToList()
                     .ForEach(x =>
                     {
-                        _oVideoSelecionado = x; OnPropertyChanged(nameof(oVideoSelecionado)); return;
+                        _oVideoSelecionado = x;
+                        OnPropertyChanged(nameof(oVideoSelecionado));
+                        return;
                     });
                 //foreach (var item in listaVideosQuaseCompletos)
                 //{
@@ -273,8 +310,12 @@ namespace MediaManager.ViewModel
                 //    }
                 //}
             }
-            Serie serie = await APIRequests.GetSerieInfoAsync(oVideoSelecionado.nCdApi, Properties.Settings.Default.pref_IdiomaPesquisa);
-            serie.sDsTitulo = oVideoSelecionado.sDsTitulo; // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
+            Serie serie =
+                await
+                    APIRequests.GetSerieInfoAsync(oVideoSelecionado.nCdApi,
+                        Properties.Settings.Default.pref_IdiomaPesquisa);
+            serie.sDsTitulo = oVideoSelecionado.sDsTitulo;
+                // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
             serie.nIdTipoConteudo = nIdTipoConteudo;
 
             if (oVideoSelecionado.sDsPasta != null)
@@ -297,15 +338,15 @@ namespace MediaManager.ViewModel
                 serie.nCdVideo = nCdVideo;
             }
 
-            lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionado.nCdApi).ToList().ForEach(x =>
-            {
-                x.Clone(serie);
-            });
+            lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionado.nCdApi)
+                .ToList()
+                .ForEach(x => { x.Clone(serie); });
 
             lstVideosQuaseCompletos.Add(serie);
             _oVideoSelecionado = serie;
             OnPropertyChanged(nameof(oVideoSelecionado));
-            CommandManager.InvalidateRequerySuggested(); // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
+            CommandManager.InvalidateRequerySuggested();
+                // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
         }
     }
 }

@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.ViewModel;
-using Ookii.Dialogs.Wpf;
 
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmProcurarConteudo.xaml
+    ///     Interaction logic for frmProcurarConteudo.xaml
     /// </summary>
     public partial class frmProcurarConteudo : Window
     {
-        public Enums.TipoConteudo TipoConteudo { get; set; }
-
-        public ProcurarConteudoViewModel ProcurarConteudoViewModel { get; set; }
-
         public frmProcurarConteudo(Enums.TipoConteudo tipoConteudo, Window owner)
         {
             Owner = owner;
@@ -31,12 +24,20 @@ namespace MediaManager.Forms
 
             ProcurarConteudoViewModel = new ProcurarConteudoViewModel(TipoConteudo, Owner);
 
-            ProcurarConteudoViewModel.ActionFechar = new Action(() => { DialogResult = true; Close(); });
+            ProcurarConteudoViewModel.ActionFechar = new Action(() =>
+            {
+                DialogResult = true;
+                Close();
+            });
 
             ProcurarConteudoViewModel.Owner = Owner;
 
             DataContext = ProcurarConteudoViewModel;
         }
+
+        public Enums.TipoConteudo TipoConteudo { get; set; }
+
+        public ProcurarConteudoViewModel ProcurarConteudoViewModel { get; set; }
 
         private void btAdicionar_Click(object sender, RoutedEventArgs e)
         {
@@ -65,11 +66,13 @@ namespace MediaManager.Forms
             if (dgAll.SelectedItem != null)
             {
                 Serie conteudo = dgAll.SelectedItem as Serie;
-                Serie conteudoAlterado = new Serie(); // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
+                Serie conteudoAlterado = new Serie();
+                    // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
                 conteudoAlterado.Clone(conteudo);
                 if (conteudoAlterado.bFlNaoEncontrado)
                     conteudoAlterado.sDsTitulo = Path.GetFileName(conteudoAlterado.sDsPasta);
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo, conteudoAlterado, true);
+                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo,
+                    conteudoAlterado, true);
                 frmAdicionarConteudo.ShowDialog(this);
                 if (frmAdicionarConteudo.DialogResult == true)
                 {

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediaManager.Helpers;
 using MediaManager.Model;
 
 namespace MediaManager.Services
 {
-    public class FeedsService : IService<Feed>
+    public class FeedsService : IRepositorio<Feed>
     {
-        private IContext _context;
+        private readonly IContext _context;
 
         public FeedsService(IContext context)
         {
@@ -23,7 +20,10 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    var lstFeeds = _context.Feed.Where(x => x.nIdTipoConteudo == feed.nIdTipoConteudo && x.bIsFeedPesquisa == feed.bIsFeedPesquisa).ToList();
+                    var lstFeeds =
+                        _context.Feed.Where(
+                            x => x.nIdTipoConteudo == feed.nIdTipoConteudo && x.bIsFeedPesquisa == feed.bIsFeedPesquisa)
+                            .ToList();
 
                     // Para não interferir no CommandSalvar da tela de adicionar feed quando o feed vai ser adicionado a mais de um tipo de conteúdo
                     // (caso contrário nunca vai cair no if acima, pois a prioridade será != 0)
@@ -31,7 +31,7 @@ namespace MediaManager.Services
 
                     if (feedClone.nNrPrioridade == 0)
                     {
-                        feedClone.nNrPrioridade = (lstFeeds.Count > 0) ? lstFeeds.Last().nNrPrioridade + 1 : 1;
+                        feedClone.nNrPrioridade = lstFeeds.Count > 0 ? lstFeeds.Last().nNrPrioridade + 1 : 1;
                     }
 
                     _context.Feed.Add(feedClone);
@@ -39,7 +39,8 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o feed " + feed.sDsFeed, true);
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o feed " + feed.sDsFeed,
+                        true);
                     return false;
                 }
             }
@@ -47,14 +48,18 @@ namespace MediaManager.Services
             return true;
         }
 
-        public Feed Get(int ID)
+        public Feed Get(int id)
         {
             try
             {
-                Feed oFeed = _context.Feed.Where(x => x.nCdFeed == ID).FirstOrDefault();
+                Feed oFeed = _context.Feed.Where(x => x.nCdFeed == id).FirstOrDefault();
                 return oFeed;
             }
-            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar o feed de código " + ID); return null; }
+            catch (Exception e)
+            {
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar o feed de código " + id);
+                return null;
+            }
         }
 
         public List<Feed> GetLista()
@@ -67,7 +72,8 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar a lista de feeds."); return null;
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar a lista de feeds.");
+                return null;
             }
         }
 
@@ -77,14 +83,15 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    feed.Clone(new Feed() { nCdFeed = feed.nCdFeed });
+                    feed.Clone(new Feed() {nCdFeed = feed.nCdFeed});
                     _context.Feed.Attach(feed);
                     _context.Feed.Remove(feed);
                     _context.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o feed " + feed.sDsFeed, true);
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o feed " + feed.sDsFeed,
+                        true);
                     return false;
                 }
             }

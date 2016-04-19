@@ -5,18 +5,22 @@ using MediaManager.ViewModel;
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmConfigConteudo.xaml
+    ///     Interaction logic for frmConfigConteudo.xaml
     /// </summary>
     public partial class frmConfigConteudo : Window
     {
-        public ConfigurarConteudoViewModel ConfigurarConteudoVM { get; set; }
-
         public frmConfigConteudo(Video video)
         {
             InitializeComponent();
             ConfigurarConteudoVM = new ConfigurarConteudoViewModel(video);
-            ConfigurarConteudoVM.ActionFechar = new System.Action(() => { DialogResult = true; Close(); });
+            ConfigurarConteudoVM.ActionFechar = new System.Action(() =>
+            {
+                DialogResult = true;
+                Close();
+            });
             DataContext = ConfigurarConteudoVM;
         }
+
+        public ConfigurarConteudoViewModel ConfigurarConteudoVM { get; set; }
     }
 }

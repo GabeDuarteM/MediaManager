@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Autofac;
-using MediaManager.Forms;
 using MediaManager.Helpers;
 using MediaManager.Model;
 using MediaManager.Properties;
@@ -56,8 +54,10 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ConfigurarConteudoViewModel && !string.IsNullOrWhiteSpace((parameter as ConfigurarConteudoViewModel).sDsAlias) &&
-                    (parameter as ConfigurarConteudoViewModel).nNrTemporada >= 0 && (parameter as ConfigurarConteudoViewModel).nNrEpisodio >= 0;
+                return parameter is ConfigurarConteudoViewModel &&
+                       !string.IsNullOrWhiteSpace((parameter as ConfigurarConteudoViewModel).sDsAlias) &&
+                       (parameter as ConfigurarConteudoViewModel).nNrTemporada >= 0 &&
+                       (parameter as ConfigurarConteudoViewModel).nNrEpisodio >= 0;
             }
 
             public void Execute(object parameter)
@@ -101,7 +101,8 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).oAliasSelecionado != null;
+                return parameter is ConfigurarConteudoViewModel &&
+                       (parameter as ConfigurarConteudoViewModel).oAliasSelecionado != null;
             }
 
             public void Execute(object parameter)
@@ -127,7 +128,11 @@ namespace MediaManager.Commands
 
         public class CommandSalvar : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
@@ -139,8 +144,10 @@ namespace MediaManager.Commands
                 if (parameter is ConfigurarConteudoViewModel)
                 {
                     ConfigurarConteudoViewModel configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
-                    configurarConteudoVM.oVideo.lstSerieAlias = (ObservableCollection<SerieAlias>)configurarConteudoVM.lstTempSerieAliases;
-                    configurarConteudoVM.oVideo.sFormatoRenomeioPersonalizado = configurarConteudoVM.sFormatoRenomeioPersonalizado;
+                    configurarConteudoVM.oVideo.lstSerieAlias =
+                        (ObservableCollection<SerieAlias>) configurarConteudoVM.lstTempSerieAliases;
+                    configurarConteudoVM.oVideo.sFormatoRenomeioPersonalizado =
+                        configurarConteudoVM.sFormatoRenomeioPersonalizado;
 
                     if (configurarConteudoVM.oVideo is Serie)
                     {
@@ -154,17 +161,28 @@ namespace MediaManager.Commands
 
         public class CommandRemoverSerie : ICommand
         {
-            public event EventHandler CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
 
             public bool CanExecute(object parameter)
             {
-                return parameter is ConfigurarConteudoViewModel && (parameter as ConfigurarConteudoViewModel).oVideo.nCdVideo > 0;
+                return parameter is ConfigurarConteudoViewModel &&
+                       (parameter as ConfigurarConteudoViewModel).oVideo.nCdVideo > 0;
             }
 
             public void Execute(object parameter)
             {
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
-                if (MessageBox.Show("Você realmente deseja remover " + (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série ? "esta série?" : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (
+                    MessageBox.Show(
+                        "Você realmente deseja remover " +
+                        (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série
+                            ? "esta série?"
+                            : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                    MessageBoxResult.Yes)
                 {
                     SeriesService seriesService = App.Container.Resolve<SeriesService>();
 

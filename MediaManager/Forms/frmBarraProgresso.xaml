@@ -7,7 +7,9 @@
         xmlns:properties="clr-namespace:MediaManager.Properties"
         mc:Ignorable="d"
         Title="{Binding Source={x:Static properties:Settings.Default}, Path=AppName, StringFormat='Procurar conteúdos - {0}'}"
-        Height="150" Width="450" ResizeMode="NoResize" FontFamily="Segoe WP" FontWeight="Light" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData /SampleData/BarraProgressoViewModelSampleData.xaml}">
+        Height="150" Width="450" ResizeMode="NoResize" FontFamily="Segoe WP" FontWeight="Light"
+        WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignData /SampleData/BarraProgressoViewModelSampleData.xaml}">
     <Grid d:IsLocked="True">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -27,8 +29,9 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
-        <Label d:Content="Teste"  Content="{Binding sDsTarefa}" Grid.Row="1" Grid.Column="1" FontSize="15" />
-        <ProgressBar Grid.Column="1" Grid.Row="2" Margin="5,5,5,10" Minimum="0" Maximum="100" Value="{Binding nPcProgressoAtual, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label d:Content="Teste" Content="{Binding sDsTarefa}" Grid.Row="1" Grid.Column="1" FontSize="15" />
+        <ProgressBar Grid.Column="1" Grid.Row="2" Margin="5,5,5,10" Minimum="0" Maximum="100"
+                     Value="{Binding nPcProgressoAtual, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Column="1" Grid.Row="3" Content="{Binding sDsTexto}" FontWeight="Normal" />
     </Grid>
 </Window>

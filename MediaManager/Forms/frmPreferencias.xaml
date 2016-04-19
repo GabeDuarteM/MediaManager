@@ -1,14 +1,15 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:gc="clr-namespace:GabrielControls;assembly=GabrielControls"
-        xmlns:properties="clr-namespace:MediaManager.Properties"
-        xmlns:behaviors="clr-namespace:MediaManager.Behaviors"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-        x:Class="MediaManager.Forms.frmPreferencias"
-        Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Preferências - \{0\}}"
-        Height="433" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:gc="clr-namespace:GabrielControls;assembly=GabrielControls"
+    xmlns:properties="clr-namespace:MediaManager.Properties"
+    xmlns:behaviors="clr-namespace:MediaManager.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="MediaManager.Forms.frmPreferencias"
+    Title="{Binding AppName, Source={x:Static properties:Settings.Default}, StringFormat=Preferências - \{0\}}"
+    Height="433" Width="630" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
@@ -32,7 +33,8 @@
                         <RowDefinition Height="30" />
                         <RowDefinition Height="10" />
                     </Grid.RowDefinitions>
-                    <GroupBox Header="Pastas" Margin="-2,10,10,0" Grid.Column="1" Grid.ColumnSpan="5" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                    <GroupBox Header="Pastas" Margin="-2,10,10,0" Grid.Column="1" Grid.ColumnSpan="5"
+                              d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5" />
@@ -53,51 +55,100 @@
                             </Grid.RowDefinitions>
 
                             <Label Content="Séries:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaSeries, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenadas as séries..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="1" />
-                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaSeries}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="1" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center"
+                                                   Text="{Binding sPastaSeries, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                   Placeholder="Selecione a pasta onde estão armazenadas as séries..."
+                                                   Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="1" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30"
+                                    Height="23" Command="{Binding CommandEscolherPastaSeries}"
+                                    CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="1" />
 
                             <Label Content="Filmes:" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaFilmes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os filmes..." Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="2" />
-                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaFilmes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="2" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center"
+                                                   Text="{Binding sPastaFilmes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                   Placeholder="Selecione a pasta onde estão armazenados os filmes..."
+                                                   Height="23" TextWrapping="NoWrap" Grid.Column="2" Grid.Row="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30"
+                                    Height="23" Command="{Binding CommandEscolherPastaFilmes}"
+                                    CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Column="3" Grid.Row="2" />
 
                             <Label Content="Animes:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaAnimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os animes..." Height="23" TextWrapping="NoWrap"  Grid.Row="3" Grid.Column="2" />
-                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaAnimes}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="3" Grid.Column="3" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center"
+                                                   Text="{Binding sPastaAnimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                   Placeholder="Selecione a pasta onde estão armazenados os animes..."
+                                                   Height="23" TextWrapping="NoWrap" Grid.Row="3" Grid.Column="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30"
+                                    Height="23" Command="{Binding CommandEscolherPastaAnimes}"
+                                    CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="3" Grid.Column="3" />
 
                             <Label Content="Downloads:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaDownloads, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde estão armazenados os downloads..." Height="23" TextWrapping="NoWrap" Grid.Row="4" Grid.Column="2" />
-                            <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaDownloads}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="4" Grid.Column="3" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center"
+                                                   Text="{Binding sPastaDownloads, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                   Placeholder="Selecione a pasta onde estão armazenados os downloads..."
+                                                   Height="23" TextWrapping="NoWrap" Grid.Row="4" Grid.Column="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30"
+                                    Height="23" Command="{Binding CommandEscolherPastaDownloads}"
+                                    CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="4" Grid.Column="3" />
 
                             <Label Content="Torrent blackhole:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
-                            <gc:TextBoxPlaceholder VerticalAlignment="Center" Text="{Binding sPastaBlackhole, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Placeholder="Selecione a pasta onde serão armazenados os arquivos '.torrent'..." Height="23" TextWrapping="NoWrap" Grid.Row="5" Grid.Column="2" />
-                            <Button Content="..."  VerticalAlignment="Center" ToolTip="Selecionar..." Width="30" Height="23" Command="{Binding CommandEscolherPastaBlackhole}" CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="5" Grid.Column="3" />
+                            <gc:TextBoxPlaceholder VerticalAlignment="Center"
+                                                   Text="{Binding sPastaBlackhole, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                   Placeholder="Selecione a pasta onde serão armazenados os arquivos '.torrent'..."
+                                                   Height="23" TextWrapping="NoWrap" Grid.Row="5" Grid.Column="2" />
+                            <Button Content="..." VerticalAlignment="Center" ToolTip="Selecionar..." Width="30"
+                                    Height="23" Command="{Binding CommandEscolherPastaBlackhole}"
+                                    CommandParameter="{Binding}" Margin="-1,0,0,0" Grid.Row="5" Grid.Column="3" />
 
                             <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3">
                                 <Label Content="Procurar por novos conteúdos a cada " VerticalAlignment="Center" />
-                                <gc:NumericUpDown Value="{Binding nIntervaloDeProcuraConteudoNovo, Mode=TwoWay}" DecimalPlaces="0" VerticalAlignment="Center" Width="67" MinValue="10" MaxValue="99999" />
+                                <gc:NumericUpDown Value="{Binding nIntervaloDeProcuraConteudoNovo, Mode=TwoWay}"
+                                                  DecimalPlaces="0" VerticalAlignment="Center" Width="67" MinValue="10"
+                                                  MaxValue="99999" />
                                 <Label Content="minutos." VerticalAlignment="Center" Height="26" />
                             </StackPanel>
                         </Grid>
                     </GroupBox>
                     <Label Content="Idioma de pesquisa:" Grid.Column="1" Grid.Row="2" />
                     <Label Content="Método de processamento:" Grid.Column="1" Grid.Row="4" />
-                    <ComboBox DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding DictIdiomaPesquisa}" SelectedValue="{Binding sIdiomaSelecionado, Mode=TwoWay}" Grid.Column="2" Height="23" Grid.Row="2" />
-                    <ComboBox ItemsSource="{Binding ArrayMetodosDeProcessamento}" SelectedValue="{Binding nIdMetodoDeProcessamentoSelecionado}" Grid.Column="2" Height="23" Grid.Row="4" />
-                    <Button Command="{Binding CommandLimparBancoDeDados}" Content="Limpar banco de dados" Grid.Column="4" Height="22" Grid.Row="4" />
+                    <ComboBox DisplayMemberPath="Value" SelectedValuePath="Key"
+                              ItemsSource="{Binding DictIdiomaPesquisa}"
+                              SelectedValue="{Binding sIdiomaSelecionado, Mode=TwoWay}" Grid.Column="2" Height="23"
+                              Grid.Row="2" />
+                    <ComboBox ItemsSource="{Binding ArrayMetodosDeProcessamento}"
+                              SelectedValue="{Binding nIdMetodoDeProcessamentoSelecionado}" Grid.Column="2" Height="23"
+                              Grid.Row="4" />
+                    <Button Command="{Binding CommandLimparBancoDeDados}" Content="Limpar banco de dados"
+                            Grid.Column="4" Height="22" Grid.Row="4" />
                 </Grid>
             </TabItem>
             <TabItem Header="Renomear">
                 <Grid Background="#FFE5E5E5">
-                    <gc:TextBoxPlaceholder Text="{Binding sFormatoParaSeries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Placeholder="{}{Titulo} - {SxEE} - {TituloEpisodio}" VerticalAlignment="Top" Height="23" Margin="170,10,10,10" TextWrapping="NoWrap" />
-                    <gc:TextBoxPlaceholder Text="{Binding sFormatoParaFilmes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Placeholder="{}{Titulo} ({Ano})" VerticalAlignment="Top" Height="23" Margin="170,38,10,10" TextWrapping="NoWrap" />
-                    <gc:TextBoxPlaceholder Text="{Binding sFormatoParaAnimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Placeholder="{}{Titulo} - {Absoluto} - {TituloEpisodio}" VerticalAlignment="Top" Height="23" Margin="170,66,10,10" TextWrapping="NoWrap" />
-                    <Label Content="Formato para séries:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,10,10" />
-                    <Label Content="Formato para filmes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,34,10,10" />
-                    <Label Content="Formato para animes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,10,10" />
-                    <Label Content="Visualização:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,94,10,10" />
-                    <Label Content="{Binding sVisualizacaoFormatoParaSeries}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,94,10,10" />
-                    <Label Content="{Binding sVisualizacaoFormatoParaFilmes}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,120,10,10" />
-                    <Label Content="{Binding sVisualizacaoFormatoParaAnimes}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,146,10,10" />
+                    <gc:TextBoxPlaceholder
+                        Text="{Binding sFormatoParaSeries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Placeholder="{}{Titulo} - {SxEE} - {TituloEpisodio}" VerticalAlignment="Top" Height="23"
+                        Margin="170,10,10,10" TextWrapping="NoWrap" />
+                    <gc:TextBoxPlaceholder
+                        Text="{Binding sFormatoParaFilmes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Placeholder="{}{Titulo} ({Ano})" VerticalAlignment="Top" Height="23" Margin="170,38,10,10"
+                        TextWrapping="NoWrap" />
+                    <gc:TextBoxPlaceholder
+                        Text="{Binding sFormatoParaAnimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Placeholder="{}{Titulo} - {Absoluto} - {TituloEpisodio}" VerticalAlignment="Top" Height="23"
+                        Margin="170,66,10,10" TextWrapping="NoWrap" />
+                    <Label Content="Formato para séries:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,7,10,10" />
+                    <Label Content="Formato para filmes:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,34,10,10" />
+                    <Label Content="Formato para animes:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,63,10,10" />
+                    <Label Content="Visualização:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                           Margin="10,94,10,10" />
+                    <Label Content="{Binding sVisualizacaoFormatoParaSeries}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Margin="170,94,10,10" />
+                    <Label Content="{Binding sVisualizacaoFormatoParaFilmes}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Margin="170,120,10,10" />
+                    <Label Content="{Binding sVisualizacaoFormatoParaAnimes}" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" Margin="170,146,10,10" />
                 </Grid>
             </TabItem>
             <TabItem Header="Feeds">
@@ -106,26 +157,41 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <DockPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" DockPanel.Dock="Top">
-                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandAdicionarFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="5,5,5,5" DockPanel.Dock="Top">
+                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0"
+                                    Command="{Binding oFeedsViewModel.CommandAdicionarFeed}"
+                                    CommandParameter="{Binding oFeedsViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandAumentarPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)."
+                                    Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandAumentarPrioridadeFeed}"
+                                    CommandParameter="{Binding oFeedsViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandDiminuirPrioridadeFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."
+                                    Margin="0,0,5,0" Command="{Binding oFeedsViewModel.CommandDiminuirPrioridadeFeed}"
+                                    CommandParameter="{Binding oFeedsViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding oFeedsViewModel.CommandRemoverFeed}" CommandParameter="{Binding oFeedsViewModel}">
+                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."
+                                    Command="{Binding oFeedsViewModel.CommandRemoverFeed}"
+                                    CommandParameter="{Binding oFeedsViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
                             </Button>
                         </StackPanel>
 
-                        <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-            IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
+                        <DataGrid ItemsSource="{Binding oFeedsViewModel.lstFeedsView.View}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2"
+                                  AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD"
+                                  VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
                             <DataGrid.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                 Color="{x:Static SystemColors.HighlightColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                 Color="{x:Static SystemColors.HighlightTextColor}" />
                             </DataGrid.Resources>
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
@@ -148,12 +214,14 @@
                                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                                         <Expander IsExpanded="True">
                                                             <i:Interaction.Behaviors>
-                                                                <behaviors:PersistenciaGroupExpandedBehavior GroupName="{Binding Name}" />
+                                                                <behaviors:PersistenciaGroupExpandedBehavior
+                                                                    GroupName="{Binding Name}" />
                                                             </i:Interaction.Behaviors>
                                                             <Expander.Header>
                                                                 <StackPanel Orientation="Horizontal">
                                                                     <TextBlock Text="{Binding Path=Name}" />
-                                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
+                                                                    <TextBlock
+                                                                        Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
                                                                 </StackPanel>
                                                             </Expander.Header>
                                                             <ItemsPresenter />
@@ -178,18 +246,19 @@
                                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
-                                      IsChecked="{Binding DataContext.oFeedsViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Command="{Binding DataContext.oFeedsViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                      CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                      IsThreeState="True"
+                                                      IsChecked="{Binding DataContext.oFeedsViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.oFeedsViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
-                                      IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Command="{Binding DataContext.oFeedsViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                      CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                                      IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.oFeedsViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      CommandParameter="{Binding DataContext.oFeedsViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -205,26 +274,43 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <DockPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" DockPanel.Dock="Top">
-                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandAdicionarFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Margin="5,5,5,5" DockPanel.Dock="Top">
+                            <Button Width="23" ToolTip="Adicionar novo feed." Margin="0,0,5,0"
+                                    Command="{Binding oListaFeedsPesquisaViewModel.CommandAdicionarFeed}"
+                                    CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Mais.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)." Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandAumentarPrioridadeFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                            <Button Width="23" ToolTip="Aumentar prioridade do(s) feed(s) selecionado(s)."
+                                    Margin="0,0,5,0"
+                                    Command="{Binding oListaFeedsPesquisaViewModel.CommandAumentarPrioridadeFeed}"
+                                    CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Seta_Cima.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."  Margin="0,0,5,0" Command="{Binding oListaFeedsPesquisaViewModel.CommandDiminuirPrioridadeFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                            <Button Width="23" ToolTip="Diminuir prioridade do(s) feed(s) selecionado(s)."
+                                    Margin="0,0,5,0"
+                                    Command="{Binding oListaFeedsPesquisaViewModel.CommandDiminuirPrioridadeFeed}"
+                                    CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Seta_Baixo.png" Margin="1" />
                             </Button>
-                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."  Command="{Binding oListaFeedsPesquisaViewModel.CommandRemoverFeed}" CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
+                            <Button Width="23" ToolTip="Remover feed(s) selecionado(s)."
+                                    Command="{Binding oListaFeedsPesquisaViewModel.CommandRemoverFeed}"
+                                    CommandParameter="{Binding oListaFeedsPesquisaViewModel}">
                                 <Image Source="/MediaManager;component/Resources/ICONE_Lixeira.png" Margin="1" />
                             </Button>
                         </StackPanel>
 
-                        <DataGrid ItemsSource="{Binding oListaFeedsPesquisaViewModel.lstFeedsView.View}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
-                IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2" AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD" VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
+                        <DataGrid ItemsSource="{Binding oListaFeedsPesquisaViewModel.lstFeedsView.View}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False"
+                                  IsReadOnly="True" HeadersVisibility="Column" AlternationCount="2"
+                                  AlternatingRowBackground="#FFDDDDDD" HorizontalGridLinesBrush="#DDDDDD"
+                                  VerticalGridLinesBrush="#DDDDDD" d:IsLocked="True" Grid.RowSpan="2">
                             <DataGrid.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}" />
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                                 Color="{x:Static SystemColors.HighlightColor}" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                                 Color="{x:Static SystemColors.HighlightTextColor}" />
                             </DataGrid.Resources>
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
@@ -247,12 +333,14 @@
                                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                                         <Expander IsExpanded="True">
                                                             <i:Interaction.Behaviors>
-                                                                <behaviors:PersistenciaGroupExpandedBehavior GroupName="{Binding Name}" />
+                                                                <behaviors:PersistenciaGroupExpandedBehavior
+                                                                    GroupName="{Binding Name}" />
                                                             </i:Interaction.Behaviors>
                                                             <Expander.Header>
                                                                 <StackPanel Orientation="Horizontal">
                                                                     <TextBlock Text="{Binding Path=Name}" />
-                                                                    <TextBlock Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
+                                                                    <TextBlock
+                                                                        Text="{Binding Path=ItemCount, StringFormat=' | {0} feeds'}" />
                                                                 </StackPanel>
                                                             </Expander.Header>
                                                             <ItemsPresenter />
@@ -277,18 +365,19 @@
                                 <DataGridTemplateColumn Width="Auto" CanUserReorder="False" CanUserResize="False">
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsThreeState="True"
-                                          IsChecked="{Binding DataContext.oListaFeedsPesquisaViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                          CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                      IsThreeState="True"
+                                                      IsChecked="{Binding DataContext.oListaFeedsPesquisaViewModel.bFlSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionarTodos, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
-                                          IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                          CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                                      IsChecked="{Binding bFlSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.oListaFeedsPesquisaViewModel.CommandSelecionar, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      CommandParameter="{Binding DataContext.oListaFeedsPesquisaViewModel, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -298,7 +387,10 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="Salvar" Margin="0,0,90,10" Width="75" HorizontalAlignment="Right" IsDefault="True" Command="{Binding CommandSalvar}" CommandParameter="{Binding}" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
-        <Button Content="Cancelar" Margin="0,0,10,10" Width="75" HorizontalAlignment="Right" IsCancel="True" d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
+        <Button Content="Salvar" Margin="0,0,90,10" Width="75" HorizontalAlignment="Right" IsDefault="True"
+                Command="{Binding CommandSalvar}" CommandParameter="{Binding}"
+                d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
+        <Button Content="Cancelar" Margin="0,0,10,10" Width="75" HorizontalAlignment="Right" IsCancel="True"
+                d:LayoutOverrides="LeftMargin, RightMargin" Height="20.96" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

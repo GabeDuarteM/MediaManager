@@ -32,8 +32,9 @@ namespace MediaManager.Model
         [JsonProperty("age")]
         public int age { get; set; }
 
-        //[JsonProperty("images")]
         //public Images images { get; set; }
+
+        //[JsonProperty("images")]
     }
 
     public class Account

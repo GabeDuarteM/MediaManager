@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaManager.Model
 {
@@ -19,7 +16,9 @@ namespace MediaManager.Model
 
         DbSet<Feed> Feed { get; set; }
 
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        DbSet<QualidadeDownload> QualidadeDownload { get; set; }
+
+        DbSet<T> Set<T>() where T : class;
 
         DbSet Set(Type entityType);
 

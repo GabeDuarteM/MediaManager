@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MediaManager.Commands;
 using MediaManager.ViewModel;
 
 namespace MediaManager.Forms
 {
     /// <summary>
-    /// Interaction logic for frmAdicionarFeeds.xaml
+    ///     Interaction logic for frmAdicionarFeeds.xaml
     /// </summary>
     public partial class frmAdicionarFeed : Window
     {
@@ -27,7 +15,11 @@ namespace MediaManager.Forms
 
             var oFeedVM = new FeedViewModel(false);
 
-            oFeedVM.ActionFechar = new Action<bool>((dialogResult) => { DialogResult = dialogResult; Close(); });
+            oFeedVM.ActionFechar = new Action<bool>((dialogResult) =>
+            {
+                DialogResult = dialogResult;
+                Close();
+            });
 
             DataContext = oFeedVM;
         }

@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Model;
 
 namespace MediaManager.Services
 {
-    public class EpisodiosService : IService<Episodio>
+    public class EpisodiosService : IRepositorio<Episodio>
     {
-        private IContext _context;
+        private readonly IContext _context;
 
         public EpisodiosService(IContext context)
         {
@@ -38,39 +36,13 @@ namespace MediaManager.Services
                             _context.Episodio.Add(episodio);
                         }
                     }
-                    catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o episódio com o ID " + episodio.nCdEpisodioAPI + " ao banco.", true); return false; }
-                }
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar episódios.");
-                return false;
-            }
-        }
-
-        public bool Adicionar(params Serie[] obj)
-        {
-            try
-            {
-                foreach (var serie in obj)
-                {
-                    try
-                    {
-                        serie.lstEpisodios.ForEach(episodio =>
-                        {
-                            episodio.nCdVideo = serie.nCdVideo;
-                            Adicionar(episodio);
-                        });
-                    }
                     catch (Exception e)
                     {
-                        new MediaManagerException(e).TratarException("Ocorreu um erro ao salvar os episódios de " + serie.sDsTitulo);
+                        new MediaManagerException(e).TratarException(
+                            "Ocorreu um erro ao adicionar o episódio com o ID " + episodio.nCdEpisodioAPI + " ao banco.");
                         return false;
                     }
                 }
-
                 _context.SaveChanges();
                 return true;
             }
@@ -81,63 +53,23 @@ namespace MediaManager.Services
             }
         }
 
-        public Episodio Get(int ID)
+        public Episodio Get(int id)
         {
             try
             {
-                Episodio episodio = _context.Episodio
-                        .Where(x => x.nCdEpisodio == ID)
-                        .FirstOrDefault();
+                Episodio episodio = _context.Episodio.FirstOrDefault(x => x.nCdEpisodio == id);
                 return episodio;
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio com o código " + ID);
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio com o código " + id);
                 return null;
             }
-        }
-
-        public Episodio Get(int nCdVideo, int nNrTemporada, int nNrEpisodio)
-        {
-            try
-            {
-                Episodio episodio = _context.Episodio
-                        .Where(x => x.nCdVideo == nCdVideo && x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio)
-                        .FirstOrDefault();
-                return episodio;
-            }
-            catch (Exception e)
-            {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio " + nNrEpisodio + " da temporada " + nNrTemporada + " do vídeo de ID " + nCdVideo);
-                return null;
-            }
-        }
-
-        public Episodio Get(int nCdVideo, int nNrAbsoluto)
-        {
-            Episodio episodio = _context.Episodio
-                .Where(x => x.nCdVideo == nCdVideo && x.nNrAbsoluto == nNrAbsoluto)
-                .FirstOrDefault();
-            return episodio;
-        }
-
-        public Episodio GetPorCodigoAPI(int nCdEpisodioAPI)
-        {
-            Episodio episodio = _context.Episodio
-                .Where(x => x.nCdEpisodioAPI == nCdEpisodioAPI)
-                .FirstOrDefault();
-            return episodio;
         }
 
         public List<Episodio> GetLista()
         {
             List<Episodio> lstEpisodios = _context.Episodio.ToList();
-            return lstEpisodios;
-        }
-
-        public List<Episodio> GetLista(Video serie)
-        {
-            List<Episodio> lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
             return lstEpisodios;
         }
 
@@ -171,7 +103,12 @@ namespace MediaManager.Services
                         }
                         else return false;
                     }
-                    catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o episódio de ID " + episodio.nCdEpisodio); return false; }
+                    catch (Exception e)
+                    {
+                        new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o episódio de ID " +
+                                                                     episodio.nCdEpisodio);
+                        return false;
+                    }
                 }
                 _context.SaveChanges();
                 return true;
@@ -188,6 +125,96 @@ namespace MediaManager.Services
                 new MediaManagerException(e).TratarException(frase.Remove(frase.Length - 3));
                 return false;
             }
+        }
+
+        public bool Remover(params Episodio[] obj)
+        {
+            foreach (var episodio in obj)
+            {
+                try
+                {
+                    _context.Episodio.Remove(episodio);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o episódio \"" +
+                                                                 episodio.sDsFilepath + "\"");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool Adicionar(params Serie[] obj)
+        {
+            try
+            {
+                foreach (var serie in obj)
+                {
+                    try
+                    {
+                        serie.lstEpisodios.ForEach(episodio =>
+                        {
+                            episodio.nCdVideo = serie.nCdVideo;
+                            Adicionar(episodio);
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        new MediaManagerException(e).TratarException("Ocorreu um erro ao salvar os episódios de " +
+                                                                     serie.sDsTitulo);
+                        return false;
+                    }
+                }
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar episódios.");
+                return false;
+            }
+        }
+
+        public Episodio Get(int nCdVideo, int nNrTemporada, int nNrEpisodio)
+        {
+            try
+            {
+                Episodio episodio = _context.Episodio
+                    .FirstOrDefault(
+                        x => x.nCdVideo == nCdVideo && x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio);
+                return episodio;
+            }
+            catch (Exception e)
+            {
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar o episódio " + nNrEpisodio +
+                                                             " da temporada " + nNrTemporada + " do vídeo de ID " +
+                                                             nCdVideo);
+                return null;
+            }
+        }
+
+        public Episodio Get(int nCdVideo, int nNrAbsoluto)
+        {
+            Episodio episodio = _context.Episodio
+                .Where(x => x.nCdVideo == nCdVideo && x.nNrAbsoluto == nNrAbsoluto)
+                .FirstOrDefault();
+            return episodio;
+        }
+
+        public Episodio GetPorCodigoAPI(int nCdEpisodioAPI)
+        {
+            Episodio episodio = _context.Episodio
+                .FirstOrDefault(x => x.nCdEpisodioAPI == nCdEpisodioAPI);
+            return episodio;
+        }
+
+        public List<Episodio> GetLista(Video serie)
+        {
+            List<Episodio> lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
+            return lstEpisodios;
         }
 
         public bool UpdateEpisodioRenomeado(Episodio atualizado)
@@ -222,7 +249,12 @@ namespace MediaManager.Services
                 }
                 else return false;
             }
-            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o episódio de ID " + atualizado.nCdEpisodioAPI + " no banco.", true); return false; }
+            catch (Exception e)
+            {
+                new MediaManagerException(e).TratarException(
+                    "Ocorreu um erro ao atualizar o episódio de ID " + atualizado.nCdEpisodioAPI + " no banco.", true);
+                return false;
+            }
         }
 
         public bool VerificarSeEpisodioJaFoiRenomeado(Episodio episodio)
@@ -230,13 +262,14 @@ namespace MediaManager.Services
             try
             {
                 var episodios = from episodiosDB in _context.Episodio
-                                where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
-                                select episodiosDB;
+                    where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
+                    select episodiosDB;
                 return episodios.Count() > 0 ? true : false;
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao verificar se o episódio \"" + episodio.sDsFilepath + "\" ja foi renomeado.");
+                new MediaManagerException(e).TratarException("Ocorreu um erro ao verificar se o episódio \"" +
+                                                             episodio.sDsFilepath + "\" ja foi renomeado.");
                 return false;
             }
         }
@@ -256,12 +289,15 @@ namespace MediaManager.Services
                         {
                             Episodio episodio = new Episodio();
                             episodio.sDsFilepath = item.FullName;
-                            episodio.oSerie = (Serie)serie;
+                            episodio.oSerie = (Serie) serie;
 
                             if (episodio.IdentificarEpisodio())
                             {
                                 episodio.sDsFilepath = item.FullName;
-                                episodio.bFlRenomeado = (episodio.sDsFilepath == Path.Combine(serie.sDsPasta, Helper.RenomearConformePreferencias(episodio)) + item.Extension);
+                                episodio.bFlRenomeado = episodio.sDsFilepath ==
+                                                        Path.Combine(serie.sDsPasta,
+                                                            Helper.RenomearConformePreferencias(episodio)) +
+                                                        item.Extension;
 
                                 Episodio episodeDB = Get(serie.nCdVideo, episodio.nNrTemporada, episodio.nNrEpisodio);
                                 episodeDB = _context.Episodio.Find(episodeDB.nCdEpisodio);
@@ -289,24 +325,11 @@ namespace MediaManager.Services
                     }
                 }
             }
-            catch (Exception e) { new MediaManagerException(e).TratarException("Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.sDsTitulo + "\".", true); return false; }
-            return true;
-        }
-
-        public bool Remover(params Episodio[] obj)
-        {
-            foreach (var episodio in obj)
+            catch (Exception e)
             {
-                try
-                {
-                    _context.Episodio.Remove(episodio);
-                    _context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o episódio \"" + episodio.sDsFilepath + "\"");
-                    return false;
-                }
+                new MediaManagerException(e).TratarException(
+                    "Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.sDsTitulo + "\".", true);
+                return false;
             }
             return true;
         }
