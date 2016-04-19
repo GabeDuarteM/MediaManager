@@ -1,11 +1,12 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 10/04/2016 20:14
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using MediaManager.Model;
 
@@ -118,7 +119,7 @@ namespace MediaManager.Services
         {
             try
             {
-                var lstObjs = _context.Set<T>().ToList();
+                List<T> lstObjs = _context.Set<T>().ToList();
 
                 return lstObjs;
             }
@@ -174,7 +175,7 @@ namespace MediaManager.Services
                 {
                     obj = item;
                     _context.Set<T>().Attach(item);
-                    var entry = _context.Entry(item);
+                    DbEntityEntry<T> entry = _context.Entry(item);
                     entry.State = EntityState.Modified;
                 }
                 _context.SaveChanges();
@@ -199,7 +200,7 @@ namespace MediaManager.Services
         {
             var listObjetosRemover = new List<T>();
 
-            foreach (var id in ids)
+            foreach (int id in ids)
             {
                 listObjetosRemover.Add(Get(id));
             }

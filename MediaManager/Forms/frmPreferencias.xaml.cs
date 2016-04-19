@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Windows;
@@ -33,10 +33,10 @@ namespace MediaManager.Forms
             ShowDialog();
         }
 
-        //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
+        //    if (btnLoginTrakt.Content.Equals("Entrar"))
         //{
 
-        //    if (btnLoginTrakt.Content.Equals("Entrar"))
+        //private async void btnLoginTrakt_Click(object sender, RoutedEventArgs e)
         //    {
         //        // TODO Login em outras máquinas (Não está localizando a página localhost p/ fazer login).
         //        var url = "http://trakt.tv/oauth/authorize?client_id=bde862fb343e4249fff7af52459e5af3428d471e8bbd584db6355d2b1812aa60&redirect_uri=http%3A%2F%2Flocalhost%3A51038%2FTraktLogin.aspx&response_type=code";

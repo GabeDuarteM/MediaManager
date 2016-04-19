@@ -1,9 +1,10 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -80,9 +81,9 @@ namespace MediaManager.ViewModel
                 switch (contentType)
                 {
                     case Enums.TipoConteudo.AnimeFilmeSérie:
-                        var dirSeries = Helper.retornarDiretoriosSeries();
-                        var dirAnimes = Helper.retornarDiretoriosAnimes();
-                        var dirFilmes = Helper.retornarDiretoriosFilmes();
+                        DirectoryInfo[] dirSeries = Helper.retornarDiretoriosSeries();
+                        DirectoryInfo[] dirAnimes = Helper.retornarDiretoriosAnimes();
+                        DirectoryInfo[] dirFilmes = Helper.retornarDiretoriosFilmes();
                         frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo = (dirSeries != null
                                                                                             ? dirSeries.Length
                                                                                             : 0) + (dirAnimes != null
@@ -101,7 +102,7 @@ namespace MediaManager.ViewModel
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
                                 if (!seriesService.VerificarSeExiste(dir.FullName))
                                 {
-                                    var lstSeries = APIRequests.GetSeries(dir.Name);
+                                    List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
                                     if (lstSeries.Count == 0)
                                     {
                                         var conteudo = new Serie();
@@ -119,7 +120,7 @@ namespace MediaManager.ViewModel
 
                                         if (!string.IsNullOrWhiteSpace(conteudo.sAliases))
                                         {
-                                            foreach (var item in conteudo.sAliases.Split('|'))
+                                            foreach (string item in conteudo.sAliases.Split('|'))
                                             {
                                                 var alias = new SerieAlias(item);
                                                 if (conteudo.lstSerieAlias == null)
@@ -144,7 +145,7 @@ namespace MediaManager.ViewModel
                                 frmBarraProgresso.BarraProgressoViewModel.sDsTexto = dir.FullName;
                                 if (!seriesService.VerificarSeExiste(dir.FullName))
                                 {
-                                    var lstSeries = APIRequests.GetSeries(dir.Name);
+                                    List<Serie> lstSeries = APIRequests.GetSeries(dir.Name);
                                     if (lstSeries == null || lstSeries.Count == 0)
                                     {
                                         var conteudo = new Serie();
@@ -162,7 +163,7 @@ namespace MediaManager.ViewModel
 
                                         if (!string.IsNullOrWhiteSpace(conteudo.sAliases))
                                         {
-                                            foreach (var item in conteudo.sAliases.Split('|'))
+                                            foreach (string item in conteudo.sAliases.Split('|'))
                                             {
                                                 var alias = new SerieAlias(item);
                                                 if (conteudo.lstSerieAlias == null)

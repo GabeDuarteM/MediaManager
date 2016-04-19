@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/09/2015 17:53
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -80,7 +80,7 @@ namespace MediaManager.ViewModel
                 bFlSelecionado = false
             });
 
-            var extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
+            string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
             var lstEpisodios = new List<Episodio>();
             var lstEpisodiosNaoEncontrados = new List<Episodio>();
             if (arquivos != null)

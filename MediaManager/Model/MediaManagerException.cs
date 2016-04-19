@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 04/02/2016 20:36
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -33,12 +33,12 @@ namespace MediaManager.Model
 
             sDetalhes += $"Detalhes: {Exception}";
 
-            foreach (var item in lstDetalhes)
+            foreach (string item in lstDetalhes)
             {
                 sDetalhes += Environment.NewLine + item;
             }
 
-            var sMensagem = sErro + Environment.NewLine + sDetalhes;
+            string sMensagem = sErro + Environment.NewLine + sDetalhes;
 
             if (bIsSilencioso)
             {

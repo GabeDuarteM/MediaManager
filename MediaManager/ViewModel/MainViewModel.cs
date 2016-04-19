@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -95,11 +95,11 @@ namespace MediaManager.ViewModel
             Argumentos = new Dictionary<string, string>();
 
             // Usa o Skip pois o primeiro sempre vai ser o caminho do executável.
-            var argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            string[] argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
             var sucesso = false;
             string argsString = null;
 
-            foreach (var item in argsArray)
+            foreach (string item in argsArray)
             {
                 if (argsString == null)
                     argsString += "\"" + item + "\"";
@@ -113,7 +113,7 @@ namespace MediaManager.ViewModel
             {
                 if (argsArray[i].StartsWith("-"))
                 {
-                    var arg = argsArray[i].Replace("-", "");
+                    string arg = argsArray[i].Replace("-", "");
                     if (argsArray.Length > i + 1 && !argsArray[i + 1].StartsWith("-"))
                     {
                         try
@@ -224,11 +224,11 @@ namespace MediaManager.ViewModel
 
                     lstSeries = new ObservableCollection<PosterViewModel>();
 
-                    var lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
+                    List<Serie> lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
 
                     foreach (Serie item in lstSeriesDB)
                     {
-                        var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                        string posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                         item.sDsImgPoster = File.Exists(posterMetadata)
                                                 ? posterMetadata
                                                 : null;
@@ -245,11 +245,11 @@ namespace MediaManager.ViewModel
                     var seriesService = App.Container.Resolve<SeriesService>();
                     lstAnimes = new ObservableCollection<PosterViewModel>();
 
-                    var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
+                    List<Serie> lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
 
                     foreach (Serie item in lstAnimesDB)
                     {
-                        var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                        string posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                         item.sDsImgPoster = File.Exists(posterMetadata)
                                                 ? posterMetadata
                                                 : null;
@@ -269,13 +269,13 @@ namespace MediaManager.ViewModel
                     lstAnimes = new ObservableCollection<PosterViewModel>();
                     //Filmes = new ObservableCollection<PosterViewModel>();
 
-                    var lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
-                    var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
+                    List<Serie> lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
+                    List<Serie> lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
                     //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
                     foreach (Serie item in lstSeriesDB)
                     {
-                        var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                        string posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                         item.sDsImgPoster = File.Exists(posterMetadata)
                                                 ? posterMetadata
                                                 : null;
@@ -287,7 +287,7 @@ namespace MediaManager.ViewModel
 
                     foreach (Serie item in lstAnimesDB)
                     {
-                        var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
+                        string posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
                         item.sDsImgPoster = File.Exists(posterMetadata)
                                                 ? posterMetadata
                                                 : null;
@@ -359,7 +359,7 @@ namespace MediaManager.ViewModel
 
                 var lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
 
-                var lstFeeds =
+                List<Feed> lstFeeds =
                     feedsService.GetLista()
                                 .Where(
                                        x =>
@@ -400,7 +400,7 @@ namespace MediaManager.ViewModel
                     }
                 }
 
-                var Qualidades =
+                List<dynamic> Qualidades =
                     new List<dynamic>(
                         (IEnumerable<dynamic>)
                         JsonConvert.DeserializeObject(Settings.Default.prefJsonPrioridadeQualidade))
@@ -411,7 +411,7 @@ namespace MediaManager.ViewModel
 
                 var lstParaDownload = new List<RssItem>();
 
-                foreach (var item in lstEpisodiosParaBaixar)
+                foreach (Tuple<Episodio, RssItem> item in lstEpisodiosParaBaixar)
                 {
                     Match rgxQualidade = Helper.RegexEpisodio.regex_Qualidades.Match(item.Item2.Title);
 
@@ -435,7 +435,7 @@ namespace MediaManager.ViewModel
                                 .FirstOrDefault();
                     }
 
-                    var oEpisodioIgual =
+                    Tuple<Episodio, RssItem, Enums.eQualidadeDownload> oEpisodioIgual =
                         lstEpisodiosComQualidades.Where(x => x.Item1.nCdEpisodio == item.Item1.nCdEpisodio)
                                                  .FirstOrDefault();
                     dynamic qualidadePrioridadeEpisodio =
@@ -450,7 +450,7 @@ namespace MediaManager.ViewModel
                         lstEpisodiosComQualidades.Remove(oEpisodioIgual);
                     }
                 }
-                foreach (var item in lstEpisodiosComQualidades)
+                foreach (Tuple<Episodio, RssItem, Enums.eQualidadeDownload> item in lstEpisodiosComQualidades)
                 {
                     if (item.Item1.EncaminharParaDownload(item.Item2.Link.ToString()))
                     {
@@ -470,11 +470,11 @@ namespace MediaManager.ViewModel
             var episodiosService = App.Container.Resolve<EpisodiosService>();
             var seriesService = App.Container.Resolve<SeriesService>();
 
-            var lstEpisodios = episodiosService.GetLista();
-            var lstEpisodiosDesejar =
+            List<Episodio> lstEpisodios = episodiosService.GetLista();
+            List<Episodio> lstEpisodiosDesejar =
                 lstEpisodios.Where(x => x.tDtEstreia > DateTime.Now && x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Novo)
                             .ToList();
-            var lstEpisodiosBaixados =
+            List<Episodio> lstEpisodiosBaixados =
                 lstEpisodios.Where(x => x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Baixado).ToList();
             var lstAlterados = new List<Episodio>();
 
@@ -505,7 +505,7 @@ namespace MediaManager.ViewModel
 
         private void ProcurarNovosEpisodiosBaixados()
         {
-            var series = lstAnimesESeries.ToList();
+            List<PosterViewModel> series = lstAnimesESeries.ToList();
             var episodiosService = App.Container.Resolve<EpisodiosService>();
 
             foreach (PosterViewModel serie in series)

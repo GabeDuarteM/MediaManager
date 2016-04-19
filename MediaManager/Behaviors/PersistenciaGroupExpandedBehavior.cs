@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/11/2015 20:11
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace MediaManager.Behaviors
         {
             base.OnAttached();
 
-            var expanded = GetExpandedState();
+            bool? expanded = GetExpandedState();
 
             if (expanded != null)
             {
@@ -89,7 +89,7 @@ namespace MediaManager.Behaviors
 
         private bool? GetExpandedState()
         {
-            var dict = GetExpandedStateStore();
+            IDictionary<object, bool> dict = GetExpandedStateStore();
 
             if (!dict.ContainsKey(GroupName))
             {
@@ -132,7 +132,7 @@ namespace MediaManager.Behaviors
 
         private void SetExpanded(bool expanded)
         {
-            var dict = GetExpandedStateStore();
+            IDictionary<object, bool> dict = GetExpandedStateStore();
 
             dict[GroupName] = expanded;
         }

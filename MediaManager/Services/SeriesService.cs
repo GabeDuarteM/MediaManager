@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 15/12/2015 18:11
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -96,7 +96,7 @@ namespace MediaManager.Services
 
         public List<Serie> GetLista()
         {
-            var lstSeries = _context.Serie.ToList();
+            List<Serie> lstSeries = _context.Serie.ToList();
 
             lstSeries.ForEach(serie =>
             {
@@ -138,7 +138,7 @@ namespace MediaManager.Services
 
         public bool Remover(params int[] nCdVideos)
         {
-            foreach (var nCdVideo in nCdVideos)
+            foreach (int nCdVideo in nCdVideos)
             {
                 string sNmSerie = null;
 
@@ -248,7 +248,7 @@ namespace MediaManager.Services
 
         public List<Serie> GetListaSeries()
         {
-            var lstSeries = _context.Serie.Where(x => !x.bFlAnime).OrderBy(x => x.sDsTitulo).ToList();
+            List<Serie> lstSeries = _context.Serie.Where(x => !x.bFlAnime).OrderBy(x => x.sDsTitulo).ToList();
             lstSeries.ForEach(serie =>
             {
                 serie.nIdTipoConteudo = serie.bFlAnime
@@ -268,12 +268,12 @@ namespace MediaManager.Services
 
         public List<Serie> GetListaSeriesComForeignKeys()
         {
-            var lstSeries = _context.Serie
-                                    .Include(x => x.lstEpisodios)
-                                    .Include(x => x.lstSerieAlias)
-                                    .Where(x => !x.bFlAnime)
-                                    .OrderBy(x => x.sDsTitulo)
-                                    .ToList();
+            List<Serie> lstSeries = _context.Serie
+                                            .Include(x => x.lstEpisodios)
+                                            .Include(x => x.lstSerieAlias)
+                                            .Where(x => !x.bFlAnime)
+                                            .OrderBy(x => x.sDsTitulo)
+                                            .ToList();
 
             lstSeries.ForEach(x =>
             {
@@ -288,7 +288,7 @@ namespace MediaManager.Services
 
         public List<Serie> GetListaAnimes()
         {
-            var animes = _context.Serie.Where(x => x.bFlAnime).OrderBy(x => x.sDsTitulo).ToList();
+            List<Serie> animes = _context.Serie.Where(x => x.bFlAnime).OrderBy(x => x.sDsTitulo).ToList();
 
             animes.ForEach(anime =>
             {
@@ -303,12 +303,12 @@ namespace MediaManager.Services
 
         public List<Serie> GetListaAnimesComForeignKeys()
         {
-            var lstAnimes = _context.Serie
-                                    .Include(x => x.lstEpisodios)
-                                    .Include(x => x.lstSerieAlias)
-                                    .Where(x => x.bFlAnime)
-                                    .OrderBy(x => x.sDsTitulo)
-                                    .ToList();
+            List<Serie> lstAnimes = _context.Serie
+                                            .Include(x => x.lstEpisodios)
+                                            .Include(x => x.lstSerieAlias)
+                                            .Where(x => x.bFlAnime)
+                                            .OrderBy(x => x.sDsTitulo)
+                                            .ToList();
 
             lstAnimes.ForEach(anime =>
             {
@@ -328,7 +328,7 @@ namespace MediaManager.Services
             try
             {
                 // Verifica se existe série com nome igual, se tiver seta como melhor correspondencia e a retorna direto.
-                var series = _context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower()).ToList();
+                List<Serie> series = _context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower()).ToList();
                 if (series.Count() > 0)
                 {
                     levenshtein = 0;
@@ -341,7 +341,7 @@ namespace MediaManager.Services
 
                 foreach (Serie serie in series)
                 {
-                    var levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
+                    int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(), serie.sDsTitulo.ToLower());
                     if (levensTemp < levenshtein)
                     {
                         levenshtein = levensTemp;
@@ -353,7 +353,7 @@ namespace MediaManager.Services
                 // (para evitar falsos positivos com palavras tipo "The") e calcula o levenshtein
                 if (titulo.Replace(".", " ").Replace("_", " ").Split(' ').Count() > 1)
                 {
-                    foreach (var item in titulo.Replace(".", " ").Replace("_", " ").ToLower().Split(' '))
+                    foreach (string item in titulo.Replace(".", " ").Replace("_", " ").ToLower().Split(' '))
                     {
                         if (item.Length <= 3)
                         {
@@ -363,7 +363,7 @@ namespace MediaManager.Services
                         series = _context.Serie.Where(x => x.sDsTitulo.ToLower().Contains(item)).ToList();
                         foreach (Serie serie in series)
                         {
-                            var levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
                                                                                   serie.sDsTitulo.ToLower());
                             if (levensTemp < levenshtein)
                             {
@@ -371,11 +371,11 @@ namespace MediaManager.Services
                                 melhorCorrespondencia = serie;
                             }
                         }
-                        var aliases =
+                        List<SerieAlias> aliases =
                             _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower())).ToList();
                         foreach (SerieAlias alias in aliases)
                         {
-                            var levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
+                            int levensTemp = Helper.CalcularAlgoritimoLevenshtein(titulo.ToLower(),
                                                                                   alias.sDsAlias.ToLower());
                             if (levensTemp < levenshtein)
                             {
@@ -398,34 +398,34 @@ namespace MediaManager.Services
 
         public List<Serie> GetSerieOuAnimePorTitulo(string titulo, bool removerCaracteresEspeciais)
         {
-            var lstSeries = _context.Serie
-                                    .Where(
-                                           x =>
-                                           removerCaracteresEspeciais
-                                               ? x.sDsTitulo.Replace(".", " ")
-                                                  .Replace("_", " ")
-                                                  .Replace("'", "")
-                                                  .Trim()
-                                                  .Contains(titulo)
-                                               : x.sDsTitulo.Contains(titulo))
-                                    .ToList();
+            List<Serie> lstSeries = _context.Serie
+                                            .Where(
+                                                   x =>
+                                                   removerCaracteresEspeciais
+                                                       ? x.sDsTitulo.Replace(".", " ")
+                                                          .Replace("_", " ")
+                                                          .Replace("'", "")
+                                                          .Trim()
+                                                          .Contains(titulo)
+                                                       : x.sDsTitulo.Contains(titulo))
+                                            .ToList();
             return lstSeries;
         }
 
         public List<Serie> GetSeriesEAnimes()
         {
-            var lstSeries = GetLista();
-            var lstAnimes = GetListaAnimes();
-            var lstSeriesAnimes = lstSeries.Concat(lstAnimes).ToList();
+            List<Serie> lstSeries = GetLista();
+            List<Serie> lstAnimes = GetListaAnimes();
+            List<Serie> lstSeriesAnimes = lstSeries.Concat(lstAnimes).ToList();
 
             return lstSeriesAnimes;
         }
 
         public List<Serie> GetSeriesEAnimesComForeignKeys()
         {
-            var lstSeries = GetListaSeriesComForeignKeys();
-            var lstAnimes = GetListaAnimesComForeignKeys();
-            var lstSeriesAnimes = lstSeries.Concat(lstAnimes).ToList();
+            List<Serie> lstSeries = GetListaSeriesComForeignKeys();
+            List<Serie> lstAnimes = GetListaAnimesComForeignKeys();
+            List<Serie> lstSeriesAnimes = lstSeries.Concat(lstAnimes).ToList();
 
             return lstSeriesAnimes;
         }
@@ -437,10 +437,10 @@ namespace MediaManager.Services
                 case Enums.TipoConteudo.Série:
                 case Enums.TipoConteudo.Anime:
                 {
-                    var lstSeries = _context.Serie.Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
+                    IQueryable<Serie> lstSeries = _context.Serie.Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
                     foreach (Serie item in lstSeries)
                     {
-                        var sPastaItem = Path.GetDirectoryName(item.sDsPasta);
+                        string sPastaItem = Path.GetDirectoryName(item.sDsPasta);
                         item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
                     }
                     _context.SaveChanges();
@@ -454,7 +454,7 @@ namespace MediaManager.Services
 
         public bool VerificarSeExiste(int nCdApi)
         {
-            var lstSeries = _context.Serie.Where(x => x.nCdApi == nCdApi).ToList();
+            List<Serie> lstSeries = _context.Serie.Where(x => x.nCdApi == nCdApi).ToList();
             return lstSeries.Count() > 0
                        ? true
                        : false;
@@ -462,7 +462,7 @@ namespace MediaManager.Services
 
         public bool VerificarSeExiste(string sDsPasta)
         {
-            var lstSerie = _context.Serie.Where(x => x.sDsPasta == sDsPasta).ToList();
+            List<Serie> lstSerie = _context.Serie.Where(x => x.sDsPasta == sDsPasta).ToList();
 
             return lstSerie.Count() > 0
                        ? true

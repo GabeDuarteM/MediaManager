@@ -1,9 +1,10 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 01/11/2015 14:08
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Autofac;
@@ -91,7 +92,7 @@ namespace MediaManager.Commands
 
                 if (episodiosVM.nIdEstadoEpisodioSelecionado != Enums.EstadoEpisodio.Selecione)
                 {
-                    var lstEpisodiosModificados =
+                    List<Episodio> lstEpisodiosModificados =
                         episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).ToList();
                     if (lstEpisodiosModificados.Count > 0)
                     {
@@ -122,7 +123,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var episodiosVM = parameter as EpisodiosViewModel;
-                var episodiosSelecionadosCount = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
+                int episodiosSelecionadosCount = episodiosVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
                 if (episodiosSelecionadosCount == episodiosVM.lstEpisodios.Count)
                 {
                     episodiosVM.bFlSelecionarTodos = true;

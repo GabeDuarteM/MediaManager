@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 26/07/2015 15:54
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -32,14 +32,14 @@ namespace MediaManager.Helpers
             }
 
             DateTime dataAtualizacao = DateTime.Now;
-            var dias = (Settings.Default.API_UltimaDataAtualizacaoTVDB - dataAtualizacao).Days;
-            var url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
+            int dias = (Settings.Default.API_UltimaDataAtualizacaoTVDB - dataAtualizacao).Days;
+            string url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
             var nomeArquivo = "updates_";
             string xmlString = null;
             // RandomNum para não dar problema ao excluir um arquivo ainda sendo utilizado.
-            var randomNum = new Random().Next(1, 55555);
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                                    Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
+            int randomNum = new Random().Next(1, 55555);
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                       Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
 
             if (dias == 0)
             {
@@ -104,8 +104,8 @@ namespace MediaManager.Helpers
             var seriesService = App.Container.Resolve<SeriesService>();
             var episodiosService = App.Container.Resolve<EpisodiosService>();
 
-            var lstSeriesAnimes = seriesService.GetSeriesEAnimes();
-            var lstEpisodios = episodiosService.GetLista();
+            List<Serie> lstSeriesAnimes = seriesService.GetSeriesEAnimes();
+            List<Episodio> lstEpisodios = episodiosService.GetLista();
 
             foreach (XmlNode item in nodesSeries)
             {
@@ -167,10 +167,10 @@ namespace MediaManager.Helpers
                         lstSeriesAnimes.Select(x => x.nCdApi.ToString())
                                        .Contains(item.SelectSingleNode("Series").InnerText))
                     {
-                        var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
-                        var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" +
-                                        item.SelectSingleNode("path").InnerText;
-                        var tipo = item.SelectSingleNode("type").InnerText;
+                        int IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
+                        string urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" +
+                                           item.SelectSingleNode("path").InnerText;
+                        string tipo = item.SelectSingleNode("type").InnerText;
                         if (tipo == Enums.TipoImagem.Fanart.ToString().ToLower())
                         {
                             using (var db = new Context())
@@ -214,10 +214,10 @@ namespace MediaManager.Helpers
         {
             string xmlString = null;
             var rnd = new Random();
-            var randomNum = rnd.Next(1, 55555);
+            int randomNum = rnd.Next(1, 55555);
             // Para evitar erros de arquivos sendo utilizados ao excluir.
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                                    Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                       Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
             try
             {
                 if (File.Exists(path))
@@ -318,7 +318,7 @@ namespace MediaManager.Helpers
             {
                 foreach (Serie item in data.Series)
                 {
-                    var isExistente = series.Select(x => x.nCdApi).Contains(item.nCdApi);
+                    bool isExistente = series.Select(x => x.nCdApi).Contains(item.nCdApi);
                     if (!isExistente)
                     {
                         item.nIdEstado = Enums.Estado.Simples;

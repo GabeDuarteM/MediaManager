@@ -1,9 +1,10 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/12/2015 07:40
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -64,7 +65,7 @@ namespace MediaManager.Commands
 
                 var feedsService = App.Container.Resolve<FeedsService>();
 
-                var lstFeedsSelecionados =
+                List<Feed> lstFeedsSelecionados =
                     oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
 
                 foreach (Feed item in lstFeedsSelecionados)
@@ -111,7 +112,7 @@ namespace MediaManager.Commands
                 var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
                 var feedsService = App.Container.Resolve<FeedsService>();
 
-                var lstFeedsSelecionados =
+                List<Feed> lstFeedsSelecionados =
                     oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado)
                                          .OrderByDescending(x => x.nNrPrioridade)
                                          .ToList();
@@ -188,7 +189,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var oListaFeedsPesquisaVM = parameter as ListaFeedsPesquisaViewModel;
-                var feedsSelecionadosCount = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
+                int feedsSelecionadosCount = oListaFeedsPesquisaVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
                 if (feedsSelecionadosCount == oListaFeedsPesquisaVM.lstFeeds.Count &&
                     oListaFeedsPesquisaVM.lstFeeds.Count > 0)
                 {

@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 15/12/2015 23:12
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace MediaManager.Services
         {
             try
             {
-                var lstAlias = _context.SerieAlias.ToList();
+                List<SerieAlias> lstAlias = _context.SerieAlias.ToList();
                 return lstAlias != null
                            ? lstAlias
                            : new List<SerieAlias>();
@@ -116,7 +116,7 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    foreach (var item in video.sAliases.Split('|'))
+                    foreach (string item in video.sAliases.Split('|'))
                     {
                         var alias = new SerieAlias(item);
                         alias.nNrEpisodio = 1;
@@ -141,7 +141,7 @@ namespace MediaManager.Services
         {
             try
             {
-                var lstAlias = _context.SerieAlias.Where(x => x.nCdVideo == video.nCdVideo).ToList();
+                List<SerieAlias> lstAlias = _context.SerieAlias.Where(x => x.nCdVideo == video.nCdVideo).ToList();
                 return lstAlias != null
                            ? lstAlias
                            : new List<SerieAlias>();

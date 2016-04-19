@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 22/11/2015 22:08
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.IO;
@@ -149,7 +149,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var renomearVM = parameter as RenomearViewModel;
-                var episodiosSelecionadosCount = renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
+                int episodiosSelecionadosCount = renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
                 if (episodiosSelecionadosCount == renomearVM.lstEpisodios.Count && renomearVM.lstEpisodios.Count > 0)
                 {
                     renomearVM.bFlSelecionarTodos = true;

@@ -1,9 +1,10 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 01/11/2015 01:25
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Autofac;
@@ -73,7 +74,8 @@ namespace MediaManager.Commands
                     //AdicionarConteudoVM.lstResultPesquisa.First(x => x.nCdApi == AdicionarConteudoVM.oVideoSelecionado.nCdApi).lstSerieAlias = frmConfigConteudo.ConfigurarConteudoVM.oVideo.lstSerieAlias;
                     var serieAliasService = App.Container.Resolve<SerieAliasService>();
 
-                    var lstSerieAliasOriginal = serieAliasService.GetLista(adicionarConteudoVm.oVideoSelecionado);
+                    List<SerieAlias> lstSerieAliasOriginal =
+                        serieAliasService.GetLista(adicionarConteudoVm.oVideoSelecionado);
 
                     foreach (
                         SerieAlias item in

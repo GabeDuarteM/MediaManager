@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 22/11/2015 18:08
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Linq;
@@ -138,7 +138,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var procurarConteudoVM = parameter as ProcurarConteudoViewModel;
-                var conteudosSelecionadosCount = procurarConteudoVM.lstConteudos.Where(x => x.bFlSelecionado).Count();
+                int conteudosSelecionadosCount = procurarConteudoVM.lstConteudos.Where(x => x.bFlSelecionado).Count();
                 if (conteudosSelecionadosCount == procurarConteudoVM.lstConteudos.Count &&
                     procurarConteudoVM.lstConteudos.Count > 0)
                 {

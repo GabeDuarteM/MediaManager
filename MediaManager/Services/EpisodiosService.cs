@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 15/12/2015 19:12
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -75,7 +75,7 @@ namespace MediaManager.Services
 
         public List<Episodio> GetLista()
         {
-            var lstEpisodios = _context.Episodio.ToList();
+            List<Episodio> lstEpisodios = _context.Episodio.ToList();
             return lstEpisodios;
         }
 
@@ -222,7 +222,7 @@ namespace MediaManager.Services
 
         public List<Episodio> GetLista(Video serie)
         {
-            var lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
+            List<Episodio> lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
             return lstEpisodios;
         }
 
@@ -239,7 +239,7 @@ namespace MediaManager.Services
                     original.bFlRenomeado = atualizado.bFlRenomeado;
                     original.nIdEstadoEpisodio = atualizado.nIdEstadoEpisodio;
 
-                    foreach (var nNrEpisodio in atualizado.lstIntEpisodios)
+                    foreach (int nNrEpisodio in atualizado.lstIntEpisodios)
                     {
                         if (nNrEpisodio == atualizado.nNrEpisodio)
                         {
@@ -272,9 +272,11 @@ namespace MediaManager.Services
         {
             try
             {
-                var episodios = from episodiosDB in _context.Episodio
-                                where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
-                                select episodiosDB;
+                IQueryable<Episodio> episodios = from episodiosDB in _context.Episodio
+                                                 where
+                                                     episodiosDB.nCdEpisodio == episodio.nCdEpisodio &&
+                                                     episodiosDB.bFlRenomeado
+                                                 select episodiosDB;
                 return episodios.Count() > 0
                            ? true
                            : false;
@@ -293,8 +295,10 @@ namespace MediaManager.Services
             {
                 if (Directory.Exists(serie.sDsPasta))
                 {
-                    var arquivos = new DirectoryInfo(serie.sDsPasta).EnumerateFiles("*.*", SearchOption.AllDirectories);
-                    var extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
+                    IEnumerable<FileInfo> arquivos = new DirectoryInfo(serie.sDsPasta).EnumerateFiles("*.*",
+                                                                                                      SearchOption
+                                                                                                          .AllDirectories);
+                    string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
 
                     foreach (FileInfo item in arquivos)
                     {
@@ -318,7 +322,7 @@ namespace MediaManager.Services
                                 episodeDB.bFlRenomeado = episodio.bFlRenomeado;
                                 episodeDB.nIdEstadoEpisodio = Enums.EstadoEpisodio.Baixado;
 
-                                foreach (var nNrEpisodio in episodio.lstIntEpisodios)
+                                foreach (int nNrEpisodio in episodio.lstIntEpisodios)
                                 {
                                     if (nNrEpisodio == episodeDB.nNrEpisodio)
                                     {

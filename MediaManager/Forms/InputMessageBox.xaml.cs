@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.ComponentModel;
@@ -77,8 +77,8 @@ namespace ConfigurableInputMessageBox
 
         private void CenterWindowOnScreen()
         {
-            var screenWidth = SystemParameters.PrimaryScreenWidth;
-            var screenHeight = SystemParameters.PrimaryScreenHeight;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = InputViewModel.Properties.Width;
             double windowHeight = InputViewModel.Properties.Height;
             Left = screenWidth / 2 - windowWidth / 2;

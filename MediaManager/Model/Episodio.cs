@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 25/01/2016 21:13
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -272,7 +272,7 @@ namespace MediaManager.Model
             {
                 sDsFilepath = Helper.RetirarCaracteresInvalidos(sDsFilepath, false);
 
-                var filenameTratado =
+                string filenameTratado =
                     Path.GetFileNameWithoutExtension(sDsFilepath)
                         .Replace(".", " ")
                         .Replace("_", " ")
@@ -282,21 +282,21 @@ namespace MediaManager.Model
                 if (Helper.RegexEpisodio.regex_S00E00.IsMatch(filenameTratado))
                 {
                     Match match = Helper.RegexEpisodio.regex_S00E00.Match(filenameTratado);
-                    var sDsTituloSerieTemp = oSerie.sDsTitulo;
+                    string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", "");
                     // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
 
                     // Para quando se tem multi-episódios
-                    var separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
-                                        ? default(string[])
-                                        : new string[1] {match.Groups["separador"].Value};
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
+                                             ? default(string[])
+                                             : new string[1] {match.Groups["separador"].Value};
                     nNrTemporada = int.Parse(match.Groups["season"].Value);
                     lstIntEpisodios = new List<int>();
 
                     foreach (
-                        var item in
+                        string item in
                             match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodios.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
@@ -304,7 +304,7 @@ namespace MediaManager.Model
 
                     nNrEpisodio = lstIntEpisodios[0];
 
-                    var retorno = SetarAtributosEpisodioIdentificado();
+                    bool retorno = SetarAtributosEpisodioIdentificado();
 
                     if (!string.IsNullOrWhiteSpace(sDsTituloSerieTemp))
                     {
@@ -316,21 +316,21 @@ namespace MediaManager.Model
                 else if (Helper.RegexEpisodio.regex_0x00.IsMatch(filenameTratado)) // TODO Fazer funcionar com alias
                 {
                     Match match = Helper.RegexEpisodio.regex_0x00.Match(filenameTratado);
-                    var sDsTituloSerieTemp = oSerie.sDsTitulo;
+                    string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", "");
                     // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
 
                     // Para quando se tem multi-episódios
-                    var separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
-                                        ? default(string[])
-                                        : new string[1] {match.Groups["separador"].Value};
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
+                                             ? default(string[])
+                                             : new string[1] {match.Groups["separador"].Value};
                     nNrTemporada = int.Parse(match.Groups["season"].Value);
                     lstIntEpisodios = new List<int>();
 
                     foreach (
-                        var item in
+                        string item in
                             match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodios.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
@@ -338,7 +338,7 @@ namespace MediaManager.Model
 
                     nNrEpisodio = lstIntEpisodios[0];
 
-                    var retorno = SetarAtributosEpisodioIdentificado();
+                    bool retorno = SetarAtributosEpisodioIdentificado();
 
                     if (!string.IsNullOrWhiteSpace(sDsTituloSerieTemp))
                     {
@@ -350,20 +350,20 @@ namespace MediaManager.Model
                 else if (Helper.RegexEpisodio.regex_Fansub0000.IsMatch(filenameTratado))
                 {
                     Match match = Helper.RegexEpisodio.regex_Fansub0000.Match(filenameTratado);
-                    var sDsTituloSerieTemp = oSerie.sDsTitulo;
+                    string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
                     oSerie.sDsTitulo = Regex.Replace(oSerie.sDsTitulo, @"[^a-zA-Z0-9\s]", "");
                     // Retira caracteres especiais e deixa somente numero, letra e espaços. Facilita o reconhecimento.
 
                     // Para quando se tem multi-episódios
-                    var separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
-                                        ? default(string[])
-                                        : new string[1] {match.Groups["separador"].Value};
+                    string[] separador = string.IsNullOrWhiteSpace(match.Groups["separador"].Value)
+                                             ? default(string[])
+                                             : new string[1] {match.Groups["separador"].Value};
                     lstIntEpisodiosAbsolutos = new List<int>();
 
                     foreach (
-                        var item in
+                        string item in
                             match.Groups["episodes"].Value.Split(separador, StringSplitOptions.RemoveEmptyEntries))
                     {
                         lstIntEpisodiosAbsolutos.Add(int.Parse(Regex.Replace(item, @"[^\d]", "")));
@@ -371,7 +371,7 @@ namespace MediaManager.Model
 
                     nNrAbsoluto = lstIntEpisodiosAbsolutos[0];
 
-                    var retorno = SetarAtributosEpisodioIdentificado();
+                    bool retorno = SetarAtributosEpisodioIdentificado();
 
                     if (!string.IsNullOrWhiteSpace(sDsTituloSerieTemp))
                     {
@@ -394,7 +394,7 @@ namespace MediaManager.Model
             var seriesService = App.Container.Resolve<SeriesService>();
             var episodiosService = App.Container.Resolve<EpisodiosService>();
 
-            var lstAlias = serieAliasService.GetLista();
+            List<SerieAlias> lstAlias = serieAliasService.GetLista();
             SerieAlias alias =
                 lstAlias.FirstOrDefault(
                                         x =>
@@ -422,7 +422,7 @@ namespace MediaManager.Model
 
             if (oSerie.nCdVideo > 0)
             {
-                var lstEpisodios = episodiosService.GetLista(oSerie);
+                List<Episodio> lstEpisodios = episodiosService.GetLista(oSerie);
 
                 if (alias != null)
                 {
@@ -581,8 +581,8 @@ namespace MediaManager.Model
 
         public bool EncaminharParaDownload(string link)
         {
-            var path = Properties.Settings.Default.pref_PastaBlackhole;
-            var nomeEpisodio = $"{oSerie.sDsTitulo} {nNrTemporada}x{nNrEpisodio}.torrent";
+            string path = Properties.Settings.Default.pref_PastaBlackhole;
+            string nomeEpisodio = $"{oSerie.sDsTitulo} {nNrTemporada}x{nNrEpisodio}.torrent";
             if (!string.IsNullOrWhiteSpace(path))
             {
                 var rgxHash = new Regex(@"magnet:.*?btih:(.*?)(?:&|$)");
@@ -595,13 +595,13 @@ namespace MediaManager.Model
                 {
                     if (rgxHash.IsMatch(link))
                     {
-                        var hash = rgxHash.Match(link).Groups[1].Value.ToUpper();
+                        string hash = rgxHash.Match(link).Groups[1].Value.ToUpper();
 
                         sLinkCache = @"http://torcache.net/torrent/" + hash + ".torrent";
 
                         if (rgxTitulo.IsMatch(link))
                         {
-                            var sTituloTorrent = rgxTitulo.Match(link).Groups[1].Value;
+                            string sTituloTorrent = rgxTitulo.Match(link).Groups[1].Value;
                             fileName = HttpUtility.UrlDecode(sTituloTorrent);
                             if (!fileName.EndsWith(".torrent"))
                             {
@@ -612,7 +612,7 @@ namespace MediaManager.Model
 
                     using (var wc = new Helper.MyWebClient())
                     {
-                        var data = Helper.Retry(() => wc.DownloadData(sLinkCache ?? link), TimeSpan.FromSeconds(3), 5);
+                        byte[] data = Helper.Retry(() => wc.DownloadData(sLinkCache ?? link), TimeSpan.FromSeconds(3), 5);
 
                         // Try to extract the filename from the Content-Disposition header
                         if (string.IsNullOrWhiteSpace(fileName) &&
@@ -626,7 +626,7 @@ namespace MediaManager.Model
                                                                          .Replace("\"", "");
                         }
 
-                        var torrentPath = Path.Combine(path, fileName ?? nomeEpisodio);
+                        string torrentPath = Path.Combine(path, fileName ?? nomeEpisodio);
 
                         if (File.Exists(torrentPath))
                         {

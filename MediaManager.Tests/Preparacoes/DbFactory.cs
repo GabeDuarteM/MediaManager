@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 19/04/2016 01:00
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:58
 
 using System;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace MediaManager.Tests.Preparacoes
                 281249
             };
 
-            foreach (var item in lstIntIdsSeries)
+            foreach (int item in lstIntIdsSeries)
             {
                 Serie serie = APIRequests.GetSerieInfoAsync(item, "en").Result;
                 serie.nCdVideo = _lstSeries.Any()

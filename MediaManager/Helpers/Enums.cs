@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/09/2015 21:39
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.ComponentModel;
@@ -114,7 +114,7 @@ namespace MediaManager.Helpers
         public static string GetDescricao(this Enum tipoEnum)
         {
             Type type = tipoEnum.GetType();
-            var name = Enum.GetName(type, tipoEnum);
+            string name = Enum.GetName(type, tipoEnum);
             if (name != null)
             {
                 FieldInfo field = type.GetField(name);

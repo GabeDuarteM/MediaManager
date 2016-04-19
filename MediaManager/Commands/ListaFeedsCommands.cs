@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 08/11/2015 23:01
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,7 @@ namespace MediaManager.Commands
 
                 var feedsService = App.Container.Resolve<FeedsService>();
 
-                var lstFeedsSelecionados =
+                List<Feed> lstFeedsSelecionados =
                     feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
 
                 foreach (Feed item in lstFeedsSelecionados)
@@ -108,7 +108,7 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
                 var feedsService = App.Container.Resolve<FeedsService>();
-                var lstFeedsSelecionados =
+                List<Feed> lstFeedsSelecionados =
                     feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
 
                 foreach (Feed item in lstFeedsSelecionados)
@@ -167,7 +167,7 @@ namespace MediaManager.Commands
 
                     feedsService.Remover(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado).ToArray());
 
-                    var lstFeeds =
+                    List<Feed> lstFeeds =
                         feedsService.GetLista()
                                     .Where(
                                            x =>
@@ -210,7 +210,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
-                var feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
+                int feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
                 if (feedsSelecionadosCount == feedsVM.lstFeeds.Count && feedsVM.lstFeeds.Count > 0)
                 {
                     feedsVM.bFlSelecionarTodos = true;

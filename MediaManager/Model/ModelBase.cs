@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/12/2015 03:00
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections;
@@ -31,8 +31,8 @@ namespace MediaManager.Model
 
         public void Clone(object objOrigem)
         {
-            var variaveisObjOrigem = objOrigem.GetType().GetProperties();
-            var variaveisObjAtual = GetType().GetProperties();
+            PropertyInfo[] variaveisObjOrigem = objOrigem.GetType().GetProperties();
+            PropertyInfo[] variaveisObjAtual = GetType().GetProperties();
 
             foreach (PropertyInfo item in variaveisObjOrigem)
             {
@@ -72,7 +72,7 @@ namespace MediaManager.Model
 
         protected void RaiseErrorsChanged([CallerMemberName] string propertyName = "")
         {
-            var handler = ErrorsChanged;
+            EventHandler<DataErrorsChangedEventArgs> handler = ErrorsChanged;
 
             if (handler != null)
             {

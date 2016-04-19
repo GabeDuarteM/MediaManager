@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 16/04/2016 05:26
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:58
 
 using MediaManager.Helpers;
 using MediaManager.Model;
@@ -51,8 +51,7 @@ namespace MediaManager.Tests.Model
 
             /////
 
-            episodio = new Episodio();
-            episodio.sDsFilepath = "Arrow.S04E02.1080p.HDTV.X264-DIMENSION";
+            episodio = new Episodio {sDsFilepath = "Arrow.S04E02.1080p.HDTV.X264-DIMENSION"};
             if (episodio.IdentificarEpisodio())
             {
                 episodio.oSerie.sFormatoRenomeioPersonalizado = formatoRenomeio;

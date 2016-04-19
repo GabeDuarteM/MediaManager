@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.IO;
@@ -95,13 +95,13 @@ namespace MediaManager.Forms
             var a = new DirectoryInfo(pastaOrigem);
             foreach (DirectoryInfo item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
             {
-                var pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
+                string pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!Directory.Exists(pastaTemp))
                     Directory.CreateDirectory(pastaTemp);
             }
             foreach (FileInfo item in a.EnumerateFiles("*", SearchOption.AllDirectories))
             {
-                var arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
+                string arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!File.Exists(arquivoTemp))
                     File.Create(arquivoTemp);
             }

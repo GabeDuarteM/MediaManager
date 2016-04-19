@@ -1,10 +1,11 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 16/12/2015 00:39
-// Last update: 19/04/2016 02:47
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using MediaManager.Model;
 
@@ -25,7 +26,7 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    var lstFeeds =
+                    List<Feed> lstFeeds =
                         _context.Feed.Where(
                                             x =>
                                             x.nIdTipoConteudo == feed.nIdTipoConteudo &&
@@ -75,7 +76,7 @@ namespace MediaManager.Services
         {
             try
             {
-                var lstFeeds = _context.Feed.ToList();
+                List<Feed> lstFeeds = _context.Feed.ToList();
 
                 return lstFeeds;
             }
@@ -117,7 +118,7 @@ namespace MediaManager.Services
                 {
                     feed = item;
                     _context.Feed.Attach(item);
-                    var entry = _context.Entry(item);
+                    DbEntityEntry<Feed> entry = _context.Entry(item);
                     entry.State = System.Data.Entity.EntityState.Modified;
                 }
                 _context.SaveChanges();

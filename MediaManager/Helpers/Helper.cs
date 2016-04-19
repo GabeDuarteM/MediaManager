@@ -1,7 +1,7 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/09/2015 17:53
-// Last update: 19/04/2016 02:46
+// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace MediaManager.Helpers
                     {
                         using (var wc = new WebClient())
                         {
-                            var path = Path.Combine(video.sDsMetadata, "poster.jpg");
+                            string path = Path.Combine(video.sDsMetadata, "poster.jpg");
                             await wc.DownloadFileTaskAsync(new Uri(video.sDsImgPoster), path);
                         }
                     }
@@ -55,7 +55,7 @@ namespace MediaManager.Helpers
                     {
                         using (var wc = new WebClient())
                         {
-                            var path = Path.Combine(video.sDsMetadata, "fanart.jpg");
+                            string path = Path.Combine(video.sDsMetadata, "fanart.jpg");
                             await wc.DownloadFileTaskAsync(new Uri(video.sDsImgFanart), path);
                         }
                     }
@@ -79,7 +79,7 @@ namespace MediaManager.Helpers
                     {
                         using (var wc = new WebClient())
                         {
-                            var path = Path.Combine(video.sDsMetadata, "poster.jpg");
+                            string path = Path.Combine(video.sDsMetadata, "poster.jpg");
                             wc.DownloadFile(new Uri(video.sDsImgPoster), path);
                         }
                     }
@@ -90,7 +90,7 @@ namespace MediaManager.Helpers
                     {
                         using (var wc = new WebClient())
                         {
-                            var path = Path.Combine(video.sDsMetadata, "fanart.jpg");
+                            string path = Path.Combine(video.sDsMetadata, "fanart.jpg");
                             wc.DownloadFile(new Uri(video.sDsImgFanart), path);
                         }
                     }
@@ -109,7 +109,7 @@ namespace MediaManager.Helpers
             if (lista != null)
             {
                 var strGeneros = "";
-                foreach (var item in lista)
+                foreach (string item in lista)
                 {
                     strGeneros += item + "|";
                 }
@@ -217,7 +217,7 @@ namespace MediaManager.Helpers
                     case "{Episodio}":
                     {
                         var ep = "";
-                        foreach (var item in episodio.lstIntEpisodios)
+                        foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
                                 ep = item.ToString("00");
@@ -230,7 +230,7 @@ namespace MediaManager.Helpers
                     case "{Absoluto}":
                     {
                         var ep = "";
-                        foreach (var item in episodio.lstIntEpisodiosAbsolutos)
+                        foreach (int item in episodio.lstIntEpisodiosAbsolutos)
                         {
                             if (ep == "")
                                 ep = item.ToString("00");
@@ -243,7 +243,7 @@ namespace MediaManager.Helpers
                     case "{SxEE}":
                     {
                         var ep = "";
-                        foreach (var item in episodio.lstIntEpisodios)
+                        foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
                                 ep = item.ToString("00");
@@ -256,7 +256,7 @@ namespace MediaManager.Helpers
                     case "{S00E00}":
                     {
                         var ep = "";
-                        foreach (var item in episodio.lstIntEpisodios)
+                        foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
                                 ep = item.ToString("00");
@@ -280,7 +280,7 @@ namespace MediaManager.Helpers
 
         public static string ColocarVirgula(string frase, List<string> adicional)
         {
-            foreach (var item in adicional)
+            foreach (string item in adicional)
             {
                 if (item == adicional[0])
                 {
@@ -312,13 +312,13 @@ namespace MediaManager.Helpers
 
             if (origem.Length > destino.Length)
             {
-                var temp = destino;
+                string temp = destino;
                 destino = origem;
                 origem = temp;
             }
 
-            var m = destino.Length;
-            var n = origem.Length;
+            int m = destino.Length;
+            int n = origem.Length;
             var distance = new int[2, m + 1];
             // Initialize the distance 'matrix'
             for (var j = 1; j <= m; j++)
@@ -329,10 +329,10 @@ namespace MediaManager.Helpers
             {
                 currentRow = i & 1;
                 distance[currentRow, 0] = i;
-                var previousRow = currentRow ^ 1;
+                int previousRow = currentRow ^ 1;
                 for (var j = 1; j <= m; j++)
                 {
-                    var cost = destino[j - 1] == origem[i - 1]
+                    int cost = destino[j - 1] == origem[i - 1]
                                    ? 0
                                    : 1;
                     distance[currentRow, j] = Math.Min(Math.Min(
@@ -349,7 +349,7 @@ namespace MediaManager.Helpers
             try
             {
                 var retorno = new Dictionary<string, int>();
-                foreach (var destino in lstDestinos)
+                foreach (string destino in lstDestinos)
                 {
                     retorno.Add(destino, CalcularAlgoritimoLevenshtein(origem, destino));
                 }
@@ -435,8 +435,8 @@ namespace MediaManager.Helpers
         public static bool LogMessage(string message)
         {
             string logPath = null;
-            var data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
-            var espacamento = "## " + new string(' ', data.Length - 3);
+            string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
+            string espacamento = "## " + new string(' ', data.Length - 3);
             string logLine = null;
 
             // O Try abaixo é só para evitar erros ao rodar os testes unitários.
@@ -487,7 +487,7 @@ namespace MediaManager.Helpers
         {
             if (extensao == null)
                 throw new ArgumentNullException("extensao");
-            var files = dir.EnumerateFiles();
+            IEnumerable<FileInfo> files = dir.EnumerateFiles();
             return files.Where(f => extensao.Contains(f.Extension));
         }
 
@@ -498,7 +498,7 @@ namespace MediaManager.Helpers
         /// <returns>Nome sem os caracteres não permitidos.</returns>
         public static string RetirarCaracteresInvalidos(string nome, bool retirarContraBarras = true)
         {
-            var nomeNormalizado =
+            string nomeNormalizado =
                 nome.Replace("/", "")
                     .Replace(":", "")
                     .Replace("*", "")
@@ -564,7 +564,7 @@ namespace MediaManager.Helpers
                 video.lstSerieAlias = new ObservableCollection<SerieAlias>();
                 if (!string.IsNullOrWhiteSpace(video.sAliases))
                 {
-                    foreach (var item in video.sAliases.Split('|'))
+                    foreach (string item in video.sAliases.Split('|'))
                     {
                         var alias = new SerieAlias(item);
                         video.lstSerieAlias.Add(alias);
