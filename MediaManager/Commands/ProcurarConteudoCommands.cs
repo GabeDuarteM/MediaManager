@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 22/11/2015 18:08
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Linq;
 using System.Windows.Input;
 using Autofac;
@@ -26,24 +31,26 @@ namespace MediaManager.Commands
                        && (parameter as ProcurarConteudoViewModel).lstConteudos.Count > 0
                        &&
                        (parameter as ProcurarConteudoViewModel).lstConteudos.Where(
-                           x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() > 0;
+                                                                                   x =>
+                                                                                   x.bFlSelecionado &&
+                                                                                   !x.bFlNaoEncontrado).Count() > 0;
             }
 
             public void Execute(object parameter)
             {
-                ProcurarConteudoViewModel ProcurarConteudoViewModel = parameter as ProcurarConteudoViewModel;
-                frmBarraProgresso frmBarraProgresso = new frmBarraProgresso();
+                var ProcurarConteudoViewModel = parameter as ProcurarConteudoViewModel;
+                var frmBarraProgresso = new frmBarraProgresso();
                 frmBarraProgresso.BarraProgressoViewModel.dNrProgressoMaximo =
                     ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado).Count();
                 frmBarraProgresso.BarraProgressoViewModel.sDsTarefa = "Salvando...";
                 frmBarraProgresso.BarraProgressoViewModel.Worker.DoWork += (s, ev) =>
                 {
-                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                    var seriesService = App.Container.Resolve<SeriesService>();
                     //if (ProcurarConteudoViewModel.lstConteudos.Where(x => x.bFlSelecionado && !x.bFlNaoEncontrado).Count() == 0)
                     //{
                     //    Helper.MostrarMensagem("Para realizar a operação, selecione ao menos um registro.", Enums.eTipoMensagem.Alerta);
                     //}
-                    foreach (var item in ProcurarConteudoViewModel.lstConteudos)
+                    foreach (Video item in ProcurarConteudoViewModel.lstConteudos)
                     {
                         if (item.bFlSelecionado && !item.bFlNaoEncontrado)
                         {
@@ -55,8 +62,8 @@ namespace MediaManager.Commands
                                     frmBarraProgresso.BarraProgressoViewModel.sDsTexto = "Salvando \"" + item.sDsTitulo +
                                                                                          "\" (" +
                                                                                          (frmBarraProgresso
-                                                                                             .BarraProgressoViewModel
-                                                                                             .dNrProgressoAtual + 1) +
+                                                                                              .BarraProgressoViewModel
+                                                                                              .dNrProgressoAtual + 1) +
                                                                                          "/" +
                                                                                          frmBarraProgresso
                                                                                              .BarraProgressoViewModel
@@ -67,7 +74,8 @@ namespace MediaManager.Commands
                                     {
                                         Serie serie =
                                             APIRequests.GetSerieInfoAsync(item.nCdApi,
-                                                Properties.Settings.Default.pref_IdiomaPesquisa).Result;
+                                                                          Properties.Settings.Default
+                                                                                    .pref_IdiomaPesquisa).Result;
                                         serie.nIdTipoConteudo = item.nIdTipoConteudo;
                                         serie.sDsPasta = item.sDsPasta;
                                         serie.sAliases = item.sAliases;
@@ -130,7 +138,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var procurarConteudoVM = parameter as ProcurarConteudoViewModel;
-                int conteudosSelecionadosCount = procurarConteudoVM.lstConteudos.Where(x => x.bFlSelecionado).Count();
+                var conteudosSelecionadosCount = procurarConteudoVM.lstConteudos.Where(x => x.bFlSelecionado).Count();
                 if (conteudosSelecionadosCount == procurarConteudoVM.lstConteudos.Count &&
                     procurarConteudoVM.lstConteudos.Count > 0)
                 {

@@ -1,4 +1,9 @@
-﻿namespace MediaManager.Properties
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:47
+
+namespace MediaManager.Properties
 {
     // This class allows you to handle specific events on the settings class:
     //  The SettingChanging event is raised before a setting's value is changed.

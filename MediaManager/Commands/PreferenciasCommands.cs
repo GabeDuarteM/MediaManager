@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 10/09/2015 14:25
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -29,11 +34,12 @@ namespace MediaManager.Commands
             {
                 if (
                     MessageBox.Show(
-                        "Ao realizar esta ação, todas as informações armazenadas sobre o conteúdo que você possui serão apagadas (entretanto todos os arquivos de vídeo que você possui permanecerá intacto). Você realmente deseja realizar esta ação?",
-                        Properties.Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question) ==
+                                    "Ao realizar esta ação, todas as informações armazenadas sobre o conteúdo que você possui serão apagadas (entretanto todos os arquivos de vídeo que você possui permanecerá intacto). Você realmente deseja realizar esta ação?",
+                                    Properties.Settings.Default.AppName, MessageBoxButton.YesNo,
+                                    MessageBoxImage.Question) ==
                     MessageBoxResult.Yes)
                 {
-                    using (Model.Context db = new Model.Context())
+                    using (var db = new Model.Context())
                     {
                         db.Database.ExecuteSqlCommand(@"/*Disable Constraints & Triggers*/
 exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__MigrationHistory]''),0))
@@ -77,8 +83,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
             {
                 if (parameter is PreferenciasViewModel)
                 {
-                    PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                    var preferenciasVM = parameter as PreferenciasViewModel;
+                    var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
                     folderDialog.SelectedPath = preferenciasVM.sPastaAnimes;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
@@ -105,8 +111,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
             {
                 if (parameter is PreferenciasViewModel)
                 {
-                    PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                    var preferenciasVM = parameter as PreferenciasViewModel;
+                    var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
                     folderDialog.SelectedPath = preferenciasVM.sPastaFilmes;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
@@ -133,8 +139,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
             {
                 if (parameter is PreferenciasViewModel)
                 {
-                    PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                    var preferenciasVM = parameter as PreferenciasViewModel;
+                    var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
                     folderDialog.SelectedPath = preferenciasVM.sPastaSeries;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
@@ -161,8 +167,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
             {
                 if (parameter is PreferenciasViewModel)
                 {
-                    PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                    Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                    var preferenciasVM = parameter as PreferenciasViewModel;
+                    var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
                     folderDialog.SelectedPath = preferenciasVM.sPastaDownloads;
                     if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
@@ -187,8 +193,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
             public void Execute(object parameter)
             {
-                PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
+                var preferenciasVM = parameter as PreferenciasViewModel;
+                var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog();
                 folderDialog.SelectedPath = preferenciasVM.sPastaBlackhole;
                 if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -212,8 +218,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
             public void Execute(object parameter)
             {
-                PreferenciasViewModel preferenciasVM = parameter as PreferenciasViewModel;
-                SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                var preferenciasVM = parameter as PreferenciasViewModel;
+                var seriesService = App.Container.Resolve<SeriesService>();
 
                 Properties.Settings.Default.pref_FormatoAnimes =
                     !string.IsNullOrWhiteSpace(preferenciasVM.sFormatoParaAnimes)
@@ -235,8 +241,8 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
                 Properties.Settings.Default.pref_MetodoDeProcessamento =
                     (int) preferenciasVM.nIdMetodoDeProcessamentoSelecionado;
 
-                List<string> alterados = new List<string>();
-                bool bFlAlterarPastas = false;
+                var alterados = new List<string>();
+                var bFlAlterarPastas = false;
 
                 if (Properties.Settings.Default.pref_PastaFilmes != preferenciasVM.sPastaFilmes)
                 {
@@ -261,8 +267,9 @@ exec sp_MSforeachtable 'IF OBJECT_ID(''?'') NOT IN (ISNULL(OBJECT_ID(''[dbo].[__
 
                 if (alterados.Count > 0 &&
                     Helper.MostrarMensagem(
-                        "Deseja alterar também as pastas dos(as) " + Helper.ColocarVirgula(null, alterados) +
-                        " já cadastrados(as)?", Enums.eTipoMensagem.QuestionamentoSimNao)
+                                           "Deseja alterar também as pastas dos(as) " +
+                                           Helper.ColocarVirgula(null, alterados) +
+                                           " já cadastrados(as)?", Enums.eTipoMensagem.QuestionamentoSimNao)
                     == MessageBoxResult.Yes)
                 {
                     bFlAlterarPastas = true;

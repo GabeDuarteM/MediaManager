@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 12/09/2015 21:39
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -27,8 +32,11 @@ namespace MediaManager.Helpers
         public enum Estado
         {
             Novo,
+
             Simples,
+
             Completo,
+
             CompletoSemForeignKeys
         }
 
@@ -52,12 +60,19 @@ namespace MediaManager.Helpers
         public enum eTipoMensagem
         {
             Padrao = 0,
+
             Alerta = 1,
+
             AlertaSimNao = 2,
+
             AlertaSimNaoCancela = 3,
+
             Informativa = 4,
+
             QuestionamentoSimNao = 5,
+
             QuestionamentoSimNaoCancela = 6,
+
             Erro = 7
         }
 
@@ -99,15 +114,15 @@ namespace MediaManager.Helpers
         public static string GetDescricao(this Enum tipoEnum)
         {
             Type type = tipoEnum.GetType();
-            string name = Enum.GetName(type, tipoEnum);
+            var name = Enum.GetName(type, tipoEnum);
             if (name != null)
             {
                 FieldInfo field = type.GetField(name);
                 if (field != null)
                 {
-                    DescriptionAttribute attr =
+                    var attr =
                         Attribute.GetCustomAttribute(field,
-                            typeof(DescriptionAttribute)) as DescriptionAttribute;
+                                                     typeof(DescriptionAttribute)) as DescriptionAttribute;
                     if (attr != null)
                     {
                         return attr.Description;

@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 08/11/2015 16:21
+// Last update: 19/04/2016 02:46
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MediaManager.Helpers;
 
@@ -10,6 +15,7 @@ namespace MediaManager.Model
         private bool _bFlSelecionado;
 
         private bool _bIsFeedPesquisa;
+
         private int _nCdFeed;
 
         private Enums.TipoConteudo _nIdTipoConteudo;
@@ -125,7 +131,10 @@ namespace MediaManager.Model
             }
         }
 
-        public override bool IsValid => ValidarCampo(sDsFeed, nameof(sDsFeed)) & ValidarCampo(sLkFeed, nameof(sLkFeed)) &
-                                        (bIsFeedPesquisa ? ValidarCampo(sDsTagPesquisa, nameof(sDsTagPesquisa)) : true);
+        public override bool IsValid
+            => ValidarCampo(sDsFeed, nameof(sDsFeed)) & ValidarCampo(sLkFeed, nameof(sLkFeed)) &
+               (bIsFeedPesquisa
+                    ? ValidarCampo(sDsTagPesquisa, nameof(sDsTagPesquisa))
+                    : true);
     }
 }

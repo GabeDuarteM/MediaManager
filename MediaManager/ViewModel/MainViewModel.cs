@@ -1,9 +1,15 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using Argotic.Syndication;
@@ -25,7 +31,7 @@ namespace MediaManager.ViewModel
         private ObservableCollection<PosterViewModel> _lstSeries;
 
         public MainViewModel(Window owner = null, ICollection<Serie> animes = null, ICollection<Serie> filmes = null,
-            ICollection<Serie> series = null)
+                             ICollection<Serie> series = null)
         {
             Owner = owner;
         }
@@ -64,12 +70,12 @@ namespace MediaManager.ViewModel
         {
             get
             {
-                ObservableCollection<PosterViewModel> retorno = new ObservableCollection<PosterViewModel>();
+                var retorno = new ObservableCollection<PosterViewModel>();
 
-                foreach (var anime in lstAnimes)
+                foreach (PosterViewModel anime in lstAnimes)
                     retorno.Add(anime);
 
-                foreach (var serie in lstSeries)
+                foreach (PosterViewModel serie in lstSeries)
                     retorno.Add(serie);
 
                 return retorno;
@@ -89,8 +95,8 @@ namespace MediaManager.ViewModel
             Argumentos = new Dictionary<string, string>();
 
             // Usa o Skip pois o primeiro sempre vai ser o caminho do executável.
-            string[] argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
-            bool sucesso = false;
+            var argsArray = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            var sucesso = false;
             string argsString = null;
 
             foreach (var item in argsArray)
@@ -103,11 +109,11 @@ namespace MediaManager.ViewModel
             if (argsString != null)
                 Helper.LogMessage("Aplicação iniciada com os seguintes argumentos: " + argsString);
 
-            for (int i = 0; i < argsArray.Length; i++)
+            for (var i = 0; i < argsArray.Length; i++)
             {
                 if (argsArray[i].StartsWith("-"))
                 {
-                    string arg = argsArray[i].Replace("-", "");
+                    var arg = argsArray[i].Replace("-", "");
                     if (argsArray.Length > i + 1 && !argsArray[i + 1].StartsWith("-"))
                     {
                         try
@@ -117,11 +123,12 @@ namespace MediaManager.ViewModel
                         catch (Exception e)
                         {
                             new MediaManagerException(e).TratarException(
-                                "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                                                                         "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " +
+                                                                         arg);
                             return true;
                         }
                         i++;
-                            // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
+                        // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
                     }
                     else
                     {
@@ -132,7 +139,8 @@ namespace MediaManager.ViewModel
                         catch (Exception e)
                         {
                             new MediaManagerException(e).TratarException(
-                                "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " + arg);
+                                                                         "Os argumentos informados estão incorretos, favor verifica-los.\r\nArgumento: " +
+                                                                         arg);
                             return true;
                         }
                     }
@@ -155,7 +163,7 @@ namespace MediaManager.ViewModel
                 RenomearViewModel renomearVM = null;
                 if (Directory.Exists(arg))
                 {
-                    DirectoryInfo dirInfo = new DirectoryInfo(arg);
+                    var dirInfo = new DirectoryInfo(arg);
                     renomearVM = new RenomearViewModel(true, dirInfo.EnumerateFiles("*.*", SearchOption.AllDirectories));
                 }
                 else if (File.Exists(arg))
@@ -166,11 +174,11 @@ namespace MediaManager.ViewModel
 
                 renomearVM.bFlSilencioso = true;
 
-                foreach (var item in renomearVM.lstEpisodios)
+                foreach (Episodio item in renomearVM.lstEpisodios)
                 {
                     item.bFlSelecionado = true;
                     item.bFlRenomeado = false;
-                        // Para quando o episódio ja tiver sido renomeado alguma vez o retorno funcionar corretamente.
+                    // Para quando o episódio ja tiver sido renomeado alguma vez o retorno funcionar corretamente.
                 }
 
                 if (renomearVM.CommandRenomear.CanExecute(renomearVM))
@@ -182,7 +190,8 @@ namespace MediaManager.ViewModel
             catch (Exception e)
             {
                 new MediaManagerException(e).TratarException(
-                    "Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " + arg);
+                                                             "Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: " +
+                                                             arg);
                 return true; // Retorna true para não continuar a executar a aplicação.
             }
         }
@@ -211,17 +220,19 @@ namespace MediaManager.ViewModel
                 }
                 case Enums.TipoConteudo.Série:
                 {
-                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                    var seriesService = App.Container.Resolve<SeriesService>();
 
                     lstSeries = new ObservableCollection<PosterViewModel>();
 
                     var lstSeriesDB = seriesService.GetListaSeriesComForeignKeys();
 
-                    foreach (var item in lstSeriesDB)
+                    foreach (Serie item in lstSeriesDB)
                     {
                         var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
-                        item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                        PosterViewModel posterVM = new PosterViewModel();
+                        item.sDsImgPoster = File.Exists(posterMetadata)
+                                                ? posterMetadata
+                                                : null;
+                        var posterVM = new PosterViewModel();
                         posterVM.oPoster = item;
                         posterVM.Owner = Owner;
                         _lstSeries.Add(posterVM);
@@ -231,16 +242,18 @@ namespace MediaManager.ViewModel
                 }
                 case Enums.TipoConteudo.Anime:
                 {
-                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                    var seriesService = App.Container.Resolve<SeriesService>();
                     lstAnimes = new ObservableCollection<PosterViewModel>();
 
                     var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
 
-                    foreach (var item in lstAnimesDB)
+                    foreach (Serie item in lstAnimesDB)
                     {
                         var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
-                        item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                        PosterViewModel posterVM = new PosterViewModel();
+                        item.sDsImgPoster = File.Exists(posterMetadata)
+                                                ? posterMetadata
+                                                : null;
+                        var posterVM = new PosterViewModel();
                         posterVM.oPoster = item;
                         posterVM.Owner = Owner;
                         _lstAnimes.Add(posterVM);
@@ -250,7 +263,7 @@ namespace MediaManager.ViewModel
                 }
                 case Enums.TipoConteudo.AnimeFilmeSérie:
                 {
-                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                    var seriesService = App.Container.Resolve<SeriesService>();
 
                     lstSeries = new ObservableCollection<PosterViewModel>();
                     lstAnimes = new ObservableCollection<PosterViewModel>();
@@ -260,21 +273,25 @@ namespace MediaManager.ViewModel
                     var lstAnimesDB = seriesService.GetListaAnimesComForeignKeys();
                     //List<Filme> filmes = DatabaseHelper.GetFilmes();
 
-                    foreach (var item in lstSeriesDB)
+                    foreach (Serie item in lstSeriesDB)
                     {
                         var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
-                        item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                        PosterViewModel posterVM = new PosterViewModel();
+                        item.sDsImgPoster = File.Exists(posterMetadata)
+                                                ? posterMetadata
+                                                : null;
+                        var posterVM = new PosterViewModel();
                         posterVM.oPoster = item;
                         posterVM.Owner = Owner;
                         _lstSeries.Add(posterVM);
                     }
 
-                    foreach (var item in lstAnimesDB)
+                    foreach (Serie item in lstAnimesDB)
                     {
                         var posterMetadata = Path.Combine(item.sDsMetadata, "poster.jpg");
-                        item.sDsImgPoster = File.Exists(posterMetadata) ? posterMetadata : null;
-                        PosterViewModel posterVM = new PosterViewModel();
+                        item.sDsImgPoster = File.Exists(posterMetadata)
+                                                ? posterMetadata
+                                                : null;
+                        var posterVM = new PosterViewModel();
                         posterVM.oPoster = item;
                         posterVM.Owner = Owner;
                         _lstAnimes.Add(posterVM);
@@ -298,11 +315,11 @@ namespace MediaManager.ViewModel
 
         public void CriarTimerAtualizacaoConteudo()
         {
-            Timer timerAtualizarConteudo = new Timer();
+            var timerAtualizarConteudo = new Timer();
 
             timerAtualizarConteudo.Tick += (s, e) => { AtualizarConteudo(); };
-            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo*60*1000;
-                // em milisegundos
+            timerAtualizarConteudo.Interval = Settings.Default.pref_IntervaloDeProcuraConteudoNovo * 60 * 1000;
+            // em milisegundos
             timerAtualizarConteudo.Start();
 
             AtualizarConteudo();
@@ -313,7 +330,7 @@ namespace MediaManager.ViewModel
         // TODO Chamar GetAtualizacoes antes de procurar episodios para baixar
         public void AtualizarConteudo()
         {
-            BackgroundWorker worker = new BackgroundWorker();
+            var worker = new BackgroundWorker();
 
             worker.DoWork += async (s, e) =>
             {
@@ -340,19 +357,19 @@ namespace MediaManager.ViewModel
                 feedsService = App.Container.Resolve<FeedsService>();
                 episodiosService = App.Container.Resolve<EpisodiosService>();
 
-                List<Tuple<Episodio, RssItem>> lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
+                var lstEpisodiosParaBaixar = new List<Tuple<Episodio, RssItem>>();
 
                 var lstFeeds =
                     feedsService.GetLista()
-                        .Where(
-                            x =>
-                                !x.bIsFeedPesquisa &&
-                                (x.nIdTipoConteudo == Enums.TipoConteudo.Série ||
-                                 x.nIdTipoConteudo == Enums.TipoConteudo.Anime))
-                        .OrderBy(x => x.nNrPrioridade)
-                        .ToList();
+                                .Where(
+                                       x =>
+                                       !x.bIsFeedPesquisa &&
+                                       (x.nIdTipoConteudo == Enums.TipoConteudo.Série ||
+                                        x.nIdTipoConteudo == Enums.TipoConteudo.Anime))
+                                .OrderBy(x => x.nNrPrioridade)
+                                .ToList();
 
-                foreach (var item in lstFeeds)
+                foreach (Feed item in lstFeeds)
                 {
                     try
                     {
@@ -361,13 +378,13 @@ namespace MediaManager.ViewModel
                     catch (Exception ex)
                     {
                         new MediaManagerException(ex).TratarException(
-                            $"Ocorreu um erro ao abrir o feed \"{item.sDsFeed}\" (URL: \"{item.sLkFeed}\").");
+                                                                      $"Ocorreu um erro ao abrir o feed \"{item.sDsFeed}\" (URL: \"{item.sLkFeed}\").");
                         continue;
                     }
 
-                    foreach (var itemRss in rss.Channel.Items)
+                    foreach (RssItem itemRss in rss.Channel.Items)
                     {
-                        Episodio episodio = new Episodio();
+                        var episodio = new Episodio();
                         episodio.sDsFilepath = itemRss.Title;
 
                         if (episodio.IdentificarEpisodio() && episodio.nIdTipoConteudo == item.nIdTipoConteudo
@@ -383,22 +400,22 @@ namespace MediaManager.ViewModel
                     }
                 }
 
-                List<dynamic> Qualidades =
+                var Qualidades =
                     new List<dynamic>(
                         (IEnumerable<dynamic>)
-                            JsonConvert.DeserializeObject(Settings.Default.prefJsonPrioridadeQualidade))
+                        JsonConvert.DeserializeObject(Settings.Default.prefJsonPrioridadeQualidade))
                         .OrderBy(x => x.Prioridade).ToList();
 
-                List<Tuple<Episodio, RssItem, Enums.eQualidadeDownload>> lstEpisodiosComQualidades =
+                var lstEpisodiosComQualidades =
                     new List<Tuple<Episodio, RssItem, Enums.eQualidadeDownload>>();
 
                 var lstParaDownload = new List<RssItem>();
 
                 foreach (var item in lstEpisodiosParaBaixar)
                 {
-                    var rgxQualidade = Helper.RegexEpisodio.regex_Qualidades.Match(item.Item2.Title);
+                    Match rgxQualidade = Helper.RegexEpisodio.regex_Qualidades.Match(item.Item2.Title);
 
-                    Enums.eQualidadeDownload enumQualidade = Enums.eQualidadeDownload.Padrao;
+                    var enumQualidade = Enums.eQualidadeDownload.Padrao;
 
                     if (!rgxQualidade.Success)
                     {
@@ -420,8 +437,8 @@ namespace MediaManager.ViewModel
 
                     var oEpisodioIgual =
                         lstEpisodiosComQualidades.Where(x => x.Item1.nCdEpisodio == item.Item1.nCdEpisodio)
-                            .FirstOrDefault();
-                    var qualidadePrioridadeEpisodio =
+                                                 .FirstOrDefault();
+                    dynamic qualidadePrioridadeEpisodio =
                         Qualidades.Where(x => x.Qualidade == enumQualidade.ToString()).First();
 
                     if (oEpisodioIgual == null ||
@@ -429,7 +446,7 @@ namespace MediaManager.ViewModel
                         Qualidades.FirstOrDefault(x => x.Qualidade == oEpisodioIgual?.Item3.ToString())?.Prioridade)
                     {
                         lstEpisodiosComQualidades.Add(new Tuple<Episodio, RssItem, Enums.eQualidadeDownload>(
-                            item.Item1, item.Item2, enumQualidade));
+                                                          item.Item1, item.Item2, enumQualidade));
                         lstEpisodiosComQualidades.Remove(oEpisodioIgual);
                     }
                 }
@@ -450,22 +467,22 @@ namespace MediaManager.ViewModel
 
         private void AlterarStatusEpisodios()
         {
-            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
-            SeriesService seriesService = App.Container.Resolve<SeriesService>();
+            var episodiosService = App.Container.Resolve<EpisodiosService>();
+            var seriesService = App.Container.Resolve<SeriesService>();
 
             var lstEpisodios = episodiosService.GetLista();
             var lstEpisodiosDesejar =
                 lstEpisodios.Where(x => x.tDtEstreia > DateTime.Now && x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Novo)
-                    .ToList();
+                            .ToList();
             var lstEpisodiosBaixados =
                 lstEpisodios.Where(x => x.nIdEstadoEpisodio == Enums.EstadoEpisodio.Baixado).ToList();
             var lstAlterados = new List<Episodio>();
 
             if (lstEpisodiosBaixados.Count > 0 || lstEpisodiosDesejar.Count > 0)
             {
-                foreach (var item in lstEpisodiosDesejar)
+                foreach (Episodio item in lstEpisodiosDesejar)
                 {
-                    var serie = seriesService.Get(item.nCdVideo);
+                    Serie serie = seriesService.Get(item.nCdVideo);
                     if (!serie.bIsParado)
                     {
                         item.nIdEstadoEpisodio = Enums.EstadoEpisodio.Desejado;
@@ -473,7 +490,7 @@ namespace MediaManager.ViewModel
                     }
                 }
 
-                foreach (var item in lstEpisodiosBaixados)
+                foreach (Episodio item in lstEpisodiosBaixados)
                 {
                     if (!File.Exists(item.sDsFilepath))
                     {
@@ -489,9 +506,9 @@ namespace MediaManager.ViewModel
         private void ProcurarNovosEpisodiosBaixados()
         {
             var series = lstAnimesESeries.ToList();
-            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
+            var episodiosService = App.Container.Resolve<EpisodiosService>();
 
-            foreach (var serie in series)
+            foreach (PosterViewModel serie in series)
             {
                 episodiosService.VerificaEpisodiosNoDiretorio(serie.oPoster);
             }

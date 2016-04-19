@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 08/11/2015 22:57
+// Last update: 19/04/2016 02:47
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -14,6 +19,7 @@ namespace MediaManager.ViewModel
     public class ListaFeedsViewModel : ViewModelBase, IListaFeedsViewModel
     {
         private bool? _bFlSelecionarTodos;
+
         private List<Feed> _lstFeeds;
 
         private CollectionViewSource _lstFeedsView;
@@ -75,11 +81,11 @@ namespace MediaManager.ViewModel
 
         public void AtualizarListaFeeds(List<Feed> lstFeeds = null)
         {
-            FeedsService feedsService = App.Container.Resolve<FeedsService>();
+            var feedsService = App.Container.Resolve<FeedsService>();
 
             this.lstFeeds = lstFeeds == null
-                ? feedsService.GetLista().Where(x => !x.bIsFeedPesquisa).ToList()
-                : lstFeeds;
+                                ? feedsService.GetLista().Where(x => !x.bIsFeedPesquisa).ToList()
+                                : lstFeeds;
             lstFeedsView = new CollectionViewSource();
             lstFeedsView.Source = this.lstFeeds;
             lstFeedsView.SortDescriptions.Add(new SortDescription("nNrPrioridade", ListSortDirection.Ascending));

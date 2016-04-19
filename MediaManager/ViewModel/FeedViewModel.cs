@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 11/12/2015 20:19
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -13,6 +18,7 @@ namespace MediaManager.ViewModel
         private bool _bFilme;
 
         private bool _bSerie;
+
         private Feed _oFeed;
 
         public FeedViewModel(bool bIsFeedPesquisa)

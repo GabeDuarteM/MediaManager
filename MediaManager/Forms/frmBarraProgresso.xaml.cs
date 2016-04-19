@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 15/11/2015 00:08
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -35,6 +40,7 @@ namespace MediaManager.Forms
         private double _dNrProgressoAtual;
 
         private double _dNrProgressoMaximo;
+
         private string _sDsTarefa;
 
         private string _sDsTexto;
@@ -67,7 +73,7 @@ namespace MediaManager.Forms
 
         public int nPcProgressoAtual
         {
-            get { return (int) (dNrProgressoAtual/dNrProgressoMaximo*100); }
+            get { return (int) (dNrProgressoAtual / dNrProgressoMaximo * 100); }
         }
 
         public double dNrProgressoAtual

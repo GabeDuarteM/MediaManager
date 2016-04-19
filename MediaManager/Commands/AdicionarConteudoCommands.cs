@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 01/11/2015 01:25
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Linq;
 using System.Windows.Input;
 using Autofac;
@@ -22,7 +27,7 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                var adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
                 return parameter is AdicionarConteudoViewModel &&
                        (adicionarConteudoVm.nIdTipoConteudo == Enums.TipoConteudo.Anime ||
                         adicionarConteudoVm.nIdTipoConteudo == Enums.TipoConteudo.Série)
@@ -33,7 +38,7 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                var adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
                 var frmEpisodios = new frmEpisodios(adicionarConteudoVm.oVideoSelecionado);
                 frmEpisodios.Show();
@@ -51,13 +56,15 @@ namespace MediaManager.Commands
             public bool CanExecute(object parameter)
             {
                 return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null
-                    && (((AdicionarConteudoViewModel)parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
-                    || ((AdicionarConteudoViewModel)parameter).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
+                       && (((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
+                           ||
+                           ((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado ==
+                           Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                var adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
                 var frmConfigConteudo = new frmConfigConteudo(adicionarConteudoVm.oVideoSelecionado);
                 frmConfigConteudo.ShowDialog();
@@ -68,14 +75,19 @@ namespace MediaManager.Commands
 
                     var lstSerieAliasOriginal = serieAliasService.GetLista(adicionarConteudoVm.oVideoSelecionado);
 
-                    foreach (SerieAlias item in adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Where(x => x.nCdAlias == 0))
+                    foreach (
+                        SerieAlias item in
+                            adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Where(x => x.nCdAlias == 0))
                     {
                         serieAliasService.Adicionar(item);
                     }
 
                     serieAliasService.Remover(
-                        lstSerieAliasOriginal.Where(
-                            x => !adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Contains(x)).ToArray());
+                                              lstSerieAliasOriginal.Where(
+                                                                          x =>
+                                                                          !adicionarConteudoVm.oVideoSelecionado
+                                                                                              .lstSerieAlias.Contains(x))
+                                                                   .ToArray());
                 }
                 //foreach (var item in AdicionarConteudoVM.lstResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
                 //{
@@ -103,19 +115,21 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null 
-                    && (((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
-                    || ((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
+                return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null
+                       && (((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
+                           ||
+                           ((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado ==
+                           Enums.Estado.CompletoSemForeignKeys);
             }
 
             public async void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                var adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
                 if (adicionarConteudoVm.oVideoSelecionado?.sDsPasta == null)
                 {
                     Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.",
-                        Enums.eTipoMensagem.Alerta);
+                                           Enums.eTipoMensagem.Alerta);
                     return;
                 }
                 else if (adicionarConteudoVm.bProcurarConteudo)
@@ -124,7 +138,7 @@ namespace MediaManager.Commands
                 }
                 else
                 {
-                    SeriesService serieService = App.Container.Resolve<SeriesService>();
+                    var serieService = App.Container.Resolve<SeriesService>();
                     switch (adicionarConteudoVm.nIdTipoConteudo)
                     {
                         case Enums.TipoConteudo.Filme:
@@ -132,81 +146,81 @@ namespace MediaManager.Commands
 
                         case Enums.TipoConteudo.Série:
                         case Enums.TipoConteudo.Anime:
+                        {
+                            Serie serie = null;
+
+                            serie = (Serie) adicionarConteudoVm.oVideoSelecionado;
+
+                            serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
+
+                            if (serie.nCdVideo > 0)
                             {
-                                Serie serie = null;
-
-                                serie = (Serie)adicionarConteudoVm.oVideoSelecionado;
-
-                                serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
-
-                                if (serie.nCdVideo > 0)
+                                try
                                 {
-                                    try
-                                    {
-                                        serie.SetEstadoEpisodio();
-                                        await serieService.UpdateAsync(serie);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        new MediaManagerException(ex).TratarException(
-                                            $"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
-                                        adicionarConteudoVm.ActionClose(false);
-                                    }
+                                    serie.SetEstadoEpisodio();
+                                    await serieService.UpdateAsync(serie);
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    try
-                                    {
-                                        serie.SetEstadoEpisodio();
-                                        await serieService.AdicionarAsync(serie);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        new MediaManagerException(ex).TratarException(
-                                            $"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
-                                        adicionarConteudoVm.ActionClose(false);
-                                    }
+                                    new MediaManagerException(ex).TratarException(
+                                                                                  $"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
+                                    adicionarConteudoVm.ActionClose(false);
                                 }
-                                break;
                             }
+                            else
+                            {
+                                try
+                                {
+                                    serie.SetEstadoEpisodio();
+                                    await serieService.AdicionarAsync(serie);
+                                }
+                                catch (Exception ex)
+                                {
+                                    new MediaManagerException(ex).TratarException(
+                                                                                  $"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
+                                    adicionarConteudoVm.ActionClose(false);
+                                }
+                            }
+                            break;
+                        }
 
                         case Enums.TipoConteudo.AnimeFilmeSérie:
+                        {
+                            Serie anime = null;
+
+                            if (adicionarConteudoVm.oVideoSelecionado is Serie)
+                                anime = (Serie) adicionarConteudoVm.oVideoSelecionado;
+
+                            if (adicionarConteudoVm.oVideoSelecionado.nCdVideo > 0)
                             {
-                                Serie anime = null;
-
-                                if (adicionarConteudoVm.oVideoSelecionado is Serie)
-                                    anime = (Serie)adicionarConteudoVm.oVideoSelecionado;
-
-                                if (adicionarConteudoVm.oVideoSelecionado.nCdVideo > 0)
+                                try
                                 {
-                                    try
-                                    {
-                                        anime.SetEstadoEpisodio();
-                                        await serieService.UpdateAsync(anime);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        new MediaManagerException(ex).TratarException(
-                                            "Ocorreu um erro ao atualizar o conteúdo.");
-                                        adicionarConteudoVm.ActionClose(false);
-                                    }
+                                    anime.SetEstadoEpisodio();
+                                    await serieService.UpdateAsync(anime);
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    try
-                                    {
-                                        anime.SetEstadoEpisodio();
-                                        await serieService.AdicionarAsync(anime);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        new MediaManagerException(ex).TratarException(
-                                            "Ocorreu um erro ao incluir o conteúdo.");
-                                        adicionarConteudoVm.ActionClose(false);
-                                    }
+                                    new MediaManagerException(ex).TratarException(
+                                                                                  "Ocorreu um erro ao atualizar o conteúdo.");
+                                    adicionarConteudoVm.ActionClose(false);
                                 }
-                                break;
                             }
+                            else
+                            {
+                                try
+                                {
+                                    anime.SetEstadoEpisodio();
+                                    await serieService.AdicionarAsync(anime);
+                                }
+                                catch (Exception ex)
+                                {
+                                    new MediaManagerException(ex).TratarException(
+                                                                                  "Ocorreu um erro ao incluir o conteúdo.");
+                                    adicionarConteudoVm.ActionClose(false);
+                                }
+                            }
+                            break;
+                        }
                         case Enums.TipoConteudo.Selecione:
                             break;
                         case Enums.TipoConteudo.Episódio:
@@ -229,14 +243,18 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel && (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null && ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.Completo || (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
+                return parameter is AdicionarConteudoViewModel &&
+                       (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null &&
+                       ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.Completo ||
+                        (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado ==
+                        Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
             {
-                AdicionarConteudoViewModel adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
+                var adicionarConteudoVm = parameter as AdicionarConteudoViewModel;
 
-                Ookii.Dialogs.VistaFolderBrowserDialog folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog
+                var folderDialog = new Ookii.Dialogs.VistaFolderBrowserDialog
                 {
                     SelectedPath = adicionarConteudoVm?.oVideoSelecionado.sDsPasta
                 };

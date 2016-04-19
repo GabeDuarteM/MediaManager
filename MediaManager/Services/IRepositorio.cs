@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 15/12/2015 21:14
+// Last update: 19/04/2016 02:47
+
+using System.Collections.Generic;
 
 namespace MediaManager.Services
 {

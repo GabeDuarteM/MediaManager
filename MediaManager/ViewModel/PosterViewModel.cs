@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Windows;
 using System.Windows.Input;
 using MediaManager.Commands;
@@ -57,8 +62,8 @@ namespace MediaManager.ViewModel
                 case Enums.TipoConteudo.Anime:
                 case Enums.TipoConteudo.Série:
                 {
-                    frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(oPoster.nIdTipoConteudo,
-                        oPoster);
+                    var frmAdicionarConteudo = new frmAdicionarConteudo(oPoster.nIdTipoConteudo,
+                                                                        oPoster);
                     frmAdicionarConteudo.IsEdicao = true;
                     frmAdicionarConteudo.Owner = Owner;
                     frmAdicionarConteudo.ShowDialog();

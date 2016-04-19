@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 06/09/2015 07:08
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -64,7 +69,7 @@ namespace MediaManager.Commands
             {
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
 
-                SerieAlias alias = new SerieAlias(ConfigurarConteudoVM.sDsAlias);
+                var alias = new SerieAlias(ConfigurarConteudoVM.sDsAlias);
 
                 alias.nNrTemporada = ConfigurarConteudoVM.nNrTemporada;
                 alias.nNrEpisodio = ConfigurarConteudoVM.nNrEpisodio;
@@ -143,7 +148,7 @@ namespace MediaManager.Commands
             {
                 if (parameter is ConfigurarConteudoViewModel)
                 {
-                    ConfigurarConteudoViewModel configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
+                    var configurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                     configurarConteudoVM.oVideo.lstSerieAlias =
                         (ObservableCollection<SerieAlias>) configurarConteudoVM.lstTempSerieAliases;
                     configurarConteudoVM.oVideo.sFormatoRenomeioPersonalizado =
@@ -178,13 +183,14 @@ namespace MediaManager.Commands
                 var ConfigurarConteudoVM = parameter as ConfigurarConteudoViewModel;
                 if (
                     MessageBox.Show(
-                        "Você realmente deseja remover " +
-                        (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série
-                            ? "esta série?"
-                            : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning) ==
+                                    "Você realmente deseja remover " +
+                                    (ConfigurarConteudoVM.oVideo.nIdTipoConteudo == Enums.TipoConteudo.Série
+                                         ? "esta série?"
+                                         : "este anime?"), Settings.Default.AppName, MessageBoxButton.YesNo,
+                                    MessageBoxImage.Warning) ==
                     MessageBoxResult.Yes)
                 {
-                    SeriesService seriesService = App.Container.Resolve<SeriesService>();
+                    var seriesService = App.Container.Resolve<SeriesService>();
 
                     seriesService.Remover(ConfigurarConteudoVM.oVideo.nCdVideo);
                     ConfigurarConteudoVM.bFlAcaoRemover = true;

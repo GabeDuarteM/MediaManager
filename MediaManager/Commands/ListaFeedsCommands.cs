@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 08/11/2015 23:01
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -29,8 +34,8 @@ namespace MediaManager.Commands
 
             public void Execute(object parameter)
             {
-                ListaFeedsViewModel oListaFeedsVM = parameter as ListaFeedsViewModel;
-                frmAdicionarFeed frmAdicionarFeed = new frmAdicionarFeed();
+                var oListaFeedsVM = parameter as ListaFeedsViewModel;
+                var frmAdicionarFeed = new frmAdicionarFeed();
                 frmAdicionarFeed.ShowDialog(oListaFeedsVM.Owner);
 
                 if (frmAdicionarFeed.DialogResult == true)
@@ -58,18 +63,18 @@ namespace MediaManager.Commands
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
 
-                FeedsService feedsService = App.Container.Resolve<FeedsService>();
+                var feedsService = App.Container.Resolve<FeedsService>();
 
                 var lstFeedsSelecionados =
                     feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderBy(x => x.nNrPrioridade).ToList();
 
-                foreach (var item in lstFeedsSelecionados)
+                foreach (Feed item in lstFeedsSelecionados)
                 {
                     Feed oFeedAcima =
                         feedsVM.lstFeeds.Where(
-                            x =>
-                                x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado &&
-                                x.nNrPrioridade == item.nNrPrioridade - 1).FirstOrDefault();
+                                               x =>
+                                               x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado &&
+                                               x.nNrPrioridade == item.nNrPrioridade - 1).FirstOrDefault();
 
                     if (oFeedAcima != null)
                     {
@@ -78,7 +83,7 @@ namespace MediaManager.Commands
                         if (!feedsService.Update(item, oFeedAcima))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed,
-                                Enums.eTipoMensagem.Erro);
+                                                   Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
@@ -102,17 +107,17 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
-                FeedsService feedsService = App.Container.Resolve<FeedsService>();
+                var feedsService = App.Container.Resolve<FeedsService>();
                 var lstFeedsSelecionados =
                     feedsVM.lstFeeds.Where(x => x.bFlSelecionado).OrderByDescending(x => x.nNrPrioridade).ToList();
 
-                foreach (var item in lstFeedsSelecionados)
+                foreach (Feed item in lstFeedsSelecionados)
                 {
                     Feed oFeedAbaixo =
                         feedsVM.lstFeeds.Where(
-                            x =>
-                                x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado &&
-                                x.nNrPrioridade == item.nNrPrioridade + 1).FirstOrDefault();
+                                               x =>
+                                               x.nIdTipoConteudo == item.nIdTipoConteudo && !x.bFlSelecionado &&
+                                               x.nNrPrioridade == item.nNrPrioridade + 1).FirstOrDefault();
 
                     if (oFeedAbaixo != null)
                     {
@@ -121,7 +126,7 @@ namespace MediaManager.Commands
                         if (!feedsService.Update(item, oFeedAbaixo))
                         {
                             Helper.MostrarMensagem("Ocorreu um erro ao alterar a prioridade do feed " + item.sDsFeed,
-                                Enums.eTipoMensagem.Erro);
+                                                   Enums.eTipoMensagem.Erro);
                         }
                     }
                 }
@@ -148,26 +153,29 @@ namespace MediaManager.Commands
 
                 if (
                     Helper.MostrarMensagem("Você realmente deseja remover os feeds selecionados?",
-                        Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") == MessageBoxResult.Yes)
+                                           Enums.eTipoMensagem.QuestionamentoSimNao, "Remover feeds") ==
+                    MessageBoxResult.Yes)
                 {
-                    FeedsService feedsService = App.Container.Resolve<FeedsService>();
+                    var feedsService = App.Container.Resolve<FeedsService>();
 
                     var lstTipoConteudoSelecionado = new List<Enums.TipoConteudo>();
                     lstTipoConteudoSelecionado =
                         oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado)
-                            .Select(x => x.nIdTipoConteudo)
-                            .Distinct()
-                            .ToList();
+                                     .Select(x => x.nIdTipoConteudo)
+                                     .Distinct()
+                                     .ToList();
 
                     feedsService.Remover(oListaFeedsVM.lstFeeds.Where(x => x.bFlSelecionado).ToArray());
 
                     var lstFeeds =
                         feedsService.GetLista()
-                            .Where(x => lstTipoConteudoSelecionado.Contains(x.nIdTipoConteudo) && !x.bIsFeedPesquisa)
-                            .ToList();
+                                    .Where(
+                                           x =>
+                                           lstTipoConteudoSelecionado.Contains(x.nIdTipoConteudo) && !x.bIsFeedPesquisa)
+                                    .ToList();
 
                     // Arrumar a prioridade
-                    for (int i = 0; i < lstFeeds.Count - 1; i++)
+                    for (var i = 0; i < lstFeeds.Count - 1; i++)
                     {
                         if (i == 0 && lstFeeds[i].nNrPrioridade != 1)
                         {
@@ -202,7 +210,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var feedsVM = parameter as ListaFeedsViewModel;
-                int feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
+                var feedsSelecionadosCount = feedsVM.lstFeeds.Where(x => x.bFlSelecionado).Count();
                 if (feedsSelecionadosCount == feedsVM.lstFeeds.Count && feedsVM.lstFeeds.Count > 0)
                 {
                     feedsVM.bFlSelecionarTodos = true;
@@ -236,7 +244,7 @@ namespace MediaManager.Commands
                 var feedsVM = parameter as ListaFeedsViewModel;
                 if (feedsVM.bFlSelecionarTodos == true)
                 {
-                    foreach (var feed in feedsVM.lstFeeds)
+                    foreach (Feed feed in feedsVM.lstFeeds)
                     {
                         feed.bFlSelecionado = true;
                     }
@@ -244,7 +252,7 @@ namespace MediaManager.Commands
                 else
                 {
                     feedsVM.bFlSelecionarTodos = false;
-                    foreach (var feed in feedsVM.lstFeeds)
+                    foreach (Feed feed in feedsVM.lstFeeds)
                     {
                         feed.bFlSelecionado = false;
                     }

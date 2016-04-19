@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,6 +29,7 @@ namespace MediaManager.ViewModel
         public IList<Video> lstVideosQuaseCompletos; // Alguns podem faltar os episódios. Tratar isso ao salvar.
 
         private int nCdVideo;
+
         private string sDsPastaEditar;
 
         public AdicionarConteudoViewModel(Video video, Enums.TipoConteudo tipoConteudo)
@@ -63,7 +69,7 @@ namespace MediaManager.ViewModel
             get { return _oVideoSelecionado; }
             set
             {
-                var oVideoSelecionadoTemp = _oVideoSelecionado;
+                Video oVideoSelecionadoTemp = _oVideoSelecionado;
                 _oVideoSelecionado = value;
                 AlterarVideoAsync(oVideoSelecionadoTemp);
                 OnPropertyChanged();
@@ -98,8 +104,8 @@ namespace MediaManager.ViewModel
             lstResultPesquisa.Add(oVideoCarregando);
             oVideoSelecionado = video.nIdEstado == Enums.Estado.Completo ||
                                 video.nIdEstado == Enums.Estado.CompletoSemForeignKeys
-                ? video
-                : oVideoCarregando;
+                                    ? video
+                                    : oVideoCarregando;
             var lstResultPesquisaTemp = new List<Video>();
 
             // Guarda as informações abaixo para caso for realizada uma Busca personalizada.
@@ -111,7 +117,7 @@ namespace MediaManager.ViewModel
 
             if (video.nIdTipoConteudo == Enums.TipoConteudo.Série || video.nIdTipoConteudo == Enums.TipoConteudo.Anime)
             {
-                List<Serie> lstSeries = new List<Serie>();
+                var lstSeries = new List<Serie>();
 
                 if ((video is Serie && !(video as Serie).bFlNaoEncontrado) || !(video is Serie))
                 {
@@ -120,7 +126,7 @@ namespace MediaManager.ViewModel
                 }
                 else if (video is Serie && (video as Serie).bFlNaoEncontrado)
                 {
-                    InputMessageBox inputMessageBox = new InputMessageBox(inputType.SemResultados);
+                    var inputMessageBox = new InputMessageBox(inputType.SemResultados);
                     inputMessageBox.InputViewModel.Properties.InputText = video.sDsTitulo;
                     inputMessageBox.ShowDialog();
                     if (inputMessageBox.DialogResult == true)
@@ -133,7 +139,8 @@ namespace MediaManager.ViewModel
                     {
                         if (
                             Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?",
-                                Enums.eTipoMensagem.QuestionamentoSimNao, "Nenhum resultado encontrado") ==
+                                                   Enums.eTipoMensagem.QuestionamentoSimNao,
+                                                   "Nenhum resultado encontrado") ==
                             MessageBoxResult.Yes)
                         {
                             inputMessageBox = new InputMessageBox(inputType.SemResultados);
@@ -143,7 +150,7 @@ namespace MediaManager.ViewModel
                             {
                                 lstSeries =
                                     await
-                                        APIRequests.GetSeriesAsync(inputMessageBox.InputViewModel.Properties.InputText);
+                                    APIRequests.GetSeriesAsync(inputMessageBox.InputViewModel.Properties.InputText);
                             }
                         }
                         else // TODO Fechar tela ao entrar no else
@@ -154,15 +161,17 @@ namespace MediaManager.ViewModel
                     }
                 }
 
-                foreach (var item in lstSeries)
+                foreach (Serie item in lstSeries)
                 {
-                    bool bFlAdicionado = lstResultPesquisa.Select(x => x.nCdApi).Contains(item.nCdApi);
+                    var bFlAdicionado = lstResultPesquisa.Select(x => x.nCdApi).Contains(item.nCdApi);
 
                     if (!bFlAdicionado)
                     {
-                        item.nCdVideo = nCdVideo != 0 ? nCdVideo : video.nCdVideo;
+                        item.nCdVideo = nCdVideo != 0
+                                            ? nCdVideo
+                                            : video.nCdVideo;
                         item.sDsSinopse = oVideoCarregando.sDsSinopse;
-                            // Seta como default e será carregado quando e se for selecionado no combo.
+                        // Seta como default e será carregado quando e se for selecionado no combo.
                         item.sDsPasta = null;
 
                         lstResultPesquisaTemp.Add(item);
@@ -175,11 +184,11 @@ namespace MediaManager.ViewModel
             lstResultPesquisaTemp.ForEach(x => lstResultPesquisa.Add(x));
 
             oVideoSelecionado = video.nCdApi != 0 && lstResultPesquisa.Any(x => x.nCdApi == video.nCdApi)
-                ? lstResultPesquisa.First(x => x.nCdApi == video.nCdApi)
-                : lstResultPesquisa[0];
+                                    ? lstResultPesquisa.First(x => x.nCdApi == video.nCdApi)
+                                    : lstResultPesquisa[0];
         }
 
-/*
+        /*
         private async void getResultPesquisaAsync(string title)
         {
             lstResultPesquisa.Clear();
@@ -264,7 +273,7 @@ namespace MediaManager.ViewModel
 
             if (lstResultPesquisa.Count > 0 && oVideoSelecionado == oVideoBuscaPersonalizada)
             {
-                InputMessageBox inputMessageBox = new InputMessageBox(inputType.AdicionarConteudo);
+                var inputMessageBox = new InputMessageBox(inputType.AdicionarConteudo);
                 inputMessageBox.ShowDialog();
                 if (inputMessageBox.DialogResult == true)
                 {
@@ -290,9 +299,9 @@ namespace MediaManager.ViewModel
             {
                 lstVideosQuaseCompletos
                     .Where(
-                        x =>
-                            x.nCdApi == oVideoSelecionado.nCdApi &&
-                            (x.nIdEstado == Enums.Estado.Completo || x.nIdEstado == Enums.Estado.CompletoSemForeignKeys))
+                           x =>
+                           x.nCdApi == oVideoSelecionado.nCdApi &&
+                           (x.nIdEstado == Enums.Estado.Completo || x.nIdEstado == Enums.Estado.CompletoSemForeignKeys))
                     .ToList()
                     .ForEach(x =>
                     {
@@ -312,10 +321,10 @@ namespace MediaManager.ViewModel
             }
             Serie serie =
                 await
-                    APIRequests.GetSerieInfoAsync(oVideoSelecionado.nCdApi,
-                        Properties.Settings.Default.pref_IdiomaPesquisa);
+                APIRequests.GetSerieInfoAsync(oVideoSelecionado.nCdApi,
+                                              Properties.Settings.Default.pref_IdiomaPesquisa);
             serie.sDsTitulo = oVideoSelecionado.sDsTitulo;
-                // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
+            // Para manter os titulos no idioma original, ao invés das traduções do SBT (tipo "Os Seguidores" pro The Following ¬¬)
             serie.nIdTipoConteudo = nIdTipoConteudo;
 
             if (oVideoSelecionado.sDsPasta != null)
@@ -339,14 +348,14 @@ namespace MediaManager.ViewModel
             }
 
             lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionado.nCdApi)
-                .ToList()
-                .ForEach(x => { x.Clone(serie); });
+                             .ToList()
+                             .ForEach(x => { x.Clone(serie); });
 
             lstVideosQuaseCompletos.Add(serie);
             _oVideoSelecionado = serie;
             OnPropertyChanged(nameof(oVideoSelecionado));
             CommandManager.InvalidateRequerySuggested();
-                // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
+            // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
         }
     }
 }

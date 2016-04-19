@@ -1,4 +1,9 @@
-﻿using Autofac;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 18/12/2015 01:47
+// Last update: 19/04/2016 02:47
+
+using Autofac;
 using MediaManager.Model;
 using MediaManager.Services;
 
@@ -15,7 +20,7 @@ namespace MediaManager.Tests.Preparacoes
             builder.RegisterType<SerieAliasService>();
             builder.RegisterType<SeriesService>();
             builder.RegisterType<QualidadeDownloadService>();
-            builder.Register(c => DbFactory.RetornarContextEffortPopulado()).As<IContext>().SingleInstance(); 
+            builder.Register(c => DbFactory.RetornarContextEffortPopulado()).As<IContext>().SingleInstance();
 
             App.Container = builder.Build();
         }

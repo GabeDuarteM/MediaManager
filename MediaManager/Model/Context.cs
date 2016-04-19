@@ -1,4 +1,9 @@
-﻿using System.Data.Common;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:46
+
+using System.Data.Common;
 using System.Data.Entity;
 
 namespace MediaManager.Model

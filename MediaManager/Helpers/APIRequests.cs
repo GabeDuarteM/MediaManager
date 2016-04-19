@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 26/07/2015 15:54
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,14 +32,14 @@ namespace MediaManager.Helpers
             }
 
             DateTime dataAtualizacao = DateTime.Now;
-            int dias = (Settings.Default.API_UltimaDataAtualizacaoTVDB - dataAtualizacao).Days;
-            string url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
-            string nomeArquivo = "updates_";
+            var dias = (Settings.Default.API_UltimaDataAtualizacaoTVDB - dataAtualizacao).Days;
+            var url = Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB + "/updates/";
+            var nomeArquivo = "updates_";
             string xmlString = null;
             // RandomNum para não dar problema ao excluir um arquivo ainda sendo utilizado.
             var randomNum = new Random().Next(1, 55555);
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
+                                    Settings.Default.AppName, "Metadata", "temp" + randomNum, "updatesTemp.zip");
 
             if (dias == 0)
             {
@@ -64,7 +69,7 @@ namespace MediaManager.Helpers
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(path));
                 }
-                using (WebClient wc = new WebClient())
+                using (var wc = new WebClient())
                 {
                     await wc.DownloadFileTaskAsync(new Uri(url), path);
                 }
@@ -88,7 +93,7 @@ namespace MediaManager.Helpers
                 if (Directory.Exists(Path.GetDirectoryName(path)))
                     Directory.Delete(Path.GetDirectoryName(path));
             }
-            XmlDocument xml = new XmlDocument();
+            var xml = new XmlDocument();
 
             xml.LoadXml(xmlString);
 
@@ -96,17 +101,17 @@ namespace MediaManager.Helpers
             XmlNodeList nodesEpisodios = xml.SelectNodes("/Data/Episode");
             XmlNodeList nodesBanners = xml.SelectNodes("/Data/Banner");
 
-            SeriesService seriesService = App.Container.Resolve<SeriesService>();
-            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
+            var seriesService = App.Container.Resolve<SeriesService>();
+            var episodiosService = App.Container.Resolve<EpisodiosService>();
 
-            List<Serie> lstSeriesAnimes = seriesService.GetSeriesEAnimes();
-            List<Episodio> lstEpisodios = episodiosService.GetLista();
+            var lstSeriesAnimes = seriesService.GetSeriesEAnimes();
+            var lstEpisodios = episodiosService.GetLista();
 
             foreach (XmlNode item in nodesSeries)
             {
                 if (lstSeriesAnimes.Select(x => x.nCdApi.ToString()).Contains(item.SelectSingleNode("id").InnerText))
                 {
-                    int nCdApi = 0;
+                    var nCdApi = 0;
                     int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
 
                     Serie serieDB = seriesService.GetPorCodigoApi(nCdApi);
@@ -131,7 +136,7 @@ namespace MediaManager.Helpers
 
             foreach (XmlNode item in nodesEpisodios)
             {
-                int nCdApi = 0;
+                var nCdApi = 0;
                 int.TryParse(item.SelectSingleNode("id").InnerText, out nCdApi);
                 if (lstEpisodios.Select(x => x.nCdEpisodioAPI.ToString()).Contains(nCdApi + ""))
                 {
@@ -146,7 +151,7 @@ namespace MediaManager.Helpers
                 }
                 else if (
                     lstSeriesAnimes.Select(x => x.nCdApi.ToString())
-                        .Contains(item.SelectSingleNode("Series").InnerText))
+                                   .Contains(item.SelectSingleNode("Series").InnerText))
                 {
                     Episodio episodio = await GetEpisodeInfoAsync(nCdApi, Settings.Default.pref_IdiomaPesquisa);
                     episodiosService.Adicionar(episodio);
@@ -160,7 +165,7 @@ namespace MediaManager.Helpers
                 {
                     if (
                         lstSeriesAnimes.Select(x => x.nCdApi.ToString())
-                            .Contains(item.SelectSingleNode("Series").InnerText))
+                                       .Contains(item.SelectSingleNode("Series").InnerText))
                     {
                         var IDApi = int.Parse(item.SelectSingleNode("Series").InnerText);
                         var urlImagem = Settings.Default.API_UrlTheTVDB + "/banners/" +
@@ -168,11 +173,11 @@ namespace MediaManager.Helpers
                         var tipo = item.SelectSingleNode("type").InnerText;
                         if (tipo == Enums.TipoImagem.Fanart.ToString().ToLower())
                         {
-                            using (Context db = new Context())
+                            using (var db = new Context())
                             {
-                                var serie = (from series in db.Serie
-                                    where series.nCdApi == IDApi
-                                    select series).First();
+                                Serie serie = (from series in db.Serie
+                                               where series.nCdApi == IDApi
+                                               select series).First();
                                 if (urlImagem != serie.sDsImgFanart)
                                 {
                                     serie.sDsImgFanart = urlImagem;
@@ -183,11 +188,11 @@ namespace MediaManager.Helpers
                         }
                         else
                         {
-                            using (Context db = new Context())
+                            using (var db = new Context())
                             {
-                                var serie = (from series in db.Serie
-                                    where series.nCdApi == IDApi
-                                    select series).First();
+                                Serie serie = (from series in db.Serie
+                                               where series.nCdApi == IDApi
+                                               select series).First();
                                 if (urlImagem != serie.sDsImgPoster)
                                 {
                                     serie.sDsImgPoster = urlImagem;
@@ -208,11 +213,11 @@ namespace MediaManager.Helpers
         public static async Task<Serie> GetSerieInfoAsync(int IDTvdb, string lang)
         {
             string xmlString = null;
-            Random rnd = new Random();
+            var rnd = new Random();
             var randomNum = rnd.Next(1, 55555);
             // Para evitar erros de arquivos sendo utilizados ao excluir.
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
+                                    Settings.Default.AppName, "Metadata", "temp" + randomNum, "temp.zip");
             try
             {
                 if (File.Exists(path))
@@ -223,12 +228,13 @@ namespace MediaManager.Helpers
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(path));
                 }
-                using (WebClient wc = new WebClient())
+                using (var wc = new WebClient())
                 {
                     await
                         wc.DownloadFileTaskAsync(
-                            new Uri(Settings.Default.API_UrlTheTVDB + "/api/" + Settings.Default.API_KeyTheTVDB +
-                                    "/series/" + IDTvdb + "/all/" + lang + ".zip"), path);
+                                                 new Uri(Settings.Default.API_UrlTheTVDB + "/api/" +
+                                                         Settings.Default.API_KeyTheTVDB +
+                                                         "/series/" + IDTvdb + "/all/" + lang + ".zip"), path);
                 }
 
                 using (ZipFile zip = ZipFile.Read(path))
@@ -255,18 +261,20 @@ namespace MediaManager.Helpers
                 }
             }
 
-            SeriesData data = new SeriesData();
-            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+            var data = new SeriesData();
+            var serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(xmlString))
             {
                 data = (SeriesData) serializer.Deserialize(reader);
             }
 
-            foreach (var item in data.Series)
+            foreach (Serie item in data.Series)
             {
                 item.nIdEstado = Enums.Estado.Completo;
-                item.lstEpisodios = data.Episodios != null ? new List<Episodio>(data.Episodios) : new List<Episodio>();
+                item.lstEpisodios = data.Episodios != null
+                                        ? new List<Episodio>(data.Episodios)
+                                        : new List<Episodio>();
             }
 
             return data.Series.FirstOrDefault();
@@ -280,7 +288,9 @@ namespace MediaManager.Helpers
             {
                 using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
                 {
-                    using (var response = await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
+                    using (
+                        HttpResponseMessage response =
+                            await httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query))
                     {
                         responseData = await response.Content.ReadAsStringAsync();
                     }
@@ -293,20 +303,20 @@ namespace MediaManager.Helpers
 
             // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.
             responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)",
-                "<Language>$1</Language>");
+                                         "<Language>$1</Language>");
 
-            SeriesData data = new SeriesData();
-            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+            var data = new SeriesData();
+            var serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {
                 data = (SeriesData) serializer.Deserialize(reader);
             }
 
-            List<Serie> series = new List<Serie>();
+            var series = new List<Serie>();
             if (data.Series != null)
             {
-                foreach (var item in data.Series)
+                foreach (Serie item in data.Series)
                 {
                     var isExistente = series.Select(x => x.nCdApi).Contains(item.nCdApi);
                     if (!isExistente)
@@ -326,7 +336,8 @@ namespace MediaManager.Helpers
 
             using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
             {
-                using (var response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query).Result)
+                using (
+                    HttpResponseMessage response = httpClient.GetAsync("/api/GetSeries.php?seriesname=" + query).Result)
                 {
                     responseData = response.Content.ReadAsStringAsync().Result;
                 }
@@ -334,26 +345,26 @@ namespace MediaManager.Helpers
 
             // Valida quando o xml possui a tag <Language> em com o 'L' minúsculo.
             responseData = Regex.Replace(responseData, @"(?:<language>)([\w\W]{0,2})(?:<\/language>)",
-                "<Language>$1</Language>");
+                                         "<Language>$1</Language>");
 
-            SeriesData data = new SeriesData();
-            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+            var data = new SeriesData();
+            var serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {
                 data = (SeriesData) serializer.Deserialize(reader);
             }
 
-            List<Serie> series = new List<Serie>();
+            var series = new List<Serie>();
             if (data.Series != null)
             {
-                foreach (var itemData in data.Series)
+                foreach (Serie itemData in data.Series)
                 {
-                    foreach (var item in data.Series)
+                    foreach (Serie item in data.Series)
                     {
                         var isExistente = false;
                         item.nIdEstado = Enums.Estado.Simples;
-                        foreach (var itemListaSeries in series)
+                        foreach (Serie itemListaSeries in series)
                         {
                             if (item.nCdApi == itemListaSeries.nCdApi)
                             {
@@ -390,17 +401,17 @@ namespace MediaManager.Helpers
             using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.Default.API_UrlTheTVDB)})
             {
                 using (
-                    var response =
+                    HttpResponseMessage response =
                         await
-                            httpClient.GetAsync("/api/" + Settings.Default.API_KeyTheTVDB + "/episodes/" + IDApi + "/" +
-                                                Settings.Default.pref_IdiomaPesquisa + ".xml"))
+                        httpClient.GetAsync("/api/" + Settings.Default.API_KeyTheTVDB + "/episodes/" + IDApi + "/" +
+                                            Settings.Default.pref_IdiomaPesquisa + ".xml"))
                 {
                     responseData = await response.Content.ReadAsStringAsync();
                 }
             }
 
-            Episodio episode = new Episodio();
-            XmlSerializer serializer = new XmlSerializer(typeof(SeriesData));
+            var episode = new Episodio();
+            var serializer = new XmlSerializer(typeof(SeriesData));
 
             using (var reader = new StringReader(responseData))
             {

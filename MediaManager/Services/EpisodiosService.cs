@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 15/12/2015 19:12
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +26,7 @@ namespace MediaManager.Services
         {
             try
             {
-                foreach (var episodio in obj)
+                foreach (Episodio episodio in obj)
                 {
                     try
                     {
@@ -39,7 +44,8 @@ namespace MediaManager.Services
                     catch (Exception e)
                     {
                         new MediaManagerException(e).TratarException(
-                            "Ocorreu um erro ao adicionar o episódio com o ID " + episodio.nCdEpisodioAPI + " ao banco.");
+                                                                     "Ocorreu um erro ao adicionar o episódio com o ID " +
+                                                                     episodio.nCdEpisodioAPI + " ao banco.");
                         return false;
                     }
                 }
@@ -69,7 +75,7 @@ namespace MediaManager.Services
 
         public List<Episodio> GetLista()
         {
-            List<Episodio> lstEpisodios = _context.Episodio.ToList();
+            var lstEpisodios = _context.Episodio.ToList();
             return lstEpisodios;
         }
 
@@ -79,7 +85,7 @@ namespace MediaManager.Services
 
             try
             {
-                foreach (var episodio in obj)
+                foreach (Episodio episodio in obj)
                 {
                     try
                     {
@@ -101,7 +107,8 @@ namespace MediaManager.Services
                             original.dNrAvaliacao = episodio.dNrAvaliacao;
                             original.nNrTemporada = episodio.nNrTemporada;
                         }
-                        else return false;
+                        else
+                            return false;
                     }
                     catch (Exception e)
                     {
@@ -115,9 +122,9 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                string frase = "Ocorreu um erro ao atualizar os episódios ";
+                var frase = "Ocorreu um erro ao atualizar os episódios ";
 
-                foreach (var item in obj)
+                foreach (Episodio item in obj)
                 {
                     frase += "\"" + item.sDsFilepath + "\", ";
                 }
@@ -129,7 +136,7 @@ namespace MediaManager.Services
 
         public bool Remover(params Episodio[] obj)
         {
-            foreach (var episodio in obj)
+            foreach (Episodio episodio in obj)
             {
                 try
                 {
@@ -150,7 +157,7 @@ namespace MediaManager.Services
         {
             try
             {
-                foreach (var serie in obj)
+                foreach (Serie serie in obj)
                 {
                     try
                     {
@@ -183,8 +190,10 @@ namespace MediaManager.Services
             try
             {
                 Episodio episodio = _context.Episodio
-                    .FirstOrDefault(
-                        x => x.nCdVideo == nCdVideo && x.nNrTemporada == nNrTemporada && x.nNrEpisodio == nNrEpisodio);
+                                            .FirstOrDefault(
+                                                            x =>
+                                                            x.nCdVideo == nCdVideo && x.nNrTemporada == nNrTemporada &&
+                                                            x.nNrEpisodio == nNrEpisodio);
                 return episodio;
             }
             catch (Exception e)
@@ -199,21 +208,21 @@ namespace MediaManager.Services
         public Episodio Get(int nCdVideo, int nNrAbsoluto)
         {
             Episodio episodio = _context.Episodio
-                .Where(x => x.nCdVideo == nCdVideo && x.nNrAbsoluto == nNrAbsoluto)
-                .FirstOrDefault();
+                                        .Where(x => x.nCdVideo == nCdVideo && x.nNrAbsoluto == nNrAbsoluto)
+                                        .FirstOrDefault();
             return episodio;
         }
 
         public Episodio GetPorCodigoAPI(int nCdEpisodioAPI)
         {
             Episodio episodio = _context.Episodio
-                .FirstOrDefault(x => x.nCdEpisodioAPI == nCdEpisodioAPI);
+                                        .FirstOrDefault(x => x.nCdEpisodioAPI == nCdEpisodioAPI);
             return episodio;
         }
 
         public List<Episodio> GetLista(Video serie)
         {
-            List<Episodio> lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
+            var lstEpisodios = _context.Episodio.Where(x => x.nCdVideo == serie.nCdVideo).ToList();
             return lstEpisodios;
         }
 
@@ -236,8 +245,8 @@ namespace MediaManager.Services
                         {
                             continue;
                         }
-                        var episodio = Get(atualizado.nCdVideo, atualizado.nNrTemporada, nNrEpisodio);
-                        var episodioDB = _context.Episodio.Find(episodio.nCdEpisodio);
+                        Episodio episodio = Get(atualizado.nCdVideo, atualizado.nNrTemporada, nNrEpisodio);
+                        Episodio episodioDB = _context.Episodio.Find(episodio.nCdEpisodio);
                         episodioDB.sDsFilepathOriginal = atualizado.sDsFilepathOriginal;
                         episodioDB.sDsFilepath = atualizado.sDsFilepath;
                         episodioDB.bFlRenomeado = atualizado.bFlRenomeado;
@@ -247,12 +256,14 @@ namespace MediaManager.Services
                     _context.SaveChanges();
                     return true;
                 }
-                else return false;
+                else
+                    return false;
             }
             catch (Exception e)
             {
                 new MediaManagerException(e).TratarException(
-                    "Ocorreu um erro ao atualizar o episódio de ID " + atualizado.nCdEpisodioAPI + " no banco.", true);
+                                                             "Ocorreu um erro ao atualizar o episódio de ID " +
+                                                             atualizado.nCdEpisodioAPI + " no banco.", true);
                 return false;
             }
         }
@@ -262,9 +273,11 @@ namespace MediaManager.Services
             try
             {
                 var episodios = from episodiosDB in _context.Episodio
-                    where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
-                    select episodiosDB;
-                return episodios.Count() > 0 ? true : false;
+                                where episodiosDB.nCdEpisodio == episodio.nCdEpisodio && episodiosDB.bFlRenomeado
+                                select episodiosDB;
+                return episodios.Count() > 0
+                           ? true
+                           : false;
             }
             catch (Exception e)
             {
@@ -281,13 +294,13 @@ namespace MediaManager.Services
                 if (Directory.Exists(serie.sDsPasta))
                 {
                     var arquivos = new DirectoryInfo(serie.sDsPasta).EnumerateFiles("*.*", SearchOption.AllDirectories);
-                    string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
+                    var extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
 
-                    foreach (var item in arquivos)
+                    foreach (FileInfo item in arquivos)
                     {
                         if (extensoesPermitidas.Contains(item.Extension))
                         {
-                            Episodio episodio = new Episodio();
+                            var episodio = new Episodio();
                             episodio.sDsFilepath = item.FullName;
                             episodio.oSerie = (Serie) serie;
 
@@ -296,7 +309,7 @@ namespace MediaManager.Services
                                 episodio.sDsFilepath = item.FullName;
                                 episodio.bFlRenomeado = episodio.sDsFilepath ==
                                                         Path.Combine(serie.sDsPasta,
-                                                            Helper.RenomearConformePreferencias(episodio)) +
+                                                                     Helper.RenomearConformePreferencias(episodio)) +
                                                         item.Extension;
 
                                 Episodio episodeDB = Get(serie.nCdVideo, episodio.nNrTemporada, episodio.nNrEpisodio);
@@ -311,8 +324,9 @@ namespace MediaManager.Services
                                     {
                                         continue;
                                     }
-                                    var episodioAgregado = Get(episodeDB.nCdVideo, episodeDB.nNrTemporada, nNrEpisodio);
-                                    var episodioAgregadoDB = _context.Episodio.Find(episodioAgregado.nCdEpisodio);
+                                    Episodio episodioAgregado = Get(episodeDB.nCdVideo, episodeDB.nNrTemporada,
+                                                                    nNrEpisodio);
+                                    Episodio episodioAgregadoDB = _context.Episodio.Find(episodioAgregado.nCdEpisodio);
 
                                     episodioAgregadoDB.sDsFilepath = episodeDB.sDsFilepath;
                                     episodioAgregadoDB.bFlRenomeado = episodeDB.bFlRenomeado;
@@ -328,7 +342,8 @@ namespace MediaManager.Services
             catch (Exception e)
             {
                 new MediaManagerException(e).TratarException(
-                    "Ocorreu um erro ao verificar os episódios no diretório da série \"" + serie.sDsTitulo + "\".", true);
+                                                             "Ocorreu um erro ao verificar os episódios no diretório da série \"" +
+                                                             serie.sDsTitulo + "\".", true);
                 return false;
             }
             return true;
@@ -336,9 +351,9 @@ namespace MediaManager.Services
 
         public void UpdateEstadoEpisodio(params Episodio[] atualizados)
         {
-            foreach (var item in atualizados)
+            foreach (Episodio item in atualizados)
             {
-                var original = _context.Episodio.Find(item.nCdEpisodio);
+                Episodio original = _context.Episodio.Find(item.nCdEpisodio);
                 original.nIdEstadoEpisodio = item.nIdEstadoEpisodio;
             }
             _context.SaveChanges();

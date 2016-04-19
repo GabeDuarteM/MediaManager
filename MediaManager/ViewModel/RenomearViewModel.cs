@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/09/2015 17:53
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -28,7 +33,8 @@ namespace MediaManager.ViewModel
             if (arquivos != null)
             {
                 arquivos = new DirectoryInfo(Properties.Settings.Default.pref_PastaDownloads).EnumerateFiles("*.*",
-                    SearchOption.AllDirectories);
+                                                                                                             SearchOption
+                                                                                                                 .AllDirectories);
             }
             Carregar(arquivos, bFlConsiderarArquivosJaRenomeados);
             CommandSelecionar.Execute(this);
@@ -74,16 +80,16 @@ namespace MediaManager.ViewModel
                 bFlSelecionado = false
             });
 
-            string[] extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
-            List<Episodio> lstEpisodios = new List<Episodio>();
-            List<Episodio> lstEpisodiosNaoEncontrados = new List<Episodio>();
+            var extensoesPermitidas = Properties.Settings.Default.ExtensoesRenomeioPermitidas.Split('|');
+            var lstEpisodios = new List<Episodio>();
+            var lstEpisodiosNaoEncontrados = new List<Episodio>();
             if (arquivos != null)
             {
-                foreach (var item in arquivos)
+                foreach (FileInfo item in arquivos)
                 {
                     if (extensoesPermitidas.Contains(item.Extension))
                     {
-                        Episodio episodio = new Episodio();
+                        var episodio = new Episodio();
                         episodio.sDsFilepath = item.FullName;
                         if ((!bFlConsiderarArquivosJaRenomeados && episodio.IdentificarEpisodio() &&
                              !episodio.bFlRenomeado && episodio.nIdEstadoEpisodio != Enums.EstadoEpisodio.Arquivado)
@@ -91,7 +97,8 @@ namespace MediaManager.ViewModel
                         {
                             episodio.sDsFilepathOriginal = item.FullName;
                             episodio.sDsFilepath = Path.Combine(episodio.oSerie.sDsPasta,
-                                Helper.RenomearConformePreferencias(episodio) + item.Extension);
+                                                                Helper.RenomearConformePreferencias(episodio) +
+                                                                item.Extension);
                             //episodio.bFlRenomeado = true; // Habilitando a linha da problema no retorno dos arquivos renomeados via argumento (RenomearEpisodiosDosArgumentos())
                             lstEpisodios.Add(episodio);
                         }

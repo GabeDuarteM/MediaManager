@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 16/08/2015 22:33
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,12 +55,12 @@ namespace MediaManager.Forms
         private void checkTodos_Click(object sender, RoutedEventArgs e)
         {
             if ((sender as CheckBox).IsChecked == true)
-                foreach (var item in ProcurarConteudoViewModel.lstConteudos)
+                foreach (Video item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = true;
                 }
             else
-                foreach (var item in ProcurarConteudoViewModel.lstConteudos)
+                foreach (Video item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = false;
                 }
@@ -65,14 +70,14 @@ namespace MediaManager.Forms
         {
             if (dgAll.SelectedItem != null)
             {
-                Serie conteudo = dgAll.SelectedItem as Serie;
-                Serie conteudoAlterado = new Serie();
-                    // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
+                var conteudo = dgAll.SelectedItem as Serie;
+                var conteudoAlterado = new Serie();
+                // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
                 conteudoAlterado.Clone(conteudo);
                 if (conteudoAlterado.bFlNaoEncontrado)
                     conteudoAlterado.sDsTitulo = Path.GetFileName(conteudoAlterado.sDsPasta);
-                frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo,
-                    conteudoAlterado, true);
+                var frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo,
+                                                                    conteudoAlterado, true);
                 frmAdicionarConteudo.ShowDialog(this);
                 if (frmAdicionarConteudo.DialogResult == true)
                 {

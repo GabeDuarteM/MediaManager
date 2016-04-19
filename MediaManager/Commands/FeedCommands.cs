@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 11/12/2015 20:23
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Windows.Input;
 using Autofac;
 using MediaManager.Helpers;
@@ -28,7 +33,7 @@ namespace MediaManager.Commands
 
                 if (FeedVM.oFeed.IsValid & FeedVM.IsValid)
                 {
-                    FeedsService feedsService = App.Container.Resolve<FeedsService>();
+                    var feedsService = App.Container.Resolve<FeedsService>();
                     if (FeedVM.bAnime)
                     {
                         FeedVM.oFeed.nIdTipoConteudo = Enums.TipoConteudo.Anime;

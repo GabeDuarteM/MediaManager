@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 10/04/2016 20:14
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -62,7 +67,7 @@ namespace MediaManager.Services
 
         public bool Adicionar(params T[] objs)
         {
-            foreach (var obj in objs)
+            foreach (T obj in objs)
             {
                 try
                 {

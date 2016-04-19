@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 12/11/2015 20:11
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,17 +28,20 @@ namespace MediaManager.Behaviors
         #region Static Fields
 
         public static readonly DependencyProperty GroupNameProperty = DependencyProperty.Register(
-            "GroupName",
-            typeof(object),
-            typeof(PersistenciaGroupExpandedBehavior),
-            new PropertyMetadata(default(object)));
+                                                                                                  "GroupName",
+                                                                                                  typeof(object),
+                                                                                                  typeof(
+                                                                                                      PersistenciaGroupExpandedBehavior
+                                                                                                      ),
+                                                                                                  new PropertyMetadata(
+                                                                                                      default(object)));
 
         private static readonly DependencyProperty ExpandedStateStoreProperty =
             DependencyProperty.RegisterAttached(
-                "ExpandedStateStore",
-                typeof(IDictionary<object, bool>),
-                typeof(PersistenciaGroupExpandedBehavior),
-                new PropertyMetadata(default(IDictionary<object, bool>)));
+                                                "ExpandedStateStore",
+                                                typeof(IDictionary<object, bool>),
+                                                typeof(PersistenciaGroupExpandedBehavior),
+                                                new PropertyMetadata(default(IDictionary<object, bool>)));
 
         #endregion Static Fields
 
@@ -43,7 +51,7 @@ namespace MediaManager.Behaviors
         {
             base.OnAttached();
 
-            bool? expanded = GetExpandedState();
+            var expanded = GetExpandedState();
 
             if (expanded != null)
             {

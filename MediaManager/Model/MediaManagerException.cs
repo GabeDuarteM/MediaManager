@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 04/02/2016 20:36
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MediaManager.Helpers;
@@ -14,6 +19,7 @@ namespace MediaManager.Model
         }
 
         private List<string> lstDetalhes { get; }
+
         private Exception Exception { get; }
 
         public void TratarException(string sErro = "Ocorreu um erro na aplicação.", bool bIsSilencioso = true)

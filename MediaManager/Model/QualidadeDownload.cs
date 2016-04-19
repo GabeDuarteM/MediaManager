@@ -1,4 +1,9 @@
-﻿using System.ComponentModel;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 12/02/2016 22:21
+// Last update: 19/04/2016 02:47
+
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediaManager.Model

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 16/12/2015 00:39
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MediaManager.Model;
@@ -16,22 +21,26 @@ namespace MediaManager.Services
 
         public bool Adicionar(params Feed[] obj)
         {
-            foreach (var feed in obj)
+            foreach (Feed feed in obj)
             {
                 try
                 {
                     var lstFeeds =
                         _context.Feed.Where(
-                            x => x.nIdTipoConteudo == feed.nIdTipoConteudo && x.bIsFeedPesquisa == feed.bIsFeedPesquisa)
-                            .ToList();
+                                            x =>
+                                            x.nIdTipoConteudo == feed.nIdTipoConteudo &&
+                                            x.bIsFeedPesquisa == feed.bIsFeedPesquisa)
+                                .ToList();
 
                     // Para não interferir no CommandSalvar da tela de adicionar feed quando o feed vai ser adicionado a mais de um tipo de conteúdo
                     // (caso contrário nunca vai cair no if acima, pois a prioridade será != 0)
-                    Feed feedClone = new Feed(feed);
+                    var feedClone = new Feed(feed);
 
                     if (feedClone.nNrPrioridade == 0)
                     {
-                        feedClone.nNrPrioridade = lstFeeds.Count > 0 ? lstFeeds.Last().nNrPrioridade + 1 : 1;
+                        feedClone.nNrPrioridade = lstFeeds.Count > 0
+                                                      ? lstFeeds.Last().nNrPrioridade + 1
+                                                      : 1;
                     }
 
                     _context.Feed.Add(feedClone);
@@ -40,7 +49,7 @@ namespace MediaManager.Services
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o feed " + feed.sDsFeed,
-                        true);
+                                                                 true);
                     return false;
                 }
             }
@@ -66,7 +75,7 @@ namespace MediaManager.Services
         {
             try
             {
-                List<Feed> lstFeeds = _context.Feed.ToList();
+                var lstFeeds = _context.Feed.ToList();
 
                 return lstFeeds;
             }
@@ -79,7 +88,7 @@ namespace MediaManager.Services
 
         public bool Remover(params Feed[] obj)
         {
-            foreach (var feed in obj)
+            foreach (Feed feed in obj)
             {
                 try
                 {
@@ -91,7 +100,7 @@ namespace MediaManager.Services
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o feed " + feed.sDsFeed,
-                        true);
+                                                                 true);
                     return false;
                 }
             }
@@ -104,7 +113,7 @@ namespace MediaManager.Services
 
             try
             {
-                foreach (var item in obj)
+                foreach (Feed item in obj)
                 {
                     feed = item;
                     _context.Feed.Attach(item);

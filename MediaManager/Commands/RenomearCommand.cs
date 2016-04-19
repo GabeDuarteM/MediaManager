@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 22/11/2015 22:08
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,14 +38,14 @@ namespace MediaManager.Commands
             {
                 try
                 {
-                    RenomearViewModel renomearVM = parameter as RenomearViewModel;
+                    var renomearVM = parameter as RenomearViewModel;
 
-                    foreach (var item in renomearVM.lstEpisodios)
+                    foreach (Episodio item in renomearVM.lstEpisodios)
                     {
                         try
                         {
-                            EpisodiosService episodiosService = App.Container.Resolve<EpisodiosService>();
-                            bool bCancelarOperacao = false;
+                            var episodiosService = App.Container.Resolve<EpisodiosService>();
+                            var bCancelarOperacao = false;
 
                             if (item.bFlSelecionado)
                             {
@@ -48,7 +53,7 @@ namespace MediaManager.Commands
                                                   item.sDsFilepath + "\"");
                                 Helper.LogMessage("Método de processamento: " +
                                                   ((Enums.MetodoDeProcessamento)
-                                                      Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
+                                                   Properties.Settings.Default.pref_MetodoDeProcessamento).ToString());
 
                                 // Adiciona o FilenameRenamed para quando houver pasta no nome (Ex. "Season 04\\Arrow - 4x05 - Haunted.mkv")
                                 if (!Directory.Exists(Path.GetDirectoryName(item.sDsFilepath)))
@@ -62,9 +67,10 @@ namespace MediaManager.Commands
                                 {
                                     if (renomearVM.bFlSilencioso ||
                                         (Helper.MostrarMensagem(
-                                            "O arquivo \"" + item.sDsFilepath +
-                                            "\" já existe.\r\nDeseja sobrescrevê-lo pelo arquivo \"" +
-                                            item.sDsFilepathOriginal + "\"?", Enums.eTipoMensagem.QuestionamentoSimNao) ==
+                                                                "O arquivo \"" + item.sDsFilepath +
+                                                                "\" já existe.\r\nDeseja sobrescrevê-lo pelo arquivo \"" +
+                                                                item.sDsFilepathOriginal + "\"?",
+                                                                Enums.eTipoMensagem.QuestionamentoSimNao) ==
                                          MessageBoxResult.Yes))
                                     {
                                         Helper.LogMessage("O arquivo \"" + item.sDsFilepath +
@@ -92,7 +98,7 @@ namespace MediaManager.Commands
                                             $"Código: {Marshal.GetLastWin32Error()}{Environment.NewLine}Arquivo: {item.sDsFilepathOriginal}."))
                                         .TratarException("Ocorreu um erro no processo de " +
                                                          ((Enums.MetodoDeProcessamento)
-                                                             Properties.Settings.Default.pref_MetodoDeProcessamento)
+                                                          Properties.Settings.Default.pref_MetodoDeProcessamento)
                                                              .ToString());
                                 }
                             }
@@ -100,15 +106,15 @@ namespace MediaManager.Commands
                         catch (Exception e)
                         {
                             new MediaManagerException(e).TratarException(
-                                $"Ocorreu um erro ao renomear o episódio \"{item.sDsFilepathOriginal}\".");
+                                                                         $"Ocorreu um erro ao renomear o episódio \"{item.sDsFilepathOriginal}\".");
                         }
                     }
                     if (!renomearVM.bFlSilencioso &&
                         renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Any(x => !x.bFlRenomeado))
                     {
                         Helper.MostrarMensagem(
-                            "Alguns arquivos não foram renomeados com sucesso, para mais detalhes verifique o log.",
-                            Enums.eTipoMensagem.Erro);
+                                               "Alguns arquivos não foram renomeados com sucesso, para mais detalhes verifique o log.",
+                                               Enums.eTipoMensagem.Erro);
                     }
                     else if (!renomearVM.bFlSilencioso)
                     {
@@ -143,7 +149,7 @@ namespace MediaManager.Commands
             public void Execute(object parameter)
             {
                 var renomearVM = parameter as RenomearViewModel;
-                int episodiosSelecionadosCount = renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
+                var episodiosSelecionadosCount = renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Count();
                 if (episodiosSelecionadosCount == renomearVM.lstEpisodios.Count && renomearVM.lstEpisodios.Count > 0)
                 {
                     renomearVM.bFlSelecionarTodos = true;

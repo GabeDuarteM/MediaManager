@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 26/07/2015 17:32
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -32,7 +37,6 @@ namespace MediaManager.Model
 
         [XmlElement("AliasNames")]
         public override string sAliases { get; set; }
-
         [XmlElement("ContentRating", IsNullable = true)]
         public string sDsClassificacao { get; set; }
 
@@ -148,12 +152,12 @@ namespace MediaManager.Model
                         _sDsImgPoster = value;
                         OnPropertyChanged();
 
-                        BitmapImage bmp = new BitmapImage(new Uri(value));
+                        var bmp = new BitmapImage(new Uri(value));
                         bmp.DownloadCompleted += (s, e) =>
                         {
-                            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                            var encoder = new BmpBitmapEncoder();
                             encoder.Frames.Add(BitmapFrame.Create(bmp));
-                            using (MemoryStream ms = new MemoryStream())
+                            using (var ms = new MemoryStream())
                             {
                                 encoder.Save(ms);
                                 bCacheImgPoster = ms.ToArray();
@@ -178,11 +182,11 @@ namespace MediaManager.Model
                                               "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
                                             : Settings.Default.API_UrlTheTVDB + "/banners/" + value;
                         OnPropertyChanged();
-                        MemoryStream ms = new MemoryStream();
-                        BitmapImage bmp = new BitmapImage(new Uri(sDsImgPoster));
+                        var ms = new MemoryStream();
+                        var bmp = new BitmapImage(new Uri(sDsImgPoster));
                         bmp.DownloadCompleted += (s, e) =>
                         {
-                            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                            var encoder = new JpegBitmapEncoder();
                             encoder.Frames.Add(BitmapFrame.Create(bmp));
                             encoder.Save(ms);
                             bCacheImgPoster = ms.ToArray();

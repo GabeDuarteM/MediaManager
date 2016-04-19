@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -23,6 +28,7 @@ namespace MediaManager.Model
         private ObservableCollection<SerieAlias> _lstSerieAlias;
 
         private Enums.TipoConteudo _nIdTipoConteudo;
+
         private string _sAliases;
 
         private string _sDsImgFanart;
@@ -88,15 +94,18 @@ namespace MediaManager.Model
                 {
                     case Enums.TipoConteudo.Filme:
                         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                            Settings.Default.AppName, "Metadata", "Filmes", Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                            Settings.Default.AppName, "Metadata", "Filmes",
+                                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
                     case Enums.TipoConteudo.Série:
                         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                            Settings.Default.AppName, "Metadata", "Séries", Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                            Settings.Default.AppName, "Metadata", "Séries",
+                                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
                     case Enums.TipoConteudo.Anime:
                         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                            Settings.Default.AppName, "Metadata", "Animes", Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                            Settings.Default.AppName, "Metadata", "Animes",
+                                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
 
                     default:
                         throw new System.ComponentModel.InvalidEnumArgumentException();
@@ -128,8 +137,8 @@ namespace MediaManager.Model
             set
             {
                 _sDsImgFanart = string.IsNullOrWhiteSpace(value)
-                    ? "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png"
-                    : value;
+                                    ? "pack://application:,,,/MediaManager;component/Resources/IMG_FanartDefault.png"
+                                    : value;
                 OnPropertyChanged();
             }
         }
@@ -141,18 +150,18 @@ namespace MediaManager.Model
             set
             {
                 _sDsImgPoster = string.IsNullOrWhiteSpace(value)
-                    ? "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
-                    : value;
+                                    ? "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
+                                    : value;
                 OnPropertyChanged();
 
                 if (sDsImgPoster.StartsWith("http"))
                 {
-                    BitmapImage bmp = new BitmapImage(new Uri(value));
+                    var bmp = new BitmapImage(new Uri(value));
                     bmp.DownloadCompleted += (s, e) =>
                     {
-                        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                        var encoder = new JpegBitmapEncoder();
                         encoder.Frames.Add(BitmapFrame.Create(bmp));
-                        using (MemoryStream ms = new MemoryStream())
+                        using (var ms = new MemoryStream())
                         {
                             encoder.Save(ms);
                             bCacheImgPoster = ms.ToArray();
@@ -163,8 +172,9 @@ namespace MediaManager.Model
                 {
                     bCacheImgPoster = sDsImgPoster ==
                                       "pack://application:,,,/MediaManager;component/Resources/IMG_PosterDefault.png"
-                        ? (byte[]) new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
-                        : File.ReadAllBytes(sDsImgPoster);
+                                          ? (byte[])
+                                            new ImageConverter().ConvertTo(Resources.IMG_PosterDefault, typeof(byte[]))
+                                          : File.ReadAllBytes(sDsImgPoster);
                 }
             }
         }
@@ -252,19 +262,19 @@ namespace MediaManager.Model
                 case Enums.TipoConteudo.Filme:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes))
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaFilmes,
-                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                                Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
                 case Enums.TipoConteudo.Série:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaSeries))
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaSeries,
-                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                                Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
                 case Enums.TipoConteudo.Anime:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes))
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaAnimes,
-                            Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                                                Helper.RetirarCaracteresInvalidos(sDsTitulo));
                     break;
 
                 default:

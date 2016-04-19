@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -10,7 +15,9 @@ namespace ConfigurableInputMessageBox
     public enum inputType
     {
         Default,
+
         AdicionarConteudo,
+
         SemResultados
     }
 
@@ -18,10 +25,10 @@ namespace ConfigurableInputMessageBox
     {
         public static readonly DependencyProperty DialogResultProperty =
             DependencyProperty.RegisterAttached(
-                "DialogResult",
-                typeof(bool?),
-                typeof(DialogCloser),
-                new PropertyMetadata(DialogResultChanged));
+                                                "DialogResult",
+                                                typeof(bool?),
+                                                typeof(DialogCloser),
+                                                new PropertyMetadata(DialogResultChanged));
 
         public static void SetDialogResult(Window target, bool? value)
         {
@@ -70,12 +77,12 @@ namespace ConfigurableInputMessageBox
 
         private void CenterWindowOnScreen()
         {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = InputViewModel.Properties.Width;
             double windowHeight = InputViewModel.Properties.Height;
-            Left = screenWidth/2 - windowWidth/2;
-            Top = screenHeight/2 - windowHeight/2;
+            Left = screenWidth / 2 - windowWidth / 2;
+            Top = screenHeight / 2 - windowHeight / 2;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -87,13 +94,21 @@ namespace ConfigurableInputMessageBox
     public class InputMessageBoxProperties : INotifyPropertyChanged, IDataErrorInfo
     {
         private int _buttonWidth;
+
         private string _cancelButtonText;
+
         private int _height;
+
         private string _inputText;
+
         private string _message;
+
         private string _okButtonText;
+
         private string _title;
+
         private string _validationMessage;
+
         private int _width;
 
         public int ButtonWidth

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 01/11/2015 00:02
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,6 +23,7 @@ namespace MediaManager.ViewModel
         private bool? _bFlSelecionarTodos;
 
         private ObservableCollection<Episodio> _lstEpisodios;
+
         private ICollectionView _lstEpisodiosView;
 
         private Enums.EstadoEpisodio _nIdEstadoEpisodioSelecionado;

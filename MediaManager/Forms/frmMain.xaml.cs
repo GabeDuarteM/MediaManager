@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 20/07/2015 21:10
+// Last update: 19/04/2016 02:46
+
+using System;
 using System.IO;
 using System.Windows;
 using MediaManager.Helpers;
@@ -87,14 +92,14 @@ namespace MediaManager.Forms
             var pastaOrigem = "D:\\Videos";
             var pastaDestino = "D:\\Videos Dummy";
 
-            DirectoryInfo a = new DirectoryInfo(pastaOrigem);
-            foreach (var item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
+            var a = new DirectoryInfo(pastaOrigem);
+            foreach (DirectoryInfo item in a.EnumerateDirectories("*", SearchOption.AllDirectories))
             {
                 var pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!Directory.Exists(pastaTemp))
                     Directory.CreateDirectory(pastaTemp);
             }
-            foreach (var item in a.EnumerateFiles("*", SearchOption.AllDirectories))
+            foreach (FileInfo item in a.EnumerateFiles("*", SearchOption.AllDirectories))
             {
                 var arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!File.Exists(arquivoTemp))
@@ -108,7 +113,7 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarAnime_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Anime);
+            var frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Anime);
             if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
             {
                 frmAdicionarConteudo.ShowDialog(this);
@@ -121,7 +126,7 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarFilme_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Filme);
+            var frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Filme);
             if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
             {
                 frmAdicionarConteudo.ShowDialog(this);
@@ -134,7 +139,7 @@ namespace MediaManager.Forms
 
         private void menuItAdicionarSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Série);
+            var frmAdicionarConteudo = new frmAdicionarConteudo(Enums.TipoConteudo.Série);
             if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
             {
                 frmAdicionarConteudo.ShowDialog(this);
@@ -147,13 +152,13 @@ namespace MediaManager.Forms
 
         private void menuItPreferencias_Click(object sender, RoutedEventArgs e)
         {
-            frmPreferencias frmPreferencias = new frmPreferencias();
+            var frmPreferencias = new frmPreferencias();
             frmPreferencias.ShowDialog(this);
         }
 
         private void menuItProcurarConteudo_Click(object sender, RoutedEventArgs e)
         {
-            frmProcurarConteudo frmProcurarConteudo = new frmProcurarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, this);
+            var frmProcurarConteudo = new frmProcurarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, this);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
                 MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
@@ -161,25 +166,25 @@ namespace MediaManager.Forms
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear();
+            var frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearFilmes_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear();
+            var frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearSerie_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear();
+            var frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog(this);
         }
 
         private void menuItRenomearTudo_Click(object sender, RoutedEventArgs e)
         {
-            frmRenomear frmRenomear = new frmRenomear();
+            var frmRenomear = new frmRenomear();
             frmRenomear.ShowDialog(this);
         }
 

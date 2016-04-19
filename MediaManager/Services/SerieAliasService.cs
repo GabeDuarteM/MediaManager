@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 15/12/2015 23:12
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MediaManager.Model;
@@ -16,7 +21,7 @@ namespace MediaManager.Services
 
         public bool Adicionar(params SerieAlias[] obj)
         {
-            foreach (var alias in obj)
+            foreach (SerieAlias alias in obj)
             {
                 try
                 {
@@ -26,7 +31,8 @@ namespace MediaManager.Services
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException(
-                        $"Ocorreu um erro ao adicionar o alias \"{alias.sDsAlias}\" ao banco.", true);
+                                                                 $"Ocorreu um erro ao adicionar o alias \"{alias.sDsAlias}\" ao banco.",
+                                                                 true);
                     return false;
                 }
             }
@@ -51,8 +57,10 @@ namespace MediaManager.Services
         {
             try
             {
-                List<SerieAlias> lstAlias = _context.SerieAlias.ToList();
-                return lstAlias != null ? lstAlias : new List<SerieAlias>();
+                var lstAlias = _context.SerieAlias.ToList();
+                return lstAlias != null
+                           ? lstAlias
+                           : new List<SerieAlias>();
             }
             catch (Exception e)
             {
@@ -63,7 +71,7 @@ namespace MediaManager.Services
 
         public bool Remover(params SerieAlias[] obj)
         {
-            foreach (var alias in obj)
+            foreach (SerieAlias alias in obj)
             {
                 try
                 {
@@ -74,7 +82,8 @@ namespace MediaManager.Services
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException(
-                        $"Ocorreu um erro ao remover o alias \"{alias.sDsAlias}\" do banco.", true);
+                                                                 $"Ocorreu um erro ao remover o alias \"{alias.sDsAlias}\" do banco.",
+                                                                 true);
                     return false;
                 }
             }
@@ -83,17 +92,17 @@ namespace MediaManager.Services
 
         public bool Update(params SerieAlias[] obj)
         {
-            foreach (var oAlias in obj)
+            foreach (SerieAlias oAlias in obj)
             {
                 try
                 {
-                    var oAliasDB = _context.SerieAlias.Find(oAlias.nCdAlias);
+                    SerieAlias oAliasDB = _context.SerieAlias.Find(oAlias.nCdAlias);
                     _context.Entry(oAliasDB).CurrentValues.SetValues(oAlias);
                 }
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException(
-                        $"Ocorreu um erro ao atualizar o alias \"{oAlias.sDsAlias}\"");
+                                                                 $"Ocorreu um erro ao atualizar o alias \"{oAlias.sDsAlias}\"");
                     return false;
                 }
             }
@@ -103,13 +112,13 @@ namespace MediaManager.Services
 
         public bool Adicionar(params Video[] videos)
         {
-            foreach (var video in videos)
+            foreach (Video video in videos)
             {
                 try
                 {
                     foreach (var item in video.sAliases.Split('|'))
                     {
-                        SerieAlias alias = new SerieAlias(item);
+                        var alias = new SerieAlias(item);
                         alias.nNrEpisodio = 1;
                         alias.nNrTemporada = 1;
                         alias.nCdVideo = video.nCdVideo;
@@ -120,7 +129,8 @@ namespace MediaManager.Services
                 catch (Exception e)
                 {
                     new MediaManagerException(e).TratarException(
-                        $"Ocorreu um erro ao adicionar o alias padrão do video \"{video.sDsTitulo}\" ao banco.", true);
+                                                                 $"Ocorreu um erro ao adicionar o alias padrão do video \"{video.sDsTitulo}\" ao banco.",
+                                                                 true);
                     return false;
                 }
             }
@@ -131,13 +141,15 @@ namespace MediaManager.Services
         {
             try
             {
-                List<SerieAlias> lstAlias = _context.SerieAlias.Where(x => x.nCdVideo == video.nCdVideo).ToList();
-                return lstAlias != null ? lstAlias : new List<SerieAlias>();
+                var lstAlias = _context.SerieAlias.Where(x => x.nCdVideo == video.nCdVideo).ToList();
+                return lstAlias != null
+                           ? lstAlias
+                           : new List<SerieAlias>();
             }
             catch (Exception e)
             {
                 new MediaManagerException(e).TratarException(
-                    $"Ocorreu um erro ao retornar a lista de alias de \"{video.sDsTitulo}\"");
+                                                             $"Ocorreu um erro ao retornar a lista de alias de \"{video.sDsTitulo}\"");
                 return new List<SerieAlias>();
             }
         }

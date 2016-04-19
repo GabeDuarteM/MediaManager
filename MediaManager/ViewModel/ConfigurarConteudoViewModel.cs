@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 06/09/2015 06:14
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -22,6 +27,7 @@ namespace MediaManager.ViewModel
         private SerieAlias _oAliasSelecionado;
 
         private Video _oVideo;
+
         private string _sDsAlias;
 
         private string _sFormatoRenomeioPersonalizado;
@@ -61,7 +67,12 @@ namespace MediaManager.ViewModel
 
         public string sNrTemporada
         {
-            get { return nNrTemporada >= 0 ? "S" + _nNrTemporada.ToString("00") : "S"; }
+            get
+            {
+                return nNrTemporada >= 0
+                           ? "S" + _nNrTemporada.ToString("00")
+                           : "S";
+            }
             set
             {
                 _nNrTemporada = ValidarPossivelTexto(value, _nNrTemporada);
@@ -92,7 +103,12 @@ namespace MediaManager.ViewModel
 
         public string sNrEpisodio
         {
-            get { return nNrEpisodio >= 0 ? "E" + _nNrEpisodio.ToString("00") : "E"; }
+            get
+            {
+                return nNrEpisodio >= 0
+                           ? "E" + _nNrEpisodio.ToString("00")
+                           : "E";
+            }
             set
             {
                 _nNrEpisodio = ValidarPossivelTexto(value, _nNrEpisodio);
@@ -168,7 +184,7 @@ namespace MediaManager.ViewModel
         private void PopularListaTempSerieAlias()
         {
             lstTempSerieAliases = new ObservableCollection<SerieAlias>();
-            foreach (var item in oVideo.lstSerieAlias)
+            foreach (SerieAlias item in oVideo.lstSerieAlias)
             {
                 lstTempSerieAliases.Add(item);
             }

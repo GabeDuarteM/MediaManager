@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Developed by: Gabriel Duarte
+// 
+// Created at: 10/09/2015 13:25
+// Last update: 19/04/2016 02:47
+
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -17,6 +22,7 @@ namespace MediaManager.ViewModel
         private Enums.MetodoDeProcessamento _nIdMetodoDeProcessamentoSelecionado;
 
         private int _nIntervaloDeProcuraConteudoNovo;
+
         private ListaFeedsViewModel _oFeedsViewModel;
 
         private ListaFeedsPesquisaViewModel _oListaFeedsPesquisaViewModel;
@@ -289,7 +295,7 @@ namespace MediaManager.ViewModel
 
         private void AlterarVisualizacaoFormato(string sFormato, Enums.TipoConteudo nIdTipoConteudo)
         {
-            Episodio episodioVisualizacao = new Episodio()
+            var episodioVisualizacao = new Episodio()
             {
                 oSerie = new Serie() {sDsTitulo = "Exemplo de título", sFormatoRenomeioPersonalizado = sFormato},
                 sDsEpisodio = "Título do episódio",
@@ -303,7 +309,7 @@ namespace MediaManager.ViewModel
                 case Enums.TipoConteudo.Filme:
                     episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Filme;
                     sVisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)";
-                        // TODO Visualizacao Filmes
+                    // TODO Visualizacao Filmes
                     break;
 
                 case Enums.TipoConteudo.Série:
@@ -328,7 +334,7 @@ namespace MediaManager.ViewModel
         /// <returns></returns>
         private Dictionary<string, string> SetarIdiomas()
         {
-            Dictionary<string, string> idiomas = new Dictionary<string, string>();
+            var idiomas = new Dictionary<string, string>();
 
             idiomas.Add("da", "Dansk");
             idiomas.Add("fi", "Suomeksi");
