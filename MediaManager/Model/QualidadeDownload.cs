@@ -1,10 +1,9 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/02/2016 22:21
-// Last update: 19/04/2016 02:57
 
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using MediaManager.Localizacao;
 
 namespace MediaManager.Model
 {
@@ -38,7 +37,7 @@ namespace MediaManager.Model
             }
         }
 
-        [Required(ErrorMessage = "O campo \"Qualidade\" precisa ser preenchido."), DisplayName("Qualidade")]
+        [Required, Display(ResourceType = typeof(Campos), Name = "Qualidade")]
         public string sQualidade
         {
             get { return _sQualidade; }
@@ -61,7 +60,7 @@ namespace MediaManager.Model
             }
         }
 
-        [Required(ErrorMessage = "O campo \"Prioridade\" precisa ser preenchido."), DisplayName("Prioridade")]
+        [Required(ErrorMessageResourceType = typeof(Mensagens), ErrorMessageResourceName = "Este_campo_deve_ser_preenchido"), Display(ResourceType = typeof(Campos), Name = "Prioridade")]
         public int nPrioridade
         {
             get { return _nPrioridade; }

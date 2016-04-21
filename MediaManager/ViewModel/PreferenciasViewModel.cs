@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 10/09/2015 13:25
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -9,15 +8,16 @@ using System.Windows;
 using System.Windows.Input;
 using MediaManager.Commands;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 
 namespace MediaManager.ViewModel
 {
     public class PreferenciasViewModel : ViewModelBase
     {
-        private Array _ArrayMetodosDeProcessamento;
+        private Array _arrayMetodosDeProcessamento;
 
-        private Dictionary<string, string> _DictIdiomaPesquisa;
+        private Dictionary<string, string> _dictIdiomaPesquisa;
 
         private Enums.MetodoDeProcessamento _nIdMetodoDeProcessamentoSelecionado;
 
@@ -180,10 +180,10 @@ namespace MediaManager.ViewModel
 
         public Dictionary<string, string> DictIdiomaPesquisa
         {
-            get { return _DictIdiomaPesquisa; }
+            get { return _dictIdiomaPesquisa; }
             set
             {
-                _DictIdiomaPesquisa = value;
+                _dictIdiomaPesquisa = value;
                 OnPropertyChanged();
             }
         }
@@ -200,10 +200,10 @@ namespace MediaManager.ViewModel
 
         public Array ArrayMetodosDeProcessamento
         {
-            get { return _ArrayMetodosDeProcessamento; }
+            get { return _arrayMetodosDeProcessamento; }
             set
             {
-                _ArrayMetodosDeProcessamento = value;
+                _arrayMetodosDeProcessamento = value;
                 OnPropertyChanged();
             }
         }
@@ -295,13 +295,13 @@ namespace MediaManager.ViewModel
 
         private void AlterarVisualizacaoFormato(string sFormato, Enums.TipoConteudo nIdTipoConteudo)
         {
-            var episodioVisualizacao = new Episodio()
+            var episodioVisualizacao = new Episodio
             {
-                oSerie = new Serie() {sDsTitulo = "Exemplo de título", sFormatoRenomeioPersonalizado = sFormato},
-                sDsEpisodio = "Título do episódio",
+                oSerie = new Serie {sDsTitulo = Mensagens.Exemplo_de_título, sFormatoRenomeioPersonalizado = sFormato},
+                sDsEpisodio = Mensagens.Título_do_episódio,
                 nNrTemporada = 3,
-                lstIntEpisodios = new List<int>() {5},
-                lstIntEpisodiosAbsolutos = new List<int>() {25}
+                lstIntEpisodios = new List<int> {5},
+                lstIntEpisodiosAbsolutos = new List<int> {25}
             };
 
             switch (nIdTipoConteudo)

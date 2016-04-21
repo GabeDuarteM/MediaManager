@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.IO;
@@ -28,7 +27,9 @@ namespace MediaManager.Forms
             MainVM = new MainViewModel(this);
 
             if (MainVM.TratarArgumentos())
+            {
                 Environment.Exit(0);
+            }
 
             MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
 
@@ -97,13 +98,17 @@ namespace MediaManager.Forms
             {
                 string pastaTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!Directory.Exists(pastaTemp))
+                {
                     Directory.CreateDirectory(pastaTemp);
+                }
             }
             foreach (FileInfo item in a.EnumerateFiles("*", SearchOption.AllDirectories))
             {
                 string arquivoTemp = Path.Combine(pastaDestino, item.FullName.Remove(0, pastaOrigem.Length + 1));
                 if (!File.Exists(arquivoTemp))
+                {
                     File.Create(arquivoTemp);
+                }
             }
         }
 
@@ -161,7 +166,9 @@ namespace MediaManager.Forms
             var frmProcurarConteudo = new frmProcurarConteudo(Enums.TipoConteudo.AnimeFilmeSérie, this);
             frmProcurarConteudo.ShowDialog();
             if (frmProcurarConteudo.DialogResult == true)
+            {
                 MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
+            }
         }
 
         private void menuItRenomearAnimes_Click(object sender, RoutedEventArgs e)

@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using Newtonsoft.Json;
@@ -37,9 +36,9 @@ namespace MediaManager.Model
         [JsonProperty("age")]
         public int age { get; set; }
 
-        //public Images images { get; set; }
-
         //[JsonProperty("images")]
+
+        //public Images images { get; set; }
     }
 
     public class Account

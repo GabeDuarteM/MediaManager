@@ -1,13 +1,13 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 10/04/2016 20:14
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 
 namespace MediaManager.Services
@@ -79,12 +79,11 @@ namespace MediaManager.Services
                 {
                     try
                     {
-                        new MediaManagerException(e).TratarException(
-                                                                     $"{string.Format(StrMensagemErroAdicionar, GetValoresDasPropriedades(obj))}");
+                        new MediaManagerException(e).TratarException(string.Format(StrMensagemErroAdicionar, GetValoresDasPropriedades(obj)));
                     }
                     catch
                     {
-                        new MediaManagerException(e).TratarException($"Ocorreu um erro ao adicionar {nameof(T)}.");
+                        new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_adicionar_0_, nameof(T)));
                     }
                     return false;
                 }
@@ -105,11 +104,11 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    new MediaManagerException(e).TratarException($"{string.Format(StrMensagemErroGet, id)}");
+                    new MediaManagerException(e).TratarException(string.Format(StrMensagemErroGet, id));
                 }
                 catch
                 {
-                    new MediaManagerException(e).TratarException($"Ocorreu um erro ao pesquisar {nameof(T)}.");
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_pesquisar_0_, nameof(T)));
                 }
                 return null;
             }
@@ -127,12 +126,11 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    new MediaManagerException(e).TratarException($"{StrMensagemErroGetLista}");
+                    new MediaManagerException(e).TratarException(StrMensagemErroGetLista);
                 }
                 catch
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 $"Ocorreu um erro ao pesquisar todos(as) os(as) {nameof(T)}.");
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_pesquisar_todos_os_0_, nameof(T)));
                 }
                 return null;
             }
@@ -152,16 +150,16 @@ namespace MediaManager.Services
                 {
                     try
                     {
-                        new MediaManagerException(e).TratarException(
-                                                                     $"{string.Format(StrMensagemErroRemover, GetValoresDasPropriedades(obj))}");
+                        new MediaManagerException(e).TratarException(string.Format(StrMensagemErroRemover, GetValoresDasPropriedades(obj)));
                     }
                     catch
                     {
-                        new MediaManagerException(e).TratarException($"Ocorreu um erro ao remover {nameof(T)}.");
+                        new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_remover_0_, nameof(T)));
                     }
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -178,6 +176,7 @@ namespace MediaManager.Services
                     DbEntityEntry<T> entry = _context.Entry(item);
                     entry.State = EntityState.Modified;
                 }
+
                 _context.SaveChanges();
                 return true;
             }
@@ -185,12 +184,11 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 $"{string.Format(StrMensagemErroUpdate, GetValoresDasPropriedades(obj))}");
+                    new MediaManagerException(e).TratarException(string.Format(StrMensagemErroUpdate, GetValoresDasPropriedades(obj)));
                 }
                 catch
                 {
-                    new MediaManagerException(e).TratarException($"Ocorreu um erro ao remover {nameof(T)}.");
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_atualizar_0_, nameof(T)));
                 }
                 return false;
             }
@@ -211,9 +209,7 @@ namespace MediaManager.Services
         private string[] GetValoresDasPropriedades(T obj)
         {
             return
-                StrPropriedadesParaFormat.Select(
-                                                 propriedade =>
-                                                 obj.GetType().GetProperty(propriedade).GetValue(obj).ToString())
+                StrPropriedadesParaFormat.Select(propriedade => obj.GetType().GetProperty(propriedade).GetValue(obj).ToString())
                                          .ToArray();
         }
     }

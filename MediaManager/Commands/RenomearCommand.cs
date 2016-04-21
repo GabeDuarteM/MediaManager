@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 22/11/2015 22:08
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.IO;
@@ -109,6 +108,7 @@ namespace MediaManager.Commands
                                                                          $"Ocorreu um erro ao renomear o episódio \"{item.sDsFilepathOriginal}\".");
                         }
                     }
+
                     if (!renomearVM.bFlSilencioso &&
                         renomearVM.lstEpisodios.Where(x => x.bFlSelecionado).Any(x => !x.bFlRenomeado))
                     {

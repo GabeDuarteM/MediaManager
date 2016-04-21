@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 15/12/2015 23:12
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -36,6 +35,7 @@ namespace MediaManager.Services
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -87,6 +87,7 @@ namespace MediaManager.Services
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -106,6 +107,7 @@ namespace MediaManager.Services
                     return false;
                 }
             }
+
             _context.SaveChanges();
             return true;
         }
@@ -124,6 +126,7 @@ namespace MediaManager.Services
                         alias.nCdVideo = video.nCdVideo;
                         _context.SerieAlias.Add(alias);
                     }
+
                     _context.SaveChanges();
                 }
                 catch (Exception e)
@@ -134,6 +137,7 @@ namespace MediaManager.Services
                     return false;
                 }
             }
+
             return true;
         }
 

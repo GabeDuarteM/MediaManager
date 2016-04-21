@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/12/2015 03:00
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections;
@@ -10,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using MediaManager.Localizacao;
 
 namespace MediaManager.Model
 {
@@ -19,14 +19,12 @@ namespace MediaManager.Model
         {
             if (value == null || (value is string && string.IsNullOrWhiteSpace(value as string)))
             {
-                AddError("Campo de preenchimento obrigatório.", propertyName);
+                AddError(Mensagens.Campo_de_preenchimento_obrigatório, propertyName);
                 return false;
             }
-            else
-            {
-                RemoveError(propertyName);
-                return true;
-            }
+
+            RemoveError(propertyName);
+            return true;
         }
 
         public void Clone(object objOrigem)
@@ -44,8 +42,6 @@ namespace MediaManager.Model
                     variavelIgual.SetValue(this, item.GetValue(objOrigem, null));
                 }
             }
-
-            return;
         }
 
         #region INotifyPropertyChanged Members
@@ -54,12 +50,7 @@ namespace MediaManager.Model
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion INotifyPropertyChanged Members
@@ -72,27 +63,16 @@ namespace MediaManager.Model
 
         protected void RaiseErrorsChanged([CallerMemberName] string propertyName = "")
         {
-            EventHandler<DataErrorsChangedEventArgs> handler = ErrorsChanged;
-
-            if (handler != null)
-            {
-                handler(this, new DataErrorsChangedEventArgs(propertyName));
-            }
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
 
-        public bool HasErrors
-        {
-            get { return _erros.Count > 0; }
-        }
+        public bool HasErrors => _erros.Count > 0;
 
-        public virtual bool IsValid
-        {
-            get { return !HasErrors; }
-        }
+        public virtual bool IsValid => !HasErrors;
 
         public void AddError(string erro, [CallerMemberName] string propertyName = "")
         {
-            _erros[propertyName] = new List<string>() {erro};
+            _erros[propertyName] = new List<string> {erro};
             RaiseErrorsChanged(propertyName);
         }
 

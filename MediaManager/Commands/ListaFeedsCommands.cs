@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 08/11/2015 23:01
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;

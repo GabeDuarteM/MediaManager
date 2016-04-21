@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 12/09/2015 21:39
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.ComponentModel;
@@ -129,6 +128,7 @@ namespace MediaManager.Helpers
                     }
                 }
             }
+
             return tipoEnum.ToString();
         }
     }

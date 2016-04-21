@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/09/2015 17:53
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -73,9 +72,9 @@ namespace MediaManager.ViewModel
         private void Carregar(IEnumerable<FileInfo> arquivos, bool bFlConsiderarArquivosJaRenomeados)
         {
             this.lstEpisodios = new ObservableCollection<Episodio>();
-            this.lstEpisodios.Add(new Episodio()
+            this.lstEpisodios.Add(new Episodio
             {
-                oSerie = new Serie() {sDsTitulo = "Carregando..."},
+                oSerie = new Serie {sDsTitulo = "Carregando..."},
                 sDsFilepathOriginal = "Carregando...",
                 bFlSelecionado = false
             });

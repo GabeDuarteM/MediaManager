@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 06/09/2015 06:14
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -196,6 +195,7 @@ namespace MediaManager.ViewModel
             {
                 return Convert.ToInt32(Regex.Match(valor, @"\d+").Value);
             }
+
             return valorAntigo;
         }
     }

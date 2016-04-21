@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.ObjectModel;
@@ -261,20 +260,26 @@ namespace MediaManager.Model
             {
                 case Enums.TipoConteudo.Filme:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaFilmes))
+                    {
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaFilmes,
                                                 Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                    }
                     break;
 
                 case Enums.TipoConteudo.Série:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaSeries))
+                    {
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaSeries,
                                                 Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                    }
                     break;
 
                 case Enums.TipoConteudo.Anime:
                     if (!string.IsNullOrWhiteSpace(Settings.Default.pref_PastaAnimes))
+                    {
                         sDsPasta = Path.Combine(Settings.Default.pref_PastaAnimes,
                                                 Helper.RetirarCaracteresInvalidos(sDsTitulo));
+                    }
                     break;
 
                 default:

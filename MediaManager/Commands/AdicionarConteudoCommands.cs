@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 01/11/2015 01:25
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Windows.Input;
 using Autofac;
 using MediaManager.Forms;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 using MediaManager.Services;
 using MediaManager.ViewModel;
@@ -84,12 +84,7 @@ namespace MediaManager.Commands
                         serieAliasService.Adicionar(item);
                     }
 
-                    serieAliasService.Remover(
-                                              lstSerieAliasOriginal.Where(
-                                                                          x =>
-                                                                          !adicionarConteudoVm.oVideoSelecionado
-                                                                                              .lstSerieAlias.Contains(x))
-                                                                   .ToArray());
+                    serieAliasService.Remover(lstSerieAliasOriginal.Where(x => !adicionarConteudoVm.oVideoSelecionado.lstSerieAlias.Contains(x)).ToArray());
                 }
                 //foreach (var item in AdicionarConteudoVM.lstResultPesquisa) // Fora do if do DialogResult pois os aliases são salvos direto na tela e independem do resultado do DialogResult.
                 //{
@@ -130,11 +125,12 @@ namespace MediaManager.Commands
 
                 if (adicionarConteudoVm.oVideoSelecionado?.sDsPasta == null)
                 {
-                    Helper.MostrarMensagem("Favor preencher todos os campos antes de salvar.",
+                    Helper.MostrarMensagem(Mensagens.Favor_preencher_todos_os_campos_antes_de_salvar,
                                            Enums.eTipoMensagem.Alerta);
                     return;
                 }
-                else if (adicionarConteudoVm.bProcurarConteudo)
+
+                if (adicionarConteudoVm.bProcurarConteudo)
                 {
                     adicionarConteudoVm.ActionClose(true);
                 }
@@ -149,9 +145,7 @@ namespace MediaManager.Commands
                         case Enums.TipoConteudo.Série:
                         case Enums.TipoConteudo.Anime:
                         {
-                            Serie serie = null;
-
-                            serie = (Serie) adicionarConteudoVm.oVideoSelecionado;
+                            var serie = (Serie) adicionarConteudoVm.oVideoSelecionado;
 
                             serie.lstSerieAlias = Helper.PopularCampoSerieAlias(serie);
 
@@ -164,8 +158,7 @@ namespace MediaManager.Commands
                                 }
                                 catch (Exception ex)
                                 {
-                                    new MediaManagerException(ex).TratarException(
-                                                                                  $"Ocorreu um erro ao atualizar a série \"{serie.sDsTitulo}\".");
+                                    new MediaManagerException(ex).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_atualizar_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                                     adicionarConteudoVm.ActionClose(false);
                                 }
                             }
@@ -178,8 +171,7 @@ namespace MediaManager.Commands
                                 }
                                 catch (Exception ex)
                                 {
-                                    new MediaManagerException(ex).TratarException(
-                                                                                  $"Ocorreu um erro ao incluir a série \"{serie.sDsTitulo}\".");
+                                    new MediaManagerException(ex).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_adicionar_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                                     adicionarConteudoVm.ActionClose(false);
                                 }
                             }
@@ -191,7 +183,9 @@ namespace MediaManager.Commands
                             Serie anime = null;
 
                             if (adicionarConteudoVm.oVideoSelecionado is Serie)
+                            {
                                 anime = (Serie) adicionarConteudoVm.oVideoSelecionado;
+                            }
 
                             if (adicionarConteudoVm.oVideoSelecionado.nCdVideo > 0)
                             {
@@ -202,8 +196,7 @@ namespace MediaManager.Commands
                                 }
                                 catch (Exception ex)
                                 {
-                                    new MediaManagerException(ex).TratarException(
-                                                                                  "Ocorreu um erro ao atualizar o conteúdo.");
+                                    new MediaManagerException(ex).TratarException(Mensagens.Ocorreu_um_erro_ao_atualizar_o_conteúdo);
                                     adicionarConteudoVm.ActionClose(false);
                                 }
                             }
@@ -216,8 +209,7 @@ namespace MediaManager.Commands
                                 }
                                 catch (Exception ex)
                                 {
-                                    new MediaManagerException(ex).TratarException(
-                                                                                  "Ocorreu um erro ao incluir o conteúdo.");
+                                    new MediaManagerException(ex).TratarException(Mensagens.Ocorreu_um_erro_ao_adicionar_o_conteúdo);
                                     adicionarConteudoVm.ActionClose(false);
                                 }
                             }
@@ -230,6 +222,7 @@ namespace MediaManager.Commands
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
                     adicionarConteudoVm.ActionClose(true);
                 }
             }
@@ -245,11 +238,8 @@ namespace MediaManager.Commands
 
             public bool CanExecute(object parameter)
             {
-                return parameter is AdicionarConteudoViewModel &&
-                       (parameter as AdicionarConteudoViewModel).oVideoSelecionado != null &&
-                       ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.Completo ||
-                        (parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado ==
-                        Enums.Estado.CompletoSemForeignKeys);
+                return (parameter as AdicionarConteudoViewModel)?.oVideoSelecionado != null && ((parameter as AdicionarConteudoViewModel).oVideoSelecionado.nIdEstado == Enums.Estado.Completo
+                                                                                                || ((AdicionarConteudoViewModel) parameter).oVideoSelecionado.nIdEstado == Enums.Estado.CompletoSemForeignKeys);
             }
 
             public void Execute(object parameter)
@@ -260,6 +250,7 @@ namespace MediaManager.Commands
                 {
                     SelectedPath = adicionarConteudoVm?.oVideoSelecionado.sDsPasta
                 };
+
                 if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     adicionarConteudoVm.oVideoSelecionado.sDsPasta = folderDialog.SelectedPath;

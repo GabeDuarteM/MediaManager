@@ -1,12 +1,12 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 16/12/2015 00:39
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 
 namespace MediaManager.Services
@@ -49,8 +49,7 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao adicionar o feed " + feed.sDsFeed,
-                                                                 true);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_adicionar_o_feed_0_, feed.sDsFeed));
                     return false;
                 }
             }
@@ -62,12 +61,12 @@ namespace MediaManager.Services
         {
             try
             {
-                Feed oFeed = _context.Feed.Where(x => x.nCdFeed == id).FirstOrDefault();
+                Feed oFeed = _context.Feed.FirstOrDefault(x => x.nCdFeed == id);
                 return oFeed;
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao pesquisar o feed de código " + id);
+                new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_pesquisar_o_feed_de_código_0_, id));
                 return null;
             }
         }
@@ -82,7 +81,7 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao retornar a lista de feeds.");
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_retornar_a_lista_de_feeds);
                 return null;
             }
         }
@@ -93,18 +92,18 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    feed.Clone(new Feed() {nCdFeed = feed.nCdFeed});
+                    feed.Clone(new Feed {nCdFeed = feed.nCdFeed});
                     _context.Feed.Attach(feed);
                     _context.Feed.Remove(feed);
                     _context.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover o feed " + feed.sDsFeed,
-                                                                 true);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_remover_o_feed_0_, feed.sDsFeed));
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -121,12 +120,13 @@ namespace MediaManager.Services
                     DbEntityEntry<Feed> entry = _context.Entry(item);
                     entry.State = System.Data.Entity.EntityState.Modified;
                 }
+
                 _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao atualizar o feed " + feed.sDsFeed, true);
+                new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_atualizar_o_feed_0_, feed?.sDsFeed));
                 return false;
             }
         }

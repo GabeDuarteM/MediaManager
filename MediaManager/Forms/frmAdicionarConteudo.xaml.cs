@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Windows;

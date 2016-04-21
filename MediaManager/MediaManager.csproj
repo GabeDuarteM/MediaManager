@@ -152,6 +152,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\PersistenciaGroupExpandedBehavior.cs" />
+    <Compile Include="Localizacao\Campos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Campos.resx</DependentUpon>
+    </Compile>
     <Compile Include="Commands\AdicionarConteudoCommands.cs" />
     <Compile Include="Commands\ConfigurarConteudoCommands.cs" />
     <Compile Include="Commands\FeedCommands.cs" />
@@ -178,6 +183,21 @@
     </Compile>
     <Compile Include="Helpers\APIRequests.cs" />
     <Compile Include="Helpers\Enums.cs" />
+    <Compile Include="Localizacao\Campos.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Campos.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localizacao\Mensagens.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagens.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localizacao\Mensagens.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Mensagens.en.resx</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Episodio.cs" />
@@ -312,6 +332,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Localizacao\Campos.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Campos.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localizacao\Campos.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Campos.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localizacao\Mensagens.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mensagens.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localizacao\Mensagens.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mensagens.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

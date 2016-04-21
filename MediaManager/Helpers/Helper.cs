@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/09/2015 17:53
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -113,6 +112,7 @@ namespace MediaManager.Helpers
                 {
                     strGeneros += item + "|";
                 }
+
                 if (strGeneros != "")
                 {
                     return strGeneros.Remove(strGeneros.Length - 1);
@@ -120,6 +120,7 @@ namespace MediaManager.Helpers
 
                 return null;
             }
+
             return null;
         }
 
@@ -130,7 +131,9 @@ namespace MediaManager.Helpers
                 case Enums.MetodoDeProcessamento.HardLink:
                 {
                     if (CreateHardLink(item.sDsFilepath, item.sDsFilepathOriginal, IntPtr.Zero))
+                    {
                         return true;
+                    }
                     else
                     {
                         new MediaManagerException(
@@ -220,10 +223,15 @@ namespace MediaManager.Helpers
                         foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
+                            {
                                 ep = item.ToString("00");
+                            }
                             else
+                            {
                                 ep += " & " + item.ToString("00");
+                            }
                         }
+
                         formato = formato.Replace(tag.Value, ep);
                         break;
                     }
@@ -233,10 +241,15 @@ namespace MediaManager.Helpers
                         foreach (int item in episodio.lstIntEpisodiosAbsolutos)
                         {
                             if (ep == "")
+                            {
                                 ep = item.ToString("00");
+                            }
                             else
+                            {
                                 ep += " & " + item.ToString("00");
+                            }
                         }
+
                         formato = formato.Replace(tag.Value, ep);
                         break;
                     }
@@ -246,10 +259,15 @@ namespace MediaManager.Helpers
                         foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
+                            {
                                 ep = item.ToString("00");
+                            }
                             else
+                            {
                                 ep += "x" + item.ToString("00");
+                            }
                         }
+
                         formato = formato.Replace(tag.Value, episodio.nNrTemporada + "x" + ep);
                         break;
                     }
@@ -259,10 +277,15 @@ namespace MediaManager.Helpers
                         foreach (int item in episodio.lstIntEpisodios)
                         {
                             if (ep == "")
+                            {
                                 ep = item.ToString("00");
+                            }
                             else
+                            {
                                 ep += "E" + item.ToString("00");
+                            }
                         }
+
                         formato = formato.Replace(tag.Value, "S" + episodio.nNrTemporada.ToString("00") + "E" + ep);
                         break;
                     }
@@ -295,6 +318,7 @@ namespace MediaManager.Helpers
                     frase += ", " + item;
                 }
             }
+
             return frase;
         }
 
@@ -308,7 +332,9 @@ namespace MediaManager.Helpers
             }
 
             if (string.IsNullOrEmpty(destino))
+            {
                 return origem.Length;
+            }
 
             if (origem.Length > destino.Length)
             {
@@ -322,7 +348,9 @@ namespace MediaManager.Helpers
             var distance = new int[2, m + 1];
             // Initialize the distance 'matrix'
             for (var j = 1; j <= m; j++)
+            {
                 distance[0, j] = j;
+            }
 
             var currentRow = 0;
             for (var i = 1; i <= n; ++i)
@@ -341,6 +369,7 @@ namespace MediaManager.Helpers
                                                        distance[previousRow, j - 1] + cost);
                 }
             }
+
             return distance[currentRow, m];
         }
 
@@ -353,6 +382,7 @@ namespace MediaManager.Helpers
                 {
                     retorno.Add(destino, CalcularAlgoritimoLevenshtein(origem, destino));
                 }
+
                 return retorno.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             }
             catch (Exception e)
@@ -449,11 +479,15 @@ namespace MediaManager.Helpers
             {
                 return false;
             }
+
             message = message.Trim();
             if (message.LastOrDefault() != '.')
+            {
                 message += ".";
+            }
 
             if (!File.Exists(logPath))
+            {
                 logLine =
                     $@"####################################################################################################
 ########################################### {Settings
@@ -462,9 +496,12 @@ namespace MediaManager.Helpers
 ##
 {data}{message
                             .Replace(Environment.NewLine, Environment.NewLine + espacamento)}";
+            }
             else
+            {
                 logLine = "## " + Environment.NewLine + data +
                           message.Replace(Environment.NewLine, Environment.NewLine + espacamento);
+            }
 
             try
             {
@@ -486,7 +523,10 @@ namespace MediaManager.Helpers
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
         {
             if (extensao == null)
+            {
                 throw new ArgumentNullException("extensao");
+            }
+
             IEnumerable<FileInfo> files = dir.EnumerateFiles();
             return files.Where(f => extensao.Contains(f.Extension));
         }
@@ -508,7 +548,9 @@ namespace MediaManager.Helpers
                     .Replace(">", "")
                     .Replace("|", "");
             if (retirarContraBarras)
+            {
                 nomeNormalizado = nomeNormalizado.Replace("\\", "");
+            }
             return nomeNormalizado.Trim();
         }
 
@@ -524,7 +566,9 @@ namespace MediaManager.Helpers
                 return dir.GetDirectories();
             }
             else
+            {
                 return null;
+            }
         }
 
         /// <summary>
@@ -539,7 +583,9 @@ namespace MediaManager.Helpers
                 return dir.GetDirectories();
             }
             else
+            {
                 return null;
+            }
         }
 
         /// <summary>
@@ -554,7 +600,9 @@ namespace MediaManager.Helpers
                 return dir.GetDirectories();
             }
             else
+            {
                 return null;
+            }
         }
 
         public static ObservableCollection<SerieAlias> PopularCampoSerieAlias(Video video)
@@ -571,6 +619,7 @@ namespace MediaManager.Helpers
                     }
                 }
             }
+
             return video.lstSerieAlias;
         }
 
@@ -598,7 +647,9 @@ namespace MediaManager.Helpers
                 try
                 {
                     if (retry > 0)
+                    {
                         Thread.Sleep(retryInterval);
+                    }
                     return action();
                 }
                 catch (Exception ex)

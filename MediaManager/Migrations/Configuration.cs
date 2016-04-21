@@ -1,7 +1,6 @@
 // Developed by: Gabriel Duarte
 // 
 // Created at: 18/12/2015 02:11
-// Last update: 19/04/2016 02:57
 
 using System.Data.Entity.Migrations;
 using MediaManager.Model;
@@ -36,7 +35,7 @@ namespace MediaManager.Migrations
         public static void SeedPublic(Context context)
         {
             context.Feed.AddOrUpdate(x => x.nCdFeed,
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 2,
@@ -47,7 +46,7 @@ namespace MediaManager.Migrations
                                          sLkFeed =
                                              "http://showrss.info/user/5225.rss?magnets=true&namespaces=true&name=null&quality=hd&re=yes"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 1,
@@ -57,7 +56,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://kat.cr/usearch/720%20category%3Atv/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 4,
@@ -68,7 +67,7 @@ namespace MediaManager.Migrations
                                          sLkFeed =
                                              "http://showrss.info/user/5225.rss?magnets=true&namespaces=true&name=null&quality=sd&re=yes"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 3,
@@ -78,7 +77,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "https://kat.cr/tv/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 5,
@@ -88,7 +87,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "https://kat.cr/movies/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 6,
@@ -98,7 +97,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720&filter=3"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 7,
@@ -108,7 +107,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720&filter=2"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 8,
@@ -118,7 +117,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 9,
@@ -128,7 +127,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=3"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 10,
@@ -138,7 +137,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=2"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = false,
                                          nCdFeed = 11,
@@ -148,7 +147,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = null,
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 12,
@@ -158,7 +157,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://kat.cr/usearch/{TAG}%20720%20category%3Atv/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 14,
@@ -168,7 +167,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://kat.cr/usearch/{TAG}%20category%3Atv/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 16,
@@ -178,7 +177,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://kat.cr/usearch/{TAG}%20720%20category%3Amovies/?rss=1"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 17,
@@ -188,7 +187,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720&filter=3"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 18,
@@ -198,7 +197,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720&filter=2"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 19,
@@ -208,7 +207,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 20,
@@ -218,7 +217,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=3&term={TAG}"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 21,
@@ -228,7 +227,7 @@ namespace MediaManager.Migrations
                                          sDsTagPesquisa = "{TAG}",
                                          sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=2&term={TAG}"
                                      },
-                                     new Feed()
+                                     new Feed
                                      {
                                          bIsFeedPesquisa = true,
                                          nCdFeed = 22,

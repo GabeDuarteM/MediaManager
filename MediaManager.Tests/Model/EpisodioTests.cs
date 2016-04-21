@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 16/04/2016 05:26
-// Last update: 19/04/2016 02:58
 
 using MediaManager.Helpers;
 using MediaManager.Model;

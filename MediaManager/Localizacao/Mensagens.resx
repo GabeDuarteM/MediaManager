@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Busca_personalizada" xml:space="preserve">
+    <value>Busca personalizada...</value>
+  </data>
+  <data name="Campo_de_preenchimento_obrigatório" xml:space="preserve">
+    <value>Campo de preenchimento obrigatório.</value>
+  </data>
+  <data name="Carregando" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
+  <data name="Carregando_sinopse" xml:space="preserve">
+    <value>Carregando sinopse...</value>
+  </data>
+  <data name="Este_campo_deve_ser_preenchido" xml:space="preserve">
+    <value>Este campo deve ser preenchido.</value>
+  </data>
+  <data name="Exemplo_de_título" xml:space="preserve">
+    <value>Exemplo de título</value>
+  </data>
+  <data name="Favor_preencher_todos_os_campos_antes_de_salvar" xml:space="preserve">
+    <value>Favor preencher todos os campos antes de salvar.</value>
+  </data>
+  <data name="Nenhum_resultado_encontrado" xml:space="preserve">
+    <value>Nenhum resultado encontrado</value>
+  </data>
+  <data name="Nenhum_resultado_encontrado__deseja_pesquisar_por_outro_nome" xml:space="preserve">
+    <value>Nenhum resultado encontrado, deseja pesquisar por outro nome?</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_1_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar {1} "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_a_qualidade_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar a qualidade "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_episódios" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar episódios.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_o_conteúdo" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar o conteúdo.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_o_episódio_com_o_ID_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar o episódio com o ID {0}</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_o_feed_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar o feed "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_aplicar_o_algoritimo_de_correspondencia_no_arquivo_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao aplicar o algoritmo de correspondência no arquivo "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_1_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar {1} "{0}".</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_a_qualidade_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar a qualidade "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_o_conteúdo" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar o conteúdo.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_o_episódio_de_ID_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar o episódio de ID {0}</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_o_feed_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar o feed "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_os_episódios" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar os episódios </value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_baixar_o_episódio_do_link_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao baixar o episódio do link "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_a_qualidade_de_download_de_código_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar a qualidade de download de código "{0}".</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_o_feed_de_código_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar o feed de código "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_reconhecer_o_episódio" xml:space="preserve">
+    <value>Ocorreu um erro ao reconhecer o episódio </value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_1_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover {1} "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_a_qualidade_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover a qualidade "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_o_episódio_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover o episódio "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_o_feed_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover o feed "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_retornar_a_lista_de_feeds" xml:space="preserve">
+    <value>Ocorreu um erro ao retornar a lista de feeds.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_retornar_a_lista_de_qualidade_de_download" xml:space="preserve">
+    <value>Ocorreu um erro ao retornar a lista de qualidade de download.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_retornar_o_episódio_0_da_temporada_1_do_vídeo_de_ID_2_" xml:space="preserve">
+    <value>Ocorreu um erro ao retornar o episódio "{0}" da temporada "{1}" do vídeo de ID "{2}".</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_retornar_o_episódio_com_o_código_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao retornar o episódio com o código "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_salvar_os_episódios_de_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao salvar os episódios de "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_verificar_os_episódios_no_diretório_0__Tipo_1_" xml:space="preserve">
+    <value>Ocorreu um erro ao verificar os episódios no diretório "{0}". Tipo do arquivo: "{1}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_verificar_se_o_episódio_ja_foi_renomeado_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao verificar se o episódio "{0}" ja foi renomeado.</value>
+  </data>
+  <data name="Título_do_episódio" xml:space="preserve">
+    <value>Título do episódio</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_todos_os_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar todos(as) os(as) {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar {0}.</value>
+  </data>
+</root>

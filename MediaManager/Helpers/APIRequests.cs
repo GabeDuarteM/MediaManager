@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 26/07/2015 15:54
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -89,9 +88,13 @@ namespace MediaManager.Helpers
             finally
             {
                 if (File.Exists(path))
+                {
                     File.Delete(path);
+                }
                 if (Directory.Exists(Path.GetDirectoryName(path)))
+                {
                     Directory.Delete(Path.GetDirectoryName(path));
+                }
             }
             var xml = new XmlDocument();
 
@@ -372,6 +375,7 @@ namespace MediaManager.Helpers
                                 break;
                             }
                         }
+
                         if (!isExistente)
                         {
                             series.Add(item);

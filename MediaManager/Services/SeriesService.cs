@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 15/12/2015 18:11
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 
 namespace MediaManager.Services
@@ -31,7 +31,9 @@ namespace MediaManager.Services
                 try
                 {
                     if (!Directory.Exists(serie.sDsMetadata))
+                    {
                         Directory.CreateDirectory(serie.sDsMetadata);
+                    }
 
                     Helper.DownloadImages(serie);
 
@@ -42,12 +44,11 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 "Ocorreu um erro ao adicionar a série \"" +
-                                                                 serie.sDsTitulo + "\" ao banco.", true);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_adicionar_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -62,11 +63,11 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao deletar a série ou anime \"" +
-                                                                 serie.sDsTitulo + "\".");
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_remover_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -80,12 +81,13 @@ namespace MediaManager.Services
                     retorno = false;
                 }
             }
+
             return retorno;
         }
 
         public Serie Get(int id)
         {
-            Serie serie = _context.Serie.Where(x => x.nCdVideo == id).FirstOrDefault();
+            Serie serie = _context.Serie.FirstOrDefault(x => x.nCdVideo == id);
             serie.nIdEstado = Enums.Estado.CompletoSemForeignKeys;
             serie.nIdTipoConteudo = serie.bFlAnime
                                         ? Enums.TipoConteudo.Anime
@@ -116,7 +118,9 @@ namespace MediaManager.Services
                 try
                 {
                     if (!Directory.Exists(serie.sDsMetadata))
+                    {
                         Directory.CreateDirectory(serie.sDsMetadata);
+                    }
 
                     await Helper.DownloadImagesAsync(serie);
 
@@ -127,12 +131,11 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 "Ocorreu um erro ao adicionar a série \"" +
-                                                                 serie.sDsTitulo + "\" ao banco.", true);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_adicionar_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -142,10 +145,13 @@ namespace MediaManager.Services
             {
                 string sNmSerie = null;
 
+                string tipoConteudo = null;
+
                 try
                 {
                     Serie serie = _context.Serie.Find(nCdVideo);
                     sNmSerie = serie.sDsTitulo;
+                    tipoConteudo = serie.nIdTipoConteudo.GetDescricao().ToLower();
                     _context.Serie.Remove(serie);
 
                     if (Directory.Exists(serie.sDsMetadata))
@@ -169,11 +175,11 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao remover a série ou anime " +
-                                                                 sNmSerie);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_remover_1_0_, sNmSerie, tipoConteudo));
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -182,12 +188,11 @@ namespace MediaManager.Services
             foreach (Serie serie in obj)
             {
                 var isDiferente = false;
-                Serie original = null;
                 var serieOld = new Serie();
 
                 try
                 {
-                    original = _context.Serie.Find(serie.nCdVideo);
+                    Serie original = _context.Serie.Find(serie.nCdVideo);
                     serieOld.Clone(original);
 
                     if (original.nCdApi != serie.nCdApi)
@@ -210,14 +215,12 @@ namespace MediaManager.Services
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 "Ocorreu um erro ao atualizar a série \"" +
-                                                                 serie.sDsTitulo + "\" no banco.", true);
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_atualizar_1_0_, serie.sDsTitulo, serie.nIdTipoConteudo.GetDescricao().ToLower()));
                     return false;
                 }
 
+                // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata, por isso o if.
                 if (isDiferente || serieOld.sDsMetadata != serie.sDsMetadata)
-                    // Pode acontecer da serie ser a mesma mas o nome ter alterado, alterando tb o folderMetadata.
                 {
                     if (Directory.Exists(serieOld.sDsMetadata))
                     {
@@ -227,15 +230,19 @@ namespace MediaManager.Services
                         {
                             file.Delete();
                         }
+
                         foreach (DirectoryInfo dir in metaDir.GetDirectories())
                         {
                             dir.Delete(true);
                         }
+
                         Directory.Delete(metaDir.FullName);
                     }
 
                     if (!Directory.Exists(serie.sDsMetadata))
+                    {
                         Directory.CreateDirectory(serie.sDsMetadata);
+                    }
 
                     if (!await Helper.DownloadImagesAsync(serie))
                     {
@@ -243,6 +250,7 @@ namespace MediaManager.Services
                     }
                 }
             }
+
             return true;
         }
 
@@ -262,7 +270,7 @@ namespace MediaManager.Services
 
         public Serie GetPorCodigoApi(int nCdApi)
         {
-            Serie serie = _context.Serie.Where(x => x.nCdApi == nCdApi).First();
+            Serie serie = _context.Serie.First(x => x.nCdApi == nCdApi);
             return serie;
         }
 
@@ -329,9 +337,8 @@ namespace MediaManager.Services
             {
                 // Verifica se existe série com nome igual, se tiver seta como melhor correspondencia e a retorna direto.
                 List<Serie> series = _context.Serie.Where(x => x.sDsTitulo.ToLower() == titulo.ToLower()).ToList();
-                if (series.Count() > 0)
+                if (series.Any())
                 {
-                    levenshtein = 0;
                     melhorCorrespondencia = series.First();
                     return melhorCorrespondencia;
                 }
@@ -351,9 +358,9 @@ namespace MediaManager.Services
 
                 // Caso a série possua mais de uma palavra, realiza uma pesquisa no banco por cada palavra que tenha mais de 3 letras
                 // (para evitar falsos positivos com palavras tipo "The") e calcula o levenshtein
-                if (titulo.Replace(".", " ").Replace("_", " ").Split(' ').Count() > 1)
+                if (titulo.Replace('.', ' ').Replace('_', ' ').Split(' ').Length > 1)
                 {
-                    foreach (string item in titulo.Replace(".", " ").Replace("_", " ").ToLower().Split(' '))
+                    foreach (string item in titulo.Replace('.', ' ').Replace('_', ' ').ToLower().Split(' '))
                     {
                         if (item.Length <= 3)
                         {
@@ -371,6 +378,7 @@ namespace MediaManager.Services
                                 melhorCorrespondencia = serie;
                             }
                         }
+
                         List<SerieAlias> aliases =
                             _context.SerieAlias.Where(x => x.sDsAlias.ToLower().Contains(item.ToLower())).ToList();
                         foreach (SerieAlias alias in aliases)
@@ -388,26 +396,20 @@ namespace MediaManager.Services
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException(
-                                                             "Ocorreu um erro ao pesquisar a correspondencia do arquivo \"" +
-                                                             titulo + "\" no banco.", true);
+                new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_aplicar_o_algoritimo_de_correspondencia_no_arquivo_0_, titulo));
                 return null;
             }
+
             return melhorCorrespondencia;
         }
 
         public List<Serie> GetSerieOuAnimePorTitulo(string titulo, bool removerCaracteresEspeciais)
         {
             List<Serie> lstSeries = _context.Serie
-                                            .Where(
-                                                   x =>
-                                                   removerCaracteresEspeciais
-                                                       ? x.sDsTitulo.Replace(".", " ")
-                                                          .Replace("_", " ")
-                                                          .Replace("'", "")
-                                                          .Trim()
-                                                          .Contains(titulo)
-                                                       : x.sDsTitulo.Contains(titulo))
+                                            .Where(x => removerCaracteresEspeciais
+                                                            ? x.sDsTitulo.Replace('.', ' ').Replace('_', ' ').Replace(
+                                                                                                                      "'", "").Trim().Contains(titulo)
+                                                            : x.sDsTitulo.Contains(titulo))
                                             .ToList();
             return lstSeries;
         }
@@ -443,30 +445,27 @@ namespace MediaManager.Services
                         string sPastaItem = Path.GetDirectoryName(item.sDsPasta);
                         item.sDsPasta = item.sDsPasta.Replace(sPastaItem, sPasta);
                     }
+
                     _context.SaveChanges();
                     break;
                 }
-
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(nIdTipoConteudo), nIdTipoConteudo, null);
             }
         }
 
         public bool VerificarSeExiste(int nCdApi)
         {
             List<Serie> lstSeries = _context.Serie.Where(x => x.nCdApi == nCdApi).ToList();
-            return lstSeries.Count() > 0
-                       ? true
-                       : false;
+
+            return lstSeries.Any();
         }
 
         public bool VerificarSeExiste(string sDsPasta)
         {
             List<Serie> lstSerie = _context.Serie.Where(x => x.sDsPasta == sDsPasta).ToList();
 
-            return lstSerie.Count() > 0
-                       ? true
-                       : false;
+            return lstSerie.Any();
         }
     }
 }

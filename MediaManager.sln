@@ -46,6 +46,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_PrefixTranslations = False
+		RESX_AutoCreateNewLanguageFiles = True
+		RESX_SortFileContentOnSave = True
+		RESX_NeutralResourcesLanguage = pt-BR
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution

@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 25/01/2016 21:13
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -16,10 +15,12 @@ using System.Web;
 using System.Xml.Serialization;
 using Autofac;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 using MediaManager.Services;
 
 namespace MediaManager.Model
 {
+    // ReSharper disable once LocalizableElement
     [DebuggerDisplay("{nNrTemporada}x{nNrEpisodio} ({nNrAbsoluto}) - {sDsEpisodio}")]
     public class Episodio : ModelBase
     {
@@ -155,7 +156,9 @@ namespace MediaManager.Model
             set
             {
                 if (value.StartsWith("http"))
+                {
                     _sLkArtwork = value;
+                }
                 else
                 {
                     _sLkArtwork = string.IsNullOrWhiteSpace(value)
@@ -216,7 +219,7 @@ namespace MediaManager.Model
             {
                 _sDsFilepath = value;
                 OnPropertyChanged();
-                OnPropertyChanged("sDsFilenameRenomeado");
+                OnPropertyChanged(nameof(sDsFilenameRenomeado));
             }
         }
 
@@ -383,8 +386,9 @@ namespace MediaManager.Model
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao reconhecer o episódio " + sDsFilepath);
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_reconhecer_o_episódio + sDsFilepath);
             }
+
             return false;
         }
 
@@ -507,6 +511,7 @@ namespace MediaManager.Model
                             episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
                         }
                     }
+
                     Clone(episodio);
                 }
                 else
@@ -569,8 +574,10 @@ namespace MediaManager.Model
                             episodio.sDsEpisodio += " & " + episodioTemp.sDsEpisodio;
                         }
                     }
+
                     Clone(episodio);
                 }
+
                 return true;
             }
             else
@@ -640,11 +647,11 @@ namespace MediaManager.Model
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException("Ocorreu um erro ao baixar o episódio do link \"" +
-                                                                 link + "\"");
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_baixar_o_episódio_do_link_0_, link));
                     return false;
                 }
             }
+
             return false;
         }
     }

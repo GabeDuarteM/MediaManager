@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 26/07/2015 17:32
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -127,7 +126,9 @@ namespace MediaManager.Model
             set
             {
                 if (value.StartsWith("http"))
+                {
                     _sDsImgFanart = value;
+                }
                 else
                 {
                     _sDsImgFanart = string.IsNullOrWhiteSpace(value)

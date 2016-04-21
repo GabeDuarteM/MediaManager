@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.Windows.Input;
 using ConfigurableInputMessageBox;
 using MediaManager.Commands;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 
 namespace MediaManager.ViewModel
@@ -42,12 +42,12 @@ namespace MediaManager.ViewModel
             //Data = new SeriesData();
             lstVideosQuaseCompletos = new List<Video>();
             lstResultPesquisa = new ObservableCollection<Video>();
-            oVideoBuscaPersonalizada = new Serie()
+            oVideoBuscaPersonalizada = new Serie
             {
-                sDsTitulo = "Busca personalizada...",
-                sDsSinopse = "Carregando sinopse..."
+                sDsTitulo = Mensagens.Busca_personalizada,
+                sDsSinopse = Mensagens.Carregando_sinopse
             };
-            oVideoCarregando = new Serie() {sDsTitulo = "Carregando...", sDsSinopse = "Carregando sinopse..."};
+            oVideoCarregando = new Serie {sDsTitulo = Mensagens.Carregando, sDsSinopse = Mensagens.Carregando_sinopse};
 
             getResultPesquisaAsync(video);
         }
@@ -138,9 +138,9 @@ namespace MediaManager.ViewModel
                     while (lstSeries.Count == 0)
                     {
                         if (
-                            Helper.MostrarMensagem("Nenhum resultado encontrado, deseja pesquisar por outro nome?",
+                            Helper.MostrarMensagem(Mensagens.Nenhum_resultado_encontrado__deseja_pesquisar_por_outro_nome,
                                                    Enums.eTipoMensagem.QuestionamentoSimNao,
-                                                   "Nenhum resultado encontrado") ==
+                                                   Mensagens.Nenhum_resultado_encontrado) ==
                             MessageBoxResult.Yes)
                         {
                             inputMessageBox = new InputMessageBox(inputType.SemResultados);
@@ -277,13 +277,13 @@ namespace MediaManager.ViewModel
                 inputMessageBox.ShowDialog();
                 if (inputMessageBox.DialogResult == true)
                 {
-                    getResultPesquisaAsync(new Serie() {sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText});
+                    getResultPesquisaAsync(new Serie {sDsTitulo = inputMessageBox.InputViewModel.Properties.InputText});
                     return;
                 }
                 else
                 {
                     _oVideoSelecionado =
-                        lstResultPesquisa.Where(x => x.nCdApi == oVideoSelecionadoTemp?.nCdApi).FirstOrDefault();
+                        lstResultPesquisa.FirstOrDefault(x => x.nCdApi == oVideoSelecionadoTemp?.nCdApi);
                     if (oVideoSelecionado == null)
                     {
                         ActionClose(false);
@@ -319,6 +319,7 @@ namespace MediaManager.ViewModel
                 //    }
                 //}
             }
+
             Serie serie =
                 await
                 APIRequests.GetSerieInfoAsync(oVideoSelecionado.nCdApi,
@@ -354,8 +355,9 @@ namespace MediaManager.ViewModel
             lstVideosQuaseCompletos.Add(serie);
             _oVideoSelecionado = serie;
             OnPropertyChanged(nameof(oVideoSelecionado));
-            CommandManager.InvalidateRequerySuggested();
+
             // Para forçar a habilitação do botão de configurar conteúdo (As vezes continua desabilitado até que haja interação na UI, com esse método isso não acontece).
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

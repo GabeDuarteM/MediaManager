@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 16/08/2015 22:33
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.IO;
@@ -55,15 +54,19 @@ namespace MediaManager.Forms
         private void checkTodos_Click(object sender, RoutedEventArgs e)
         {
             if ((sender as CheckBox).IsChecked == true)
+            {
                 foreach (Video item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = true;
                 }
+            }
             else
+            {
                 foreach (Video item in ProcurarConteudoViewModel.lstConteudos)
                 {
                     item.bFlSelecionado = false;
                 }
+            }
         }
 
         private void dgAllRowClick_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -75,7 +78,9 @@ namespace MediaManager.Forms
                 // Para não alterar as informações na grid e tb pra cair no for abaixo quando o resultado nao tiver sido encontrado.
                 conteudoAlterado.Clone(conteudo);
                 if (conteudoAlterado.bFlNaoEncontrado)
+                {
                     conteudoAlterado.sDsTitulo = Path.GetFileName(conteudoAlterado.sDsPasta);
+                }
                 var frmAdicionarConteudo = new frmAdicionarConteudo(conteudoAlterado.nIdTipoConteudo,
                                                                     conteudoAlterado, true);
                 frmAdicionarConteudo.ShowDialog(this);

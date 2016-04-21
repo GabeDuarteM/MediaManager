@@ -1,7 +1,6 @@
 ﻿// Developed by: Gabriel Duarte
 // 
 // Created at: 20/07/2015 21:10
-// Last update: 19/04/2016 02:57
 
 using System;
 using System.Collections.Generic;
@@ -73,10 +72,14 @@ namespace MediaManager.ViewModel
                 var retorno = new ObservableCollection<PosterViewModel>();
 
                 foreach (PosterViewModel anime in lstAnimes)
+                {
                     retorno.Add(anime);
+                }
 
                 foreach (PosterViewModel serie in lstSeries)
+                {
                     retorno.Add(serie);
+                }
 
                 return retorno;
             }
@@ -102,12 +105,19 @@ namespace MediaManager.ViewModel
             foreach (string item in argsArray)
             {
                 if (argsString == null)
+                {
                     argsString += "\"" + item + "\"";
+                }
                 else
+                {
                     argsString += ", " + item;
+                }
             }
+
             if (argsString != null)
+            {
                 Helper.LogMessage("Aplicação iniciada com os seguintes argumentos: " + argsString);
+            }
 
             for (var i = 0; i < argsArray.Length; i++)
             {
@@ -127,6 +137,7 @@ namespace MediaManager.ViewModel
                                                                          arg);
                             return true;
                         }
+
                         i++;
                         // Soma pois caso o parâmetro possua o identificador, será guardado este identificador e seu valor no dicionário, que será o próximo argumento da lista.
                     }
@@ -153,6 +164,7 @@ namespace MediaManager.ViewModel
                     }
                 }
             }
+
             return sucesso;
         }
 
