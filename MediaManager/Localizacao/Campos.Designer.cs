@@ -61,20 +61,29 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identificadores.
+        /// </summary>
+        public static string QualidadeDownload_Identificadores {
+            get {
+                return ResourceManager.GetString("QualidadeDownload_Identificadores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prioridade.
         /// </summary>
-        public static string Prioridade {
+        public static string QualidadeDownload_Prioridade {
             get {
-                return ResourceManager.GetString("Prioridade", resourceCulture);
+                return ResourceManager.GetString("QualidadeDownload_Prioridade", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Qualidade.
         /// </summary>
-        public static string Qualidade {
+        public static string QualidadeDownload_Qualidade {
             get {
-                return ResourceManager.GetString("Qualidade", resourceCulture);
+                return ResourceManager.GetString("QualidadeDownload_Qualidade", resourceCulture);
             }
         }
     }

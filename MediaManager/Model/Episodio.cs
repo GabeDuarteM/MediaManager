@@ -13,10 +13,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml.Serialization;
+using Argotic.Syndication;
 using Autofac;
 using MediaManager.Helpers;
 using MediaManager.Localizacao;
 using MediaManager.Services;
+using MediaManager.ViewModel;
 
 namespace MediaManager.Model
 {
@@ -282,9 +284,9 @@ namespace MediaManager.Model
                         .Replace("'", "")
                         .Trim();
 
-                if (Helper.RegexEpisodio.regex_S00E00.IsMatch(filenameTratado))
+                if (Helper.RegexEpisodio.RegexS00E00.IsMatch(filenameTratado))
                 {
-                    Match match = Helper.RegexEpisodio.regex_S00E00.Match(filenameTratado);
+                    Match match = Helper.RegexEpisodio.RegexS00E00.Match(filenameTratado);
                     string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
@@ -316,9 +318,9 @@ namespace MediaManager.Model
 
                     return retorno;
                 }
-                else if (Helper.RegexEpisodio.regex_0x00.IsMatch(filenameTratado)) // TODO Fazer funcionar com alias
+                else if (Helper.RegexEpisodio.Regex0X00.IsMatch(filenameTratado)) // TODO Fazer funcionar com alias
                 {
-                    Match match = Helper.RegexEpisodio.regex_0x00.Match(filenameTratado);
+                    Match match = Helper.RegexEpisodio.Regex0X00.Match(filenameTratado);
                     string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
@@ -350,9 +352,9 @@ namespace MediaManager.Model
 
                     return retorno;
                 }
-                else if (Helper.RegexEpisodio.regex_Fansub0000.IsMatch(filenameTratado))
+                else if (Helper.RegexEpisodio.RegexFansub0000.IsMatch(filenameTratado))
                 {
-                    Match match = Helper.RegexEpisodio.regex_Fansub0000.Match(filenameTratado);
+                    Match match = Helper.RegexEpisodio.RegexFansub0000.Match(filenameTratado);
                     string sDsTituloSerieTemp = oSerie.sDsTitulo;
                     oSerie.sDsTitulo =
                         match.Groups["name"].Value.Replace(".", " ").Replace("_", " ").Replace("'", "").Trim();
@@ -586,54 +588,68 @@ namespace MediaManager.Model
             }
         }
 
-        public bool EncaminharParaDownload(string link)
+        public bool EncaminharParaDownload(ItemDownload objItemDownload)
         {
-            string path = Properties.Settings.Default.pref_PastaBlackhole;
-            string nomeEpisodio = $"{oSerie.sDsTitulo} {nNrTemporada}x{nNrEpisodio}.torrent";
-            if (!string.IsNullOrWhiteSpace(path))
-            {
-                var rgxHash = new Regex(@"magnet:.*?btih:(.*?)(?:&|$)");
-                var rgxTitulo = new Regex(@"magnet:.*?[?:&]dn=(.*?)(?:&|$)");
+            string pathBlackhole = Properties.Settings.Default.pref_PastaBlackhole;
 
-                string fileName = null;
-                string sLinkCache = null;
+            if (string.IsNullOrWhiteSpace(pathBlackhole)|| !Directory.Exists(pathBlackhole))
+            {
+                new MediaManagerException(Mensagens.Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_download);
+                return false;
+            }
+
+            var rgxHash = new Regex("magnet:.*?btih:(.*?)(?:&|$)", RegexOptions.IgnoreCase);
+            var rgxTitulo = new Regex("magnet:.*?[?:&]dn=(.*?)(?:&|$)", RegexOptions.IgnoreCase);
+
+            const string extensaoTorrent = ".torrent";
+
+            string filename = null;
+            string filenameRegex = null;
+            string filenameData = null; 
+            string sLinkCache;
+
+            foreach (KeyValuePair<RssItem, QualidadeDownload> item in objItemDownload.LstObjRssItem.OrderBy(x => x.Value.nPrioridade))
+            {
+                string link = item.Key.Link.ToString();
 
                 try
                 {
-                    if (rgxHash.IsMatch(link))
+                    Match matchHash = rgxHash.Match(link);
+                    Match matchTitulo = rgxTitulo.Match(link);
+
+                    if (!matchHash.Success)
                     {
-                        string hash = rgxHash.Match(link).Groups[1].Value.ToUpper();
+                        continue;
+                    }
 
-                        sLinkCache = @"http://torcache.net/torrent/" + hash + ".torrent";
+                    string hash = matchHash.Groups[1].Value.ToUpper();
 
-                        if (rgxTitulo.IsMatch(link))
-                        {
-                            string sTituloTorrent = rgxTitulo.Match(link).Groups[1].Value;
-                            fileName = HttpUtility.UrlDecode(sTituloTorrent);
-                            if (!fileName.EndsWith(".torrent"))
-                            {
-                                fileName += ".torrent";
-                            }
-                        }
+                    sLinkCache = $"http://torcache.net/torrent/{hash}{extensaoTorrent}";
+
+                    if (matchTitulo.Success)
+                    {
+                        filenameRegex = HttpUtility.UrlDecode(matchTitulo.Groups[1].Value);
                     }
 
                     using (var wc = new Helper.MyWebClient())
                     {
-                        byte[] data = Helper.Retry(() => wc.DownloadData(sLinkCache ?? link), TimeSpan.FromSeconds(3), 5);
+                        byte[] data = Helper.Retry(() => wc.DownloadData(sLinkCache), TimeSpan.FromSeconds(3), 5);
 
-                        // Try to extract the filename from the Content-Disposition header
-                        if (string.IsNullOrWhiteSpace(fileName) &&
-                            !string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
+                        if (string.IsNullOrWhiteSpace(filenameRegex) && !string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
                         {
-                            fileName =
-                                wc.ResponseHeaders["Content-Disposition"].Substring(
-                                                                                    wc.ResponseHeaders[
-                                                                                                       "Content-Disposition"
-                                                                                        ].IndexOf("filename=") + 10)
-                                                                         .Replace("\"", "");
+                            // Pega o nome do arquivo do header Content-Disposition 
+                            filenameData = wc.ResponseHeaders["Content-Disposition"].Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=", StringComparison.Ordinal) + 10)
+                                                                                .Replace("\"", "");
                         }
 
-                        string torrentPath = Path.Combine(path, fileName ?? nomeEpisodio);
+                        filename = filenameRegex ?? filenameData ?? $"{oSerie.sDsTitulo} {nNrTemporada}x{nNrEpisodio}{extensaoTorrent}";
+
+                        if (!filename.EndsWith(extensaoTorrent))
+                        {
+                            filename += extensaoTorrent;
+                        }
+
+                        string torrentPath = Path.Combine(pathBlackhole, filename);
 
                         if (File.Exists(torrentPath))
                         {
@@ -647,8 +663,7 @@ namespace MediaManager.Model
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_baixar_o_episódio_do_link_0_, link));
-                    return false;
+                    new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_realizar_o_download_do_episódio_1_do_RSS_0_, link, filename));
                 }
             }
 

@@ -309,7 +309,7 @@ namespace MediaManager.ViewModel
                 case Enums.TipoConteudo.Filme:
                     episodioVisualizacao.nIdTipoConteudo = Enums.TipoConteudo.Filme;
                     sVisualizacaoFormatoParaFilmes = "Nome do filme, O (2015) (ainda não tem pré-visualização)";
-                    // TODO Visualizacao Filmes
+                    // TODO Filmes
                     break;
 
                 case Enums.TipoConteudo.Série:

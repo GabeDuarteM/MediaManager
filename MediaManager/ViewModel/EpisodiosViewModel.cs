@@ -31,14 +31,13 @@ namespace MediaManager.ViewModel
         {
             lstEpisodios = new ObservableCollection<Episodio>(episodios);
             lstEpisodiosView = new ListCollectionView(lstEpisodios);
-            lstEpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription("nNrTemporada"));
+            lstEpisodiosView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Episodio.nNrTemporada)));
             bFlSelecionarTodos = false;
             var lstEstadosParaExibir = new List<int> {0, 1, 2, 4, 5};
-            ArrayEstadoEpisodio =
-                Enum.GetValues(typeof(Enums.EstadoEpisodio))
-                    .Cast<Enums.EstadoEpisodio>()
-                    .Where(x => lstEstadosParaExibir.Contains((int) x))
-                    .ToArray();
+            ArrayEstadoEpisodio = Enum.GetValues(typeof(Enums.EstadoEpisodio))
+                                      .Cast<Enums.EstadoEpisodio>()
+                                      .Where(x => lstEstadosParaExibir.Contains((int) x))
+                                      .ToArray();
             nIdEstadoEpisodioSelecionado = Enums.EstadoEpisodio.Selecione;
             CommandSelecionarTodos = new EpisodiosCommand.CommandSelecionarTodos();
             CommandIsSelected = new EpisodiosCommand.CommandIsSelected();

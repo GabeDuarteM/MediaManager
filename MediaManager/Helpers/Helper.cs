@@ -8,20 +8,19 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using MediaManager.Localizacao;
 using MediaManager.Model;
 using MediaManager.Properties;
-using Newtonsoft.Json;
 
 namespace MediaManager.Helpers
 {
-    public class Helper
+    public static class Helper
     {
         private static readonly Settings Settings = Settings.Default;
 
@@ -32,8 +31,7 @@ namespace MediaManager.Helpers
             IntPtr lpSecurityAttributes
             );
 
-        public static async Task<bool> DownloadImagesAsync(Video video,
-                                                           Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
+        public static async Task<bool> DownloadImagesAsync(Video video, Enums.TipoImagem tipoImagem = Enums.TipoImagem.Todos)
         {
             try
             {
@@ -63,7 +61,7 @@ namespace MediaManager.Helpers
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao realizar o download das imagens.");
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_download_das_imagens);
                 return false;
             }
         }
@@ -98,30 +96,28 @@ namespace MediaManager.Helpers
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao realizar o download das imagens.");
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_download_das_imagens);
                 return false;
             }
         }
 
         public static string ListToString(IList<string> lista)
         {
-            if (lista != null)
+            if (lista == null)
             {
-                var strGeneros = "";
-                foreach (string item in lista)
-                {
-                    strGeneros += item + "|";
-                }
-
-                if (strGeneros != "")
-                {
-                    return strGeneros.Remove(strGeneros.Length - 1);
-                }
-
                 return null;
             }
 
-            return null;
+            var strGeneros = "";
+
+            foreach (string item in lista)
+            {
+                strGeneros += item + "|";
+            }
+
+            return strGeneros != ""
+                       ? strGeneros.Remove(strGeneros.Length - 1)
+                       : null;
         }
 
         public static bool RealizarPosProcessamento(Episodio item)
@@ -136,10 +132,8 @@ namespace MediaManager.Helpers
                     }
                     else
                     {
-                        new MediaManagerException(
-                            new Exception("Código: " + Marshal.GetLastWin32Error() + "\r\nArquivo: " + item.sDsFilepath))
-                            .TratarException("Ocorreu um erro ao criar o " +
-                                             Settings.Default.pref_MetodoDeProcessamento.ToString());
+                        new MediaManagerException(new Exception(string.Format(Mensagens.Codigo_0_Arquivo_1_, Marshal.GetLastWin32Error(), item.sDsFilepath)))
+                            .TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_criar_o__0_, ((Enums.MetodoDeProcessamento) Settings.Default.pref_MetodoDeProcessamento).GetDescricao()));
                         return false;
                     }
                 }
@@ -152,19 +146,12 @@ namespace MediaManager.Helpers
                     }
                     catch (Exception e)
                     {
-                        new MediaManagerException(e).TratarException(
-                                                                     "Ocorreu um erro ao criar o " +
-                                                                     ((Enums.MetodoDeProcessamento)
-                                                                      Settings.Default.pref_MetodoDeProcessamento)
-                                                                         .ToString(), true);
+                        new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_criar_o__0_, ((Enums.MetodoDeProcessamento) Settings.Default.pref_MetodoDeProcessamento).GetDescricao()));
                         return false;
                     }
                 }
                 default:
-                    new MediaManagerException(
-                        new ArgumentException("Método de processamento não reconhecido ou inválido.")).TratarException(
-                                                                                                                       "Ocorreu um erro ao realizar o pós processamento.",
-                                                                                                                       true);
+                    new MediaManagerException(new ArgumentException(Mensagens.Método_de_processamento_não_reconhecido_ou_inválido)).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_pós_processamento);
                     return false;
             }
         }
@@ -181,8 +168,8 @@ namespace MediaManager.Helpers
             {
                 switch (episodio.nIdTipoConteudo)
                 {
-                    case Enums.TipoConteudo.Filme: // TODO Funcionar com filmes
-                        break;
+                    case Enums.TipoConteudo.Filme: // TODO Filmes
+                        throw new NotImplementedException();
 
                     case Enums.TipoConteudo.Série:
                         formato = Settings.pref_FormatoSeries;
@@ -193,8 +180,7 @@ namespace MediaManager.Helpers
                         break;
 
                     default:
-                        new MediaManagerException(new ArgumentException("Episodio informado é de um tipo inválido."))
-                            .TratarException(bIsSilencioso: true);
+                        new MediaManagerException(new ArgumentException(Mensagens.Episodio_informado_é_de_um_tipo_inválido)).TratarException();
                         return null;
                 }
             }
@@ -296,26 +282,26 @@ namespace MediaManager.Helpers
             // TODO Corrigir quando é anime o SxEE e o S00E00 para retornar o n do ep normal e não o absoluto.
         }
 
-        internal static void BaixarEpisodio(Episodio episodio, Uri link)
+        public static string ColocarVirgula(this string frase, IEnumerable<string> adicional, string separadorFinal = null, string separador = ", ")
         {
-            throw new NotImplementedException();
-        }
+            if (separadorFinal == null)
+            {
+                separadorFinal = Mensagens._e_;
+            }
 
-        public static string ColocarVirgula(string frase, List<string> adicional)
-        {
             foreach (string item in adicional)
             {
-                if (item == adicional[0])
+                if (item == adicional.First())
                 {
                     frase += item;
                 }
                 else if (item == adicional.Last())
                 {
-                    frase += " e " + item;
+                    frase += separadorFinal + item;
                 }
                 else
                 {
-                    frase += ", " + item;
+                    frase += separador + item;
                 }
             }
 
@@ -363,10 +349,7 @@ namespace MediaManager.Helpers
                     int cost = destino[j - 1] == origem[i - 1]
                                    ? 0
                                    : 1;
-                    distance[currentRow, j] = Math.Min(Math.Min(
-                                                                distance[previousRow, j] + 1,
-                                                                distance[currentRow, j - 1] + 1),
-                                                       distance[previousRow, j - 1] + cost);
+                    distance[currentRow, j] = Math.Min(Math.Min(distance[previousRow, j] + 1, distance[currentRow, j - 1] + 1), distance[previousRow, j - 1] + cost);
                 }
             }
 
@@ -387,74 +370,53 @@ namespace MediaManager.Helpers
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException(
-                                                             "Ocorreu um erro ao ordenar a lista utilizando o algorítimo levenshtein.",
-                                                             true);
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_ordenar_a_lista_utilizando_o_algoritmo_de_comparação);
                 return null;
             }
         }
 
-        public static MessageBoxResult MostrarMensagem(string mensagem, Enums.eTipoMensagem eTipoMensagem,
-                                                       string titulo = "")
+        public static MessageBoxResult MostrarMensagem(string mensagem, Enums.eTipoMensagem eTipoMensagem, string titulo = "")
         {
             switch (eTipoMensagem)
             {
                 case Enums.eTipoMensagem.Alerta:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK,
-                                           MessageBoxImage.Warning);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 case Enums.eTipoMensagem.AlertaSimNao:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo,
-                                           MessageBoxImage.Warning);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 case Enums.eTipoMensagem.AlertaSimNaoCancela:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel,
-                                           MessageBoxImage.Warning);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
 
                 case Enums.eTipoMensagem.Informativa:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK,
-                                           MessageBoxImage.Information);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
 
                 case Enums.eTipoMensagem.QuestionamentoSimNao:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo,
-                                           MessageBoxImage.Question);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 case Enums.eTipoMensagem.QuestionamentoSimNaoCancela:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel,
-                                           MessageBoxImage.Question);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
                 case Enums.eTipoMensagem.Erro:
-                    return MessageBox.Show(mensagem,
-                                           string.IsNullOrWhiteSpace(titulo)
-                                               ? Settings.Default.AppName
-                                               : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK,
-                                           MessageBoxImage.Error);
+                    return MessageBox.Show(mensagem, string.IsNullOrWhiteSpace(titulo)
+                                                         ? Settings.Default.AppName
+                                                         : titulo + " - " + Settings.Default.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(eTipoMensagem), eTipoMensagem, null);
             }
-
-            //titulo = (string.IsNullOrWhiteSpace(titulo)) ? Settings.Default.AppName : titulo + " - " + Settings.Default.AppName;
-
-            //return MessageBox.Show(mensagem, titulo, messageBoxButton, messageBoxImage);
         }
 
         /// <summary>
@@ -464,16 +426,15 @@ namespace MediaManager.Helpers
         /// <returns>Retorna false se ocorrer um erro</returns>
         public static bool LogMessage(string message)
         {
-            string logPath = null;
+            string logPath;
             string data = "## " + DateTime.Now.ToString("HH:mm:ss - dd/MM/yyyy") + " ## ";
             string espacamento = "## " + new string(' ', data.Length - 3);
-            string logLine = null;
+            string logLine;
 
             // O Try abaixo é só para evitar erros ao rodar os testes unitários.
             try
             {
-                logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
-                                       Settings.AppName + ".log");
+                logPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), Settings.AppName + ".log");
             }
             catch
             {
@@ -483,31 +444,25 @@ namespace MediaManager.Helpers
             message = message.Trim();
             if (message.LastOrDefault() != '.')
             {
-                message += ".";
+                message += '.';
             }
 
             if (!File.Exists(logPath))
             {
-                logLine =
-                    $@"####################################################################################################
-########################################### {Settings
-                        .AppName} ##########################################
+                logLine = $@"####################################################################################################
+########################################### {Settings.AppName} ##########################################
 ####################################################################################################
 ##
-{data}{message
-                            .Replace(Environment.NewLine, Environment.NewLine + espacamento)}";
+{data}{message.Replace(Environment.NewLine, Environment.NewLine + espacamento)}";
             }
             else
             {
-                logLine = "## " + Environment.NewLine + data +
-                          message.Replace(Environment.NewLine, Environment.NewLine + espacamento);
+                logLine = "## " + Environment.NewLine + data + message.Replace(Environment.NewLine, Environment.NewLine + espacamento);
             }
 
             try
             {
-                using (
-                    var sw = new StreamWriter(new FileStream(logPath, FileMode.Append, FileAccess.Write), Encoding.UTF8)
-                    )
+                using (var sw = new StreamWriter(new FileStream(logPath, FileMode.Append, FileAccess.Write), Encoding.UTF8))
                 {
                     sw.WriteLine(logLine);
                 }
@@ -515,42 +470,39 @@ namespace MediaManager.Helpers
             }
             catch (Exception e)
             {
-                new MediaManagerException(e).TratarException("Ocorreu um erro ao registrar a mensagem no log.", false);
+                new MediaManagerException(e).TratarException(Mensagens.Ocorreu_um_erro_ao_registrar_a_mensagem_no_log, false);
                 return false;
             }
         }
 
+        /*
         public static IEnumerable<FileInfo> PesquisarArquivosPorExtensao(DirectoryInfo dir, params string[] extensao)
         {
             if (extensao == null)
             {
-                throw new ArgumentNullException("extensao");
+                throw new ArgumentNullException(nameof(extensao));
             }
 
             IEnumerable<FileInfo> files = dir.EnumerateFiles();
             return files.Where(f => extensao.Contains(f.Extension));
         }
+*/
 
         /// <summary>
         ///     Retira os caracteres que o windows não aceita na criação de pastas e arquivos.
         /// </summary>
         /// <param name="nome">Nome do arquivo a ser normalizado.</param>
+        /// <param name="retirarContraBarras">Argumento que define se as contrabarras deverão ser retiradas.</param>
         /// <returns>Nome sem os caracteres não permitidos.</returns>
         public static string RetirarCaracteresInvalidos(string nome, bool retirarContraBarras = true)
         {
-            string nomeNormalizado =
-                nome.Replace("/", "")
-                    .Replace(":", "")
-                    .Replace("*", "")
-                    .Replace("?", "")
-                    .Replace("\"", "")
-                    .Replace("<", "")
-                    .Replace(">", "")
-                    .Replace("|", "");
+            string nomeNormalizado = nome.Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "");
+
             if (retirarContraBarras)
             {
                 nomeNormalizado = nomeNormalizado.Replace("\\", "");
             }
+
             return nomeNormalizado.Trim();
         }
 
@@ -560,15 +512,13 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosAnimes()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.pref_PastaAnimes) && Directory.Exists(Settings.pref_PastaAnimes))
-            {
-                var dir = new DirectoryInfo(Settings.pref_PastaAnimes);
-                return dir.GetDirectories();
-            }
-            else
+            if (string.IsNullOrWhiteSpace(Settings.pref_PastaAnimes) || !Directory.Exists(Settings.pref_PastaAnimes))
             {
                 return null;
             }
+
+            var dir = new DirectoryInfo(Settings.pref_PastaAnimes);
+            return dir.GetDirectories();
         }
 
         /// <summary>
@@ -577,15 +527,13 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosFilmes()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.pref_PastaFilmes) && Directory.Exists(Settings.pref_PastaFilmes))
-            {
-                var dir = new DirectoryInfo(Settings.pref_PastaFilmes);
-                return dir.GetDirectories();
-            }
-            else
+            if (string.IsNullOrWhiteSpace(Settings.pref_PastaFilmes) || !Directory.Exists(Settings.pref_PastaFilmes))
             {
                 return null;
             }
+
+            var dir = new DirectoryInfo(Settings.pref_PastaFilmes);
+            return dir.GetDirectories();
         }
 
         /// <summary>
@@ -594,30 +542,33 @@ namespace MediaManager.Helpers
         /// <returns></returns>
         public static DirectoryInfo[] retornarDiretoriosSeries()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.pref_PastaSeries) && Directory.Exists(Settings.pref_PastaSeries))
-            {
-                var dir = new DirectoryInfo(Settings.pref_PastaSeries);
-                return dir.GetDirectories();
-            }
-            else
+            if (string.IsNullOrWhiteSpace(Settings.pref_PastaSeries) || !Directory.Exists(Settings.pref_PastaSeries))
             {
                 return null;
             }
+
+            var dir = new DirectoryInfo(Settings.pref_PastaSeries);
+            return dir.GetDirectories();
         }
 
         public static ObservableCollection<SerieAlias> PopularCampoSerieAlias(Video video)
         {
-            if ( /*video.IDBanco == 0 && */video.lstSerieAlias == null || video.lstSerieAlias.Count == 0)
+            if (video.lstSerieAlias != null && video.lstSerieAlias.Count != 0)
             {
-                video.lstSerieAlias = new ObservableCollection<SerieAlias>();
-                if (!string.IsNullOrWhiteSpace(video.sAliases))
-                {
-                    foreach (string item in video.sAliases.Split('|'))
-                    {
-                        var alias = new SerieAlias(item);
-                        video.lstSerieAlias.Add(alias);
-                    }
-                }
+                return video.lstSerieAlias;
+            }
+
+            video.lstSerieAlias = new ObservableCollection<SerieAlias>();
+
+            if (string.IsNullOrWhiteSpace(video.sAliases))
+            {
+                return video.lstSerieAlias;
+            }
+
+            foreach (string item in video.sAliases.Split('|'))
+            {
+                var alias = new SerieAlias(item);
+                video.lstSerieAlias.Add(alias);
             }
 
             return video.lstSerieAlias;
@@ -664,25 +615,13 @@ namespace MediaManager.Helpers
         public class RegexEpisodio
         {
             // nome.da.serie.S00E00 ou nome.da.serie.S00E00E01E02E03E04 ou nome.da.serie.S00E00-01-02-03-04 -- https://regex101.com/r/zP7aL3/1
-            public static Regex regex_S00E00 { get; } =
-                new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
+            public static Regex RegexS00E00 { get; } = new Regex(@"^(?i)(?<name>.*?)S(?<season>\d{2,2})E(?<episodes>\d{2,3}(?:(?<separador>[E-])\d{2,3})*)");
 
             // [Nome do Fansub] Nome da Série - 00 ou [Nome do Fansub] Nome da Série - 0000 -- https://regex101.com/r/jP1zN6/8
-            public static Regex regex_Fansub0000 { get; } =
-                new Regex(
-                    @"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)")
-                ;
+            public static Regex RegexFansub0000 { get; } = new Regex(@"^(?i)(?:\s*)(?:\[(?:\s*)(?<fansub>.*?)(?:\s*)\](?:\s*))?(?<name>.*?(?:\(\d{4,4}\).*?)?)(?:\s*)(?:[\s-])?(?:(?:ep|Episode)(?:\D*))?(?:\s*)(?<episodes>(?:\d{2,4})(?:(?<separador>(?:\s*)?[\s&-](?:\s*))*\d{2,4})*)");
 
             // Nome da Série - 0x00 - Nome do episódio -- https://regex101.com/r/rZ5dK1/4
-            public static Regex regex_0x00 { get; } =
-                new Regex(
-                    @"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)")
-                ;
-
-            public static Regex regex_Qualidades { get; } = new Regex(@".*?(720p|1280x720|960x720|1080p|1920x1080|480p)")
-                ;
-
-            public static Regex regex_QualidadesProblematicas { get; } = new Regex(@".*?(720|1080|480|HDTV)");
+            public static Regex Regex0X00 { get; } = new Regex(@"^(?i)(?<name>.*?)(?:[\s-])*(?:\s{0,})(?:\D)(?<season>\d{1,2})x(?<episodes>\d{1,3}(?:(?<separador>[-x])\d{1,3})*)");
         }
 
         public class MyWebClient : WebClient
@@ -700,6 +639,7 @@ namespace MediaManager.Helpers
 
         #region [ APIs trakt ]
 
+        /*
         /// <summary>
         ///     Realiza a troca do código do trakt pelo access token necessário para realizar as transações específicas de usuário.
         /// </summary>
@@ -711,12 +651,7 @@ namespace MediaManager.Helpers
 
             using (var httpClient = new HttpClient {BaseAddress = new Uri(Settings.APIBaseUrl)})
             {
-                using (
-                    var content =
-                        new StringContent(
-                            "{  \"code\": " + code + ",  \"client_id\": " + Settings.ClientID + ",  \"client_secret\": " +
-                            Settings.ClientSecret + ",  \"redirect_uri\": " + Settings.CallbackUrl +
-                            ",  \"grant_type\": \"authorization_code\"}", Encoding.Default, "application/json"))
+                using (var content = new StringContent("{  \"code\": " + code + ",  \"client_id\": " + Settings.ClientID + ",  \"client_secret\": " + Settings.ClientSecret + ",  \"redirect_uri\": " + Settings.CallbackUrl + ",  \"grant_type\": \"authorization_code\"}", Encoding.Default, "application/json"))
                 {
                     using (HttpResponseMessage response = await httpClient.PostAsync("oauth/token", content))
                     {
@@ -726,7 +661,9 @@ namespace MediaManager.Helpers
             }
             return JsonConvert.DeserializeObject<UserAuth>(responseData);
         }
+*/
 
+        /*
         /// <summary>
         ///     Pega as configurações da conta no trakt.tv.
         /// </summary>
@@ -741,8 +678,7 @@ namespace MediaManager.Helpers
 
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("trakt-api-key", Settings.ClientID);
 
-                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization",
-                                                                         "Bearer " + Settings.user_accessToken);
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authorization", "Bearer " + Settings.user_accessToken);
 
                 using (HttpResponseMessage response = await httpClient.GetAsync("users/settings"))
                 {
@@ -751,6 +687,7 @@ namespace MediaManager.Helpers
             }
             return JsonConvert.DeserializeObject<UserInfo>(responseData);
         }
+*/
 
         #endregion [ APIs trakt ]
     }

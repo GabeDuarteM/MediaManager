@@ -122,7 +122,7 @@ namespace MediaManager.ViewModel
             {
                 _nNrEpisodio = value;
                 OnPropertyChanged();
-                OnPropertyChanged("sNrEpisodio");
+                OnPropertyChanged(nameof(sNrEpisodio));
             }
         }
 

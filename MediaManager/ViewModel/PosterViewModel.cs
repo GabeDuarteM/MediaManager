@@ -41,22 +41,7 @@ namespace MediaManager.ViewModel
             {
                 case Enums.TipoConteudo.Filme:
                 {
-                    //Video filme = new Filme();
-                    //filme = DatabaseHelper.GetFilmePorId(Poster.ID);
-
-                    //frmAdicionarConteudo frmAdicionarConteudo = new frmAdicionarConteudo(Poster.Type, filme);
-                    //frmAdicionarConteudo.IsEdicao = true;
-                    //frmAdicionarConteudo.ShowDialog();
-
-                    //if (frmAdicionarConteudo.DialogResult == true)
-                    //{
-                    //    filme = frmAdicionarConteudo.AdicionarConteudoViewModel.Video;
-
-                    //    Poster.ID = filme.ID;
-                    //    Poster.ImgPoster = Path.Combine(filme.FolderMetadata, "poster.jpg");
-                    //    Poster.Type = Enums.TipoConteudo.movie;
-                    //}
-                    throw new NotImplementedException(); // TODO Fazer funfar com filme;
+                    throw new NotImplementedException(); // TODO Filmes
                 }
                 case Enums.TipoConteudo.Anime:
                 case Enums.TipoConteudo.Série:
@@ -71,7 +56,7 @@ namespace MediaManager.ViewModel
                     break;
                 }
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -1,76 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-		Microsoft ResX Schema
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
 
-		Version 1.3
-
-		The primary goals of this format is to allow a simple XML format 
-		that is mostly human readable. The generation and parsing of the 
-		various data types are done through the TypeConverter classes 
-		associated with the data types.
-
-		Example:
-
-		... ado.net/XML headers & schema ...
-		<resheader name="resmimetype">text/microsoft-resx</resheader>
-		<resheader name="version">1.3</resheader>
-		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-		<data name="Name1">this is my long string</data>
-		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-			[base64 mime encoded serialized .NET Framework object]
-		</data>
-		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-			[base64 mime encoded string representing a byte array form of the .NET Framework object]
-		</data>
-
-		There are any number of "resheader" rows that contain simple 
-		name/value pairs.
-
-		Each data row contains a name, and value. The row also contains a 
-		type or mimetype. Type corresponds to a .NET class that support 
-		text/value conversion through the TypeConverter architecture. 
-		Classes that don't support this are serialized and stored with the 
-		mimetype set.
-
-		The mimetype is used for serialized objects, and tells the 
-		ResXResourceReader how to depersist the object. This is currently not 
-		extensible. For a given mimetype the value must be set accordingly:
-
-		Note - application/x-microsoft.net.object.binary.base64 is the format 
-		that the ResXResourceWriter will generate, however the reader can 
-		read any of the formats listed below.
-
-		mimetype: application/x-microsoft.net.object.binary.base64
-		value   : The object must be serialized with 
-			: System.Serialization.Formatters.Binary.BinaryFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.soap.base64
-		value   : The object must be serialized with 
-			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-			: and then encoded with base64 encoding.
-
-		mimetype: application/x-microsoft.net.object.bytearray.base64
-		value   : The object must be serialized into a byte array 
-			: using a System.ComponentModel.TypeConverter
-			: and then encoded with base64 encoding.
-	-->
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -89,14 +109,21 @@
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
-    <value>1.3</value>
+    <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="_e_" xml:space="preserve">
+    <value> e </value>
+    <comment>e/and</comment>
+  </data>
+  <data name="Aplicação_iniciada_com_os_seguintes_argumentos_0_" xml:space="preserve">
+    <value>Aplicação iniciada com os seguintes argumentos: {0}</value>
+  </data>
   <data name="Busca_personalizada" xml:space="preserve">
     <value>Busca personalizada...</value>
   </data>
@@ -109,6 +136,13 @@
   <data name="Carregando_sinopse" xml:space="preserve">
     <value>Carregando sinopse...</value>
   </data>
+  <data name="Codigo_0_Arquivo_1_" xml:space="preserve">
+    <value>Código: "{0}
+Arquivo: {1}</value>
+  </data>
+  <data name="Episodio_informado_é_de_um_tipo_inválido" xml:space="preserve">
+    <value>Episodio informado é de um tipo inválido.</value>
+  </data>
   <data name="Este_campo_deve_ser_preenchido" xml:space="preserve">
     <value>Este campo deve ser preenchido.</value>
   </data>
@@ -118,11 +152,20 @@
   <data name="Favor_preencher_todos_os_campos_antes_de_salvar" xml:space="preserve">
     <value>Favor preencher todos os campos antes de salvar.</value>
   </data>
+  <data name="Método_de_processamento_não_reconhecido_ou_inválido" xml:space="preserve">
+    <value>Método de processamento não reconhecido ou inválido.</value>
+  </data>
   <data name="Nenhum_resultado_encontrado" xml:space="preserve">
     <value>Nenhum resultado encontrado</value>
   </data>
   <data name="Nenhum_resultado_encontrado__deseja_pesquisar_por_outro_nome" xml:space="preserve">
     <value>Nenhum resultado encontrado, deseja pesquisar por outro nome?</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_abrir_o_feed_0_URL_1_" xml:space="preserve">
+    <value>Ocorreu um erro ao abrir o feed "{0}" (URL: "{1}").</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_adicionar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao adicionar {0}.</value>
   </data>
   <data name="Ocorreu_um_erro_ao_adicionar_1_0_" xml:space="preserve">
     <value>Ocorreu um erro ao adicionar {1} "{0}"</value>
@@ -145,6 +188,9 @@
   <data name="Ocorreu_um_erro_ao_aplicar_o_algoritimo_de_correspondencia_no_arquivo_0_" xml:space="preserve">
     <value>Ocorreu um erro ao aplicar o algoritmo de correspondência no arquivo "{0}"</value>
   </data>
+  <data name="Ocorreu_um_erro_ao_atualizar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao atualizar {0}.</value>
+  </data>
   <data name="Ocorreu_um_erro_ao_atualizar_1_0_" xml:space="preserve">
     <value>Ocorreu um erro ao atualizar {1} "{0}".</value>
   </data>
@@ -163,8 +209,14 @@
   <data name="Ocorreu_um_erro_ao_atualizar_os_episódios" xml:space="preserve">
     <value>Ocorreu um erro ao atualizar os episódios </value>
   </data>
-  <data name="Ocorreu_um_erro_ao_baixar_o_episódio_do_link_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao baixar o episódio do link "{0}"</value>
+  <data name="Ocorreu_um_erro_ao_criar_o__0_" xml:space="preserve">
+    <value>Ocorreu um erro ao criar o {0}</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_ordenar_a_lista_utilizando_o_algoritmo_de_comparação" xml:space="preserve">
+    <value>Ocorreu um erro ao ordenar a lista utilizando o algoritmo de comparação.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar {0}.</value>
   </data>
   <data name="Ocorreu_um_erro_ao_pesquisar_a_qualidade_de_download_de_código_0_" xml:space="preserve">
     <value>Ocorreu um erro ao pesquisar a qualidade de download de código "{0}".</value>
@@ -172,8 +224,32 @@
   <data name="Ocorreu_um_erro_ao_pesquisar_o_feed_de_código_0_" xml:space="preserve">
     <value>Ocorreu um erro ao pesquisar o feed de código "{0}"</value>
   </data>
+  <data name="Ocorreu_um_erro_ao_pesquisar_todos_os_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao pesquisar todos(as) os(as) {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_procurar_os_episódios_para_baixar" xml:space="preserve">
+    <value>Ocorreu um erro ao procurar os episódios para baixar.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_download" xml:space="preserve">
+    <value>Ocorreu um erro ao realizar o download.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_download_das_imagens" xml:space="preserve">
+    <value>Ocorreu um erro ao realizar o download das imagens.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_download_do_episódio_1_do_RSS_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao realizar o download do episódio "{1}" do RSS "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_pós_processamento" xml:space="preserve">
+    <value>Ocorreu um erro ao realizar o pós processamento.</value>
+  </data>
   <data name="Ocorreu_um_erro_ao_reconhecer_o_episódio" xml:space="preserve">
     <value>Ocorreu um erro ao reconhecer o episódio </value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_registrar_a_mensagem_no_log" xml:space="preserve">
+    <value>Ocorreu um erro ao registrar a mensagem no log.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_remover_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao remover {0}.</value>
   </data>
   <data name="Ocorreu_um_erro_ao_remover_1_0_" xml:space="preserve">
     <value>Ocorreu um erro ao remover {1} "{0}"</value>
@@ -186,6 +262,9 @@
   </data>
   <data name="Ocorreu_um_erro_ao_remover_o_feed_0_" xml:space="preserve">
     <value>Ocorreu um erro ao remover o feed "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_renomear_os_episódios_dos_argumentos_na_aplicação_Argumento_0_" xml:space="preserve">
+    <value>Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: {0}</value>
   </data>
   <data name="Ocorreu_um_erro_ao_retornar_a_lista_de_feeds" xml:space="preserve">
     <value>Ocorreu um erro ao retornar a lista de feeds.</value>
@@ -208,22 +287,17 @@
   <data name="Ocorreu_um_erro_ao_verificar_se_o_episódio_ja_foi_renomeado_0_" xml:space="preserve">
     <value>Ocorreu um erro ao verificar se o episódio "{0}" ja foi renomeado.</value>
   </data>
+  <data name="Os_argumentos_informados_estão_incorretos_favor_verifica_los_Argumento_0_" xml:space="preserve">
+    <value>Os argumentos informados estão incorretos, favor verifica-los.
+Argumento: {0}</value>
+  </data>
+  <data name="Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa" xml:space="preserve">
+    <value>Para que o download possa ser realizado, preencha o campo "Torrent blackhole" nas preferências do programa.</value>
+  </data>
   <data name="Título_do_episódio" xml:space="preserve">
     <value>Título do episódio</value>
   </data>
-  <data name="Ocorreu_um_erro_ao_adicionar_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao adicionar {0}.</value>
-  </data>
-  <data name="Ocorreu_um_erro_ao_pesquisar_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao pesquisar {0}.</value>
-  </data>
-  <data name="Ocorreu_um_erro_ao_pesquisar_todos_os_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao pesquisar todos(as) os(as) {0}.</value>
-  </data>
-  <data name="Ocorreu_um_erro_ao_remover_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao remover {0}.</value>
-  </data>
-  <data name="Ocorreu_um_erro_ao_atualizar_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao atualizar {0}.</value>
+  <data name="Verifique_mais_detalhes_no_Log_" xml:space="preserve">
+    <value>Verifique mais detalhes no Log.</value>
   </data>
 </root>

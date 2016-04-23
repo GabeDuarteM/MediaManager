@@ -108,93 +108,203 @@ namespace MediaManager.Tests.Preparacoes
             {
                 new Feed
                 {
-                    nCdFeed = 1,
-                    bFlSelecionado = true,
-                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
-                    nNrPrioridade = 1,
-                    sDsFeed = "sDsFeed 1",
-                    sLkFeed = "sLkFeed 1"
-                },
-                new Feed
-                {
+                    bIsFeedPesquisa = false,
                     nCdFeed = 2,
-                    bFlSelecionado = false,
-                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
-                    nNrPrioridade = 2,
-                    sDsFeed = "sDsFeed 2",
-                    sLkFeed = "sLkFeed 2"
-                },
-                new Feed
-                {
-                    nCdFeed = 3,
-                    bFlSelecionado = true,
-                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
-                    nNrPrioridade = 3,
-                    sDsFeed = "sDsFeed 3",
-                    sLkFeed = "sLkFeed 3"
-                },
-                new Feed
-                {
-                    nCdFeed = 4,
-                    bFlSelecionado = false,
-                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
-                    nNrPrioridade = 4,
-                    sDsFeed = "sDsFeed 4",
-                    sLkFeed = "sLkFeed 4"
-                },
-                new Feed
-                {
-                    nCdFeed = 5,
-                    bFlSelecionado = true,
-                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
-                    nNrPrioridade = 5,
-                    sDsFeed = "sDsFeed 5",
-                    sLkFeed = "sLkFeed 5"
-                },
-                new Feed
-                {
-                    nCdFeed = 6,
-                    bFlSelecionado = false,
                     nIdTipoConteudo = Enums.TipoConteudo.Série,
                     nNrPrioridade = 1,
-                    sDsFeed = "sDsFeed 6",
-                    sLkFeed = "sLkFeed 6"
+                    sDsFeed = "ShowRSS 720p",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://showrss.info/user/5225.rss?magnets=true&namespaces=true&name=null&quality=hd&re=yes"
                 },
                 new Feed
                 {
-                    nCdFeed = 7,
-                    bFlSelecionado = true,
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 1,
                     nIdTipoConteudo = Enums.TipoConteudo.Série,
                     nNrPrioridade = 2,
-                    sDsFeed = "sDsFeed 7",
-                    sLkFeed = "sLkFeed 7"
+                    sDsFeed = "Kickass Séries 720p",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://kat.cr/usearch/720%20category%3Atv/?rss=1"
                 },
                 new Feed
                 {
-                    nCdFeed = 8,
-                    bFlSelecionado = false,
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 4,
                     nIdTipoConteudo = Enums.TipoConteudo.Série,
                     nNrPrioridade = 3,
-                    sDsFeed = "sDsFeed 8",
-                    sLkFeed = "sLkFeed 8"
+                    sDsFeed = "ShowRSS",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://showrss.info/user/5225.rss?magnets=true&namespaces=true&name=null&quality=sd&re=yes"
                 },
                 new Feed
                 {
-                    nCdFeed = 9,
-                    bFlSelecionado = true,
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 3,
                     nIdTipoConteudo = Enums.TipoConteudo.Série,
                     nNrPrioridade = 4,
-                    sDsFeed = "sDsFeed 9",
-                    sLkFeed = "sLkFeed 9"
+                    sDsFeed = "Kickass Séries",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "https://kat.cr/tv/?rss=1"
                 },
                 new Feed
                 {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 5,
+                    nIdTipoConteudo = Enums.TipoConteudo.Filme,
+                    nNrPrioridade = 1,
+                    sDsFeed = "Kickass Filmes",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "https://kat.cr/movies/?rss=1"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 6,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 1,
+                    sDsFeed = "Nyaa A+ 720p",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720&filter=3"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 7,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 2,
+                    sDsFeed = "Nyaa Trusted 720p",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720&filter=2"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 8,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 3,
+                    sDsFeed = "Nyaa Tudo 720p",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term=720"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 9,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 4,
+                    sDsFeed = "Nyaa A+",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=3"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
                     nCdFeed = 10,
-                    bFlSelecionado = false,
-                    nIdTipoConteudo = Enums.TipoConteudo.Série,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
                     nNrPrioridade = 5,
-                    sDsFeed = "sDsFeed 10",
-                    sLkFeed = "sLkFeed 10"
+                    sDsFeed = "Nyaa Trusted",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=2"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = false,
+                    nCdFeed = 11,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 6,
+                    sDsFeed = "Nyaa Tudo",
+                    sDsTagPesquisa = null,
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 12,
+                    nIdTipoConteudo = Enums.TipoConteudo.Série,
+                    nNrPrioridade = 1,
+                    sDsFeed = "Kickass Séries 720p",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://kat.cr/usearch/{TAG}%20720%20category%3Atv/?rss=1"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 14,
+                    nIdTipoConteudo = Enums.TipoConteudo.Série,
+                    nNrPrioridade = 2,
+                    sDsFeed = "Kickass Séries",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://kat.cr/usearch/{TAG}%20category%3Atv/?rss=1"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 16,
+                    nIdTipoConteudo = Enums.TipoConteudo.Filme,
+                    nNrPrioridade = 1,
+                    sDsFeed = "Kickass Filmes",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://kat.cr/usearch/{TAG}%20720%20category%3Amovies/?rss=1"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 17,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 1,
+                    sDsFeed = "Nyaa A+ 720p",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720&filter=3"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 18,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 2,
+                    sDsFeed = "Nyaa Trusted 720p",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720&filter=2"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 19,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 3,
+                    sDsFeed = "Nyaa Tudo 720p",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}+720"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 20,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 4,
+                    sDsFeed = "Nyaa A+",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=3&term={TAG}"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 21,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 5,
+                    sDsFeed = "Nyaa Trusted",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&filter=2&term={TAG}"
+                },
+                new Feed
+                {
+                    bIsFeedPesquisa = true,
+                    nCdFeed = 22,
+                    nIdTipoConteudo = Enums.TipoConteudo.Anime,
+                    nNrPrioridade = 6,
+                    sDsFeed = "Nyaa Tudo",
+                    sDsTagPesquisa = "{TAG}",
+                    sLkFeed = "http://www.nyaa.se/?page=rss&cats=1_37&term={TAG}"
                 }
             };
 
@@ -488,7 +598,7 @@ namespace MediaManager.Tests.Preparacoes
                 {
                     nCdQualidadeDownload = 1,
                     nPrioridade = 1,
-                    sIdentificadoresQualidade = "720p",
+                    sIdentificadoresQualidade = "720p|HDTV",
                     sQualidade = "HD"
                 },
                 new QualidadeDownload

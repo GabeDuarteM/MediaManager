@@ -3,10 +3,12 @@
 // Created at: 12/02/2016 22:21
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using MediaManager.Localizacao;
 
 namespace MediaManager.Model
 {
+    [DebuggerDisplay("{"+nameof(sQualidade)+"}, prioridade {"+nameof(nPrioridade) +"}")]
     public class QualidadeDownload : ModelBase
     {
         private int _nCdQualidadeDownload;
@@ -16,15 +18,6 @@ namespace MediaManager.Model
         private string _sIdentificadoresQualidade;
 
         private string _sQualidade;
-
-        public QualidadeDownload()
-        {
-        }
-
-        public QualidadeDownload(QualidadeDownload qualidadeDownload)
-        {
-            Clone(qualidadeDownload);
-        }
 
         [Key]
         public int nCdQualidadeDownload
@@ -37,7 +30,7 @@ namespace MediaManager.Model
             }
         }
 
-        [Required, Display(ResourceType = typeof(Campos), Name = "Qualidade")]
+        [Required, Display(ResourceType = typeof(Campos), Name = "QualidadeDownload_Qualidade")]
         public string sQualidade
         {
             get { return _sQualidade; }
@@ -49,7 +42,7 @@ namespace MediaManager.Model
         }
 
         // Delimitado por pipes
-        [Required]
+        [Required, Display(ResourceType = typeof(Campos), Name = "QualidadeDownload_Identificadores")]
         public string sIdentificadoresQualidade
         {
             get { return _sIdentificadoresQualidade; }
@@ -60,7 +53,7 @@ namespace MediaManager.Model
             }
         }
 
-        [Required(ErrorMessageResourceType = typeof(Mensagens), ErrorMessageResourceName = "Este_campo_deve_ser_preenchido"), Display(ResourceType = typeof(Campos), Name = "Prioridade")]
+        [Required(ErrorMessageResourceType = typeof(Mensagens), ErrorMessageResourceName = "Este_campo_deve_ser_preenchido"), Display(ResourceType = typeof(Campos), Name = "QualidadeDownload_Prioridade")]
         public int nPrioridade
         {
             get { return _nPrioridade; }

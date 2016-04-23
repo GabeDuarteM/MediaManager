@@ -29,11 +29,6 @@ namespace MediaManager.Migrations
             //  new Person { FullName = "Rowan Miller" }
             //);
             //
-            SeedPublic(context);
-        }
-
-        public static void SeedPublic(Context context)
-        {
             context.Feed.AddOrUpdate(x => x.nCdFeed,
                                      new Feed
                                      {

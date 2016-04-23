@@ -17,6 +17,12 @@ namespace MediaManager.Model
             Exception = e;
         }
 
+        public MediaManagerException(string e)
+        {
+            lstDetalhes = new List<string>();
+            Exception = new Exception(e);
+        }
+
         private List<string> lstDetalhes { get; }
 
         private Exception Exception { get; }

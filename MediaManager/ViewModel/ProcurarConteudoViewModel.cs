@@ -179,8 +179,8 @@ namespace MediaManager.ViewModel
                             }
                         }
 
-                        //if (dirFilmes != null) {
-                        //    foreach (var dir in dirFilmes) // TODO Fazer funfar
+                        //if (dirFilmes != null) {// TODO Filmes
+                        //    foreach (var dir in dirFilmes) 
                         //{
                         //        if (!DatabaseHelper.VerificaSeExiste(dir.FullName))
                         //        {

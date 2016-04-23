@@ -99,14 +99,7 @@ namespace MediaManager.Commands
                                     break;
                                 }
                                 case Enums.TipoConteudo.Filme:
-                                    // TODO Fazer funfar
-                                    //Filme filme = await Helper.API_GetFilmeInfoAsync(item.TraktSlug);
-                                    //filme.FolderPath = item.Pasta;
-                                    //await DatabaseHelper.AddFilmeAsync(filme);
-                                    break;
-
-                                default:
-                                    break;
+                                    throw new NotImplementedException(); // TODO Filmes
                             }
                         }
                     }
@@ -114,8 +107,7 @@ namespace MediaManager.Commands
                     Helper.MostrarMensagem("Séries inseridas com sucesso.", Enums.eTipoMensagem.Informativa);
                 };
 
-                frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted +=
-                    (s, ev) => { ProcurarConteudoViewModel.ActionFechar(); };
+                frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerCompleted += (s, ev) => ProcurarConteudoViewModel.ActionFechar();
                 frmBarraProgresso.BarraProgressoViewModel.Worker.RunWorkerAsync();
                 frmBarraProgresso.ShowDialog(ProcurarConteudoViewModel.Owner);
             }

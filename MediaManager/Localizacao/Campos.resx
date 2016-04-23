@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Prioridade" xml:space="preserve">
+  <data name="QualidadeDownload_Identificadores" xml:space="preserve">
+    <value>Identificadores</value>
+  </data>
+  <data name="QualidadeDownload_Prioridade" xml:space="preserve">
     <value>Prioridade</value>
   </data>
-  <data name="Qualidade" xml:space="preserve">
+  <data name="QualidadeDownload_Qualidade" xml:space="preserve">
     <value>Qualidade</value>
   </data>
 </root>
