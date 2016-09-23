@@ -161,8 +161,8 @@ namespace MediaManager.Services
                         serie.lstEpisodios.ForEach(episodio =>
                         {
                             episodio.nCdVideo = serie.nCdVideo;
-                            Adicionar(episodio);
                         });
+                        Adicionar(serie.lstEpisodios.ToArray());
                     }
                     catch (Exception e)
                     {

@@ -139,7 +139,7 @@ namespace MediaManager.Commands
                     var serieService = App.Container.Resolve<SeriesService>();
                     switch (adicionarConteudoVm.nIdTipoConteudo)
                     {
-                        case Enums.TipoConteudo.Filme:
+                        case Enums.TipoConteudo.Filme: // TODO Filmes
                             break;
 
                         case Enums.TipoConteudo.Série:

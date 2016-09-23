@@ -6,10 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MediaManager.Helpers;
+using MediaManager.Localizacao;
 
 namespace MediaManager.Model
 {
-    public class MediaManagerException
+    public class MediaManagerException : Exception
     {
         public MediaManagerException(Exception e)
         {
@@ -45,15 +46,12 @@ namespace MediaManager.Model
 
             string sMensagem = sErro + Environment.NewLine + sDetalhes;
 
-            if (bIsSilencioso)
+            Helper.LogMessage(sMensagem);
+
+            if (!bIsSilencioso)
             {
-                Helper.LogMessage(sMensagem);
-            }
-            else
-            {
-                Helper.LogMessage(sMensagem);
                 Helper.MostrarMensagem(sErro + Environment.NewLine + Environment.NewLine +
-                                       "Verifique mais detalhes no Log.",
+                                       Mensagens.Verifique_mais_detalhes_no_Log_,
                                        Enums.eTipoMensagem.Erro);
             }
         }

@@ -592,12 +592,6 @@ namespace MediaManager.Model
         {
             string pathBlackhole = Properties.Settings.Default.pref_PastaBlackhole;
 
-            if (string.IsNullOrWhiteSpace(pathBlackhole)|| !Directory.Exists(pathBlackhole))
-            {
-                new MediaManagerException(Mensagens.Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_download);
-                return false;
-            }
-
             var rgxHash = new Regex("magnet:.*?btih:(.*?)(?:&|$)", RegexOptions.IgnoreCase);
             var rgxTitulo = new Regex("magnet:.*?[?:&]dn=(.*?)(?:&|$)", RegexOptions.IgnoreCase);
 

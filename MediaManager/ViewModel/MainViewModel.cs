@@ -149,7 +149,7 @@ namespace MediaManager.ViewModel
             return sucesso;
         }
 
-        private bool RenomearEpisodiosDosArgumentos(string arg)
+        private static bool RenomearEpisodiosDosArgumentos(string arg)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace MediaManager.ViewModel
                 }
                 else if (File.Exists(arg))
                 {
-                    IEnumerable<FileInfo> arquivo = new FileInfo[1] {new FileInfo(arg)};
+                    IEnumerable<FileInfo> arquivo = new[] {new FileInfo(arg)};
                     renomearVm = new RenomearViewModel(true, arquivo);
                 }
 
@@ -290,7 +290,7 @@ namespace MediaManager.ViewModel
         }
 
         // TODO Chamar GetAtualizacoes antes de procurar episodios para baixar
-        public void AtualizarConteudo()
+        private void AtualizarConteudo()
         {
             var worker = new BackgroundWorker();
 
@@ -300,7 +300,7 @@ namespace MediaManager.ViewModel
 
                 AlterarStatusEpisodios();
 
-                //ProcurarEpisodiosParaBaixar();
+                ProcurarEpisodiosParaBaixar();
 
                 await APIRequests.GetAtualizacoes();
             };
@@ -308,8 +308,14 @@ namespace MediaManager.ViewModel
             worker.RunWorkerAsync();
         }
 
-        public void ProcurarEpisodiosParaBaixar()
+        private static void ProcurarEpisodiosParaBaixar()
         {
+            if (string.IsNullOrWhiteSpace(Settings.Default.pref_PastaBlackhole) || !Directory.Exists(Settings.Default.pref_PastaBlackhole))
+            {
+                new MediaManagerException(Mensagens.Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa).TratarException(Mensagens.Ocorreu_um_erro_ao_realizar_o_download);
+                return;
+            }
+
             try
             {
                 var episodiosService = App.Container.Resolve<EpisodiosService>();
@@ -336,20 +342,16 @@ namespace MediaManager.ViewModel
 
         private static IEnumerable<ItemDownload> ProcurarEpisodiosNosFeeds()
         {
+            var lstEpisodiosParaBaixar = new List<ItemDownload>();
+
             var feedsService = App.Container.Resolve<FeedsService>();
-
             var qualidadeDownloadService = App.Container.Resolve<QualidadeDownloadService>();
-
             IEnumerable<Feed> lstFeeds = feedsService.GetLista()
                                                      .Where(x => !x.bIsFeedPesquisa &&
                                                                  (x.nIdTipoConteudo == Enums.TipoConteudo.Série || x.nIdTipoConteudo == Enums.TipoConteudo.Anime))
                                                      .OrderBy(x => x.nNrPrioridade);
-
             IEnumerable<QualidadeDownload> lstQualidadeDownloads = qualidadeDownloadService.GetLista().OrderBy(x => x.nPrioridade);
-
             var rgxQualidade = new Regex($".*?({string.Join("|", lstQualidadeDownloads.Select(x => x.sIdentificadoresQualidade))})");
-
-            var lstEpisodiosParaBaixar = new List<ItemDownload>();
 
             foreach (Feed item in lstFeeds)
             {
@@ -367,39 +369,39 @@ namespace MediaManager.ViewModel
 
                 foreach (RssItem objRssItem in rss.Channel.Items)
                 {
-                    var episodio = new Episodio {sDsFilepath = objRssItem.Title};
-                    var extensao = "";
-                    // Try para não estourar exception caso o título do RSS contenha caractere estranho. Ex.: "[Magai] Ai wo Komete | With Love | 愛をこめて (WEB 720p AAC)"
                     try
                     {
-                        extensao = Path.GetExtension(objRssItem.Title);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                        var episodio = new Episodio {sDsFilepath = objRssItem.Title};
+                        string extensao = Path.GetExtension(Helper.RetirarCaracteresInvalidos(objRssItem.Title));
 
-                    if (!episodio.IdentificarEpisodio() || episodio.nIdTipoConteudo != item.nIdTipoConteudo)
-                    {
-                        continue;
+                        if (!episodio.IdentificarEpisodio() ||
+                            episodio.nIdTipoConteudo != item.nIdTipoConteudo ||
+                            episodio.nIdEstadoEpisodio != Enums.EstadoEpisodio.Desejado ||
+                            episodio.oSerie.bIsParado ||
+                            (!string.IsNullOrWhiteSpace(extensao) && !Settings.Default.ExtensoesRenomeioPermitidas.Contains(extensao)))
+                        {
+                            continue;
+                        }
+
+                        string strIdentificador = rgxQualidade.Match(objRssItem.Title).Groups[1].Value;
+
+                        // Verifica se é vazio/null para atribuir a qualidade "Desconhecido".
+                        QualidadeDownload objQualidadeDownload = !string.IsNullOrWhiteSpace(strIdentificador)
+                                                                     ? lstQualidadeDownloads.FirstOrDefault(x => x.sIdentificadoresQualidade.Split('|').Any(y => y == strIdentificador))
+                                                                     : lstQualidadeDownloads.First(x => x.nCdQualidadeDownload == 1);
+
+                        if (lstEpisodiosParaBaixar.Any(x => x.ObjEpisodio.nCdEpisodioAPI == episodio.nCdEpisodioAPI))
+                        {
+                            lstEpisodiosParaBaixar.First(x => x.ObjEpisodio.nCdEpisodioAPI == episodio.nCdEpisodioAPI).LstObjRssItem.Add(objRssItem, objQualidadeDownload);
+                        }
+                        else
+                        {
+                            lstEpisodiosParaBaixar.Add(new ItemDownload {ObjEpisodio = episodio, LstObjRssItem = new Dictionary<RssItem, QualidadeDownload> {{objRssItem, objQualidadeDownload}}});
+                        }
                     }
-
-                    if (episodio.oSerie.bIsParado || (!string.IsNullOrWhiteSpace(extensao) && !Settings.Default.ExtensoesRenomeioPermitidas.Contains(extensao)))
+                    catch (Exception e)
                     {
-                        continue;
-                    }
-
-                    string strIdentificador = rgxQualidade.Match(objRssItem.Title).Groups[1].Value;
-
-                    QualidadeDownload objQualidadeDownload = lstQualidadeDownloads.FirstOrDefault(x => x.sIdentificadoresQualidade.Split('|').FirstOrDefault(y => y == strIdentificador).Any());
-
-                    if (lstEpisodiosParaBaixar.Any(x => x.ObjEpisodio.nCdEpisodioAPI == episodio.nCdEpisodioAPI))
-                    {
-                        lstEpisodiosParaBaixar.First(x => x.ObjEpisodio.nCdEpisodioAPI == episodio.nCdEpisodioAPI).LstObjRssItem.Add(objRssItem, objQualidadeDownload);
-                    }
-                    else
-                    {
-                        lstEpisodiosParaBaixar.Add(new ItemDownload {ObjEpisodio = episodio, LstObjRssItem = new Dictionary<RssItem, QualidadeDownload> {{objRssItem, objQualidadeDownload}}});
+                        new MediaManagerException(e).TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_procurar_o_item_0_do_feed_RSS_1_, objRssItem.Title, item.sDsFeed));
                     }
                 }
             }

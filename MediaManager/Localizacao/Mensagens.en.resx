@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="_e_" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="Aplicação_iniciada_com_os_seguintes_argumentos_0_" xml:space="preserve">
+    <value>Application initialized with the following arguments: {0}.</value>
+  </data>
   <data name="Busca_personalizada" xml:space="preserve">
     <value>Custom search...</value>
   </data>
@@ -129,6 +135,13 @@
   <data name="Carregando_sinopse" xml:space="preserve">
     <value>Loading overview...</value>
   </data>
+  <data name="Codigo_0_Arquivo_1_" xml:space="preserve">
+    <value>Code: "{0}"
+File: "{1}"</value>
+  </data>
+  <data name="Episodio_informado_é_de_um_tipo_inválido" xml:space="preserve">
+    <value>Informed episode has an invalid type.</value>
+  </data>
   <data name="Este_campo_deve_ser_preenchido" xml:space="preserve">
     <value>This field must be filled.</value>
   </data>
@@ -138,11 +151,17 @@
   <data name="Favor_preencher_todos_os_campos_antes_de_salvar" xml:space="preserve">
     <value>Please fill in all fields before saving.</value>
   </data>
+  <data name="Método_de_processamento_não_reconhecido_ou_inválido" xml:space="preserve">
+    <value>Processing method not recognized or invalid.</value>
+  </data>
   <data name="Nenhum_resultado_encontrado" xml:space="preserve">
     <value>No results found</value>
   </data>
   <data name="Nenhum_resultado_encontrado__deseja_pesquisar_por_outro_nome" xml:space="preserve">
     <value>No results found, do you want to search another name?</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_abrir_o_feed_0_URL_1_" xml:space="preserve">
+    <value>An error occurred while accessing the feed "{0}" (URL: "{1}").</value>
   </data>
   <data name="Ocorreu_um_erro_ao_adicionar_0_" xml:space="preserve">
     <value>An error occurred while adding {0}.</value>
@@ -189,6 +208,12 @@
   <data name="Ocorreu_um_erro_ao_atualizar_os_episódios" xml:space="preserve">
     <value>An error occurred while updating the episodes</value>
   </data>
+  <data name="Ocorreu_um_erro_ao_criar_o__0_" xml:space="preserve">
+    <value>An error occurred while creating the {0}.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_ordenar_a_lista_utilizando_o_algoritmo_de_comparação" xml:space="preserve">
+    <value>An error occurred while sorting the list using the matching algoritm.</value>
+  </data>
   <data name="Ocorreu_um_erro_ao_pesquisar_0_" xml:space="preserve">
     <value>An error occurred while searching {0}.</value>
   </data>
@@ -201,11 +226,26 @@
   <data name="Ocorreu_um_erro_ao_pesquisar_todos_os_0_" xml:space="preserve">
     <value>An error occurred while searching every {0}.</value>
   </data>
+  <data name="Ocorreu_um_erro_ao_procurar_os_episódios_para_baixar" xml:space="preserve">
+    <value>An error occurred while searching episodes to download.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_download" xml:space="preserve">
+    <value>An error occurred while performing the download.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_download_das_imagens" xml:space="preserve">
+    <value>An error occurred while performing the download of the images.</value>
+  </data>
   <data name="Ocorreu_um_erro_ao_realizar_o_download_do_episódio_1_do_RSS_0_" xml:space="preserve">
     <value>An error occurred while downloading the "{1}" episode of the RSS "{0}"</value>
   </data>
+  <data name="Ocorreu_um_erro_ao_realizar_o_pós_processamento" xml:space="preserve">
+    <value>An error occurred while doing the post processing.</value>
+  </data>
   <data name="Ocorreu_um_erro_ao_reconhecer_o_episódio" xml:space="preserve">
     <value>An error occurred while recognizing the episode.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_registrar_a_mensagem_no_log" xml:space="preserve">
+    <value>An error occurred while writing the message on the log.</value>
   </data>
   <data name="Ocorreu_um_erro_ao_remover_0_" xml:space="preserve">
     <value>An error occurred while removing {0}.</value>
@@ -221,6 +261,9 @@
   </data>
   <data name="Ocorreu_um_erro_ao_remover_o_feed_0_" xml:space="preserve">
     <value>An error occurred while removing feed "{0}"</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_renomear_os_episódios_dos_argumentos_na_aplicação_Argumento_0_" xml:space="preserve">
+    <value>An error occurred while renaming the episodes in the arguments of the application. Argument: "{0}".</value>
   </data>
   <data name="Ocorreu_um_erro_ao_retornar_a_lista_de_feeds" xml:space="preserve">
     <value>An error occurred while returning the feeds list</value>
@@ -243,7 +286,17 @@
   <data name="Ocorreu_um_erro_ao_verificar_se_o_episódio_ja_foi_renomeado_0_" xml:space="preserve">
     <value>An error occurred while checking if the "{0}" episode has already been renamed.</value>
   </data>
+  <data name="Os_argumentos_informados_estão_incorretos_favor_verifica_los_Argumento_0_" xml:space="preserve">
+    <value>The supplied arguments are invalid, please check them.
+Argument: "{0}"</value>
+  </data>
+  <data name="Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa" xml:space="preserve">
+    <value>In order to the download be performed, fill in the field "Torrent blackhole" on the program's preferences.</value>
+  </data>
   <data name="Título_do_episódio" xml:space="preserve">
     <value>Episode title</value>
+  </data>
+  <data name="Verifique_mais_detalhes_no_Log_" xml:space="preserve">
+    <value>See more details on the log.</value>
   </data>
 </root>

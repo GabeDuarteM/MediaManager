@@ -70,7 +70,7 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aplicação iniciada com os seguintes argumentos: {0}.
+        ///   Looks up a localized string similar to Aplicação iniciada com os seguintes argumentos: {0}..
         /// </summary>
         internal static string Aplicação_iniciada_com_os_seguintes_argumentos_0_ {
             get {
@@ -115,12 +115,21 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Código: &quot;{0}
-        ///Arquivo: {1}.
+        ///   Looks up a localized string similar to Código: &quot;{0}&quot;
+        ///Arquivo: &quot;{1}&quot;.
         /// </summary>
         internal static string Codigo_0_Arquivo_1_ {
             get {
                 return ResourceManager.GetString("Codigo_0_Arquivo_1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desconhecido.
+        /// </summary>
+        internal static string Desconhecido {
+            get {
+                return ResourceManager.GetString("Desconhecido", resourceCulture);
             }
         }
         
@@ -386,6 +395,15 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ocorreu um erro ao procurar o item &quot;{0}&quot; do feed RSS &quot;{1}&quot;.
+        /// </summary>
+        internal static string Ocorreu_um_erro_ao_procurar_o_item_0_do_feed_RSS_1_ {
+            get {
+                return ResourceManager.GetString("Ocorreu_um_erro_ao_procurar_o_item_0_do_feed_RSS_1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ocorreu um erro ao procurar os episódios para baixar..
         /// </summary>
         internal static string Ocorreu_um_erro_ao_procurar_os_episódios_para_baixar {
@@ -494,7 +512,7 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: {0}.
+        ///   Looks up a localized string similar to Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: &quot;{0}&quot;..
         /// </summary>
         internal static string Ocorreu_um_erro_ao_renomear_os_episódios_dos_argumentos_na_aplicação_Argumento_0_ {
             get {
@@ -568,7 +586,7 @@ namespace MediaManager.Localizacao {
         
         /// <summary>
         ///   Looks up a localized string similar to Os argumentos informados estão incorretos, favor verifica-los.
-        ///Argumento: {0}.
+        ///Argumento: &quot;{0}&quot;.
         /// </summary>
         internal static string Os_argumentos_informados_estão_incorretos_favor_verifica_los_Argumento_0_ {
             get {
@@ -596,7 +614,7 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verifique mais detalhes no Log..
+        ///   Looks up a localized string similar to Verifique mais detalhes no log..
         /// </summary>
         internal static string Verifique_mais_detalhes_no_Log_ {
             get {

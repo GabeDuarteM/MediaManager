@@ -118,22 +118,29 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    foreach (string item in video.sAliases.Split('|'))
+                    if (video.sAliases == null && video.lstSerieAlias != null && video.lstSerieAlias.Any())
                     {
-                        var alias = new SerieAlias(item);
-                        alias.nNrEpisodio = 1;
-                        alias.nNrTemporada = 1;
-                        alias.nCdVideo = video.nCdVideo;
-                        _context.SerieAlias.Add(alias);
+                        video.sAliases = string.Join("|", video.lstSerieAlias);
                     }
 
+                    if (video.sAliases != null)
+                    {
+                        foreach (string item in video.sAliases.Split('|'))
+                        {
+                            var alias = new SerieAlias(item)
+                            {
+                                nNrEpisodio = 1,
+                                nNrTemporada = 1,
+                                nCdVideo = video.nCdVideo
+                            };
+                            _context.SerieAlias.Add(alias);
+                        }
                     _context.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
-                    new MediaManagerException(e).TratarException(
-                                                                 $"Ocorreu um erro ao adicionar o alias padrão do video \"{video.sDsTitulo}\" ao banco.",
-                                                                 true);
+                    new MediaManagerException(e).TratarException($"Ocorreu um erro ao adicionar o alias padrão do video \"{video.sDsTitulo}\" ao banco.");
                     return false;
                 }
             }

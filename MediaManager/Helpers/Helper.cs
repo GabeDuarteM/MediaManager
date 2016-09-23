@@ -130,12 +130,11 @@ namespace MediaManager.Helpers
                     {
                         return true;
                     }
-                    else
-                    {
-                        new MediaManagerException(new Exception(string.Format(Mensagens.Codigo_0_Arquivo_1_, Marshal.GetLastWin32Error(), item.sDsFilepath)))
-                            .TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_criar_o__0_, ((Enums.MetodoDeProcessamento) Settings.Default.pref_MetodoDeProcessamento).GetDescricao()));
-                        return false;
-                    }
+
+                    new MediaManagerException(new Exception(string.Format(Mensagens.Codigo_0_Arquivo_1_, Marshal.GetLastWin32Error(), item.sDsFilepath)))
+                        .TratarException(string.Format(Mensagens.Ocorreu_um_erro_ao_criar_o__0_, ((Enums.MetodoDeProcessamento) Settings.Default.pref_MetodoDeProcessamento).GetDescricao()));
+
+                    return false;
                 }
                 case Enums.MetodoDeProcessamento.Copiar:
                 {

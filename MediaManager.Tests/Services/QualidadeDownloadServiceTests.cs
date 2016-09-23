@@ -39,16 +39,16 @@ namespace MediaManager.Tests.Services
                 result = ctx.QualidadeDownload.ToList();
             }
 
-            Assert.AreEqual(4, result.Count);
-            Assert.AreEqual(1, result[0].nCdQualidadeDownload);
-            Assert.AreEqual(1, result[0].nPrioridade);
-            Assert.AreEqual("720p", result[0].sIdentificadoresQualidade);
-            Assert.AreEqual("HD", result[0].sQualidade);
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual(2, result[1].nCdQualidadeDownload);
+            Assert.AreEqual(1, result[1].nPrioridade);
+            Assert.AreEqual("720p|HDTV", result[1].sIdentificadoresQualidade);
+            Assert.AreEqual("HD", result[1].sQualidade);
 
-            Assert.AreEqual(4, result[3].nCdQualidadeDownload);
-            Assert.AreEqual(4, result[3].nPrioridade);
-            Assert.AreEqual("280p", result[3].sIdentificadoresQualidade);
-            Assert.AreEqual("Bullshit Quality =D", result[3].sQualidade);
+            Assert.AreEqual(5, result[4].nCdQualidadeDownload);
+            Assert.AreEqual(4, result[4].nPrioridade);
+            Assert.AreEqual("280p", result[4].sIdentificadoresQualidade);
+            Assert.AreEqual("Bullshit Quality =D", result[4].sQualidade);
         }
 
         [TestMethod]
@@ -66,16 +66,16 @@ namespace MediaManager.Tests.Services
 
                 var svc = new QualidadeDownloadService(ctx);
 
-                result1 = svc.Get(1);
-                result2 = svc.Get(3);
+                result1 = svc.Get(2);
+                result2 = svc.Get(4);
             }
 
-            Assert.AreEqual(1, result1.nCdQualidadeDownload);
+            Assert.AreEqual(2, result1.nCdQualidadeDownload);
             Assert.AreEqual(1, result1.nPrioridade);
-            Assert.AreEqual("720p", result1.sIdentificadoresQualidade);
+            Assert.AreEqual("720p|HDTV", result1.sIdentificadoresQualidade);
             Assert.AreEqual("HD", result1.sQualidade);
 
-            Assert.AreEqual(3, result2.nCdQualidadeDownload);
+            Assert.AreEqual(4, result2.nCdQualidadeDownload);
             Assert.AreEqual(3, result2.nPrioridade);
             Assert.AreEqual("480p", result2.sIdentificadoresQualidade);
             Assert.AreEqual("HQ", result2.sQualidade);
@@ -97,16 +97,16 @@ namespace MediaManager.Tests.Services
                 result = svc.GetLista();
             }
 
-            Assert.AreEqual(4, result.Count);
-            Assert.AreEqual(1, result[0].nCdQualidadeDownload);
-            Assert.AreEqual(1, result[0].nPrioridade);
-            Assert.AreEqual("720p", result[0].sIdentificadoresQualidade);
-            Assert.AreEqual("HD", result[0].sQualidade);
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual(2, result[1].nCdQualidadeDownload);
+            Assert.AreEqual(1, result[1].nPrioridade);
+            Assert.AreEqual("720p|HDTV", result[1].sIdentificadoresQualidade);
+            Assert.AreEqual("HD", result[1].sQualidade);
 
-            Assert.AreEqual(4, result[3].nCdQualidadeDownload);
-            Assert.AreEqual(4, result[3].nPrioridade);
-            Assert.AreEqual("280p", result[3].sIdentificadoresQualidade);
-            Assert.AreEqual("Bullshit Quality =D", result[3].sQualidade);
+            Assert.AreEqual(5, result[4].nCdQualidadeDownload);
+            Assert.AreEqual(4, result[4].nPrioridade);
+            Assert.AreEqual("280p", result[4].sIdentificadoresQualidade);
+            Assert.AreEqual("Bullshit Quality =D", result[4].sQualidade);
         }
 
         [TestMethod]
@@ -122,12 +122,12 @@ namespace MediaManager.Tests.Services
                 var svc = new QualidadeDownloadService(context);
                 svc.Remover(1);
 
-                Assert.AreEqual(3, context.QualidadeDownload.Count());
+                Assert.AreEqual(4, context.QualidadeDownload.Count());
                 Assert.AreEqual(2, context.QualidadeDownload.First().nCdQualidadeDownload);
 
                 svc.Remover(_listQualidadeDownloads[1]);
 
-                Assert.AreEqual(2, context.QualidadeDownload.Count());
+                Assert.AreEqual(3, context.QualidadeDownload.Count());
                 Assert.AreEqual(3, context.QualidadeDownload.First().nCdQualidadeDownload);
             }
         }

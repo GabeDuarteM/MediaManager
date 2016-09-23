@@ -54,8 +54,6 @@ namespace MediaManager.Services
             StrMensagemErroUpdate = strMensagemErroUpdate;
         }
 
-        public string[] StrPropriedadesParaFormat { get; }
-
         public string StrMensagemErroAdicionar { get; }
 
         public string StrMensagemErroGet { get; }
@@ -65,6 +63,8 @@ namespace MediaManager.Services
         public string StrMensagemErroRemover { get; }
 
         public string StrMensagemErroUpdate { get; }
+
+        public string[] StrPropriedadesParaFormat { get; }
 
         public bool Adicionar(params T[] objs)
         {

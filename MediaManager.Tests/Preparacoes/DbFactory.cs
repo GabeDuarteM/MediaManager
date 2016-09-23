@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Globalization;
 using System.Linq;
 using Effort;
 using MediaManager.Helpers;
@@ -597,27 +598,34 @@ namespace MediaManager.Tests.Preparacoes
                 new QualidadeDownload
                 {
                     nCdQualidadeDownload = 1,
+                    nPrioridade = int.MaxValue,
+                    sIdentificadoresQualidade = double.MinValue.ToString(CultureInfo.InvariantCulture),
+                    sQualidade = "Desconhecido"
+                },
+                new QualidadeDownload
+                {
+                    nCdQualidadeDownload = 2,
                     nPrioridade = 1,
                     sIdentificadoresQualidade = "720p|HDTV",
                     sQualidade = "HD"
                 },
                 new QualidadeDownload
                 {
-                    nCdQualidadeDownload = 2,
+                    nCdQualidadeDownload = 3,
                     nPrioridade = 2,
                     sIdentificadoresQualidade = "1080p",
                     sQualidade = "FullHD"
                 },
                 new QualidadeDownload
                 {
-                    nCdQualidadeDownload = 3,
+                    nCdQualidadeDownload = 4,
                     nPrioridade = 3,
                     sIdentificadoresQualidade = "480p",
                     sQualidade = "HQ"
                 },
                 new QualidadeDownload
                 {
-                    nCdQualidadeDownload = 4,
+                    nCdQualidadeDownload = 5,
                     nPrioridade = 4,
                     sIdentificadoresQualidade = "280p",
                     sQualidade = "Bullshit Quality =D"

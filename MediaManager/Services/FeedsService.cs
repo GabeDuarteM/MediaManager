@@ -26,12 +26,9 @@ namespace MediaManager.Services
             {
                 try
                 {
-                    List<Feed> lstFeeds =
-                        _context.Feed.Where(
-                                            x =>
-                                            x.nIdTipoConteudo == feed.nIdTipoConteudo &&
-                                            x.bIsFeedPesquisa == feed.bIsFeedPesquisa)
-                                .ToList();
+                    List<Feed> lstFeeds = _context.Feed.Where(x => x.nIdTipoConteudo == feed.nIdTipoConteudo &&
+                                                                   x.bIsFeedPesquisa == feed.bIsFeedPesquisa)
+                                                  .ToList();
 
                     // Para não interferir no CommandSalvar da tela de adicionar feed quando o feed vai ser adicionado a mais de um tipo de conteúdo
                     // (caso contrário nunca vai cair no if acima, pois a prioridade será != 0)

@@ -200,6 +200,7 @@ namespace MediaManager.Services
                         isDiferente = true;
                     }
 
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse // Resharper teima que não pode retornar null, mas pode sim ¬¬.
                     if (original != null)
                     {
                         _context.Entry(original).CurrentValues.SetValues(serie);
@@ -207,10 +208,10 @@ namespace MediaManager.Services
                         {
                             _context.Episodio.RemoveRange(_context.Episodio.Where(x => x.nCdVideoAPI == serieOld.nCdApi));
                             _context.SerieAlias.RemoveRange(_context.SerieAlias.Where(x => x.nCdVideo == serie.nCdVideo));
-                            App.Container.Resolve<EpisodiosService>().Adicionar(serie);
-                            App.Container.Resolve<SerieAliasService>().Adicionar(serie);
                         }
                         _context.SaveChanges();
+                        App.Container.Resolve<EpisodiosService>().Adicionar(serie);
+                        App.Container.Resolve<SerieAliasService>().Adicionar(serie);
                     }
                 }
                 catch (Exception e)
@@ -439,7 +440,8 @@ namespace MediaManager.Services
                 case Enums.TipoConteudo.Série:
                 case Enums.TipoConteudo.Anime:
                 {
-                    IQueryable<Serie> lstSeries = _context.Serie.Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
+                    IEnumerable<Serie> lstSeries = _context.Serie.ToList().Where(x => x.nIdTipoConteudo == nIdTipoConteudo);
+
                     foreach (Serie item in lstSeries)
                     {
                         string sPastaItem = Path.GetDirectoryName(item.sDsPasta);

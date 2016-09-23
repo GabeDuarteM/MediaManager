@@ -122,7 +122,7 @@
     <comment>e/and</comment>
   </data>
   <data name="Aplicação_iniciada_com_os_seguintes_argumentos_0_" xml:space="preserve">
-    <value>Aplicação iniciada com os seguintes argumentos: {0}</value>
+    <value>Aplicação iniciada com os seguintes argumentos: {0}.</value>
   </data>
   <data name="Busca_personalizada" xml:space="preserve">
     <value>Busca personalizada...</value>
@@ -137,8 +137,8 @@
     <value>Carregando sinopse...</value>
   </data>
   <data name="Codigo_0_Arquivo_1_" xml:space="preserve">
-    <value>Código: "{0}
-Arquivo: {1}</value>
+    <value>Código: "{0}"
+Arquivo: "{1}"</value>
   </data>
   <data name="Episodio_informado_é_de_um_tipo_inválido" xml:space="preserve">
     <value>Episodio informado é de um tipo inválido.</value>
@@ -264,7 +264,7 @@ Arquivo: {1}</value>
     <value>Ocorreu um erro ao remover o feed "{0}"</value>
   </data>
   <data name="Ocorreu_um_erro_ao_renomear_os_episódios_dos_argumentos_na_aplicação_Argumento_0_" xml:space="preserve">
-    <value>Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: {0}</value>
+    <value>Ocorreu um erro ao renomear os episódios dos argumentos na aplicação. Argumento: "{0}".</value>
   </data>
   <data name="Ocorreu_um_erro_ao_retornar_a_lista_de_feeds" xml:space="preserve">
     <value>Ocorreu um erro ao retornar a lista de feeds.</value>
@@ -289,7 +289,7 @@ Arquivo: {1}</value>
   </data>
   <data name="Os_argumentos_informados_estão_incorretos_favor_verifica_los_Argumento_0_" xml:space="preserve">
     <value>Os argumentos informados estão incorretos, favor verifica-los.
-Argumento: {0}</value>
+Argumento: "{0}"</value>
   </data>
   <data name="Para_que_o_download_possa_ser_realizado_preencha_o_campo_Torrent_blackhole_nas_preferências_do_programa" xml:space="preserve">
     <value>Para que o download possa ser realizado, preencha o campo "Torrent blackhole" nas preferências do programa.</value>
@@ -298,6 +298,12 @@ Argumento: {0}</value>
     <value>Título do episódio</value>
   </data>
   <data name="Verifique_mais_detalhes_no_Log_" xml:space="preserve">
-    <value>Verifique mais detalhes no Log.</value>
+    <value>Verifique mais detalhes no log.</value>
+  </data>
+  <data name="Ocorreu_um_erro_ao_procurar_o_item_0_do_feed_RSS_1_" xml:space="preserve">
+    <value>Ocorreu um erro ao procurar o item "{0}" do feed RSS "{1}"</value>
+  </data>
+  <data name="Desconhecido" xml:space="preserve">
+    <value>Desconhecido</value>
   </data>
 </root>

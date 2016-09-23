@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediaManager.Tests.ViewModel
 {
-    [TestClass()]
+    [TestClass]
     public class MainViewModelTests
     {
         public MainViewModelTests()
@@ -16,11 +16,9 @@ namespace MediaManager.Tests.ViewModel
             Startup.OnStartUp();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ProcurarEpisodiosParaBaixarTest()
         {
-            MainViewModel objMainViewModel = new MainViewModel();
-            objMainViewModel.ProcurarEpisodiosParaBaixar();
         }
     }
 }
