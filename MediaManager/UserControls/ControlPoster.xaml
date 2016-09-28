@@ -4,17 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MediaManager.ViewModel"
-             mc:Ignorable="d" Height="300" Width="200">
-    <Grid Margin="15,15,7.5,7.5">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    <materialDesign:Card Width="200" Height="300" Margin="15,15,7.5,7.5" materialDesign:ShadowAssist.ShadowDepth="Depth4" HorizontalAlignment="Left" >
+        <Grid>
+        <TextBlock>
+            <Hyperlink TextDecorations="None" Cursor="Arrowaaa" Command="{Binding AbrirEdicaoCommand}">
+                <Grid>
+                    <Image Stretch="Fill" Source="{Binding oPoster.bCacheImgPoster, Mode=OneWay}" />
+                    <StackPanel  Height="70" VerticalAlignment="Bottom" Background="{DynamicResource MaterialDesignChipBackground}" Opacity="0.75">
+                        <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="1"></Border>
+                    </StackPanel>
+                </Grid>
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock Foreground="{DynamicResource MaterialDesignBodyLight}" TextWrapping="WrapWithOverflow" Text="{Binding oPoster.sDsTitulo}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="Auto" Height="65" FontSize="17"></TextBlock>
+        </Grid>
+    </materialDesign:Card>
+    <!--<Grid Margin="15,15,7.5,7.5">
         <Grid.Effect>
             <DropShadowEffect />
         </Grid.Effect>
         <TextBlock>
             <Hyperlink TextDecorations="None" Cursor="Arrow" Command="{Binding AbrirEdicaoCommand}">
-                <Grid Height="277.5" Width="177.5" Background="Transparent"> <!-- Solução paleativa para quando a imagem do poster estiver quebrada o usuário ainda conseguir clicar nele. -->
+                
                     <Image x:Name="image" Stretch="Fill" Source="{Binding oPoster.bCacheImgPoster, Mode=OneWay}" />
-                </Grid>
+                
             </Hyperlink>
         </TextBlock>
-    </Grid>
+    </Grid>-->
 </UserControl>

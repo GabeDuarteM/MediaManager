@@ -1,17 +1,18 @@
 ﻿<Window
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-
-    xmlns:properties="clr-namespace:MediaManager.Properties"
-    xmlns:local="clr-namespace:MediaManager.UserControls"
-    xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-    x:Class="MediaManager.Forms.frmMain"
-    Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280"
-    WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Window.Background>
-        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
-    </Window.Background>
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:properties="clr-namespace:MediaManager.Properties"
+        xmlns:local="clr-namespace:MediaManager.UserControls"
+        xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        x:Class="MediaManager.Forms.frmMain"
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280"
+        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
         <Menu x:Name="menuPrincipal" VerticalAlignment="Top">
             <MenuItem x:Name="menuItArquivo" Header="_Arquivo" Height="21">
@@ -47,8 +48,7 @@
                     <!--<ScrollViewer.DataContext>
                         <ViewModel:MainViewModel />
                     </ScrollViewer.DataContext>-->
-                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding lstSeries, Mode=OneWay}"
-                                  Background="#FFE5E5E5">
+                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding lstSeries, Mode=OneWay}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />

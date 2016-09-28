@@ -54,7 +54,7 @@ namespace MediaManager.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MainVM.CriarTimerAtualizacaoConteudo();
+            //MainVM.CriarTimerAtualizacaoConteudo();
         }
 
 #if DEBUG
@@ -83,10 +83,6 @@ namespace MediaManager.Forms
             //Properties.Settings.Default.Save();
             //var lst = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<dynamic>>(b).OrderBy(x => x.Prioridade).ToList();
         }
-
-#endif
-
-#if DEBUG
 
         private void TESTCopiarEstruturaDePastas()
         {
