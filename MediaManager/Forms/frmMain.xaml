@@ -4,9 +4,13 @@
         xmlns:properties="clr-namespace:MediaManager.Properties"
         xmlns:local="clr-namespace:MediaManager.UserControls"
         xmlns:ViewModel="clr-namespace:MediaManager.ViewModel" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmMain"
-        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1280"
+        Title="{Binding AppName, Source={x:Static properties:Settings.Default}}" Height="759" Width="1160"
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -14,94 +18,88 @@
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
-        <Menu x:Name="menuPrincipal" VerticalAlignment="Top">
-            <MenuItem x:Name="menuItArquivo" Header="_Arquivo" Height="21">
-                <MenuItem x:Name="menuItProcurarConteudo" Header="_Procurar por novos conteúdos" Height="21"
-                          Click="menuItProcurarConteudo_Click" />
-                <MenuItem x:Name="menuItAdicionar" Header="_Adicionar">
-                    <MenuItem x:Name="menuItAdicionarSerie" Header="Adicionar _série" Height="21"
-                              Click="menuItAdicionarSerie_Click" />
-                    <MenuItem x:Name="menuItAdicionarFilme" Header="Adicionar _filme" Height="21"
-                              Click="menuItAdicionarFilme_Click" />
-                    <MenuItem x:Name="menuItAdicionarAnime" Header="Adicionar _anime" Height="21"
-                              Click="menuItAdicionarAnime_Click" />
-                </MenuItem>
-                <MenuItem x:Name="menuItRenomear" Header="_Renomear" Height="21">
-                    <MenuItem x:Name="menuItRenomearTudo" Header="_Tudo" Height="21" Click="menuItRenomearTudo_Click" />
-                    <MenuItem x:Name="menuItRenomearSeries" Header="Somente _séries" Height="21"
-                              Click="menuItRenomearSerie_Click" />
-                    <MenuItem x:Name="menuItRenomearFilmes" Header="Somente _filmes" Height="21"
-                              Click="menuItRenomearFilmes_Click" />
-                    <MenuItem x:Name="menuItRenomearAnimes" Header="Somente _animes" Height="21"
-                              Click="menuItRenomearAnimes_Click" />
-                </MenuItem>
-                <Separator />
-                <MenuItem x:Name="menuItPreferencias" Header="_Preferências" Height="21"
-                          Click="menuItPreferencias_Click" />
-                <Separator />
-                <MenuItem x:Name="menuItSair" Header="_Sair" Height="21" Click="menuItSair_Click" />
-            </MenuItem>
-        </Menu>
-        <TabControl x:Name="tcPrincipal" Margin="10,30,10,10">
-            <TabItem x:Name="tiSeries" Header="Séries">
-                <ScrollViewer x:Name="scrollSeries" VerticalScrollBarVisibility="Auto">
-                    <!--<ScrollViewer.DataContext>
+        <dragablz:TabablzControl>
+            <TabItem Header="Séries">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <!--<ScrollViewer.DataContext>
                         <ViewModel:MainViewModel />
                     </ScrollViewer.DataContext>-->
-                    <ItemsControl x:Name="gridSeries" ItemsSource="{Binding lstSeries, Mode=OneWay}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl>
-                                    <local:ControlPoster />
-                                </ContentControl>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </TabItem>
-            <TabItem x:Name="tiFilmes" Header="Filmes">
-                <ScrollViewer x:Name="scrollFilmes" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridFilmes" ItemsSource="{Binding lstFilmes, Mode=OneWay}"
-                                  Background="#FFE5E5E5">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl>
-                                    <local:ControlPoster />
-                                </ContentControl>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </TabItem>
-            <TabItem x:Name="tiAnimes" Header="Animes">
-                <ScrollViewer x:Name="scrollAnimes" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl x:Name="gridAnimes" ItemsSource="{Binding lstAnimes, Mode=OneWay}"
-                                  Background="#FFE5E5E5">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl>
-                                    <local:ControlPoster />
-                                </ContentControl>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </TabItem>
-        </TabControl>
+                        <ItemsControl ItemsSource="{Binding lstSeries, Mode=OneWay}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl>
+                                        <local:ControlPoster />
+                                    </ContentControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Filmes">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding lstFilmes, Mode=OneWay}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl>
+                                        <local:ControlPoster />
+                                    </ContentControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Animes">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding lstAnimes, Mode=OneWay}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl>
+                                        <local:ControlPoster />
+                                    </ContentControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </TabItem>
+        </dragablz:TabablzControl>
+        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                 HorizontalAlignment="Right" VerticalAlignment="Bottom" UnfurlOrientation="Vertical"
+                                 Margin="32">
+            <materialDesign:PopupBox.ToggleContent>
+                <fa:FontAwesome FontSize="28" Icon="Bolt"></fa:FontAwesome>
+            </materialDesign:PopupBox.ToggleContent>
+            <materialDesign:PopupBox.ToggleCheckedContent>
+                <fa:FontAwesome FontSize="28" Icon="Bolt"></fa:FontAwesome>
+            </materialDesign:PopupBox.ToggleCheckedContent>
+            <StackPanel>
+                <Button ToolTip="Preferências" Click="menuItPreferencias_Click">
+                    <fa:FontAwesome FontSize="17" Icon="Cog" />
+                </Button>
+                <Button ToolTip="Adicionar" Click="menuItAdicionarAnime_Click">
+                    <fa:FontAwesome FontSize="17" Icon="Plus" />
+                </Button>
+                <Button ToolTip="Procurar conteúdo" Click="menuItProcurarConteudo_Click">
+                    <fa:FontAwesome FontSize="17" Icon="Search" />
+                </Button>
+                <Button ToolTip="Renomear" Click="menuItRenomearTudo_Click">
+                    <fa:FontAwesome FontSize="17" Icon="EllipsisH" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
     </Grid>
 </Window>

@@ -9,7 +9,7 @@
     <materialDesign:Card Width="200" Height="300" Margin="15,15,7.5,7.5" materialDesign:ShadowAssist.ShadowDepth="Depth4" HorizontalAlignment="Left" >
         <Grid>
         <TextBlock>
-            <Hyperlink TextDecorations="None" Cursor="Arrowaaa" Command="{Binding AbrirEdicaoCommand}">
+            <Hyperlink TextDecorations="None" Cursor="Arrow" Command="{Binding AbrirEdicaoCommand}">
                 <Grid>
                     <Image Stretch="Fill" Source="{Binding oPoster.bCacheImgPoster, Mode=OneWay}" />
                     <StackPanel  Height="70" VerticalAlignment="Bottom" Background="{DynamicResource MaterialDesignChipBackground}" Opacity="0.75">

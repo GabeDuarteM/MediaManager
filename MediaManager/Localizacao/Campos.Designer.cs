@@ -61,6 +61,15 @@ namespace MediaManager.Localizacao {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Procurar conteúdo.
+        /// </summary>
+        public static string Procurar_conteudo {
+            get {
+                return ResourceManager.GetString("Procurar_conteudo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identificadores.
         /// </summary>
         public static string QualidadeDownload_Identificadores {

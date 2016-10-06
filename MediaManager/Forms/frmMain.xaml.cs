@@ -58,7 +58,7 @@ namespace MediaManager.Forms
         }
 
 #if DEBUG
-
+        
         private void Teste() // TODO Apagar método.
         {
             //var lst = new System.Collections.Generic.List<object>();

@@ -126,4 +126,7 @@
   <data name="QualidadeDownload_Qualidade" xml:space="preserve">
     <value>Qualidade</value>
   </data>
+  <data name="Procurar_conteudo" xml:space="preserve">
+    <value>Procurar conteúdo</value>
+  </data>
 </root>
