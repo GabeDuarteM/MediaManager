@@ -16,6 +16,23 @@ namespace MediaManager.Forms
     /// </summary>
     public partial class frmAdicionarConteudo : Window
     {
+        public frmAdicionarConteudo(AdicionarPesquisarDialogViewModel addPesquisarDialogVM)
+        {
+            InitializeComponent();
+
+            Video serie = new Serie();
+            serie.nIdTipoConteudo = addPesquisarDialogVM.enuTipoConteudo;
+            serie.sDsTitulo = addPesquisarDialogVM.strNome;
+
+            AdicionarConteudoViewModel = new AdicionarConteudoViewModel(serie, addPesquisarDialogVM.enuTipoConteudo);
+            AdicionarConteudoViewModel.bProcurarConteudo = false;
+            AdicionarConteudoViewModel.ActionClose = dialogResult =>
+            {
+                DialogResult = dialogResult;
+                Close();
+            };
+        }
+
         public frmAdicionarConteudo(Enums.TipoConteudo tipoConteudo, bool bIsProcurarConteudo = false)
         {
             InitializeComponent();

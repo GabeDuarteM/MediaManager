@@ -9,6 +9,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:helpers="clr-namespace:MediaManager.Helpers"
         mc:Ignorable="d"
         x:Class="MediaManager.Forms.frmMain"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
@@ -89,16 +90,7 @@
                 <Button ToolTip="Preferências" Click="menuItPreferencias_Click">
                     <fa:FontAwesome FontSize="17" Icon="Cog" />
                 </Button>
-                <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" ToolTip="Adicionar" Click="menuItAdicionarAnime_Click">
-                    <Button.CommandParameter>
-                        <StackPanel Margin="16">
-                            <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" HorizontalAlignment="Center" Margin="16" IsIndeterminate="True" Value="0" />
-                            <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="True" 
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        CommandParameter="Sample2Cancel"
-                                        HorizontalAlignment="Center">CANCEL</Button>
-                        </StackPanel>
-                    </Button.CommandParameter>
+                <Button ToolTip="Adicionar" Command="{Binding AdicionarCommand}" CommandParameter="{Binding}">
                     <fa:FontAwesome FontSize="17" Icon="Plus" />
                 </Button>
                 <Button ToolTip="Procurar conteúdo" Click="menuItProcurarConteudo_Click">
@@ -109,5 +101,8 @@
                 </Button>
             </StackPanel>
         </materialDesign:PopupBox>
+        <materialDesign:DialogHost Identifier="MainDialogHost">
+            
+        </materialDesign:DialogHost>
     </Grid>
 </Window>

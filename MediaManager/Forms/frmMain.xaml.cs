@@ -24,20 +24,18 @@ namespace MediaManager.Forms
 
 #endif
 
-            //MainVM = new MainViewModel(this);
+            MainVM = new ViewModelLocator().Main;
 
-            //if (MainVM.TratarArgumentos())
-            //{
-            //    Environment.Exit(0);
-            //}
+            if (MainVM.TratarArgumentos())
+            {
+                Environment.Exit(0);
+            }
 
-            //MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
+            MainVM.AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
 
-            //InitializeComponent();
+            InitializeComponent();
 
-            //DataContext = MainVM;
-
-            //VerificaPreferenciasPreenchidas();
+            VerificaPreferenciasPreenchidas();
         }
 
         public static MainViewModel MainVM { get; private set; }

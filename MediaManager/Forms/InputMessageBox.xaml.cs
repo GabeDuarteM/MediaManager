@@ -354,7 +354,7 @@ namespace ConfigurableInputMessageBox
 
         public bool CanExecute(object parameter)
         {
-            return string.IsNullOrWhiteSpace(_inputVM.Properties.Error);
+            return !string.IsNullOrWhiteSpace(_inputVM.Properties.Error);
         }
 
         public void Execute(object parameter)

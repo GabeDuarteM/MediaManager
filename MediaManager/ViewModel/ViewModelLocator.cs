@@ -21,9 +21,11 @@ namespace MediaManager.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AdicionarPesquisarDialogViewModel>();
         }
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public AdicionarPesquisarDialogViewModel AdicionarPesquisarDialog => ServiceLocator.Current.GetInstance<AdicionarPesquisarDialogViewModel>();
 
         public static void Cleanup()
         {

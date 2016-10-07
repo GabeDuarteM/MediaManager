@@ -19,6 +19,10 @@ using MediaManager.Localizacao;
 using MediaManager.Model;
 using MediaManager.Properties;
 using MediaManager.Services;
+using GalaSoft.MvvmLight.CommandWpf;
+using MediaManager.Forms;
+using MaterialDesignThemes.Wpf;
+using MediaManager.UserControls;
 
 namespace MediaManager.ViewModel
 {
@@ -32,21 +36,7 @@ namespace MediaManager.ViewModel
 
         public MainViewModel()
         {
-            var worker = new BackgroundWorker();
-
-            //BindingOperations.EnableCollectionSynchronization(lstAnimes, );
-
-            worker.DoWork += (sender, args) =>
-            {
-                AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
-            };
-
-            worker.RunWorkerCompleted += (sender, args) =>
-            {
-                
-            };
-
-            worker.RunWorkerAsync();
+            AdicionarCommand = new RelayCommand(() => AbrirTelaPesquisarAdicionar());
         }
 
         public ObservableCollection<PosterViewModel> lstAnimes
@@ -102,6 +92,8 @@ namespace MediaManager.ViewModel
         public static Dictionary<string, string> Argumentos { get; private set; }
 
         public Window Owner { get; }
+
+        public RelayCommand AdicionarCommand { get; private set; }
 
         /// <summary>
         ///     Retorna true caso haja arquivos a serem renomeados, para que o resto da aplicação não seja carregada.
@@ -467,6 +459,30 @@ namespace MediaManager.ViewModel
             {
                 episodiosService.VerificaEpisodiosNoDiretorio(serie.oPoster);
             }
+        }
+
+        private async void AbrirTelaPesquisarAdicionar()
+        {
+            var adicionarPesquisarDialog = new AdicionarPesquisarDialog();
+
+            var result = await DialogHost.Show(adicionarPesquisarDialog, "MainDialogHost");
+
+            if ((bool)result)
+            {
+                AdicionarPesquisarDialogViewModel addPesquisarDialogVM = (AdicionarPesquisarDialogViewModel)adicionarPesquisarDialog.DataContext;
+                var frmAdicionarConteudo = new frmAdicionarConteudo(addPesquisarDialogVM);
+                if (frmAdicionarConteudo.AdicionarConteudoViewModel != null)
+                {
+                    frmAdicionarConteudo.ShowDialog();
+                    if (frmAdicionarConteudo.DialogResult == true)
+                    {
+                        var mainVM = new ViewModelLocator().Main;
+                        mainVM.AtualizarPosters(Enums.TipoConteudo.Série);
+                    }
+                }
+            }
+
+
         }
     }
 }
