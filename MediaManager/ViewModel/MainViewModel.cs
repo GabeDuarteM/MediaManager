@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using Argotic.Syndication;
 using Autofac;
@@ -23,19 +24,32 @@ namespace MediaManager.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<PosterViewModel> _lstAnimes;
+        private List<PosterViewModel> _lstAnimes;
 
-        private ObservableCollection<PosterViewModel> _lstFilmes;
+        private List<PosterViewModel> _lstFilmes;
 
-        private ObservableCollection<PosterViewModel> _lstSeries;
+        private List<PosterViewModel> _lstSeries;
 
-        public MainViewModel(Window owner = null, ICollection<Serie> animes = null, ICollection<Serie> filmes = null,
-                             ICollection<Serie> series = null)
+        public MainViewModel()
         {
-            Owner = owner;
+            var worker = new BackgroundWorker();
+
+            BindingOperations.EnableCollectionSynchronization(lstAnimes, );
+
+            worker.DoWork += (sender, args) =>
+            {
+                AtualizarPosters(Enums.TipoConteudo.AnimeFilmeSérie);
+            };
+
+            worker.RunWorkerCompleted += (sender, args) =>
+            {
+                
+            };
+
+            worker.RunWorkerAsync();
         }
 
-        public ObservableCollection<PosterViewModel> lstAnimes
+        public List<PosterViewModel> lstAnimes
         {
             get { return _lstAnimes; }
             set
@@ -45,7 +59,7 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public ObservableCollection<PosterViewModel> lstFilmes
+        public List<PosterViewModel> lstFilmes
         {
             get { return _lstFilmes; }
             set
@@ -55,7 +69,7 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public ObservableCollection<PosterViewModel> lstSeries
+        public List<PosterViewModel> lstSeries
         {
             get { return _lstSeries; }
             set
@@ -65,11 +79,11 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public ObservableCollection<PosterViewModel> lstAnimesESeries
+        public List<PosterViewModel> lstAnimesESeries
         {
             get
             {
-                var retorno = new ObservableCollection<PosterViewModel>();
+                var retorno = new List<PosterViewModel>();
 
                 foreach (PosterViewModel anime in lstAnimes)
                 {
@@ -234,7 +248,7 @@ namespace MediaManager.ViewModel
         private void AtualizarPosterAnimes()
         {
             var seriesService = App.Container.Resolve<SeriesService>();
-            lstAnimes = new ObservableCollection<PosterViewModel>();
+            lstAnimes = new List<PosterViewModel>();
 
             List<Serie> lstAnimesDb = seriesService.GetListaAnimesComForeignKeys();
 
@@ -257,7 +271,7 @@ namespace MediaManager.ViewModel
         {
             var seriesService = App.Container.Resolve<SeriesService>();
 
-            lstSeries = new ObservableCollection<PosterViewModel>();
+            lstSeries = new List<PosterViewModel>();
 
             List<Serie> lstSeriesDb = seriesService.GetListaSeriesComForeignKeys();
 
