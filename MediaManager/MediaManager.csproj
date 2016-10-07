@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -95,7 +95,7 @@
     </Reference>
     <Reference Include="GabrielControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GabrielControls\bin\Release\GabrielControls.dll</HintPath>
+      <HintPath>Referencias\GabrielControls.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>C:\Users\Gabriel\Desktop\Ionic.Zip.dll</HintPath>
@@ -357,6 +357,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Referencias\GabrielControls.dll" />
+    <Content Include="Referencias\Ionic.Zip.dll" />
+    <Content Include="Referencias\Ookii.Dialogs.dll" />
+    <Content Include="Referencias\Ookii.Dialogs.Wpf.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
