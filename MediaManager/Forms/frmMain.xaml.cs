@@ -19,8 +19,8 @@ namespace MediaManager.Forms
         {
 #if DEBUG
 
-            Teste();
-            TESTCopiarEstruturaDePastas();
+            //Teste();
+            //TESTCopiarEstruturaDePastas();
 
 #endif
 

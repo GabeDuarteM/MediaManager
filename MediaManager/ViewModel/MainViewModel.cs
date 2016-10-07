@@ -24,17 +24,17 @@ namespace MediaManager.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private List<PosterViewModel> _lstAnimes;
+        private ObservableCollection<PosterViewModel> _lstAnimes;
 
-        private List<PosterViewModel> _lstFilmes;
+        private ObservableCollection<PosterViewModel> _lstFilmes;
 
-        private List<PosterViewModel> _lstSeries;
+        private ObservableCollection<PosterViewModel> _lstSeries;
 
         public MainViewModel()
         {
             var worker = new BackgroundWorker();
 
-            BindingOperations.EnableCollectionSynchronization(lstAnimes, );
+            //BindingOperations.EnableCollectionSynchronization(lstAnimes, );
 
             worker.DoWork += (sender, args) =>
             {
@@ -49,7 +49,7 @@ namespace MediaManager.ViewModel
             worker.RunWorkerAsync();
         }
 
-        public List<PosterViewModel> lstAnimes
+        public ObservableCollection<PosterViewModel> lstAnimes
         {
             get { return _lstAnimes; }
             set
@@ -59,7 +59,7 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public List<PosterViewModel> lstFilmes
+        public ObservableCollection<PosterViewModel> lstFilmes
         {
             get { return _lstFilmes; }
             set
@@ -69,7 +69,7 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public List<PosterViewModel> lstSeries
+        public ObservableCollection<PosterViewModel> lstSeries
         {
             get { return _lstSeries; }
             set
@@ -79,11 +79,11 @@ namespace MediaManager.ViewModel
             }
         }
 
-        public List<PosterViewModel> lstAnimesESeries
+        public ObservableCollection<PosterViewModel> lstAnimesESeries
         {
             get
             {
-                var retorno = new List<PosterViewModel>();
+                var retorno = new ObservableCollection<PosterViewModel>();
 
                 foreach (PosterViewModel anime in lstAnimes)
                 {
@@ -248,7 +248,7 @@ namespace MediaManager.ViewModel
         private void AtualizarPosterAnimes()
         {
             var seriesService = App.Container.Resolve<SeriesService>();
-            lstAnimes = new List<PosterViewModel>();
+            lstAnimes = new ObservableCollection<PosterViewModel>();
 
             List<Serie> lstAnimesDb = seriesService.GetListaAnimesComForeignKeys();
 
@@ -271,7 +271,7 @@ namespace MediaManager.ViewModel
         {
             var seriesService = App.Container.Resolve<SeriesService>();
 
-            lstSeries = new List<PosterViewModel>();
+            lstSeries = new ObservableCollection<PosterViewModel>();
 
             List<Serie> lstSeriesDb = seriesService.GetListaSeriesComForeignKeys();
 

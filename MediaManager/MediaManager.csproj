@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -395,6 +395,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Referencias\GabrielControls.dll" />
+    <Content Include="Referencias\Ionic.Zip.dll" />
+    <Content Include="Referencias\Ookii.Dialogs.dll" />
+    <Content Include="Referencias\Ookii.Dialogs.Wpf.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
